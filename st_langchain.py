@@ -4,7 +4,7 @@ import langchain
 #from langchain.llms import OpenAI
 #from langchain_community import llms
 from langchain.chains import LLMChain
-from langchain_openai import OpenAI
+#from langchain_openai import OpenAI
 
 st.title("🦜🔗 Langchain Sobhan's first app")
 
