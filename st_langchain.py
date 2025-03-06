@@ -2,6 +2,7 @@ import streamlit as st
 import openai
 import langchain
 from langchain.chains import LLMChain
+from langchain_openai import OpenAI
 
 
 st.title("🦜🔗 Langchain Sobhan's first app")
