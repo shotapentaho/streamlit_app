@@ -1,3 +1,4 @@
+#!pip install langchain-community
 import streamlit as st
 import openai
 import langchain_community
