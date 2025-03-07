@@ -69,7 +69,7 @@ if uploaded_file is not None:
     else:
         st.write(df)
         # Select numerical columns only
-        num_cols = df.select_dtypes(include=['number'])
+        num_cols = df.select_dtypes(include=['number']).drop(columns=["ID"], errors="ignore")
         
         # Display basic statistics
         if not num_cols.empty:
