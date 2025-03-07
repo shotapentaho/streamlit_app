@@ -22,7 +22,22 @@ if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)    
     # Fill 'None' values with 0
     df = df.fillna(0)
+    
+        # Select numerical columns only
+    num_cols = df.select_dtypes(include=['number'])
+        
+    # Display basic statistics
+    if not num_cols.empty:
+        st.write("### Summary Statistics:")
+        st.write(num_cols.describe())  # Shows count, mean, std, min, max, etc.
 
+        # Option to choose a column and display its statistics
+        selected_col = st.selectbox("Select a column to view details:", num_cols.columns)
+        st.write(f"### Statistics for {selected_col}:")
+        st.write(num_cols[selected_col].describe())            
+    else:
+        st.warning("No numerical columns found in the dataset.")
+        
     # Check if "Period" column exists
     if "Period" in df.columns:
         #df["Period"] = df["Period"].astype(int)  # Ensure Period is integer
@@ -39,24 +54,32 @@ if uploaded_file is not None:
         # Check if "Data_value" column exists before plotting
         if "Data_value" in df.columns:
             # Create a line chart using Altair
-            chart_line = alt.Chart(filtered_data).mark_line().encode(
-                x='Period:O',
-                y='Data_value:Q',
-                tooltip=['Period', 'Data_value']
-            ).properties(width=700, height=400)
-          
+            chart_line = alt.Chart(filtered_data).mark_line().encode(x='Period:O',y='Data_value:Q',tooltip=['Period', 'Data_value']).properties(width=700, height=400)
             # Create box chart using Altair
-            chart_box = alt.Chart(filtered_data).mark_boxplot().encode(
-                x='Period:O',
-                y='Data_value:Q',
-                tooltip=['Period', 'Data_value']
-            )
+            chart_box = alt.Chart(filtered_data).mark_boxplot().encode(x='Period:O',y='Data_value:Q',tooltip=['Period', 'Data_value']).properties(width=700, height=400)
+            # Create HeatMap
+            chart_rule= alt.Chart(filtered_data).mark_rule(color="red").encode(x='Period:O',y='Data_value:Q',tooltip=['Period', 'Data_value']).properties(width=700, height=400)
+
             # Display the chart in Streamlit
             st.altair_chart(chart_line, use_container_width=True)
-            st.altair_chart(chart_box, use_container_width=True)
+            st.altair_chart(chart_box)
+            st.altair_chart(chart_rule)
         else:
             st.error("Column 'Data_value' not found in the uploaded file.")
     else:
         st.write(df)
-        #st.error("Column 'Period' not found in the uploaded file.")
+        # Select numerical columns only
+        num_cols = df.select_dtypes(include=['number'])
         
+        # Display basic statistics
+        if not num_cols.empty:
+            st.write("### Summary Statistics:")
+            st.write(num_cols.describe())  # Shows count, mean, std, min, max, etc.
+        
+            # Option to choose a column and display its statistics
+            selected_col = st.selectbox("Select a column to view details:", num_cols.columns)
+            st.write(f"### Statistics for {selected_col}:")
+            st.write(num_cols[selected_col].describe())            
+        else:
+            st.warning("No numerical columns found in the dataset.")
+        #st.error("Column 'Period' not found in the uploaded file.")
