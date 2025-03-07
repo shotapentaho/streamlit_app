@@ -1,35 +1,53 @@
-#command line: streamlit run st_employment.py
-#Lauched here: http://localhost:8501/
+#command line: streamlit run streamlit_explore_csv.py
+#Lauched: https://visual-csv.streamlit.app/
 import streamlit as st
 import pandas as pd
 import altair as alt
+from io import StringIO
 
-input_file=r"data/employment-small-size.csv"  # Use 'r' before the string to handle backslashes
-st.write(""" # CSV file for data analysis! """)
-st.write(input_file[35:len(input_file)])
- 
-df = pd.read_csv(input_file)
-# Fill 'None' values with 0
-df= df.fillna(0)
-df_1000 = df.head(1000)
-#st.write(df_1000)  --Debug
+uploaded_file = st.file_uploader("Choose a CSV file")
 
-# Line Chart (defaults to index in X) - Started here to display in browser
-#st.line_chart(df_1000[['Period', 'Data_value']])
-#Fixed Slider(range) added!
-#period_range = st.slider("period range!", 2005, 2025, (2010, 2021))
+if uploaded_file is not None:
+    # To read file as bytes:
+    bytes_data = uploaded_file.getvalue()
+    #st.write(bytes_data)
+    # To convert to a string based IO:
+    stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
+    #st.write(stringio)
+    # To read file as string:
+    string_data = stringio.read()
+    #st.write(string_data)
+    
+    # Read file as DataFrame
+    df = pd.read_csv(uploaded_file)    
+    # Fill 'None' values with 0
+    df = df.fillna(0)
 
-# Slider is dependent to data from "Period" column [YYYY.MM]
-min_val, max_val = int(df["Period"].min()), int(df["Period"].max())
-period_range = st.slider("Select Period range:", min_val, max_val, (min_val, max_val))
+    # Check if "Period" column exists
+    if "Period" in df.columns:
+        #df["Period"] = df["Period"].astype(int)  # Ensure Period is integer
 
-# Filter data based on slider range
-filtered_data = df_1000[(df_1000['Period'] >= period_range[0]) & (df_1000['Period'] <= period_range[1]+1)]
-filtered_data= filtered_data.fillna(0)
-st.write(filtered_data)
+        # Slider range based on min and max values in the "Period" column[YYYY.MM]
+        min_val, max_val = int(df["Period"].min()), int(df["Period"].max())
+        period_range = st.slider("Select Period range:", min_val, max_val, (min_val, max_val))
 
-# Create a line chart using Altair
-chart = alt.Chart(filtered_data).mark_line().encode(x='Period:Q',  y='Data_value:Q',  tooltip=['Period', 'Data_value']).properties(width=700, height=400)
+        # Filter data based on slider range
+        filtered_data = df[(df["Period"] >= period_range[0]) & (df["Period"] <= period_range[1])]
+        filtered_data = filtered_data.fillna(0)
+        st.write(filtered_data)
 
-# Display the chart in Streamlit
-st.altair_chart(chart, use_container_width=True)
+        # Check if "Data_value" column exists before plotting
+        if "Data_value" in df.columns:
+            # Create a line chart using Altair
+            chart = alt.Chart(filtered_data).mark_line().encode(
+                x='Period:Q',
+                y='Data_value:Q',
+                tooltip=['Period', 'Data_value']
+            ).properties(width=700, height=400)
+
+            # Display the chart in Streamlit
+            st.altair_chart(chart, use_container_width=True)
+        else:
+            st.error("Column 'Data_value' not found in the uploaded file.")
+    else:
+        st.error("Column 'Period' not found in the uploaded file.")
