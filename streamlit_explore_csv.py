@@ -88,8 +88,8 @@ if uploaded_file is not None:
             st.write(num_cols.describe())  # Shows count, mean, std, min, max, etc.
         
             # Option to choose a column and display its statistics
-            selected_col = st.selectbox("Select a column to view details:", num_cols.columns, key="column_select")
-            st.write(f"### Statistics for {selected_col}:")
+            selected_col = st.selectbox("Select a column to view details:", num_cols.columns, key="column_stats_select")
+            st.write(f"### Statistics for `{selected_col}`:")
             st.write(num_cols[selected_col].describe())            
             
              # Select columns for plotting
