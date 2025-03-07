@@ -1,5 +1,5 @@
 import streamlit as st
-import longchain
+import langchain
 import openai
 from langchain.llms import OpenAI
 
