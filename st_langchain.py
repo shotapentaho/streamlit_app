@@ -1,4 +1,5 @@
 import streamlit as st
+import langchain_community
 from langchain_community.llms import OpenAI
 
 st.title("🦜🔗 Langchain Sobhan's first app")
