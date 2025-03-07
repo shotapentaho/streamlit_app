@@ -62,7 +62,7 @@ if uploaded_file is not None:
             chart_rule= alt.Chart(filtered_data).mark_rule(color="red").encode(x='Period:O',y='Data_value:Q',tooltip=['Period', 'Data_value']).properties(width=700, height=400)
 
             # Display the chart in Streamlit
-             st.write("### Altair Charts:")
+            st.write("### Altair Charts:")
             st.altair_chart(chart_line, use_container_width=True)
             st.altair_chart(chart_box)
             st.altair_chart(chart_rule)
