@@ -1,7 +1,7 @@
 import streamlit as st
 import langchain
 import openai
-from langchain_community import llms
+from langchain-community import llms
 from langchain.llms import OpenAI
 
 
