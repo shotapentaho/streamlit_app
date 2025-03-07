@@ -82,6 +82,22 @@ if uploaded_file is not None:
             selected_col = st.selectbox("Select a column to view details:", num_cols.columns)
             st.write(f"### Statistics for {selected_col}:")
             st.write(num_cols[selected_col].describe())            
+            
+             # Select columns for plotting
+            numeric_cols = df.select_dtypes(include=["number"]).columns.tolist()
+            if len(numeric_cols) >= 2:
+                x_axis = st.selectbox("Select X-axis:", numeric_cols)
+                y_axis = st.selectbox("Select Y-axis:", numeric_cols, index=1)
+
+                # Create chart
+                chart = alt.Chart(df).mark_line().encode(
+                    x=f"{x_axis}:Q",
+                    y=f"{y_axis}:Q",
+                    tooltip=[x_axis, y_axis]
+                ).properties(title=f"{y_axis} over {x_axis}", width=700, height=400)
+
+                # Show chart
+                st.altair_chart(chart, use_container_width=True)
         else:
-            st.warning("No numerical columns found in the dataset.")
-        #st.error("Column 'Period' not found in the uploaded file.")
+              st.error("Not enough numerical columns to generate a chart.")
+       
