@@ -39,15 +39,24 @@ if uploaded_file is not None:
         # Check if "Data_value" column exists before plotting
         if "Data_value" in df.columns:
             # Create a line chart using Altair
-            chart = alt.Chart(filtered_data).mark_line().encode(
-                x='Period:Q',
+            chart_line = alt.Chart(filtered_data).mark_line().encode(
+                x='Period:O',
                 y='Data_value:Q',
                 tooltip=['Period', 'Data_value']
             ).properties(width=700, height=400)
-
+          
+            # Create box chart using Altair
+            chart_box = alt.Chart(filtered_data).mark_boxplot().encode(
+                x='Period:O',
+                y='Data_value:Q',
+                tooltip=['Period', 'Data_value']
+            )
             # Display the chart in Streamlit
-            st.altair_chart(chart, use_container_width=True)
+            st.altair_chart(chart_line, use_container_width=True)
+            st.altair_chart(chart_box, use_container_width=True)
         else:
             st.error("Column 'Data_value' not found in the uploaded file.")
     else:
-        st.error("Column 'Period' not found in the uploaded file.")
+        st.write(df)
+        #st.error("Column 'Period' not found in the uploaded file.")
+        
