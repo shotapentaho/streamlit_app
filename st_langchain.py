@@ -1,8 +1,8 @@
 import streamlit as st
-import langchain-community
-from langchain_community.llms import OpenAI
+from openai import OpenAI
 
-st.title("🦜🔗 Langchain Sobhan's first app")
+
+st.title("🦜🔗 Langchain based first app")
 
 with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", type="password")
