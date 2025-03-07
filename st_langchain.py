@@ -1,4 +1,6 @@
 import streamlit as st
+import longchain
+import openai
 from langchain.llms import OpenAI
 
 
