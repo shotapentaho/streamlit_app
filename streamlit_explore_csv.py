@@ -44,7 +44,8 @@ if uploaded_file is not None:
 
         # Slider range based on min and max values in the "Period" column[YYYY.MM]
         min_val, max_val = int(df["Period"].min()), int(df["Period"].max())
-        period_range = st.slider("### Select Period range:", min_val, max_val, (min_val, max_val))
+        st.write("### Period Range Slider:")
+        period_range = st.slider("You may pick Period range:", min_val, max_val, (min_val, max_val))
 
         # Filter data based on slider range
         filtered_data = df[(df["Period"] >= period_range[0]) & (df["Period"] <= period_range[1])]
