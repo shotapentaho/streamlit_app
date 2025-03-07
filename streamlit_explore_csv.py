@@ -4,7 +4,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
-input_file=r"C:\pentaho_projects\streamlit\input\employment-small-size.csv"  # Use 'r' before the string to handle backslashes
+input_file=r".\employment-small-size.csv"  # Use 'r' before the string to handle backslashes
 st.write(""" # CSV file for data analysis! """)
 st.write(input_file[35:len(input_file)])
  
