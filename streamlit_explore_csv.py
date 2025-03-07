@@ -5,7 +5,16 @@ import pandas as pd
 import altair as alt
 from io import StringIO
 
-uploaded_file = st.file_uploader("Choose a CSV file")
+# Function to load data
+@st.cache_data(persist="disk")  # Cache the function to store data on disk
+def load_data(file):
+    if file.name.endswith(".csv"):
+        return pd.read_csv(file)
+    elif file.name.endswith(".xlsx"):
+        return pd.read_excel(file)
+    return None
+# File uploader
+uploaded_file = st.file_uploader("Upload a CSV or Excel file", type=["csv", "xlsx"])
 
 if uploaded_file is not None:
     # To read file as bytes:
