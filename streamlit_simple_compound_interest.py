@@ -7,9 +7,10 @@ st.title("💰 Simple Interest Calculator with Visualization")
 st.write("Formula: **SI = (P × R × T) / 100**")
 
 # User Inputs
-P = st.number_input("Enter Principal Amount (P):", min_value=0.0, value=1000.0)
-R = st.number_input("Enter Rate of Interest (R) in %:", min_value=0.0, value=5.0)
-T = st.number_input("Enter Time (T) in years:", min_value=0.0, value=10.0)
+# User Inputs with Sliders
+P = st.slider("Select Principal Amount (P):", min_value=1000, max_value=100000, value=10000, step=1000)
+R = st.slider("Select Rate of Interest (R) in %:", min_value=1, max_value=20, value=5, step=1)
+T = st.slider("Select Time (T) in years:", min_value=1, max_value=30, value=10, step=1)
 
 # Compute Simple Interest for Each Year
 years = np.arange(1, int(T) + 1)  # Time in years
