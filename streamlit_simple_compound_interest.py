@@ -32,3 +32,33 @@ ax.grid(True)
 
 # Display the Plot in Streamlit
 st.pyplot(fig)
+
+################## Compound Interest ###################
+
+# Streamlit UI
+st.title("💰 Compound Interest Calculator with Visualization")
+st.write("Formula: **A = P (1 + R/100) ^ T**")
+
+# Compute Compound Interest for Each Year
+years = np.arange(1, int(T) + 1)  # Time in years
+amounts = P * (1 + R / 100) ** years  # Compound Interest Calculation
+
+# Final Amount
+A = P * (1 + R / 100) ** T
+CI = A - P
+
+# Display Results
+st.write(f"### ✅ Compound Interest: **₹{CI:.2f}**")
+st.write(f"### 💰 Total Amount after Interest: **₹{A:.2f}**")
+
+# Plot Graph
+fig_ci, ax_ci = plt.subplots()
+ax_ci.plot(years, amounts, marker="o", linestyle="-", color="g", label="Total Amount (Compound Interest)")
+ax_ci.set_xlabel("Time (years)")
+ax_ci.set_ylabel("Total Amount (₹)")
+ax_ci.set_title("Compound Interest Growth Over Time")
+ax_ci.legend()
+ax_ci.grid(True)
+
+# Display the Plot in Streamlit
+st.pyplot(fig_ci)
