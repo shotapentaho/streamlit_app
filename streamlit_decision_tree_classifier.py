@@ -47,7 +47,9 @@ if uploaded_file is not None:
 
         # Plot Decision Tree
         fig, ax = plt.subplots(figsize=(10, 6))
-        plot_tree(clf, feature_names=feature_columns, class_names=str(np.unique(y)), filled=True, rounded=True)
+        #plot_tree(clf, feature_names=feature_columns, class_names=str(np.unique(y)), filled=True, rounded=True)
+        plot_tree(clf, feature_names=feature_columns, class_names=[str(cls) for cls in np.unique(y)], filled=True, rounded=True)
+
         st.pyplot(fig)
 
         # Make Predictions
