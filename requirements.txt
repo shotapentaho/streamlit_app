@@ -7,5 +7,5 @@ trubrics>=1.4.3
 streamlit-feedback
 langchain-community
 matplotlib
-sklearn
+scikit-learn
 seaborn
