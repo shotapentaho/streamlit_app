@@ -54,6 +54,11 @@ st.write(f"### 💰 Total Amount after Interest: **₹{A:.2f}**")
 # Plot Graph
 fig_ci, ax_ci = plt.subplots()
 ax_ci.plot(years, amounts, marker="o", linestyle="-", color="g", label="Total Amount (Compound Interest)")
+
+# Add Labels on Each Point
+for i, txt in enumerate(amounts):
+    ax_ci.annotate(f"₹{txt:.2f}", (years[i], amounts[i]), textcoords="offset points", xytext=(0,10), ha='center', fontsize=9, color="black")
+
 ax_ci.set_xlabel("Time (years)")
 ax_ci.set_ylabel("Total Amount (₹)")
 ax_ci.set_title("Compound Interest Growth Over Time")
