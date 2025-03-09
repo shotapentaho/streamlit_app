@@ -18,8 +18,8 @@ amounts = P + (P * R * years) / 100  # Total amount over years
 # Display Results
 SI = (P * R * T) / 100
 total_amount = P + SI
-st.write(f"### ✅ Simple Interest: **₹{SI:.2f}**")
-st.write(f"### 💰 Total Amount after Interest: **₹{total_amount:.2f}**")
+st.write(f"### ✅ Simple Interest: **${SI:.2f}**")
+st.write(f"### 💰 Total Amount after Interest: **${total_amount:.2f}**")
 
 # Plot Graph
 fig, ax = plt.subplots()
@@ -30,7 +30,7 @@ ax.set_title("Simple Interest Growth Over Time")
 ax.legend()
 ax.grid(True)
 
-# Display the Plot in Streamlit
+# Display Simple Interest Plot in Streamlit
 st.pyplot(fig)
 
 ################## Compound Interest ###################
@@ -47,9 +47,9 @@ amounts = P * (1 + R / 100) ** years  # Compound Interest Calculation
 A = P * (1 + R / 100) ** T
 CI = A - P
 
-# Display Results
-st.write(f"### ✅ Compound Interest: **₹{CI:.2f}**")
-st.write(f"### 💰 Total Amount after Interest: **₹{A:.2f}**")
+# Display Results Compound
+st.write(f"### ✅ Compound Interest: **${CI:.2f}**")
+st.write(f"### 💰 Total Amount after Interest: **${A:.2f}**")
 
 # Plot Graph
 fig_ci, ax_ci = plt.subplots()
@@ -57,10 +57,10 @@ ax_ci.plot(years, amounts, marker="o", linestyle="-", color="g", label="Total Am
 
 # Add Labels on Each Point
 for i, txt in enumerate(amounts):
-    ax_ci.annotate(f"₹{txt:.2f}", (years[i], amounts[i]), textcoords="offset points", xytext=(0,10), ha='center', fontsize=9, color="black")
+    ax_ci.annotate(f"${txt:.2f}", (years[i], amounts[i]), textcoords="offset points", xytext=(0,10), ha='center', fontsize=8, color="black")
 
 ax_ci.set_xlabel("Time (years)")
-ax_ci.set_ylabel("Total Amount (₹)")
+ax_ci.set_ylabel("Total Amount ($)")
 ax_ci.set_title("Compound Interest Growth Over Time")
 ax_ci.legend()
 ax_ci.grid(True)
