@@ -44,7 +44,7 @@ if uploaded_file is not None:
             kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
             clusters = kmeans.fit_predict(X_scaled)
             df["Cluster"] = clusters  # Assign cluster labels to dataset
-        with col2:
+        
             # Display Clustered Data
             st.write("### 📌 Clustered Data")
             st.write(df.head())
@@ -52,7 +52,7 @@ if uploaded_file is not None:
             # Cluster Centers
             st.write("### 📍 Cluster Centers")
             st.write(pd.DataFrame(kmeans.cluster_centers_, columns=selected_columns))
-    
+    with col2:
             # Plot Clusters (if at least 2 selected features)
             if len(selected_columns) >= 2:
                 st.write("### 📊 Cluster Visualization")
