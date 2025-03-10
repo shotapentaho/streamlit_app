@@ -7,7 +7,7 @@ from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.metrics import accuracy_score
 
 # Streamlit UI
-st.title("🌳 Decision Tree Classifier in Streamlit")
+st.title("🌳 Decision Tree Classifier")
 
 # Upload Dataset
 uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
@@ -63,7 +63,7 @@ if uploaded_file is not None:
             st.pyplot(fig)
 
         # Make Predictions
-        st.write("### 🔍 Make Predictions")
+        st.write("### 🔍 Choose selection (left), to get tree and then predict!")
         input_data = [st.number_input(f"Enter value for {col}", value=float(X.iloc[0][col])) for col in feature_columns]
 
         if st.button("Predict"):
