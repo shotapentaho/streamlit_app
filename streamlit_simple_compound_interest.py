@@ -2,6 +2,8 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Set page config to full-width layout
+st.set_page_config(page_title="simple and compound interest calculation", layout="wide")
     
 # User Inputs with Sliders
 P = st.slider("Select Principal Amount (P):", min_value=1000, max_value=100000, value=10000, step=1000)
