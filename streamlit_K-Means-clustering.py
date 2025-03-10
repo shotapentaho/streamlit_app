@@ -10,7 +10,7 @@ from sklearn.preprocessing import StandardScaler
 st.set_page_config(page_title="K-Means Clustering", layout="wide")
 
 # Title
-st.title("🔍 K-Means Clustering with Streamlit")
+st.title("🔍 K-Means clustering")
 
 # Upload CSV File
 uploaded_file = st.file_uploader("📂 Upload a CSV file", type=["csv"])
@@ -44,7 +44,7 @@ if uploaded_file is not None:
             kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
             clusters = kmeans.fit_predict(X_scaled)
             df["Cluster"] = clusters  # Assign cluster labels to dataset
-    with col2:
+        with col2:
             # Display Clustered Data
             st.write("### 📌 Clustered Data")
             st.write(df.head())
