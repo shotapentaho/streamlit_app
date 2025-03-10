@@ -9,6 +9,7 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 import seaborn as sns
 
 # Streamlit UI
+st.set_page_config(page_title="logistic regression classifier", layout="wide")
 st.title("📊 Logistic Regression Classifier")
 
 # Upload CSV File

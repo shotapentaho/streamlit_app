@@ -7,7 +7,7 @@ from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.metrics import accuracy_score
 
 # Set page config to full-width layout
-st.set_page_config(page_title="Decision Tree Classifier", layout="wide")
+st.set_page_config(page_title="decision tree classifier", layout="wide")
 st.title("🌳 Decision Tree Classifier")
 
 # Upload Dataset
