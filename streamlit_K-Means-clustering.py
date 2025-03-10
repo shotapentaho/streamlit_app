@@ -21,7 +21,7 @@ if uploaded_file is not None:
 
     # Show dataset preview
     st.write("### 📊 Data Preview")
-    st.write(df.head())
+    #st.write(df.head())
 
     # Select Features for Clustering
     selected_columns = st.multiselect("🔹 Select Features for Clustering", df.columns)
