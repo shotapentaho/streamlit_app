@@ -6,8 +6,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.metrics import accuracy_score
 
-# Streamlit UI
-st.title("🌳 Decision Tree Classifier")
+# Set page config to full-width layout
+st.set_page_config(page_title="🌳 Decision Tree Classifier", layout="wide")
 
 # Upload Dataset
 uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
