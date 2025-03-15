@@ -16,7 +16,7 @@ col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
 with col1:
     # Streamlit UI
     st.title("💰 Simple Interest Calculator with Visualization")
-    st.title("**SI = (P × R × T) / 100**")
+    st.title(" **SI = (P × R × T) / 100** ")
     
     # Compute Simple Interest for Each Year
     years = np.arange(1, int(T) + 1)  # Time in years
