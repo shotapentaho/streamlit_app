@@ -2,6 +2,7 @@ import streamlit as st
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lsa import LsaSummarizer
+import nltk
 
 # Ensure punkt is downloaded
 nltk.download("punkt")
