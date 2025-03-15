@@ -11,4 +11,3 @@ scikit-learn
 seaborn
 sumy
 nltk
-nltk.download('punkt')
