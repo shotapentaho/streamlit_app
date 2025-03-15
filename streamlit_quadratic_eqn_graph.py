@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 st.title("📈 Quadratic Equation Solver & Grapher")
 
 # User Inputs with Sliders
-a = st.slider("Enter coefficient a:", min_value=-50,  max_value=50,  value=1,  step=0.1)
-b = st.slider("Enter coefficient b:", min_value=-50,  max_value=50,  value=-3,  step=0.1)
-c = st.slider("Enter coefficient c:", min_value=-50,  max_value=50,  value=2,  step=0.1)
+a = st.slider("Enter coefficient a:", min_value=-50.0,  max_value=50.0,  value=1.0,  step=1.0)
+b = st.slider("Enter coefficient b:", min_value=-50.0,  max_value=50.0,  value=-3.0,  step=1.0)
+c = st.slider("Enter coefficient c:", min_value=-50.0,  max_value=50.0,  value=2.0,  step=1.0)
 
 # Calculate Discriminant
 D = b**2 - 4*a*c  # Discriminant
