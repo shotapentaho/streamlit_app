@@ -2,8 +2,8 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Streamlit UI
-st.title("📈 Quadratic Equation Solver & Grapher : axx+bx+c=0 ")
+# Set page config to full-width layout
+st.set_page_config(page_title="📈 Quadratic Equation Solver & Grapher : axx+bx+c=0 ", layout="wide")
 
 # Split the screen into two columns
 col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
