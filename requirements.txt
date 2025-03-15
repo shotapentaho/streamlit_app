@@ -11,4 +11,4 @@ scikit-learn
 seaborn
 sumy
 nltk
-&& python nltk_setup.py
+python nltk_setup.py
