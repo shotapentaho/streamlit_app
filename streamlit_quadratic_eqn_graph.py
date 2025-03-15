@@ -3,8 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Streamlit UI
-st.title("📈 Quadratic Equation Solver & Grapher: ")
-st.title("📈 : axx+bx+c=0")
+st.title("📈 Quadratic Equation Solver & Grapher: axx+bx+c=0")
 
 # User Inputs with Sliders
 a = st.slider("Enter coefficient a:", min_value=-50.0,  max_value=50.0,  value=1.0,  step=1.0)
