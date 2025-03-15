@@ -50,7 +50,7 @@ with col2:
 
     # Streamlit UI
     st.title("💰 Compound Interest Calculator")
-    st.write("Formula: **A = P (1 + R/100) ^ T**")
+    st.title(" **A = P (1 + R/100) ^ T** ")
 
     # Compute Compound Interest for Each Year
     years = np.arange(1, int(T) + 1)  # Time in years
