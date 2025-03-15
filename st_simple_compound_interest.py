@@ -15,7 +15,7 @@ col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
 
 with col1:
     # Streamlit UI
-    st.title("💰 Simple Interest Calculator with Visualization")
+    st.title("💰 Simple Interest Calculator")
     st.title(" **SI = (P × R × T) / 100** ")
     
     # Compute Simple Interest for Each Year
@@ -49,7 +49,7 @@ with col1:
 with col2:
 
     # Streamlit UI
-    st.title("💰 Compound Interest Calculator with Visualization")
+    st.title("💰 Compound Interest Calculator")
     st.write("Formula: **A = P (1 + R/100) ^ T**")
 
     # Compute Compound Interest for Each Year
