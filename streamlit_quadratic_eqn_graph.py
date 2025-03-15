@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 # Streamlit UI
 st.title("📈 Quadratic Equation Solver & Grapher")
 
-# User Inputs for Coefficients
-a = st.number_input("Enter coefficient a:", value=1.0)
-b = st.number_input("Enter coefficient b:", value=-3.0)
-c = st.number_input("Enter coefficient c:", value=2.0)
+# User Inputs with Sliders
+a = st.slider("Enter coefficient a:", min_value=-50, max_value=50, value=1.0, step=1)
+b = st.slider("Enter coefficient b:", min_value=-50, max_value=50, value=-3.0, step=1)
+c = st.slider("Enter coefficient c:", min_value=-50, max_value=50, value=2.0, step=1)
 
 # Calculate Discriminant
 D = b**2 - 4*a*c  # Discriminant
