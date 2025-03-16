@@ -4,9 +4,6 @@ import matplotlib.pyplot as plt
 
 st.title("🔺 Triangle Calculator & Visualizer (Using Coordinates)")
 
-# Sidebar Inputs for Triangle Vertices
-st.sidebar.header("Enter the (x, y) coordinates of the 3 vertices:")
-
 # User Inputs with Sliders
 x1 = st.slider("X1:", min_value=-100.0,  max_value=100.0,  value=1.0,  step=1.0)
 y1 = st.slider("Y1:", min_value=-100.0,  max_value=100.0,  value=0.0,  step=1.0)
