@@ -3,13 +3,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Streamlit UI
-st.title("📈 Linear Equation Solver")
-st.write("Solve and visualize a linear equation of the form: **y = ax + b**")
+st.set_page_config(page_title="📈 Linear Equation Solver & Grapher : y = ax + b", layout="wide")
 
-# User Input for Coefficients
-a = st.number_input("Enter coefficient 'a':", value=1.0)
-b = st.number_input("Enter coefficient 'b':", value=0.0)
-
+# User Inputs with Sliders
+a = st.slider("Enter coefficient a:", min_value=-100.0,  max_value=500.0,  value=1.0,  step=1.0)
+b = st.slider("Enter coefficient b:", min_value=-100.0,  max_value=500.0,  value=0.0,  step=1.0)
+    
 # Generate X and Y values
 x = np.linspace(-10, 10, 100)
 y = a * x + b
