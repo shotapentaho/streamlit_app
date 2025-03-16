@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Set page config to full-width layout
+st.set_page_config(page_title="Quadratic Equation Solver & Grapher", layout="wide")
 st.title("📈 Quadratic Equation Solver & Grapher : axx+bx+c=0 ")
 
 # Split the screen into two columns
