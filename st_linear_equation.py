@@ -2,14 +2,15 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Set page config to full-width layout
-st.set_page_config(page_title="📈 Linear Equation Solver & Grapher : y = ax + b", layout="wide")
+
 
 # Split the screen into two columns
 col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
 
 
 with col1:
+    # Set page config to full-width layout
+    st.set_page_config(page_title="📈 Linear Equation Solver & Grapher : y = ax + b", layout="wide")
     # User Inputs with Sliders
     a = st.slider("Enter coefficient a:", min_value=-100.0,  max_value=500.0,  value=1.0,  step=1.0)
     b = st.slider("Enter coefficient b:", min_value=-100.0,  max_value=500.0,  value=0.0,  step=1.0)
