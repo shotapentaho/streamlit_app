@@ -16,7 +16,9 @@ streamlit_urls = {
 	"K-Means Clustering": "https://hot-kmeans-clustering.streamlit.app/",
 	"Linear Regression": "https://hot-linear-regression.streamlit.app/",
 	"Logistic Regression": "https://hot-logistic-regression.streamlit.app/",
-	"Bot powered by OpenAI": "https://openai-hot-bot.streamlit.app/"
+	"Bot powered by OpenAI": "https://openai-hot-bot.streamlit.app/",
+    "Human Language Translator": "https://translate-language.streamlit.app/"
+    
 }
 
 # Dropdown or radio button for selection
