@@ -12,6 +12,7 @@ streamlit_urls = {
 	"Simple and Compound interest": "https://viz-simple-compound-interest.streamlit.app/",	
     "Linear Equation": "https://viz-linear-eqn.streamlit.app/",
 	"Quadratic Equation": "https://graphquadratic.streamlit.app/",
+    "Triangle by co-ordinates": "https://viz-triangle.streamlit.app/",
     "Text Summarizer": "https://summarize-info.streamlit.app/",
     "Decision Tree Classifier": "https://hot-decision-tree.streamlit.app/",
 	"K-Means Clustering": "https://hot-kmeans-clustering.streamlit.app/",
