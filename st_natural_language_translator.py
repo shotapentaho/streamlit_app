@@ -1,8 +1,5 @@
 import streamlit as st
-from googletrans import Translator, LANGUAGES
-
-# Initialize Translator
-translator = Translator()
+from deep_translator import GoogleTranslator
 
 # Streamlit App Title
 st.title("🌍 Language Translator")
@@ -11,30 +8,25 @@ st.title("🌍 Language Translator")
 text = st.text_area("Enter text to translate:")
 
 # Language Selection
+languages = GoogleTranslator().get_supported_languages()
+
 col1, col2 = st.columns(2)
 
 with col1:
-    src_lang = st.selectbox("Select source language:", ["auto"] + list(LANGUAGES.values()))
+    src_lang = st.selectbox("Select source language:", ["auto"] + languages)
 
 with col2:
-    dest_lang = st.selectbox("Select target language:", list(LANGUAGES.values()), index=list(LANGUAGES.values()).index("english"))
+    dest_lang = st.selectbox("Select target language:", languages, index=languages.index("english"))
 
 # Translation Button
 if st.button("Translate"):
     if text.strip():
-        # Get language codes
-        src_code = [code for code, lang in LANGUAGES.items() if lang == src_lang] or ["auto"]
-        dest_code = [code for code, lang in LANGUAGES.items() if lang == dest_lang][0]
-
-        # Translate text
-        #translation = translator.translate(text, src=src_code[0], dest=dest_code)
-        translation = await translator.translate(text, src=src_code[0], dest=dest_code)
-
+        translation = GoogleTranslator(source=src_lang, target=dest_lang).translate(text)
+        
         # Display Result
         st.subheader("Translated Text:")
-        st.write(translation.text)
+        st.write(translation)
     else:
         st.warning("Please enter text to translate.")
 
-# Footer
 st.markdown("Powered by Google Translate API 🌎")
