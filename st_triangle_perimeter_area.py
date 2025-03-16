@@ -2,6 +2,8 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Set page config to full-width layout
+st.set_page_config(page_title="Triangle Calculator & Visualizer", layout="wide")
 st.title("🔺 Triangle Calculator & Visualizer (Using Coordinates)")
 
 # Split the screen into two columns
