@@ -20,7 +20,7 @@ with col1:
 
     # Display the equation
     st.write(f"### Equation: **y = {a}x + {b}**")
-    
+
 with col2:
     # Plot the Linear Equation
     fig, ax = plt.subplots()
