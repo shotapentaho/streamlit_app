@@ -7,12 +7,13 @@ st.title("🔺 Triangle Calculator & Visualizer (Using Coordinates)")
 # Sidebar Inputs for Triangle Vertices
 st.sidebar.header("Enter the (x, y) coordinates of the 3 vertices:")
 
-x1 = st.sidebar.number_input("X1", value=0.0)
-y1 = st.sidebar.number_input("Y1", value=0.0)
-x2 = st.sidebar.number_input("X2", value=4.0)
-y2 = st.sidebar.number_input("Y2", value=0.0)
-x3 = st.sidebar.number_input("X3", value=2.0)
-y3 = st.sidebar.number_input("Y3", value=3.0)
+# User Inputs with Sliders
+x1 = st.slider("X1:", min_value=-100.0,  max_value=100.0,  value=1.0,  step=1.0)
+y1 = st.slider("Y1:", min_value=-100.0,  max_value=100.0,  value=0.0,  step=1.0)
+x2 = st.slider("X2:", min_value=-100.0,  max_value=100.0,  value=4.0,  step=1.0)
+y2 = st.slider("Y2:", min_value=-100.0,  max_value=100.0,  value=0.0,  step=1.0)
+x3 = st.slider("X3:", min_value=-100.0,  max_value=100.0,  value=2.0,  step=1.0)
+y3 = st.slider("Y3:", min_value=-100.0,  max_value=100.0,  value=3.0,  step=1.0)
 
 # Compute side lengths
 def distance(x1, y1, x2, y2):
