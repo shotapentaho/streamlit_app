@@ -27,7 +27,8 @@ if st.button("Translate"):
         dest_code = [code for code, lang in LANGUAGES.items() if lang == dest_lang][0]
 
         # Translate text
-        translation = translator.translate(text, src=src_code[0], dest=dest_code)
+        #translation = translator.translate(text, src=src_code[0], dest=dest_code)
+        translation = await translator.translate(text, src=src_code[0], dest=dest_code)
 
         # Display Result
         st.subheader("Translated Text:")
