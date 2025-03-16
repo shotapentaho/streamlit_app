@@ -19,7 +19,8 @@ with col1:
 
     # Display the equation
     st.write(f"### Equation: **y = {a}x + {b}**")
-
+    
+with col2:
     # Plot the Linear Equation
     fig, ax = plt.subplots()
     ax.plot(x, y, label=f"y = {a}x + {b}", color="blue")
@@ -32,6 +33,5 @@ with col1:
     plt.title("Graph of the Linear Equation")
 
 
-with col2:
     # Display the Plot in Streamlit
     st.pyplot(fig)
