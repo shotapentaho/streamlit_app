@@ -56,22 +56,22 @@ with col1:
         st.write(f"### Triangle Type: **{triangle_type}**")
 
 with col2:
-        # Triangle Visualization
-        st.subheader("📊 Triangle Visualization")
-        
-        fig, ax = plt.subplots()
-        triangle_x = [x1, x2, x3, x1]
-        triangle_y = [y1, y2, y3, y1]
-        
-        ax.plot(triangle_x, triangle_y, "bo-")  # Blue dots and lines
-        ax.fill(triangle_x, triangle_y, "skyblue", alpha=0.3)  # Filled triangle
-        ax.set_xlim(min(triangle_x) - 1, max(triangle_x) + 1)
-        ax.set_ylim(min(triangle_y) - 1, max(triangle_y) + 1)
-        ax.set_title("Triangle Visualization")
-        ax.set_xlabel("X-axis")
-        ax.set_ylabel("Y-axis")
+    # Triangle Visualization
+    st.subheader("📊 Triangle Visualization")
+    
+    fig, ax = plt.subplots()
+    triangle_x = [x1, x2, x3, x1]
+    triangle_y = [y1, y2, y3, y1]
+    
+    ax.plot(triangle_x, triangle_y, "bo-")  # Blue dots and lines
+    ax.fill(triangle_x, triangle_y, "skyblue", alpha=0.3)  # Filled triangle
+    ax.set_xlim(min(triangle_x) - 1, max(triangle_x) + 1)
+    ax.set_ylim(min(triangle_y) - 1, max(triangle_y) + 1)
+    ax.set_title("Triangle Visualization")
+    ax.set_xlabel("X-axis")
+    ax.set_ylabel("Y-axis")
 
-        st.pyplot(fig)
+    st.pyplot(fig)
 
 else:
     st.error("❌ The given points do not form a valid triangle. Please adjust the values.")
