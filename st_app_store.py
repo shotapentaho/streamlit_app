@@ -29,5 +29,12 @@ if st.button("Go to Selected Page"):
 
 # Optional: Display all links as clickable buttons
 st.subheader("Quick Links:")
-for name, url in streamlit_urls.items():
-    st.markdown(f"- [{name}]({url})", unsafe_allow_html=True)
+
+# Create dynamic columns based on the number of links
+num_columns = 3  # Adjust this number for different layouts
+links = list(streamlit_urls.items())
+
+for i in range(0, len(links), num_columns):
+    cols = st.columns(num_columns)  # Create columns dynamically
+    for col, (name, url) in zip(cols, links[i:i+num_columns]):
+        col.markdown(f"[{name}]({url})", unsafe_allow_html=True)  # Create a clickable link in each column
