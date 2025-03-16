@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Streamlit app title
-st.title("App Store 🚀")
+st.title("Pick the recently cooked application from HotStore 🚀")
 
 # Description
 #st.write("Select a page to visit and navigate to corresponding Streamlit apps.")
