@@ -72,6 +72,3 @@ with col2:
     ax.set_ylabel("Y-axis")
 
     st.pyplot(fig)
-
-else:
-    st.error("❌ The given points do not form a valid triangle. Please adjust the values.")
