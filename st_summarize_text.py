@@ -1,11 +1,11 @@
 import streamlit as st
+import nltk
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lsa import LsaSummarizer
-import nltk
 
 # Ensure punkt is downloaded
-nltk.download("punkt")
+nltk.download("punkt_tab")
 
 # Function to summarize text
 def summarize_text(text, num_sentences):
