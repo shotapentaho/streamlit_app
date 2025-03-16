@@ -10,7 +10,7 @@ from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score, classification_report, ConfusionMatrixDisplay
 
 # Streamlit App Title
-st.title("📊 SVM: Support Vector Machine Classifier for CSV Data")
+st.title("📊 SVM: Support Vector Machine Classifier:")
 
 # File Upload
 uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
