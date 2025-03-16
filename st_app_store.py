@@ -10,7 +10,7 @@ st.title("Apps @ Hot-store 🚀")
 streamlit_urls = {
     "Explore CSV": "https://visual-csv.streamlit.app/", 
 	"Simple and Compound interest": "https://viz-simple-compound-interest.streamlit.app/",	
-    "Linear Equation": https://viz-linear-eqn.streamlit.app/
+    "Linear Equation": "https://viz-linear-eqn.streamlit.app/",
 	"Quadratic Equation": "https://graphquadratic.streamlit.app/",
     "Text Summarizer": "https://summarize-info.streamlit.app/",
     "Decision Tree Classifier": "https://hot-decision-tree.streamlit.app/",
