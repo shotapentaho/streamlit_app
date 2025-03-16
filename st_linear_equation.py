@@ -3,11 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Set page config to full-width layout
-st.set_page_config(page_title="📈 Linear Equation Solver & Grapher : y = ax + b", layout="wide")
+st.title("📈 Linear Equation Solver & Grapher : y = ax + b")
 
 # Split the screen into two columns
 col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
-
 
 with col1:
 
