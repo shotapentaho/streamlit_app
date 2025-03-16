@@ -11,4 +11,4 @@ scikit-learn
 seaborn
 sumy
 nltk
-googletrans
+deep-translator
