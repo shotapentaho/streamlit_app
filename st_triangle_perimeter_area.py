@@ -4,6 +4,11 @@ import matplotlib.pyplot as plt
 
 st.title("🔺 Triangle Calculator & Visualizer (Using Coordinates)")
 
+# Split the screen into two columns
+col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
+
+with col1:
+
 # User Inputs with Sliders
 x1 = st.slider("X1:", min_value=-100.0,  max_value=100.0,  value=1.0,  step=1.0)
 y1 = st.slider("Y1:", min_value=-100.0,  max_value=100.0,  value=0.0,  step=1.0)
@@ -50,6 +55,7 @@ if is_valid_triangle(a, b, c):
 
     st.write(f"### Triangle Type: **{triangle_type}**")
 
+with col2:
     # Triangle Visualization
     st.subheader("📊 Triangle Visualization")
     
