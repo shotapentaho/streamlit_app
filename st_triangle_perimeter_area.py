@@ -73,5 +73,5 @@ with col2:
 
         st.pyplot(fig)
 
-else:
-    st.error("❌ The given points do not form a valid triangle. Please adjust the values.")
+    else:
+        st.error("❌ The given points do not form a valid triangle. Please adjust the values.")
