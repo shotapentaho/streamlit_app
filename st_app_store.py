@@ -4,7 +4,7 @@ import streamlit as st
 st.title("App Store 🚀")
 
 # Description
-st.write("Select a page to visit and navigate to corresponding Streamlit apps.")
+#st.write("Select a page to visit and navigate to corresponding Streamlit apps.")
 
 # Dictionary of Streamlit URLs (Replace with your actual links)
 streamlit_urls = {
@@ -20,7 +20,7 @@ streamlit_urls = {
 }
 
 # Dropdown or radio button for selection
-page = st.selectbox("Select a Streamlit App:", list(streamlit_urls.keys()))
+page = st.selectbox("Select an app:", list(streamlit_urls.keys()))
 
 # Button to open the selected page
 if st.button("Go to Selected Page"):
