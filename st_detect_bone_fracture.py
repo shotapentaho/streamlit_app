@@ -13,6 +13,7 @@ model = Sequential([
     MaxPooling2D(2,2),
     Flatten(),
     Dense(256, activation='relu'),
+    Dropout(0.3),
     Dense(2, activation='softmax')  # 2 classes: Fracture vs Normal
 ])
 
