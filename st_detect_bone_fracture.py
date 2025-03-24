@@ -12,8 +12,7 @@ model = Sequential([
     Conv2D(32, (3,3), activation='relu', input_shape=(224, 224, 3)),
     MaxPooling2D(2,2),
     Flatten(),
-    Dense(256, activation='relu'),
-    Dropout(0.3),
+    Dense(128, activation='relu'),
     Dense(2, activation='softmax')  # 2 classes: Fracture vs Normal
 ])
 
