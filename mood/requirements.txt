@@ -16,6 +16,7 @@ tensorflow
 numpy>=1.19.5
 pillow
 libgl1-mesa-glx
+libglib2.0-0
 mesa-utils
 opencv-python
 opencv-contrib-python
