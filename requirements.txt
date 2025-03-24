@@ -18,6 +18,6 @@ numpy
 opencv-python-headless
 deepface
 cv2
-opencv-python
+opencv-python==4.5.1.48
 libgl1-mesa-glx
 mesa-utils
