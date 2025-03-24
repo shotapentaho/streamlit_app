@@ -1,8 +1,8 @@
-pip==25.0.1
+pip>=25.0.1
 six
 setuptools
 wheel
-numpy
+numpy>=1.19.5
 streamlit>=1.28
 langchain>=0.0.217
 openai>=1.2
