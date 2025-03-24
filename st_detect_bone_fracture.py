@@ -53,8 +53,8 @@ if uploaded_file:
     
     fracture_prob = prediction[0]  # Assuming first output is fracture probability
     normal_prob = prediction[1]
-    st.write("Fracture Probability" fracture_prob)
-    st.write("Normal Probability" normal_prob)
+    st.write("Fracture Probability", fracture_prob)
+    st.write("Normal Probability", normal_prob)
     if fracture_prob > normal_prob:
         st.error(f"🚨 Fracture Detected! (Confidence: {fracture_prob:.2%})")
     else:
