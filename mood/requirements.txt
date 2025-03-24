@@ -15,7 +15,7 @@ deep-translator
 tensorflow
 numpy>=1.19.5
 pillow
-libgl1-mesa-glx
+libgl1-mesa-glx>=2.1.0
 libglib2.0-0
 mesa-utils
 opencv-python
