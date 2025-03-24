@@ -16,7 +16,6 @@ tensorflow
 pillow
 pip==25.0.1
 numpy==1.19.5
-opencv-python-headless
 deepface
 opencv-python==4.5.1.48
 libgl1-mesa-glx
