@@ -1,4 +1,3 @@
-pip>=25.0.1
 six
 setuptools
 wheel
@@ -20,6 +19,7 @@ deep-translator
 tensorflow
 pillow
 opencv-python==4.5.1.48
+opencv-contrib-python
 deepface
 libgl1-mesa-glx
 mesa-utils
