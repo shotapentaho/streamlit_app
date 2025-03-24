@@ -1,4 +1,5 @@
 six
+distutils
 setuptools
 wheel
 numpy>=1.19.5
