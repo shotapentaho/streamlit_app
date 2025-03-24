@@ -14,6 +14,7 @@ nltk
 deep-translator
 tensorflow
 pillow
+pip==25.0.1
 numpy==1.19.5
 opencv-python-headless
 deepface
