@@ -15,6 +15,5 @@ deep-translator
 tensorflow
 numpy>=1.19.5
 pillow
-mesa-utils
 opencv-python
 opencv-contrib-python
