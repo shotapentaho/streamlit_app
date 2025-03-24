@@ -19,3 +19,4 @@ opencv-python-headless
 deepface
 cv2
 opencv-python
+libgl1-mesa-glx
