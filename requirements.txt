@@ -13,5 +13,5 @@ sumy
 nltk
 deep-translator
 tensorflow
-numpy
+numpy>=1.19.5
 pillow
