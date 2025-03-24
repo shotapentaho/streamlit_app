@@ -14,7 +14,6 @@ nltk
 deep-translator
 tensorflow
 pillow
-build-essential
 python3-dev
 libatlas-base-dev
 pip==25.0.1
