@@ -14,6 +14,8 @@ nltk
 deep-translator
 tensorflow
 pillow
+setuptools
+wheel
 numpy
 opencv-python==4.5.1.48
 deepface
