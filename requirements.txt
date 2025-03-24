@@ -15,8 +15,3 @@ deep-translator
 tensorflow
 numpy
 pillow
-opencv-python==4.5.1.48
-opencv-contrib-python
-deepface
-libgl1-mesa-glx
-mesa-utils
