@@ -14,7 +14,6 @@ nltk
 deep-translator
 tensorflow
 pillow
-libatlas-base-dev
 pip==25.0.1
 numpy==1.19.5
 deepface
