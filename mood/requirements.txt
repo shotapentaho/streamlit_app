@@ -15,5 +15,5 @@ deep-translator
 tensorflow
 numpy>=1.19.5
 pillow
-opencv-python
+opencv-python-headless
 opencv-contrib-python
