@@ -20,8 +20,8 @@ streamlit_urls = {
 	"Logistic Regression": "https://hot-logistic-regression.streamlit.app/",
     "SVM Classifier": "https://viz-svm-classifier.streamlit.app/",
 	"Bot powered by OpenAI": "https://openai-hot-bot.streamlit.app/",
-    "Human Language Translator": "https://translate-language.streamlit.app/"
-    
+    "Human Language Translator": "https://translate-language.streamlit.app/",
+    "Detect Bone Fracture": "https://detect-bone-fracture.streamlit.app/"
 }
 
 # Dropdown or radio button for selection
