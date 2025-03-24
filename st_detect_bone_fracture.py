@@ -18,12 +18,12 @@ model = Sequential([
 
 # Compile Model, Save Model
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-model.save("bone_fracture_model.h5")
+model.save("bone_fracture_model.keras")
 
 # Load the pre-trained model (replace with your model)
 @st.cache_resource
 def load_model():
-    return tf.keras.models.load_model("bone_fracture_model.h5")
+    return tf.keras.models.load_model("bone_fracture_model.keras")
 
 model = load_model()
 
