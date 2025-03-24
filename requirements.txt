@@ -16,3 +16,4 @@ tensorflow
 pillow
 numpy
 opencv-python-headless
+deepface
