@@ -16,3 +16,4 @@ tensorflow
 numpy>=1.19.5
 pillow
 opencv-python
+opencv-contrib-python
