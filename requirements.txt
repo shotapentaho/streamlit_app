@@ -12,3 +12,6 @@ seaborn
 sumy
 nltk
 deep-translator
+tensorflow
+pillow
+numpy
