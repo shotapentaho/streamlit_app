@@ -17,3 +17,5 @@ pillow
 numpy
 opencv-python==4.5.1.48
 deepface
+libgl1-mesa-glx
+mesa-utils
