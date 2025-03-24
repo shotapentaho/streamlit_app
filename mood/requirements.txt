@@ -14,7 +14,7 @@ nltk
 deep-translator
 tensorflow
 numpy>=1.19.5
-keras
+keras==2.13.1
 pillow
 opencv-python-headless
 opencv-contrib-python
