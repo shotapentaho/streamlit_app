@@ -19,7 +19,7 @@ if uploaded_file is not None:
     image_bgr = cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR)
     
     # Display uploaded image
-    st.image(image, caption="Uploaded Selfie", use_column_width=True)
+    st.image(image, caption="Uploaded Selfie", use_container_width=True)
 
     # Analyze Mood using DeepFace
     with st.spinner("Analyzing mood..."):
