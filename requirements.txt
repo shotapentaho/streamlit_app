@@ -17,3 +17,5 @@ pillow
 numpy
 opencv-python-headless
 deepface
+cv2
+opencv-python
