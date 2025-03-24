@@ -29,6 +29,7 @@ model = load_model()
 
 # Function to process image and make prediction
 def predict_bone_fracture(img):
+    img = img.convert("RGB")  # Convert RGBA to RGB
     img = img.resize((224, 224))  # Resize to match model input
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
