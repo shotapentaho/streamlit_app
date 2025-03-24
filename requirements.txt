@@ -15,6 +15,8 @@ deep-translator
 tensorflow
 pillow
 pip==25.0.1
+setuptools
+wheel
 numpy
 deepface
 opencv-python==4.5.1.48
