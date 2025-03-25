@@ -3,7 +3,6 @@ import spacy
 from spacy import displacy
 from spacy.cli import download
 
-
 # Check if model is available, if not, install it
 try:
     nlp = spacy.load("en_core_web_sm")
