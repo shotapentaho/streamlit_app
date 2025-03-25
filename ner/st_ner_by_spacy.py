@@ -3,18 +3,8 @@ import spacy
 from spacy import displacy
 from spacy.cli import download
 
-# Check if model is available, if not, install it
-try:
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    print("Downloading en_core_web_sm...")
-    download("en_core_web_sm")
-    nlp = spacy.load("en_core_web_sm")
-
-print("Model loaded successfully!")
-
 # Load spaCy Model
-#nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("en_core_web_sm")
 
 # Streamlit UI
 st.title("📝 Named Entity Recognition (NER) App")
