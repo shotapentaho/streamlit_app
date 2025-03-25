@@ -3,6 +3,11 @@ import spacy
 from spacy import displacy
 from spacy.cli import download
 
+# Streamlit UI
+st.set_page_config(page_title="named entity recognizer", layout="wide")
+# Streamlit UI
+st.title("📝 Named Entity Recognition (NER)")
+
 # Check if model is available, if not, install it
 try:
     nlp = spacy.load("en_core_web_sm")
@@ -16,9 +21,6 @@ except OSError:
 # Load spaCy Model
 nlp = spacy.load("en_core_web_sm")
 print("Model loaded successfully!")
-
-# Streamlit UI
-st.title("📝 Named Entity Recognition (NER) App")
 
 # Input text or file upload
 uploaded_file = st.file_uploader("Upload a text file", type=["txt"])
