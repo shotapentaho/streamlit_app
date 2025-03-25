@@ -17,11 +17,11 @@ print("Model loaded successfully!")
     # Load spaCy Model
     #nlp = spacy.load("en_core_web_sm")
 
-    # Streamlit UI
-    st.title("📝 Named Entity Recognition (NER) App")
+# Streamlit UI
+st.title("📝 Named Entity Recognition (NER) App")
 
-    # Input text or file upload
-    uploaded_file = st.file_uploader("Upload a text file", type=["txt"])
+# Input text or file upload
+uploaded_file = st.file_uploader("Upload a text file", type=["txt"])
 
 if uploaded_file:
     text = uploaded_file.read().decode("utf-8")
