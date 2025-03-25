@@ -15,4 +15,5 @@ deep-translator
 tensorflow
 numpy>=1.19.5
 pillow
-spacy download en_core_web_sm
+spacy
+en_core_web_sm
