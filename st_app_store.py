@@ -21,7 +21,8 @@ streamlit_urls = {
     "SVM Classifier": "https://viz-svm-classifier.streamlit.app/",
 	"Bot powered by OpenAI": "https://openai-hot-bot.streamlit.app/",
     "Human Language Translator": "https://translate-language.streamlit.app/",
-    "Detect Bone Fracture": "https://detect-bone-fracture.streamlit.app/"
+    "Detect Bone Fracture": "https://detect-bone-fracture.streamlit.app/",
+    "Detect Mood from Selfie":"https://detect-mood-selfie.streamlit.app/"
 }
 
 # Dropdown or radio button for selection
