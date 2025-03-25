@@ -13,10 +13,9 @@ except OSError:
     #download("en_core_web_sm")
     #nlp = spacy.load("en_core_web_sm")
 
-print("Model loaded successfully!")
-
 # Load spaCy Model
 nlp = spacy.load("en_core_web_sm")
+print("Model loaded successfully!")
 
 # Streamlit UI
 st.title("📝 Named Entity Recognition (NER) App")
@@ -27,7 +26,7 @@ uploaded_file = st.file_uploader("Upload a text file", type=["txt"])
 if uploaded_file:
     text = uploaded_file.read().decode("utf-8")
 else:
-    text = st.text_area("Enter text here:", "Barack Obama was the 44th President of the United States.")
+    text = st.text_area("Enter text here:", "Apple Inc. was founded by Steve Jobs, Steve Wozniak, and Ronald Wayne in Cupertino, California, in 1976.")
 
 # Process text with spaCy
 if text:
