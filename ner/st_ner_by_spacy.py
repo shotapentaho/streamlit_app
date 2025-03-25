@@ -14,8 +14,8 @@ except OSError:
 
 print("Model loaded successfully!")
 
-    # Load spaCy Model
-    #nlp = spacy.load("en_core_web_sm")
+# Load spaCy Model
+nlp = spacy.load("en_core_web_sm")
 
 # Streamlit UI
 st.title("📝 Named Entity Recognition (NER) App")
