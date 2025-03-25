@@ -3,18 +3,43 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization
 from PIL import Image
 
 
 # Simple CNN Model
+#model = Sequential([
+#    Conv2D(32, (3,3), activation='relu', input_shape=(224, 224, 3)),
+#    MaxPooling2D(2,2),
+#    Flatten(),
+#    Dense(128, activation='relu'),
+#    Dense(2, activation='softmax')  # 2 classes: Fracture vs Normal
+#])
+
+# Improved CNN Model
 model = Sequential([
     Conv2D(32, (3,3), activation='relu', input_shape=(224, 224, 3)),
+    BatchNormalization(),  # Normalize activations
     MaxPooling2D(2,2),
+
+    Conv2D(64, (3,3), activation='relu'),
+    BatchNormalization(),
+    MaxPooling2D(2,2),
+
+    Conv2D(128, (3,3), activation='relu'),
+    BatchNormalization(),
+    MaxPooling2D(2,2),
+
     Flatten(),
+    Dense(256, activation='relu'),
+    Dropout(0.5),  # Helps prevent overfitting
+
     Dense(128, activation='relu'),
+    Dropout(0.3),
+
     Dense(2, activation='softmax')  # 2 classes: Fracture vs Normal
 ])
+
 
 # Compile Model, Save Model
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
