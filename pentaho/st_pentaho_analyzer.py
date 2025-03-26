@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # Streamlit UI
-st.title("📊 Pentaho Analyzer Report in Streamlit")
+st.title("📊 Pentaho Analyzer in Streamlit")
 
 # User Input for Pentaho Server
 pentaho_server = st.text_input("Enter Pentaho Server URL", "http://your-pentaho-server:8080")
