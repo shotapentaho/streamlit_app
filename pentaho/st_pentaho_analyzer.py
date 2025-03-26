@@ -19,8 +19,8 @@ def fetch_analyzer_report(server_url):
     print(full_url)
     try:
         response = requests.get(full_url, auth=(USERNAME, PASSWORD))
-        print("Status Code:", response.status_code)
-        print(response)
+        st.success("Status Code:", response.status_code)
+        st.success(response)
         response.raise_for_status()  # Check for errors
         return response.content  # Report content (PDF, XML, JSON)
     except requests.exceptions.RequestException as e:
