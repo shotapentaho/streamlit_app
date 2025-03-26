@@ -4,6 +4,9 @@ import xml.etree.ElementTree as ET
 
 # Streamlit UI
 st.title("📊 Pentaho Analyzer in Streamlit")
+
+st.write((requests.__version__)
+
 # User Input for Pentaho Server
 pentaho_server = st.text_input("Enter Pentaho Server & Port", "http://localhost:8080")
 # Default report path (Modify this based on your Pentaho setup)
