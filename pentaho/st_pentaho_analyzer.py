@@ -23,13 +23,12 @@ def fetch_analyzer_report(server_url):
         proxies = {"http": None, "https": None}
    
         try:
-            st.success(full_url)
+           
             response = requests.get(full_url, auth=(username, password), proxies=proxies)
-
             if response.status_code == 200:
+                st.success(full_url)
                 files = response.json().get("file", [])
                 analyzer_reports = [f['name'] for f in files if f['name'].endswith(".xanalyzer")]
-
                 st.success("🔹 Analyzer Reports:")
                 for report in analyzer_reports:
                     st.success(f"- {report}")
