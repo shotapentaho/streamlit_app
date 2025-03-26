@@ -22,15 +22,15 @@ def fetch_analyzer_report(server_url):
    
         try:
         
-        st.success(full_url)
-        response = requests.get(full_url, auth=(username, password), proxies=proxies)
-        st.success("Status Code:", response.status_code)
-        st.success(response)
-        response.raise_for_status()  # Check for errors
-        return response.content  # Report content (PDF, XML, JSON)
-    except requests.exceptions.RequestException as e:
-        #st.error(f"Error fetching report: {e}")
-        return None
+            st.success(full_url)
+            response = requests.get(full_url, auth=(username, password), proxies=proxies)
+            st.success("Status Code:", response.status_code)
+            st.success(response)
+            response.raise_for_status()  # Check for errors
+            return response.content  # Report content (PDF, XML, JSON)
+        except requests.exceptions.RequestException as e:
+            #st.error(f"Error fetching report: {e}")
+            return None
 
 if st.button("Run Report"):
     if pentaho_server:
