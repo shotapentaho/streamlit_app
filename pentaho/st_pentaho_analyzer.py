@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import xml.etree.ElementTree as ET
 
 # Streamlit UI
 st.title("📊 Pentaho Analyzer in Streamlit")
@@ -9,7 +10,7 @@ pentaho_server = st.text_input("Enter Pentaho Server & Port", "http://localhost:
 #report_path = "/pentaho/api/repos/%3Ahome%3Aadmin%3ASWheels_measures-PAZ.xanalyzer/viewer"
 #report_path = "/pentaho/api/repos/:home:admin:SWheels_measures-PAZ.xanalyzer/viewer"
 #report_path = "/pentaho/api/repos/:public:Steel%20Wheels:Product%20Line%20By%20Quantity(Funnel).xanalyzer/viewer"
-report_path = "/pentaho/api/repo/files/:public/children"
+report_path = "/pentaho/api/repo/files/:public:Steel%20Wheels/children"
 #schema_path  = "/pentaho/api/repos/xanalyzer/service/selectSchema"
 
 # Pentaho Authentication
@@ -20,22 +21,30 @@ password = "password"
 #server_url = "http://"+username+":"+password+"@"+server_url
 def fetch_analyzer_report(server_url):
         full_url = server_url + report_path  # Construct full API URL
-        proxies = {"http": None, "https": None}
-   
-        try:
-           
-            response = requests.get(full_url, auth=(username, password), proxies=proxies)
+        
+        try:           
+            response = requests.get(full_url, auth=(username, password))
             st.success(response)
-            if response.status_code == 200:
-                st.success(full_url)
-                files = response.json().get("file", [])
-                analyzer_reports = [f['name'] for f in files if f['name'].endswith(".xanalyzer")]
-                st.success("🔹 Analyzer Reports:")
-                for report in analyzer_reports:
-                    st.success(f"- {report}")
-            else:
-                st.success("❌ Failed to retrieve reports:", response.text)
+            
+                # Check if response is successful
+                if response.status_code == 200:
+                    # Parse XML
+                    root = ET.fromstring(response.text)
+                    # Extract report names
+                    analyzer_reports = [
+                        file.find("name").text
+                        for file in root.findall("repositoryFileDto")
+                        if file.find("name").text.endswith(".xanalyzer")
+                    ]
+                    print(len(analyzer_reports))
+                    print("🔹 Analyzer Reports:", len(analyzer_reports))
+                    for report in analyzer_reports:
+                        print(f"- {report}")
 
+                else:
+                    print("❌ Request failed with status:", response.status_code, response.text)
+
+           
             #st.success("Status Code:", response.status_code)
             response.raise_for_status()  # Check for errors
             return response.content  # Report content (PDF, XML, JSON)
