@@ -25,25 +25,24 @@ def fetch_analyzer_report(server_url):
         try:           
             response = requests.get(full_url, auth=(username, password))
             
-            
-                # Check if response is successful
-                if response.status_code == 200:
-                    st.success(response.status_code)
-                    # Parse XML
-                    root = ET.fromstring(response.text)
-                    # Extract report names
-                    analyzer_reports = [
-                        file.find("name").text
-                        for file in root.findall("repositoryFileDto")
-                        if file.find("name").text.endswith(".xanalyzer")
-                    ]
-                    print(len(analyzer_reports))
-                    print("🔹 Analyzer Reports:", len(analyzer_reports))
-                    for report in analyzer_reports:
-                        print(f"- {report}")
+            # Check if response is successful
+            if response.status_code == 200:
+                st.success(response.status_code)
+                # Parse XML
+                root = ET.fromstring(response.text)
+                # Extract report names
+                analyzer_reports = [
+                    file.find("name").text
+                    for file in root.findall("repositoryFileDto")
+                    if file.find("name").text.endswith(".xanalyzer")
+                ]
+                print(len(analyzer_reports))
+                print("🔹 Analyzer Reports:", len(analyzer_reports))
+                for report in analyzer_reports:
+                    print(f"- {report}")
 
-                else:
-                    print("❌ Request failed with status:", response.status_code, response.text)
+            else:
+                print("❌ Request failed with status:", response.status_code, response.text)
 
            
             #st.success("Status Code:", response.status_code)
