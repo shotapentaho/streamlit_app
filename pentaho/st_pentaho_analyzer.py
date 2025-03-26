@@ -8,7 +8,9 @@ pentaho_server = st.text_input("Enter Pentaho Server & Port", "http://localhost:
 # Default report path (Modify this based on your Pentaho setup)
 #report_path = "/pentaho/api/repos/%3Ahome%3Aadmin%3ASWheels_measures-PAZ.xanalyzer/viewer"
 #report_path = "/pentaho/api/repos/:home:admin:SWheels_measures-PAZ.xanalyzer/viewer"
-report_path = "/pentaho/api/repos/:public:Steel%20Wheels:Product%20Line%20By%20Quantity(Funnel).xanalyzer/viewer"
+#report_path = "/pentaho/api/repos/:public:Steel%20Wheels:Product%20Line%20By%20Quantity(Funnel).xanalyzer/viewer"
+report_path = "/pentaho/api/repos/:public:Steel%20Wheels/children"
+
 #schema_path  = "/pentaho/api/repos/xanalyzer/service/selectSchema"
 
 # Pentaho Authentication
