@@ -25,7 +25,7 @@ def fetch_analyzer_report(server_url):
         try:
            
             response = requests.get(full_url, auth=(username, password), proxies=proxies)
-            st.success(response.status_code)
+            st.success(response)
             if response.status_code == 200:
                 st.success(full_url)
                 files = response.json().get("file", [])
