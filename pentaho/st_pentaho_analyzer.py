@@ -20,7 +20,7 @@ def fetch_analyzer_report(server_url):
     full_url = server_url + report_path  # Construct full API URL
     st.success(full_url)
     try:
-        response = requests.get(full_url, auth=(username, password), verify=False)
+        response = requests.get(full_url)
         st.success("Status Code:", response.status_code)
         st.success(response)
         response.raise_for_status()  # Check for errors
