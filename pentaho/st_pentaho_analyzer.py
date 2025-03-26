@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 # Streamlit UI
 st.title("📊 Pentaho Analyzer in Streamlit")
 
-st.write((requests.__version__)
+st.write((requests.__version__))
 
 # User Input for Pentaho Server
 pentaho_server = st.text_input("Enter Pentaho Server & Port", "http://localhost:8080")
