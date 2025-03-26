@@ -7,6 +7,19 @@ st.title("📊 Pentaho Analyzer in Streamlit")
 
 st.write((requests.__version__))
 
+
+import subprocess
+
+curl_command = [
+    "curl",
+    "-u", "admin:password",
+    "http://127.0.0.1:8080/pentaho/api/repo/files/:public:Steel%20Wheels/children"
+]
+
+result = subprocess.run(curl_command, capture_output=True, text=True)
+st.write(result.stdout)
+
+
 # User Input for Pentaho Server
 pentaho_server = st.text_input("Enter Pentaho Server & Port", "http://localhost:8080")
 # Default report path (Modify this based on your Pentaho setup)
