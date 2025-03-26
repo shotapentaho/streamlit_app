@@ -15,4 +15,4 @@ deep-translator
 tensorflow
 numpy>=1.19.5
 pillow
-requests
+requests>=2.28.1
