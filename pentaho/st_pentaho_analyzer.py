@@ -4,7 +4,7 @@ import requests
 # Streamlit UI
 st.title("📊 Pentaho Analyzer in Streamlit")
 # User Input for Pentaho Server
-pentaho_server = st.text_input("Enter Pentaho Server URL", "localhost:8080")
+pentaho_server = st.text_input("Enter Pentaho Server URL", "http://localhost:8080")
 # Default report path (Modify this based on your Pentaho setup)
 report_path = "/pentaho/api/repos/%3Ahome%3Aadmin%3ASWheels_measures-PAZ.xanalyzer/viewer"
 
@@ -15,11 +15,11 @@ PASSWORD = "password"
 
 # Function to fetch the Analyzer Report
 def fetch_analyzer_report(server_url):
-    server_url="http://"+USERNAME+":"+PASSWORD+"@"+server_url
+    #server_url="http://"+USERNAME+":"+PASSWORD+"@"+server_url
     full_url = server_url + report_path  # Construct full API URL
     print(full_url)
     try:
-        response = requests.get(full_url) #, auth=(USERNAME, PASSWORD))
+        response = requests.get(full_url, auth=(USERNAME, PASSWORD))
         print(response)
         response.raise_for_status()  # Check for errors
         return response.content  # Report content (PDF, XML, JSON)
@@ -37,7 +37,7 @@ if st.button("Run Report"):
             st.download_button(
                 label="📥 Download Report",
                 data=report_data,
-                file_name="analyzer_report.pdf",
+                file_name="SWheels_measures-PAZ.pdf",
                 mime="application/pdf"
             )
     else:
