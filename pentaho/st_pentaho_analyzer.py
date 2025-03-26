@@ -6,8 +6,8 @@ st.title("📊 Pentaho Analyzer in Streamlit")
 # User Input for Pentaho Server
 pentaho_server = st.text_input("Enter Pentaho Server URL", "http://localhost:8080")
 # Default report path (Modify this based on your Pentaho setup)
-report_path = "/pentaho/api/repos/%3Ahome%3Aadmin%3ASWheels_measures-PAZ.xanalyzer/viewer"
-
+#report_path = "/pentaho/api/repos/%3Ahome%3Aadmin%3ASWheels_measures-PAZ.xanalyzer/viewer"
+report_path = "/pentaho/api/repos/:home:admin:SWheels_measures-PAZ.xanalyzer/viewer"
 
 # Pentaho Authentication
 USERNAME = "admin"
