@@ -20,7 +20,7 @@ def fetch_analyzer_report(server_url):
         full_url = server_url + report_path  # Construct full API URL
         proxies = {"http": None, "https": None}
    
-    try:
+        try:
         
         st.success(full_url)
         response = requests.get(full_url, auth=(username, password), proxies=proxies)
