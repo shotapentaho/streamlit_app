@@ -8,9 +8,8 @@ pentaho_server = st.text_input("Enter Pentaho Server & Port", "http://localhost:
 # Default report path (Modify this based on your Pentaho setup)
 #report_path = "/pentaho/api/repos/%3Ahome%3Aadmin%3ASWheels_measures-PAZ.xanalyzer/viewer"
 #report_path = "/pentaho/api/repos/:home:admin:SWheels_measures-PAZ.xanalyzer/viewer"
-report_path = "/pentaho/api/repos/:public:Steel%20Wheels:Product%20Line%20By%20Quantity(Funnel).xanalyzer/viewer"
-#report_path = "/pentaho/api/repo/files/:public:Steel%20Wheels/children"
-
+#report_path = "/pentaho/api/repos/:public:Steel%20Wheels:Product%20Line%20By%20Quantity(Funnel).xanalyzer/viewer"
+report_path = "/pentaho/api/repo/files/:public/children"
 #schema_path  = "/pentaho/api/repos/xanalyzer/service/selectSchema"
 
 # Pentaho Authentication
@@ -26,8 +25,18 @@ def fetch_analyzer_report(server_url):
         try:
             st.success(full_url)
             response = requests.get(full_url, auth=(username, password), proxies=proxies)
-            st.success("Status Code:", response.status_code)
-            st.success(response)
+
+            if response.status_code == 200:
+                files = response.json().get("file", [])
+                analyzer_reports = [f['name'] for f in files if f['name'].endswith(".xanalyzer")]
+
+                st.success("🔹 Analyzer Reports:")
+                for report in analyzer_reports:
+                    st.success(f"- {report}")
+            else:
+                st.success("❌ Failed to retrieve reports:", response.text)
+
+            #st.success("Status Code:", response.status_code)
             response.raise_for_status()  # Check for errors
             return response.content  # Report content (PDF, XML, JSON)
         except requests.exceptions.RequestException as e:
