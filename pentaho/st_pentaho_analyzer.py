@@ -16,7 +16,7 @@ PASSWORD = "password"
 # Function to fetch the Analyzer Report
 def fetch_analyzer_report(server_url):
     full_url = server_url + report_path  # Construct full API URL
-    print(full_url)
+    st.success(full_url)
     try:
         response = requests.get(full_url, auth=(USERNAME, PASSWORD))
         st.success("Status Code:", response.status_code)
