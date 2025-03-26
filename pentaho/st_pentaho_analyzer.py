@@ -10,16 +10,15 @@ pentaho_server = st.text_input("Enter Pentaho Server URL", "http://localhost:808
 report_path = "/pentaho/api/repos/:home:admin:SWheels_measures-PAZ.xanalyzer/viewer"
 
 # Pentaho Authentication
-USERNAME = "admin"
-PASSWORD = "password"
+username = "admin"
+password = "password"
 
 # Function to fetch the Analyzer Report
 def fetch_analyzer_report(server_url):
     full_url = server_url + report_path  # Construct full API URL
     st.success(full_url)
     try:
-        st.success("Entereed")
-        response = requests.get(full_url, auth=(USERNAME, PASSWORD))
+        response = requests.get(full_url, auth=(username, password))
         st.success("Status Code:", response.status_code)
         st.success(response)
         response.raise_for_status()  # Check for errors
