@@ -21,6 +21,7 @@ def fetch_analyzer_report(server_url):
         proxies = {"http": None, "https": None}
    
     try:
+        
         st.success(full_url)
         response = requests.get(full_url, auth=(username, password), proxies=proxies)
         st.success("Status Code:", response.status_code)
