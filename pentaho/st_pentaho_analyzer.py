@@ -12,7 +12,7 @@ report_path = "/pentaho/api/repos/%3Ahome%3Aadmin%3ASWheels_measures-PAZ.xanalyz
 
 
 # Pentaho Authentication
-USERNAME = "admin"
+USERNAME = "suzy"
 PASSWORD = "password"
 
 # Function to fetch the Analyzer Report
