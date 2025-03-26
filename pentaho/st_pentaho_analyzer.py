@@ -24,7 +24,7 @@ def fetch_analyzer_report(server_url):
         
         try:           
             response = requests.get("http://localhost:8080/pentaho/api/repo/files/:public:Steel%20Wheels/children", auth=(username, password))
-            
+            st.success(response.status_code)
             # Check if response is successful
             if response.status_code == 200:
                 st.success(response.status_code)
