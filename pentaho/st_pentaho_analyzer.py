@@ -49,7 +49,7 @@ def fetch_analyzer_report(server_url):
             response.raise_for_status()  # Check for errors
             return response.content  # Report content (PDF, XML, JSON)
         except requests.exceptions.RequestException as e:
-            #st.error(f"Error fetching report: {e}")
+            st.error(f"Error fetching report: {e}")
             return None
 
 if st.button("Run Report"):
