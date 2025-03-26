@@ -7,7 +7,8 @@ st.title("📊 Pentaho Analyzer in Streamlit")
 pentaho_server = st.text_input("Enter Pentaho Server & Port", "http://localhost:8080")
 # Default report path (Modify this based on your Pentaho setup)
 #report_path = "/pentaho/api/repos/%3Ahome%3Aadmin%3ASWheels_measures-PAZ.xanalyzer/viewer"
-report_path = "/pentaho/api/repos/:home:admin:SWheels_measures-PAZ.xanalyzer/viewer"
+#report_path = "/pentaho/api/repos/:home:admin:SWheels_measures-PAZ.xanalyzer/viewer"
+report_path = "/pentaho/api/repos/:public:Steel Wheels:Product Line By Quantity(Funnel).xanalyzer/viewer"
 #schema_path  = "/pentaho/api/repos/xanalyzer/service/selectSchema"
 
 # Pentaho Authentication
@@ -21,7 +22,6 @@ def fetch_analyzer_report(server_url):
         proxies = {"http": None, "https": None}
    
         try:
-        
             st.success(full_url)
             response = requests.get(full_url, auth=(username, password), proxies=proxies)
             st.success("Status Code:", response.status_code)
