@@ -24,10 +24,11 @@ def fetch_analyzer_report(server_url):
         
         try:           
             response = requests.get(full_url, auth=(username, password))
-            st.success(response)
+            
             
                 # Check if response is successful
                 if response.status_code == 200:
+                    st.success(response.status_code)
                     # Parse XML
                     root = ET.fromstring(response.text)
                     # Extract report names
