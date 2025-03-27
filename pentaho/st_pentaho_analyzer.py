@@ -1,10 +1,14 @@
+#Streamlit to get PAZ reports by folder from Pentaho Repository
+#Open up command line to run: streamlit run st_pentaho_analyzer.py
+#It will open up in browser
 import streamlit as st
 import requests
 import xml.etree.ElementTree as ET
 import urllib.parse
 
 # Streamlit UI
-st.title("📊 Pentaho Analyzer (PAZ) by Folder breakdown")
+st.set_page_config(page_title="Pentaho Analyzer (PAZ) Reports", layout="wide")
+st.title("📊 Pentaho Analyzer (PAZ) by folders..")
 
 # User Input for Pentaho Server
 pentaho_server = st.text_input("Enter Pentaho Server & Port", "http://localhost:8080")
@@ -21,8 +25,6 @@ report_path = "/pentaho/api/repo/files/:public"
 username = "admin"
 password = "password"
 
-# Function to fetch the Analyzer Report
-#server_url = "http://"+username+":"+password+"@"+server_url
 def fetch_analyzer_report(server_url):
         full_url = server_url + report_path +"/children" # Construct full API URL
         
@@ -44,7 +46,7 @@ def fetch_analyzer_report(server_url):
                 
                 #Display folders📂
                 for folder in folders:
-                    st.write(f"📂 {folder}")  # Print the folder name
+                    st.write(f"📂 {folder} - PAZ reports")  # Print the folder name
                     full_url = server_url + report_path + ":"+urllib.parse.quote(folder)+"/children" # Construct full API URL
                     #st.write(full_url)  # Print the folder name
                     response_folder_level = requests.get(full_url, auth=(username, password))
@@ -58,14 +60,14 @@ def fetch_analyzer_report(server_url):
                             if file_name.endswith(".xanalyzer"):
                                 analyzer_reports.append(file_name)  # Store report name
                    
-                    st.success("✅ Report Links are: ")
+                    #st.success("✅ PAZ report links: ")
                     for report in analyzer_reports:
                         st_full_url = f"{server_url}/{sw_directory_path}{urllib.parse.quote(folder)}:{urllib.parse.quote(report)}/viewer"
                         st.write(f"📊 {st_full_url}")
                         #st.write("🔹 Analyzer Reports:", len(analyzer_reports))  
                         
                 else:
-                    st.write("No Analyzer reports found.")
+                    st.write("")
                     
             else:
                 st.success("❌ Request failed with status:", response.status_code, response.text)
@@ -76,12 +78,12 @@ def fetch_analyzer_report(server_url):
             st.error(f"Error fetching report: {e}")
             return None
 
-if st.button("Run Report"):
+if st.button("Click: PAZ links by Folder"):
     if pentaho_server:
         report_data = fetch_analyzer_report(pentaho_server)
         if report_data:
             #st.write(f"- {report_data}")
-            st.success("✅ Report Links Generated Successfully!")
+            st.success("✅ PAZ Links Generated Successfully!")
             #Assuming the report is a PDF, provide a download option
             #st.download_button(
              #   label="📥 Download Report",
