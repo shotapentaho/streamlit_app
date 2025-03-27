@@ -58,6 +58,7 @@ def fetch_analyzer_report(server_url):
                             if file_name.endswith(".xanalyzer"):
                                 analyzer_reports.append(file_name)  # Store report name
                    
+                    st.success("✅ Report Links are: ")
                     for report in analyzer_reports:
                         st_full_url = f"{server_url}/{sw_directory_path}{urllib.parse.quote(folder)}:{urllib.parse.quote(report)}/viewer"
                         st.write(f"📊 {st_full_url}")
