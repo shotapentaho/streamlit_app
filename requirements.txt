@@ -16,3 +16,4 @@ tensorflow
 numpy>=1.19.5
 pillow
 transformers
+tf-keras
