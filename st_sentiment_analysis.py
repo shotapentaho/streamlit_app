@@ -1,8 +1,8 @@
 import streamlit as st
 from transformers import pipeline
 
-# Initialize the Hugging Face sentiment analysis pipeline
-sentiment_analyzer = pipeline("sentiment-analysis")
+#Initialize the Hugging Face sentiment analysis pipeline for multi-class sentiment (positive, negative, neutral)
+sentiment_analyzer = pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment")
 
 # Streamlit UI elements
 st.title("Sentiment analysis..")
@@ -25,13 +25,14 @@ if st.button("Analyze"):
         label = result[0]['label']
         score = result[0]['score']
         
-        # Display results
-        st.subheader(f"Sentiment: {label}")
-        st.write(f"Confidence Score: {score:.2f}")
-
-        # Show the result's sentiment color
-        if label == 'POSITIVE':
-            st.markdown('<h3 style="color:green;">Positive Sentiment</h3>', unsafe_allow_html=True)
+        # Logic to detect neutral sentiment if positive and negative are close
+        if label == "NEGATIVE" and score < 0.60:
+            st.subheader("Sentiment: Neutral")
+            st.markdown('<h3 style="color:gray;">Neutral Sentiment</h3>', unsafe_allow_html=True)
         else:
-            st.markdown('<h3 style="color:red;">Negative Sentiment</h3>', unsafe_allow_html=True)
-
+            st.subheader(f"Sentiment: {label}")
+            st.write(f"Confidence Score: {score:.2f}")
+            if label == "POSITIVE":
+                st.markdown('<h3 style="color:green;">Positive Sentiment</h3>', unsafe_allow_html=True)
+            else:
+                st.markdown('<h3 style="color:red;">Negative Sentiment</h3>', unsafe_allow_html=True)
