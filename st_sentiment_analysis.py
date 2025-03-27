@@ -5,7 +5,7 @@ from transformers import pipeline
 sentiment_analyzer = pipeline("sentiment-analysis")
 
 # Streamlit UI elements
-st.title("Sentiment Analysis Application")
+st.title("Sentiment analysis..")
 st.write(
     "This is a simple application to analyze the sentiment of a text input. Enter some text and click 'Analyze' to get the sentiment result."
 )
