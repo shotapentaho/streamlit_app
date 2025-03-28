@@ -6,8 +6,9 @@ import matplotlib.pyplot as plt
 from minisom import MiniSom
 
 # Streamlit UI
+st.set_page_config(page_title="Self-Organizing Maps", layout="wide")
 st.title("🧠 Self-Organizing Maps (SOM) Visualization")
-st.write("Upload a dataset, and we'll train a Self-Organizing Map (SOM) to cluster the data.")
+st.write("Upload a dataset, process will train a Self-Organizing Map (SOM) to cluster the data.")
 
 # Upload CSV
 uploaded_file = st.file_uploader("📂 Upload CSV File", type=["csv"])
