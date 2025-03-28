@@ -22,6 +22,7 @@ if uploaded_file:
     
     if len(features) > 1:
         data = df[features].values
+        data = np.array(data)  # Convert to NumPy array
         
         # If data is not a DataFrame, convert it
         data = pd.DataFrame(data)
