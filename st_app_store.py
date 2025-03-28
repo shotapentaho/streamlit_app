@@ -23,7 +23,8 @@ streamlit_urls = {
     "Human Language Translator": "https://translate-language.streamlit.app/",
     "Detect Bone Fracture": "https://detect-bone-fracture.streamlit.app/",
     "Detect Mood from Selfie":"https://detect-mood-selfie.streamlit.app/",
-    "Named Entity Recognition from text":"https://ner-from-text.streamlit.app/"
+    "Named Entity Recognition from text":"https://ner-from-text.streamlit.app/",
+    "Self Organizing Map - Clustering":"https://self-org-map.streamlit.app/"
 }
 
 # Dropdown or radio button for selection
