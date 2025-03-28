@@ -24,7 +24,8 @@ if uploaded_file:
         data = df[features].values
 
         # Normalize data
-        data = (data - np.min(data, axis=0)) / (np.max(data, axis=0) - np.min(data, axis=0))
+        eps = 1e-8  # Small constant to prevent division by zero
+        data = (data - np.min(data, axis=0)) / (np.max(data, axis=0) - np.min(data, axis=0)+ eps)
 
         # SOM parameters
         x_dim, y_dim = 10, 10  # SOM Grid Size
