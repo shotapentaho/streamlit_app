@@ -22,6 +22,15 @@ if uploaded_file:
     
     if len(features) > 1:
         data = df[features].values
+        
+        # Convert data to DataFrame (if not already)
+        data = pd.DataFrame(data)  
+
+        # Convert all columns to numeric, forcing errors to NaN
+        data = data.apply(pd.to_numeric, errors='coerce')
+
+        # Fill NaNs with column mean (optional, or drop NaNs)
+        data.fillna(data.mean(), inplace=True)
 
         # Normalize data
         eps = 1e-8  # Small constant to prevent division by zero
