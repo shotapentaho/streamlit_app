@@ -22,10 +22,23 @@ if uploaded_file:
     
     if len(features) > 1:
         data = df[features].values
+        
+        # If data is not a DataFrame, convert it
+        data = pd.DataFrame(data)
+
+        # Convert all columns to numeric, coercing errors to NaN
+        data = data.apply(pd.to_numeric, errors='coerce')
+
+        # Check for NaNs (caused by non-numeric values)
+        if data.isna().sum().sum() > 0:
+            st.write("Warning: Non-numeric values found and replaced with column mean!")
+            data.fillna(data.mean(), inplace=True)  # Replace NaNs with column mean
+
+        # Normalize safely
+        eps = 1e-8  # Small constant to prevent division by zero
 
         # Normalize data
-        #eps = 1e-8  # Small constant to prevent division by zero
-        data = (data - np.min(data, axis=0)) / (np.max(data, axis=0) - np.min(data, axis=0))
+        data = (data - np.min(data, axis=0)) / (np.max(data, axis=0) - np.min(data, axis=0)+eps)
 
         # SOM parameters
         x_dim, y_dim = 10, 10  # SOM Grid Size
