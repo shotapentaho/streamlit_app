@@ -31,11 +31,12 @@ if uploaded_file:
         som.random_weights_init(data)
         som.train_random(data, 1000)  # Training for 1000 iterations
 
+        weights = som.get_weights()  # ✅ This correctly gets the weight matrix
         # Generate heatmap
         heatmap_data = np.zeros((x_dim, y_dim))
         for i in range(x_dim):
             for j in range(y_dim):
-                heatmap_data[i, j] = np.linalg.norm(som.get_weights[i, j])
+                heatmap_data[i, j] = np.linalg.norm(weights[i, j])
 
         # Plot heatmap
         st.subheader("🔥 SOM Heatmap")
