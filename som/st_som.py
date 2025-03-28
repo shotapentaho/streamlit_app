@@ -35,7 +35,7 @@ if uploaded_file:
         heatmap_data = np.zeros((x_dim, y_dim))
         for i in range(x_dim):
             for j in range(y_dim):
-                heatmap_data[i, j] = np.linalg.norm(som.weights[i, j])
+                heatmap_data[i, j] = np.linalg.norm(som.get_weights[i, j])
 
         # Plot heatmap
         st.subheader("🔥 SOM Heatmap")
