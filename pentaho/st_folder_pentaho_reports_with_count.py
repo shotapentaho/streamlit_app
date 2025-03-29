@@ -3,9 +3,9 @@ import requests
 import xml.etree.ElementTree as ET
 import urllib.parse
 
-# Streamlit UI
+# Streamlit UI for Pentaho Reporting
 st.set_page_config(page_title="Pentaho Reports (PAZ, PRD, PIR) ", layout="wide")
-st.title("📊 Pentaho Reports by folders..")
+st.title("📊 Pentaho reports (PAZ, PRD, PIR) by folders..")
 
 # User Input for Pentaho Server
 pentaho_server = st.text_input("Enter Pentaho Server & Port", "http://localhost:8080")
@@ -18,7 +18,7 @@ report_path = "/pentaho/api/repo/files/:public"
 username = "admin"
 password = "password"
 
-# Function to fetch the analyzer reports
+# Function to fetch the Pentaho reports
 def fetch_pentaho_report(server_url, type_report):
     full_url = server_url + report_path + "/children"  # Construct full API URL
 
@@ -47,7 +47,7 @@ def fetch_pentaho_report(server_url, type_report):
                         for item in root.findall("repositoryFileDto"):
                             file_name = item.find("name").text
                             if file_name.endswith(type_report):
-                                pentaho_reports.append(file_name)  # Add analyzer report
+                                pentaho_reports.append(file_name)  # Add a report
 
                         # Display the folder with the count of reports
                         folder_report_count = len(pentaho_reports)
@@ -65,7 +65,7 @@ def fetch_pentaho_report(server_url, type_report):
                                         report_url = f"{pentaho_server}/{sw_directory_path}{urllib.parse.quote(folder)}:{urllib.parse.quote(report)}/prpti.view"
                                         st.write(f"🔗 [**{report}**]({report_url})")
                             else:
-                                st.warning("⚠️ No Analyzer reports found in this folder.")
+                                st.warning("⚠️ No reports found in this folder.")
                     else:
                         st.error(f"❌ Error fetching reports for folder {folder}: {response_folder_level.status_code}")
             else:
@@ -77,36 +77,18 @@ def fetch_pentaho_report(server_url, type_report):
         st.error(f"Error fetching data: {e}")
     return None
 
-# Trigger the report fetching process when the button is clicked
-#if st.button("Fetch PAZ by Folder"):
-#    if pentaho_server:
-#        fetch_analyzer_report(pentaho_server)
-#    else:
-#        st.warning("⚠️ Please enter a valid Pentaho Server URL.")
-
-# Function to fetch the PRD reports
-def fetch_prd_report(server_url):
-    st.write("⚠️ Yet to have tje code for PRPT ")
-
-
-# Function to fetch the PRD reports
-def fetch_pir_report(server_url):
-    st.write("⚠️ Yet to have code for PIR ")
-
-
-# List of available options
+# List of available options (Drop Down)
 options = ["PRD", "PAZ", "PIR"]
-# Create a dropdown (selectbox) instead of a button
 selected_option = st.selectbox("Choose report type to list by folder:", options)
 type_report=''
 
 # Perform action based on selection
 if selected_option == "PRD":
     type_report='.prpt'
-    fetch_pentaho_report(pentaho_server, type_report)  # Call function for PRD reports
+    fetch_pentaho_report(pentaho_server, type_report)  # PRD reports
 elif selected_option == "PAZ":
     type_report='.xanalyzer'
-    fetch_pentaho_report(pentaho_server, type_report)   # Call function for PAZ reports
+    fetch_pentaho_report(pentaho_server, type_report)   # PAZ reports
 elif selected_option == "PIR":
     type_report='.prpti'
-    fetch_pentaho_report(pentaho_server, type_report)   # Call function for other reports
+    fetch_pentaho_report(pentaho_server, type_report)   # PIR reports
