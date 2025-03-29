@@ -10,7 +10,7 @@ st.title("🎾 Tennis Practice Reminder (SMS)")
 
 # Input Fields
 practice_date = st.date_input("Select Practice Date:", datetime.date.today())
-practice_time = st.time_input("Select Practice Time:", datetime.time(18, 0))  # Default 6 PM
+practice_time = st.time_input("Select Practice Time:", datetime.time(14, 0))  # Default 2PM
 phone_number = st.text_input("Enter Your Phone Number (USA/Canada Only):", placeholder="1234567890")
 carrier = st.selectbox("Select Your Carrier:", ["AT&T", "Verizon", "T-Mobile", "Sprint", "Rogers", "Bell"])
 notes = st.text_area("Add Notes (Optional)", placeholder="E.g., Bring extra water, practice serves.")
