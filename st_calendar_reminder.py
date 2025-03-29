@@ -27,13 +27,14 @@ carrier_gateways = {
 
 # Function to Send SMS
 def send_sms(to_phone, carrier, date, time, notes):
-        sender_email = st.secrets["credentials"]["email"]
-        sender_password = st.secrets["credentials"]["password"]
-
+        
     if carrier not in carrier_gateways:
         st.error("⚠️ Invalid carrier selected.")
         return False
 
+    sender_email = st.secrets["credentials"]["email"]
+    sender_password = st.secrets["credentials"]["password"]
+    
     to_sms = f"{to_phone}{carrier_gateways[carrier]}"
     subject = "🎾 Tennis Reminder"
     body = f"Practice on {date} at {time}. Notes: {notes}"
