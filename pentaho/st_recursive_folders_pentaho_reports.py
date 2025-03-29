@@ -4,8 +4,8 @@ import xml.etree.ElementTree as ET
 import urllib.parse
 
 # Streamlit UI for Pentaho Reporting
-st.set_page_config(page_title="Pentaho Reports Listing", layout="wide")
-st.title("📊 Pentaho Reports (PAZ, PRD, PIR) by Folders")
+st.set_page_config(page_title="Pentaho Report and Dashboard Listing", layout="wide")
+st.title("📊 Pentaho Reports (PAZ, PRD, PIR, PDD) by folders..")
 
 # User Input for Pentaho Server
 pentaho_server = st.text_input("Enter Pentaho Server & Port", "http://localhost:8080/")
@@ -51,11 +51,12 @@ def fetch_reports_recursively(server_url, current_path, type_report, indent=0):
             folder_report_count = len(reports)
             # Display Parent Folder First with Indentation
             folder_label = f"{'→ ' * indent}📂 {folder_name} ({len(reports)} {type_report} reports)"
-
+            
+           
             with st.expander(folder_label):                
                 # Display Reports inside the parent folder first
                 for report in reports:
-                    if type_report in [".xanalyzer", ".prpt"]:
+                    if type_report in [".xanalyzer", ".prpt", ".xdash", ".ktr", ".kjb"]:
                         report_url = f"{server_url}/{urllib.parse.quote(current_path)}:{urllib.parse.quote(report)}/viewer"
                     elif type_report == ".prpti":
                         report_url = f"{server_url}/{urllib.parse.quote(current_path)}:{urllib.parse.quote(report)}/prpti.view"
@@ -72,14 +73,17 @@ def fetch_reports_recursively(server_url, current_path, type_report, indent=0):
         st.error(f"Error fetching data: {e}")
 
 # Dropdown for selecting report type
-options = {
-    "PAZ - Pentaho Analyzer Report": ".xanalyzer",
-    "PRD - Pentaho Report Designer": ".prpt",
-    "PIR - Pentaho Interactive Reporting": ".prpti"
-}
+options = {  "PAZ - Pentaho Analyzer Report": ".xanalyzer"
+                    ,"PRD - Pentaho Report Designer": ".prpt"
+                    ,"PIR - Pentaho Interactive Reporting": ".prpti"
+                    ,"PDD - Pentaho Designer Dashboard": ".xdash" 
+                    ,"KJB - Pentaho Job": ".kjb" 
+                    ,"KTR - Pentaho Transformation": ".ktr"
+                    }
 selected_option = st.selectbox("Select report type:", list(options.keys()))
 
 # Fetch reports when user selects an option
 if selected_option and pentaho_server:
+    st.write(f"Results : {selected_option}")
     type_report = options[selected_option]
     fetch_reports_recursively(pentaho_server, repo_path, type_report)
