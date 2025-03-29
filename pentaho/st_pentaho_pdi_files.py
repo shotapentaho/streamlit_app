@@ -28,6 +28,7 @@ def fetch_pdi_objects(server_url, type_of_etl):
             # Parse XML response to extract folders
             root = ET.fromstring(response.text)
             folders = []
+            
             for item in root.findall("repositoryFileDto"):
                 file_type = item.find("folder").text  # Check if it's a folder
                 file_name = item.find("name").text  # Get the name
@@ -40,27 +41,27 @@ def fetch_pdi_objects(server_url, type_of_etl):
                     # Construct API URL to fetch reports within the selected folder
                     full_url = server_url + ktr_kjb_path + ":" + urllib.parse.quote(folder) + "/children"
                     response_folder_level = requests.get(full_url, auth=(username, password))
-
+                    
                     if response_folder_level.status_code == 200:
-                        pentaho_reports = []
+                        pentaho_etl = []
                         root = ET.fromstring(response_folder_level.text)
                         for item in root.findall("repositoryFileDto"):
                             file_name = item.find("name").text
                             if file_name.endswith(type_of_etl):
-                                pentaho_reports.append(file_name)  # Add a report
+                                pentaho_etl.append(file_name)  # Add a job or transformation
 
                         # Display the folder with the count of reports
-                        folder_report_count = len(pentaho_reports)
-                        with st.expander(f"📂 {folder} + ({folder_report_count} {type_of_etl} ETL objects)"):
-                            if pentaho_reports:
-                                for report in pentaho_reports:
-                                    # Construct the viewer URL for each report
+                        artefact_count = len(pentaho_etl)
+                        with st.expander(f"📂 {folder} + ({artefact_count} {type_of_etl} ETL objects)"):
+                            if pentaho_etl:
+                                for etl_artefact in pentaho_etl:
+                                    # Construct the viewer URL for each ktr/kjb
                                     if type_of_etl == ".kjb":
-                                        report_url = f"{pentaho_server}/{sw_directory_path}{urllib.parse.quote(folder)}:{urllib.parse.quote(report)}/viewer"
-                                        st.write(f"🔗 [**{report}**]({report_url})")
+                                        etl_url = f"{pentaho_server}/{sw_directory_path}{urllib.parse.quote(folder)}:{urllib.parse.quote(etl_artefact)}/viewer"
+                                        st.write(f"🔗 [**{etl_artefact}**]({etl_url})")
                                     elif type_of_etl == ".ktr":
-                                        report_url = f"{pentaho_server}/{sw_directory_path}{urllib.parse.quote(folder)}:{urllib.parse.quote(report)}/viewer"
-                                        st.write(f"🔗 [**{report}**]({report_url})")                                    
+                                        etl_url = f"{pentaho_server}/{sw_directory_path}{urllib.parse.quote(folder)}:{urllib.parse.quote(etl_artefact)}/viewer"
+                                        st.write(f"🔗 [**{etl_artefact}**]({etl_url})")                                    
                             else:
                                 st.warning("⚠️ No reports found in this folder.")
                     else:
