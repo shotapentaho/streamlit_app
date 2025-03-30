@@ -3,6 +3,8 @@ import datetime
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from apscheduler.schedulers.background import BackgroundScheduler
+import time
 
 # Streamlit UI
 st.set_page_config(page_title="Tennis Reminder (SMS)", layout="wide")
@@ -27,7 +29,6 @@ carrier_gateways = {
 
 # Function to Send SMS
 def send_sms(to_phone, carrier, date, time, notes):
-        
     if carrier not in carrier_gateways:
         st.error("⚠️ Invalid carrier selected.")
         return False
@@ -37,7 +38,7 @@ def send_sms(to_phone, carrier, date, time, notes):
     
     to_sms = f"{to_phone}{carrier_gateways[carrier]}"
     subject = "🎾 Tennis Reminder"
-    body = f"Practice on {date} at {time}. Notes: {notes}"
+    body = f"Reminder: Practice on {date} at {time}. Notes: {notes}"
 
     msg = MIMEMultipart()
     msg["From"] = sender_email
@@ -50,17 +51,36 @@ def send_sms(to_phone, carrier, date, time, notes):
             server.starttls()
             server.login(sender_email, sender_password)
             server.sendmail(sender_email, to_sms, msg.as_string())
+        st.success("✅ Reminder SMS Sent!")
         return True
     except Exception as e:
         st.error(f"❌ SMS sending failed: {e}")
         return False
 
+# Function to Schedule the Reminder (1 hour before)
+def schedule_reminder():
+    now = datetime.datetime.now()
+    practice_datetime = datetime.datetime.combine(practice_date, practice_time)
+    reminder_time = practice_datetime - datetime.timedelta(hours=1)
+
+    time_until_reminder = (reminder_time - now).total_seconds()
+
+    if time_until_reminder > 0:
+        st.success(f"⏳ Reminder scheduled for {reminder_time.strftime('%Y-%m-%d %H:%M:%S')} ({int(time_until_reminder/60)} mins left)")
+        time.sleep(time_until_reminder)  # Wait until the reminder time
+        send_sms(phone_number, carrier, practice_date, practice_time, notes)
+    else:
+        st.warning("⚠️ Selected practice time is in the past!")
+
+# Scheduler Setup
+scheduler = BackgroundScheduler()
+scheduler.add_job(schedule_reminder, 'date', run_date=datetime.datetime.now() + datetime.timedelta(seconds=5))  
+scheduler.start()
+
 # Set Reminder Button
-if st.button("Set Reminder via SMS"):
+if st.button("Set Reminder via SMS (1 Hour Before)"):
     if phone_number and carrier:
-        success = send_sms(phone_number, carrier, practice_date, practice_time, notes)
-        if success:
-            st.success(f"✅ SMS Reminder set for {practice_date} at {practice_time}!")
+        schedule_reminder()
     else:
         st.warning("⚠️ Please enter a valid phone number and carrier.")
 
