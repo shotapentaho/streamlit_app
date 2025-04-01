@@ -4,8 +4,8 @@ import xml.etree.ElementTree as ET
 import urllib.parse
 
 # Streamlit UI for Pentaho Reporting
-st.set_page_config(page_title="Pentaho Report and Dashboard Listing", layout="wide")
-st.title("📊 Pentaho Reports (PAZ, PRD, PIR, PDD) by folders..")
+st.set_page_config(page_title="Pentaho aretefacts list", layout="wide")
+st.title("📊 Pentaho artefacts (jobs, transformations, reports and dashboard) by folders..")
 
 # User Input for Pentaho Server
 pentaho_server = st.text_input("Enter Pentaho Server & Port", "http://localhost:8080/")
