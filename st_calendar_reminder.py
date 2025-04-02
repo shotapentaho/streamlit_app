@@ -9,9 +9,7 @@ import time
 
 # Initialize DuckDB and create table
 conn = duckdb.connect(database=':memory:', read_only=False)
-conn.execute("""
-    DROP TABLE IF EXISTS reminders
-""")
+conn.execute("""    DROP TABLE IF EXISTS reminders""")
 conn.execute("""
     CREATE TABLE IF NOT EXISTS reminders (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
