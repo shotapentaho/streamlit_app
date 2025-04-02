@@ -6,6 +6,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
+import pandas as pd
 
 
 # Initialize DuckDB and create table
