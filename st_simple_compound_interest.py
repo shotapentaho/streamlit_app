@@ -7,8 +7,8 @@ st.set_page_config(page_title="simple and compound interest calculation", layout
     
 # User Inputs with Sliders
 P = st.slider("Select Principal Amount (P):", min_value=1000, max_value=100000, value=10000, step=1000)
-R = st.slider("Select Rate of Interest (R) in %:", min_value=1, max_value=20, value=5, step=1)
-T = st.slider("Select Time (T) in months:", min_value=1, max_value=30, value=10, step=1)
+R = st.slider("Select Rate of Interest (R) in %:", min_value=1, max_value=10, value=3, step=0.5)
+T = st.slider("Select Time (T) in months:", min_value=1, max_value=120, value=10, step=1)
 
 # Split the screen into two columns
 col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
@@ -16,7 +16,7 @@ col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
 with col1:
     # Streamlit UI
     st.title("💰 Simple Interest Calculator")
-    st.title(" **SI = (P × R × T* 1/12) / 100** ")
+    st.title(" **SI = (P × R × T/12) / 100** ")
     
     # Compute Simple Interest for Each Year
     years = np.arange(1, int(T) + 1)  # Time in years
