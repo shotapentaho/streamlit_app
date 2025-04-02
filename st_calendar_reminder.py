@@ -1,14 +1,29 @@
 import streamlit as st
 import datetime
 import smtplib
+import duckdb
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
 
+# Initialize DuckDB and create table
+conn = duckdb.connect(database=':memory:', read_only=False)
+conn.execute("""
+    CREATE TABLE IF NOT EXISTS reminders (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        practice_game TEXT,
+        practice_date DATE,
+        practice_time TIME,
+        phone_number TEXT,
+        carrier TEXT,
+        notes TEXT
+    )
+""")
+
 # Streamlit UI
-st.set_page_config(page_title="Tennis Reminder (SMS)", layout="wide")
-st.title("🎾 Tennis Practice Reminder (SMS)")
+st.set_page_config(page_title="Game Practice Reminder (SMS)", layout="wide")
+st.title("🎾 Practice Reminder (via SMS)")
 
 # Input Fields
 practice_date = st.date_input("Select Practice Date:", datetime.date.today())
@@ -26,6 +41,13 @@ carrier_gateways = {
     "Rogers": "@pcs.rogers.com",
     "Bell": "@txt.bell.ca"
 }
+
+# Function to Save Reminder to DuckDB
+def save_reminder(date, time, phone, carrier, notes):
+    conn.execute("""
+        INSERT INTO reminders (practice_game, practice_date, practice_time, phone_number, carrier, notes)
+        VALUES ('tennis', ?, ?, ?, ?, ?)
+    """, (date, time, phone, carrier, notes))
 
 # Function to Send SMS
 def send_sms(to_phone, carrier, date, time, notes):
@@ -57,16 +79,15 @@ def send_sms(to_phone, carrier, date, time, notes):
         st.error(f"❌ SMS sending failed: {e}")
         return False
 
-# Function to Schedule the Reminder (1 hour before)
+# Function to Schedule Reminder
 def schedule_reminder():
     now = datetime.datetime.now()
     practice_datetime = datetime.datetime.combine(practice_date, practice_time)
     reminder_time = practice_datetime - datetime.timedelta(hours=1)
-
     time_until_reminder = (reminder_time - now).total_seconds()
 
     if time_until_reminder > 0:
-        st.success(f"⏳ Reminder scheduled for {reminder_time.strftime('%Y-%m-%d %H:%M:%S')} ({int(time_until_reminder/60)} mins left)")
+        st.success(f"⏳ Reminder scheduled for {reminder_time.strftime('%Y-%m-%d %H:%M:%S')}")
         time.sleep(time_until_reminder)  # Wait until the reminder time
         send_sms(phone_number, carrier, practice_date, practice_time, notes)
     else:
@@ -74,19 +95,21 @@ def schedule_reminder():
 
 # Scheduler Setup
 scheduler = BackgroundScheduler()
-scheduler.add_job(schedule_reminder, 'date', run_date=datetime.datetime.now() + datetime.timedelta(seconds=5))  
 scheduler.start()
 
 # Set Reminder Button
 if st.button("Set Reminder via SMS (1 Hour Before)"):
     if phone_number and carrier:
+        save_reminder(practice_date, practice_time, phone_number, carrier, notes)
         schedule_reminder()
     else:
         st.warning("⚠️ Please enter a valid phone number and carrier.")
 
-# Display Upcoming Practice
-st.subheader("⏳ Upcoming Practice:")
-st.write(f"📅 **Date:** {practice_date}")
-st.write(f"⏰ **Time:** {practice_time}")
-if notes:
-    st.write(f"📝 **Notes:** {notes}")
+# Display Saved Reminders
+st.subheader("📜 Reminder History")
+reminders = conn.execute("SELECT * FROM reminders ORDER BY practice_date DESC").fetchall()
+if reminders:
+    for reminder in reminders:
+        st.write(f"📅 {reminder[1]} ⏰ {reminder[2]} 📱 {reminder[3]} ({reminder[4]}) 📝 {reminder[5]}")
+else:
+    st.write("No reminders set.")

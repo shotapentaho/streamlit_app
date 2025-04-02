@@ -14,7 +14,9 @@ nltk
 deep-translator
 tensorflow
 numpy>=1.19.5
+pandas
 pillow
 transformers
 tf-keras
 apscheduler
+duckdb
