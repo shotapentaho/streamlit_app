@@ -141,10 +141,12 @@ def schedule_reminder():
 
     if time_until_reminder > 0:
         st.success(f"⏳ Reminder scheduled for {reminder_time.strftime('%Y-%m-%d %H:%M:%S')}")
-        time.sleep(time_until_reminder)  # Wait until the reminder time
+        #time.sleep(time_until_reminder)  # Wait until the reminder time
         send_sms(phone_number, carrier, practice_date, practice_time, notes)
+         st.rerun()
     else:
         st.warning("⚠️ Selected practice time is in the past!")
+         st.rerun()
 
 # Scheduler Setup
 scheduler = BackgroundScheduler()
@@ -154,7 +156,7 @@ scheduler.start()
 if st.button("Set Reminder via SMS (1 Hour Before)"):
     if phone_number and carrier:        
         save_reminder(game, practice_date, practice_time, phone_number, carrier, notes)
-        schedule_reminder()
+        schedule_reminder()       
     else:
         st.warning("⚠️ Please enter a valid phone number and carrier.")
 
