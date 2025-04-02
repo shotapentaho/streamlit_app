@@ -34,7 +34,7 @@ def display_reminders():
         # Display reminder list with checkboxes for deletion
         selected_ids = []
         for index, row in df.iterrows():
-            checkbox = st.checkbox(f"Select {row['Game']} ({row['Date']}{row[]}{row['Time']})", key=row['ID'])
+            checkbox = st.checkbox(f"Select {row['Game']} ({row['Date']}{' '}{row['Time']})", key=row['ID'])
             if checkbox:
                 selected_ids.append(row['ID'])
 
