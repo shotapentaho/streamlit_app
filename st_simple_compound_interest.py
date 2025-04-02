@@ -7,7 +7,7 @@ st.set_page_config(page_title="Simple and Compound Interest Calculator", layout=
 
 # User Inputs with Sliders
 P = st.slider("Select Principal Amount (P):", min_value=1000, max_value=100000, value=10000, step=1000)
-R = st.slider("Select Rate of Interest (R) in %:", min_value=1, max_value=10, value=3, step=1)
+R = st.slider("Select Rate of Interest (R) in %:", min_value=0.5, max_value=10.0, value=3.0, step=0.5)
 T = st.slider("Select Time (T) in months:", min_value=1, max_value=120, value=10, step=1)
 
 # Split the screen into two columns
