@@ -100,7 +100,8 @@ scheduler.start()
 # Set Reminder Button
 if st.button("Set Reminder via SMS (1 Hour Before)"):
     if phone_number and carrier:
-        save_reminder('tennis', practice_date, practice_time, phone_number, carrier, notes)
+        game='tennis'
+        save_reminder(game, practice_date, practice_time, phone_number, carrier, notes)
         schedule_reminder()
     else:
         st.warning("⚠️ Please enter a valid phone number and carrier.")
