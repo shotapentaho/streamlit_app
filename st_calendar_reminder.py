@@ -169,5 +169,5 @@ else:
 
 # Display reminders in the Streamlit app
 if __name__ == '__main__':
-    st.title('Game Practice Reminders')
+    st.title('Current Reminders')
     display_reminders()
