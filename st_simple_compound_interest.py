@@ -57,7 +57,7 @@ with col2:
     amounts = P * (1 + R / 100) ** years  # Compound Interest Calculation
 
     # Final Amount
-    A = P * (1 + R /( 12*100)) ** T*12
+    A = P * (1 + R /( 12*100)) ** T
     CI = A - P
 
     # Display Results Compound
