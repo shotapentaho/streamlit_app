@@ -47,7 +47,7 @@ def display_reminders():
             if selected_ids:
                 delete_reminders(selected_ids)
                 # Refresh the reminder list after deletion
-                st.experimental_rerun()
+                st.rerun()
             else:
                 st.warning("No reminders selected for deletion.")
     else:
