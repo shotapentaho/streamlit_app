@@ -43,11 +43,11 @@ carrier_gateways = {
 }
 
 # Function to Save Reminder to DuckDB
-def save_reminder(date, time, phone, carrier, notes):
+def save_reminder(game, date, time, phone, carrier, notes):
     conn.execute("""
         INSERT INTO reminders (practice_game, practice_date, practice_time, phone_number, carrier, notes)
-        VALUES ('tennis', ?, ?, ?, ?, ?)
-    """, (date, time, phone, carrier, notes))
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (game, date, time, phone, carrier, notes))
 
 # Function to Send SMS
 def send_sms(to_phone, carrier, date, time, notes):
@@ -100,7 +100,7 @@ scheduler.start()
 # Set Reminder Button
 if st.button("Set Reminder via SMS (1 Hour Before)"):
     if phone_number and carrier:
-        save_reminder(practice_date, practice_time, phone_number, carrier, notes)
+        save_reminder('tennis', practice_date, practice_time, phone_number, carrier, notes)
         schedule_reminder()
     else:
         st.warning("⚠️ Please enter a valid phone number and carrier.")
