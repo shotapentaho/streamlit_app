@@ -49,7 +49,7 @@ with col1:
 ### COMPOUND INTEREST SECTION ###
 with col2:
     st.title("💰 Compound Interest Calculator")
-    st.subheader(" **A = P (1 + R/1200) ^ T**  T in months")
+    st.subheader(" **A = P (1 + R/1200) ^ T**  (T in months)")
 
     # Compute Compound Interest
     A = P * (1 + R / 1200) ** T
