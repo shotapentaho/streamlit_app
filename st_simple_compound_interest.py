@@ -61,7 +61,7 @@ with col2:
 
     # Generate Data for Graph
     years = np.arange(1, T + 1)
-    amounts_ci = P * (1 + R / 1200) ** years  # Compound Interest Growth
+    amounts_ci = P * (1 + R / 100) ** years  # Compound Interest Growth
 
     # Plot Graph
     fig_ci, ax_ci = plt.subplots()
