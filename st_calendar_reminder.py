@@ -143,10 +143,10 @@ def schedule_reminder():
         st.success(f"⏳ Reminder scheduled for {reminder_time.strftime('%Y-%m-%d %H:%M:%S')}")
         #time.sleep(time_until_reminder)  # Wait until the reminder time
         send_sms(phone_number, carrier, practice_date, practice_time, notes)
-         st.rerun()
+        st.rerun()
     else:
         st.warning("⚠️ Selected practice time is in the past!")
-         st.rerun()
+        st.rerun()
 
 # Scheduler Setup
 scheduler = BackgroundScheduler()
