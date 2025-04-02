@@ -34,12 +34,12 @@ def display_reminders():
         # Display reminder list with checkboxes for deletion
         selected_ids = []
         for index, row in df.iterrows():
-            checkbox = st.checkbox(f"Select {row['Game']} ({row['Date']})", key=row['ID'])
+            checkbox = st.checkbox(f"Select {row['Game']} ({row['Date']['Time']})", key=row['ID'])
             if checkbox:
                 selected_ids.append(row['ID'])
 
         # Display the DataFrame in Streamlit
-        st.write("### Reminder List")
+        st.write("### Current Reminders:")
         st.dataframe(df)
 
         # Button to delete selected reminders
