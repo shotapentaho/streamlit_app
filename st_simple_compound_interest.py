@@ -8,7 +8,7 @@ st.set_page_config(page_title="simple and compound interest calculation", layout
 # User Inputs with Sliders
 P = st.slider("Select Principal Amount (P):", min_value=1000, max_value=100000, value=10000, step=1000)
 R = st.slider("Select Rate of Interest (R) in %:", min_value=1, max_value=20, value=5, step=1)
-T = st.slider("Select Time (T) in years:", min_value=1, max_value=30, value=10, step=1)
+T = st.slider("Select Time (T) in months:", min_value=1, max_value=30, value=10, step=1)
 
 # Split the screen into two columns
 col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
@@ -16,14 +16,14 @@ col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
 with col1:
     # Streamlit UI
     st.title("💰 Simple Interest Calculator")
-    st.title(" **SI = (P × R × T) / 100** ")
+    st.title(" **SI = (P × R × T* 1/12) / 100** ")
     
     # Compute Simple Interest for Each Year
     years = np.arange(1, int(T) + 1)  # Time in years
-    amounts = P + (P * R * years) / 100  # Total amount over years
+    amounts = P + (P * R * years) / (100*12)  # Total amount over years
 
     # Display Results
-    SI = (P * R * T) / 100
+    SI = (P * R * T) / (100*12)
     total_amount = P + SI
     st.write(f"### ✅ Simple Interest: **${SI:.2f}**")
     st.write(f"### 💰 Total Amount after Interest: **${total_amount:.2f}**")
@@ -57,7 +57,7 @@ with col2:
     amounts = P * (1 + R / 100) ** years  # Compound Interest Calculation
 
     # Final Amount
-    A = P * (1 + R / 100) ** T
+    A = P * (1 + R /( 12*100)) ** T*12
     CI = A - P
 
     # Display Results Compound
