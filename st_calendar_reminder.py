@@ -71,6 +71,7 @@ st.set_page_config(page_title="Game Practice Reminder (SMS)", layout="wide")
 st.title("🎾 Practice Reminder (via SMS)")
 
 # Input Fields
+game = st.selectbox("Select Your Game:", ["Tennis", "Volly", "Pickle Ball"])
 practice_date = st.date_input("Select Practice Date:", datetime.date.today())
 practice_time = st.time_input("Select Practice Time:", datetime.time(14, 0))  # Default 2PM
 phone_number = st.text_input("Enter Your Phone Number (USA/Canada Only):", placeholder="1234567890")
@@ -151,8 +152,7 @@ scheduler.start()
 
 # Set Reminder Button
 if st.button("Set Reminder via SMS (1 Hour Before)"):
-    if phone_number and carrier:
-        game='tennis'
+    if phone_number and carrier:        
         save_reminder(game, practice_date, practice_time, phone_number, carrier, notes)
         schedule_reminder()
     else:
