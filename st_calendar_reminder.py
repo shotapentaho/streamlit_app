@@ -112,7 +112,7 @@ def send_sms(to_phone, carrier, date, time, notes):
     
     to_sms = f"{to_phone}{carrier_gateways[carrier]}"
     subject = "🎾 Tennis Reminder"
-    body = f"Reminder: Practice on {date} at {time}. Notes: {notes}"
+    body = f"Reminder: Practice {game} on {date} at {time}. Notes: {notes}"
 
     msg = MIMEMultipart()
     msg["From"] = sender_email
@@ -169,5 +169,5 @@ else:
 
 # Display reminders in the Streamlit app
 if __name__ == '__main__':
-    st.title('Tennis Practice Reminders')
+    st.title('Game Practice Reminders')
     display_reminders()
