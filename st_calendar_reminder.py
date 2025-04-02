@@ -42,12 +42,19 @@ carrier_gateways = {
     "Bell": "@txt.bell.ca"
 }
 
+def get_next_id():
+    # Get the current maximum ID from the table
+    result = conn.execute("SELECT MAX(id) FROM reminders").fetchone()
+    # If there's no data yet, start with 1
+    return (result[0] or 0) + 1
+    
 # Function to Save Reminder to DuckDB
 def save_reminder(game, date, time, phone, carrier, notes):
+    next_id = get_next_id()
     conn.execute("""
-        INSERT INTO reminders (practice_game, practice_date, practice_time, phone_number, carrier, notes)
-        VALUES (?, ?, ?, ?, ?, ?)
-    """, (game, date, time, phone, carrier, notes))
+        INSERT INTO reminders (id, practice_game, practice_date, practice_time, phone_number, carrier,  notes)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    """, (next_id, game, date, time, phone, carrier, notes))
 
 # Function to Send SMS
 def send_sms(to_phone, carrier, date, time, notes):
