@@ -16,10 +16,10 @@ col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
 ### SIMPLE INTEREST SECTION ###
 with col1:
     st.title("💰 Simple Interest Calculator")
-    st.subheader(" **SI = (P × R × T) / (100 × 12)** ")
+    st.subheader(" **SI = (P × R × T) / 100 **  (T in years)")
 
     # Compute Simple Interest
-    SI = (P * R * T) / (100 * 12)
+    SI = (P * R * (T/12)) / 100
     total_amount_si = P + SI
 
     st.write(f"### ✅ Simple Interest: **${SI:.2f}**")
