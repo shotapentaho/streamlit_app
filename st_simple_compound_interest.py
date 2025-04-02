@@ -16,7 +16,7 @@ col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
 ### SIMPLE INTEREST SECTION ###
 with col1:
     st.title("💰 Simple Interest Calculator")
-    st.subheader(" **SI = (P × R × T) / 100 **  (T in years)")
+    st.subheader(" **SI = (P × R × (T/12) / 100) **  (T in months)")
 
     # Compute Simple Interest
     SI = (P * R * (T/12)) / 100
@@ -49,7 +49,7 @@ with col1:
 ### COMPOUND INTEREST SECTION ###
 with col2:
     st.title("💰 Compound Interest Calculator")
-    st.subheader(" **A = P (1 + R/1200) ^ T** ")
+    st.subheader(" **A = P (1 + R/1200) ^ T**  T in months")
 
     # Compute Compound Interest
     A = P * (1 + R / 1200) ** T
