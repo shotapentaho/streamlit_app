@@ -15,23 +15,44 @@ conn = duckdb.connect(database='tennis_reminder.db', read_only=False)
 def fetch_reminders():
     result = conn.execute("SELECT * FROM reminders").fetchall()
     return result
-
-# Function to display reminders in Streamlit
+    
+# Function to delete selected reminders
+def delete_reminders(selected_ids):
+    for reminder_id in selected_ids:
+        conn.execute("DELETE FROM reminders WHERE id = ?", (reminder_id,))
+    st.success("Selected reminders have been deleted.")
+    
+# Display reminders with checkboxes
 def display_reminders():
     reminders = fetch_reminders()
-
+    
     if reminders:
-        # Create a pandas dataframe to display in Streamlit
-        import pandas as pd
+        # Create a pandas dataframe
         df = pd.DataFrame(reminders, columns=['ID', 'Game', 'Date', 'Time', 'Phone', 'Carrier', 'Notes'])
 
+        # Display reminder list with checkboxes for deletion
+        selected_ids = []
+        for index, row in df.iterrows():
+            checkbox = st.checkbox(f"Select {row['Game']} ({row['Date']})", key=row['ID'])
+            if checkbox:
+                selected_ids.append(row['ID'])
+
+        # Display the DataFrame in Streamlit
         st.write("### Reminder List")
-        st.dataframe(df)  # Display data in a table format
+        st.dataframe(df)
+
+        # Button to delete selected reminders
+        if st.button('Delete Selected Reminders'):
+            if selected_ids:
+                delete_reminders(selected_ids)
+                # Refresh the reminder list after deletion
+                st.experimental_rerun()
+            else:
+                st.warning("No reminders selected for deletion.")
     else:
         st.write("No reminders found.")
 
 
-        
 conn.execute("""
     CREATE TABLE IF NOT EXISTS reminders (
         id INTEGER PRIMARY KEY,
