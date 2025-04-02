@@ -7,8 +7,31 @@ from email.mime.multipart import MIMEMultipart
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
 
+
 # Initialize DuckDB and create table
-conn = duckdb.connect(database=':memory:', read_only=False)
+conn = duckdb.connect(database='tennis_reminder.db', read_only=False)
+
+# Function to fetch reminders
+def fetch_reminders():
+    result = conn.execute("SELECT * FROM reminders").fetchall()
+    return result
+
+# Function to display reminders in Streamlit
+def display_reminders():
+    reminders = fetch_reminders()
+
+    if reminders:
+        # Create a pandas dataframe to display in Streamlit
+        import pandas as pd
+        df = pd.DataFrame(reminders, columns=['ID', 'Game', 'Date', 'Time', 'Phone', 'Carrier', 'Notes'])
+
+        st.write("### Reminder List")
+        st.dataframe(df)  # Display data in a table format
+    else:
+        st.write("No reminders found.")
+
+
+        
 conn.execute("""
     CREATE TABLE IF NOT EXISTS reminders (
         id INTEGER PRIMARY KEY,
@@ -121,3 +144,8 @@ if reminders:
         st.write(f"📅 {reminder[1]} ⏰ {reminder[2]} 📱 {reminder[3]} ({reminder[4]}) 📝 {reminder[5]}")
 else:
     st.write("No reminders set.")
+
+# Display reminders in the Streamlit app
+if __name__ == '__main__':
+    st.title('Tennis Practice Reminders')
+    display_reminders()
