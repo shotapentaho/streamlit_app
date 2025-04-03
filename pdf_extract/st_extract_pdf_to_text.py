@@ -4,7 +4,7 @@ import fitz  # PyMuPDF for PDF processing
 
 
 # Ensure 'static/' directory exists
-STATIC_DIR = "static"
+STATIC_DIR = "/tmp/static"
 if not os.path.exists(STATIC_DIR):
     os.makedirs(STATIC_DIR)
 
