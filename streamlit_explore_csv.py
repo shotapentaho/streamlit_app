@@ -108,9 +108,8 @@ if uploaded_file is not None:
                 if len(numeric_cols) >= 2:
                     with col2:
                         x_axis = st.selectbox("📌 Select X-axis:", numeric_cols)
-                        y_axis = st.selectbox("📌 Select Y-axis:", numeric_cols, index=1)
-
-                    
+                        y_axis = st.selectbox("📌 Select Y-axis:", numeric_cols, index=1.0)
+                        
                         # Create chart
                         chart = alt.Chart(df).mark_line().encode(
                             x=f"{x_axis}:Q",
