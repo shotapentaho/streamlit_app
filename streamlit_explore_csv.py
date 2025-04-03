@@ -113,6 +113,13 @@ if uploaded_file is not None:
                         tooltip=[selected_col]
                     ).properties(title=f"Histogram of {selected_col}", width=600, height=400)
                     st.altair_chart(chart, use_container_width=True)
+                    
+                elif option == "Boxplot":
+                    # Seaborn boxplot
+                    fig, ax = plt.subplots(figsize=(6, 4))
+                    sns.boxplot(y=df[selected_col], ax=ax)
+                    ax.set_title(f"Boxplot of {selected_col}")
+                    st.pyplot(fig)
 
                 # Select columns for plotting
                 numeric_cols = num_cols.columns.tolist()
