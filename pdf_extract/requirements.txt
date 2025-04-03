@@ -6,7 +6,7 @@ seaborn
 sumy
 numpy>=1.19.5
 pandas
-pillow
-tf-keras
-fitz
 frontend
+fitz
+tf-keras
+pillow
