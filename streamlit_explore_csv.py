@@ -112,8 +112,8 @@ if uploaded_file is not None:
                         
                         # Create chart
                         chart = alt.Chart(df).mark_line().encode(
-                            x=f"{x_axis}:Q",
-                            y=f"{y_axis}:Q",
+                            x=alt.X(x_axis, type="quantitative"),
+                            y=alt.Y(y_axis, type="quantitative"),
                             tooltip=[x_axis, y_axis]
                         ).properties(title=f"{y_axis} over {x_axis}", width=700, height=400)
 
