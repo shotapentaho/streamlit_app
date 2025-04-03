@@ -5,6 +5,10 @@ import pandas as pd
 import altair as alt
 from io import StringIO
 
+# Set page config to full-width layout
+st.set_page_config(page_title="csv file upload and visualize", layout="wide")
+st.title("📈 upload csv and visualize ")
+
 # Function to load data
 @st.cache_data(persist="disk")  # Cache the function to store data on disk
 
