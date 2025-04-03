@@ -46,9 +46,9 @@ if uploaded_file is not None:
         st.write(num_cols.describe())  # Shows count, mean, std, min, max, etc.
 
         # Option to choose a column and display its statistics
-        selected_col = st.selectbox("Select a column to view details:", num_cols.columns)
-        st.write(f"### Statistics for {selected_col}:")
-        st.write(num_cols[selected_col].describe())            
+        #selected_col = st.selectbox("Select a column to view details:", num_cols.columns)
+        #st.write(f"### Statistics for {selected_col}:")
+        #st.write(num_cols[selected_col].describe())            
     else:
         st.warning("No numerical columns found in the dataset.")
         
