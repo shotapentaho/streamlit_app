@@ -44,14 +44,8 @@ if uploaded_file is not None:
         
     # Display basic statistics
     if not num_cols.empty:
-        #st.write("### Summary Statistics:")
-        #st.write(num_cols.describe())  # Shows count, mean, std, min, max, etc.
         st.write("### 📊 Data Overview")
         st.write(df)
-        # Option to choose a column and display its statistics
-        #selected_col = st.selectbox("Select a column to view details:", num_cols.columns)
-        #st.write(f"### Statistics for {selected_col}:")
-        #st.write(num_cols[selected_col].describe())            
     else:
         st.warning("No numerical columns found in the dataset.")
         
@@ -89,12 +83,8 @@ if uploaded_file is not None:
         col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
         
         with col1:
-            st.write("### 📊 Data Overview")
-            st.write(df)
-
             # Select numerical columns only
             num_cols = df.select_dtypes(include=['number']).drop(columns=["ID"], errors="ignore")
-
             # Display basic statistics
             if not num_cols.empty:
                 st.write("### 📈 Summary Statistics")
