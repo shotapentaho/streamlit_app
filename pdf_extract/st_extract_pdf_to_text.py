@@ -1,10 +1,10 @@
 import os
 import streamlit as st
-import fitz  # PyMuPDF for PDF processing
+import fitz  # PyMuPDF for PDF processing(necessary)
 
 
 # Ensure 'static/' directory exists
-STATIC_DIR = "/tmp/static"
+STATIC_DIR = "static"
 if not os.path.exists(STATIC_DIR):
     os.makedirs(STATIC_DIR)
 
