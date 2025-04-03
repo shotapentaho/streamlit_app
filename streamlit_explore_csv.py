@@ -44,8 +44,8 @@ if uploaded_file is not None:
         
     # Display basic statistics
     if not num_cols.empty:
-        st.write("### Summary Statistics:")
-        st.write(num_cols.describe())  # Shows count, mean, std, min, max, etc.
+        #st.write("### Summary Statistics:")
+        #st.write(num_cols.describe())  # Shows count, mean, std, min, max, etc.
 
         # Option to choose a column and display its statistics
         #selected_col = st.selectbox("Select a column to view details:", num_cols.columns)
