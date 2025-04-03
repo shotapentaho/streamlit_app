@@ -10,3 +10,4 @@ frontend
 fitz
 tf-keras
 pillow
+pymupdf
