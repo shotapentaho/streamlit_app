@@ -101,11 +101,24 @@ if uploaded_file is not None:
                 selected_col = st.selectbox("🔍 Select a column to view details:", num_cols.columns, key="column_stats_select")
                 st.write(f"### 📊 Statistics for `{selected_col}`")
                 st.write(num_cols[selected_col].describe())
+                
+                # Visualization Options
+                option = st.radio("Choose Visualization Type:", ["Histogram", "Boxplot"], horizontal=True)
+
+                if option == "Histogram":
+                    # Create a histogram
+                    chart = alt.Chart(df).mark_bar().encode(
+                        x=alt.X(selected_col, bin=True),
+                        y="count()",
+                        tooltip=[selected_col]
+                    ).properties(title=f"Histogram of {selected_col}", width=600, height=400)
+                    st.altair_chart(chart, use_container_width=True)
 
                 # Select columns for plotting
                 numeric_cols = num_cols.columns.tolist()
 
                 if len(numeric_cols) >= 2:
+                    
                     with col2:
                         x_axis = st.selectbox("📌 Select X-axis:", numeric_cols)
                         y_axis = st.selectbox("📌 Select Y-axis:", numeric_cols, index=1)
