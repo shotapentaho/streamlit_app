@@ -82,38 +82,38 @@ if uploaded_file is not None:
         col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
         
     with col1:
-    st.write("### 📊 Data Overview")
-    st.write(df)
+        st.write("### 📊 Data Overview")
+        st.write(df)
 
-    # Select numerical columns only
-    num_cols = df.select_dtypes(include=['number']).drop(columns=["ID"], errors="ignore")
+        # Select numerical columns only
+        num_cols = df.select_dtypes(include=['number']).drop(columns=["ID"], errors="ignore")
 
-    # Display basic statistics
-    if not num_cols.empty:
-        st.write("### 📈 Summary Statistics")
-        st.write(num_cols.describe())  # Shows count, mean, std, min, max, etc.
+        # Display basic statistics
+        if not num_cols.empty:
+            st.write("### 📈 Summary Statistics")
+            st.write(num_cols.describe())  # Shows count, mean, std, min, max, etc.
 
-        # Option to choose a column and display its statistics
-        selected_col = st.selectbox("🔍 Select a column to view details:", num_cols.columns, key="column_stats_select")
-        st.write(f"### 📊 Statistics for `{selected_col}`")
-        st.write(num_cols[selected_col].describe())
+            # Option to choose a column and display its statistics
+            selected_col = st.selectbox("🔍 Select a column to view details:", num_cols.columns, key="column_stats_select")
+            st.write(f"### 📊 Statistics for `{selected_col}`")
+            st.write(num_cols[selected_col].describe())
 
-        # Select columns for plotting
-        numeric_cols = num_cols.columns.tolist()
+            # Select columns for plotting
+            numeric_cols = num_cols.columns.tolist()
 
-        if len(numeric_cols) >= 2:
-            x_axis = st.selectbox("📌 Select X-axis:", numeric_cols)
-            y_axis = st.selectbox("📌 Select Y-axis:", numeric_cols, index=1)
+            if len(numeric_cols) >= 2:
+                x_axis = st.selectbox("📌 Select X-axis:", numeric_cols)
+                y_axis = st.selectbox("📌 Select Y-axis:", numeric_cols, index=1)
 
-            with col2:
-                # Create chart
-                chart = alt.Chart(df).mark_line().encode(
-                    x=f"{x_axis}:Q",
-                    y=f"{y_axis}:Q",
-                    tooltip=[x_axis, y_axis]
-                ).properties(title=f"{y_axis} over {x_axis}", width=700, height=400)
+                with col2:
+                    # Create chart
+                    chart = alt.Chart(df).mark_line().encode(
+                        x=f"{x_axis}:Q",
+                        y=f"{y_axis}:Q",
+                        tooltip=[x_axis, y_axis]
+                    ).properties(title=f"{y_axis} over {x_axis}", width=700, height=400)
 
-                # Show chart
-                st.altair_chart(chart, use_container_width=True)
-        else:
-            st.error("❌ Not enough numerical columns to generate a chart.")
+                    # Show chart
+                    st.altair_chart(chart, use_container_width=True)
+            else:
+                st.error("❌ Not enough numerical columns to generate a chart.")
