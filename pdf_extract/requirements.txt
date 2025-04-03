@@ -9,3 +9,4 @@ pandas
 pillow
 tf-keras
 fitz
+frontend
