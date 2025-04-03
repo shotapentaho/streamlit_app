@@ -153,7 +153,7 @@ scheduler = BackgroundScheduler()
 scheduler.start()
 
 # Set Reminder Button
-if st.button("Set Reminder via SMS (1 Hour Before)"):
+if st.button("Set Reminder via SMS "):
     if phone_number and carrier:        
         save_reminder(game, practice_date, practice_time, phone_number, carrier, notes)
         schedule_reminder()       
