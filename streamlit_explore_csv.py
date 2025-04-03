@@ -129,6 +129,7 @@ if uploaded_file is not None:
                 if len(numeric_cols) >= 2:
                     
                     with col2:
+                        st.write("### 📊 Chart cols")
                         x_axis = st.selectbox("📌 Select X-axis:", numeric_cols)
                         y_axis = st.selectbox("📌 Select Y-axis:", numeric_cols, index=1)
                         
