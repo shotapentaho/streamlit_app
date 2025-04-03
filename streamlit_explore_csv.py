@@ -7,6 +7,7 @@ from io import StringIO
 
 # Function to load data
 @st.cache_data(persist="disk")  # Cache the function to store data on disk
+
 def load_data(file):
     if file.name.endswith(".csv"):
         return pd.read_csv(file)
@@ -49,8 +50,7 @@ if uploaded_file is not None:
         
     # Check if "Period" column exists
     if "Period" in df.columns:
-        #df["Period"] = df["Period"].astype(int)  # Ensure Period is integer
-
+        
         # Slider range based on min and max values in the "Period" column[YYYY.MM]
         min_val, max_val = int(df["Period"].min()), int(df["Period"].max())
         st.write("### Period Range Slider:")
