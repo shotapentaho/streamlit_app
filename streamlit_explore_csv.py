@@ -103,8 +103,8 @@ if uploaded_file is not None:
 
             if len(numeric_cols) >= 2:
                 with col2:
-                x_axis = st.selectbox("📌 Select X-axis:", numeric_cols)
-                y_axis = st.selectbox("📌 Select Y-axis:", numeric_cols, index=1)
+                    x_axis = st.selectbox("📌 Select X-axis:", numeric_cols)
+                    y_axis = st.selectbox("📌 Select Y-axis:", numeric_cols, index=1)
 
                 
                     # Create chart
