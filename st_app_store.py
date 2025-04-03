@@ -15,6 +15,7 @@ streamlit_urls = {
     "Area of Sector (Circle)":"https://circle-sector.streamlit.app/",
     "Triangle by co-ordinates": "https://viz-triangle.streamlit.app/",
     "Text Summarizer": "https://summarize-info.streamlit.app/",
+    "PDF Text Extractor":"https://pdf-to-txt.streamlit.app/",
     "Decision Tree Classifier": "https://hot-decision-tree.streamlit.app/",
 	"K-Means Clustering": "https://hot-kmeans-clustering.streamlit.app/",
 	"Linear Regression": "https://hot-linear-regression.streamlit.app/",
