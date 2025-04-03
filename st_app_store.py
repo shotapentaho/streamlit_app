@@ -24,7 +24,8 @@ streamlit_urls = {
     "Detect Bone Fracture": "https://detect-bone-fracture.streamlit.app/",
     "Detect Mood from Selfie":"https://detect-mood-selfie.streamlit.app/",
     "Named Entity Recognition from text":"https://ner-from-text.streamlit.app/",
-    "Self Organizing Map - Clustering":"https://self-org-map.streamlit.app/"
+    "Self Organizing Map - Clustering":"https://self-org-map.streamlit.app/",
+    "Game Practive Reminder(SMS)":"https://game-practice-reminder.streamlit.app/"
 }
 
 # Dropdown or radio button for selection
