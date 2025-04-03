@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 # Set up Streamlit page
 st.set_page_config(page_title="Sector Area Calculator ", layout="wide")
-st.title("📐 Sector Area of Circle Calculator: π×r×r ×(θ/360)")
+st.title("📐 Sector Area of Circle : π×r×r ×(θ/360)")
 
 # Split the screen into two columns
 col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
