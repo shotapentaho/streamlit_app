@@ -1,5 +1,10 @@
 import streamlit as st
 import fitz  # PyMuPDF for PDF processing
+import os
+
+# Ensure the 'static/' directory exists
+if not os.path.exists("static"):
+    os.makedirs("static")
 
 # Streamlit UI
 st.title("📄 PDF Text Extractor")
