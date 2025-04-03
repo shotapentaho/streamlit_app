@@ -78,26 +78,30 @@ if uploaded_file is not None:
         else:
             st.error("Column 'Data_value' not found in the uploaded file.")
     else:
-        st.write(df)
-        # Select numerical columns only
-        num_cols = df.select_dtypes(include=['number']).drop(columns=["ID"], errors="ignore")
-        
-        # Display basic statistics
-        if not num_cols.empty:
-            st.write("### Summary Statistics:")
-            st.write(num_cols.describe())  # Shows count, mean, std, min, max, etc.
-        
-            # Option to choose a column and display its statistics
-            selected_col = st.selectbox("Select a column to view details:", num_cols.columns, key="column_stats_select")
-            st.write(f"### Statistics for `{selected_col}`:")
-            st.write(num_cols[selected_col].describe())            
+        # Split the screen into two columns
+        col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
+        with col1:
+            st.write(df)
+            # Select numerical columns only
+            num_cols = df.select_dtypes(include=['number']).drop(columns=["ID"], errors="ignore")
             
-             # Select columns for plotting
-            numeric_cols = df.select_dtypes(include=["number"]).columns.tolist()
-            if len(numeric_cols) >= 2:
-                x_axis = st.selectbox("Select X-axis:", numeric_cols)
-                y_axis = st.selectbox("Select Y-axis:", numeric_cols, index=1)
-
+            # Display basic statistics
+            if not num_cols.empty:
+                st.write("### Summary Statistics:")
+                st.write(num_cols.describe())  # Shows count, mean, std, min, max, etc.
+            
+                # Option to choose a column and display its statistics
+                selected_col = st.selectbox("Select a column to view details:", num_cols.columns, key="column_stats_select")
+                st.write(f"### Statistics for `{selected_col}`:")
+                st.write(num_cols[selected_col].describe())            
+                
+                 # Select columns for plotting
+                numeric_cols = df.select_dtypes(include=["number"]).columns.tolist()
+                if len(numeric_cols) >= 2:
+                    x_axis = st.selectbox("Select X-axis:", numeric_cols)
+                    y_axis = st.selectbox("Select Y-axis:", numeric_cols, index=1)
+    
+            with col2:
                 # Create chart
                 chart = alt.Chart(df).mark_line().encode(
                     x=f"{x_axis}:Q",
@@ -107,6 +111,6 @@ if uploaded_file is not None:
 
                 # Show chart
                 st.altair_chart(chart, use_container_width=True)
-        else:
-              st.error("Not enough numerical columns to generate a chart.")
+            else:
+                st.error("Not enough numerical columns to generate a chart.")
        
