@@ -3,6 +3,7 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
+import matplotlib.pyplot as plt
 from io import StringIO
 
 # Set page config to full-width layout
