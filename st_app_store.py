@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Streamlit app title
-st.title("apps @ Hot-store 🚀")
+st.title("apps @ hot-store 🚀")
 
 # Dictionary of Streamlit URLs (Replace with your actual links)
 streamlit_urls = {
