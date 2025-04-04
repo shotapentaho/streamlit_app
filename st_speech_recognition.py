@@ -1,21 +1,28 @@
 import streamlit as st
-import speech_recognition as sr
+import speechrecognition as sr
 
-st.title("🎙️ Live Speech to Text")
-st.write("Press the button to speak and transcribe your voice to text.")
-
-if st.button("🎤 Start Recording"):
+# Function to capture and recognize speech
+def recognize_speech():
     recognizer = sr.Recognizer()
-
+    
     with sr.Microphone() as source:
-        st.info("Speak now...")
+        st.write("Please speak...")
+        recognizer.adjust_for_ambient_noise(source)
         audio = recognizer.listen(source)
-
+        
         try:
-            st.success("✅ Transcription:")
+            st.write("Recognizing...")
+            # Using Google Web Speech API for recognition
             text = recognizer.recognize_google(audio)
-            st.write(text)
+            st.write(f"Recognized Text: {text}")
         except sr.UnknownValueError:
-            st.error("❌ Could not understand the audio.")
-        except sr.RequestError:
-            st.error("⚠️ Request to the recognition service failed.")
+            st.write("Sorry, I could not understand the audio.")
+        except sr.RequestError as e:
+            st.write(f"Could not request results from Google Speech Recognition service; {e}")
+
+# Streamlit UI
+st.title("Speech Recognition App")
+st.write("Click the button to start speaking")
+
+if st.button("Start Listening"):
+    recognize_speech()
