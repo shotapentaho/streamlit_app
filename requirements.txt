@@ -20,4 +20,5 @@ transformers
 tf-keras
 apscheduler
 duckdb
-speechrecognition
+speechrecognition>=3.8.1
+pyaudio>=0.2.11
