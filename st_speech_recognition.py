@@ -1,5 +1,5 @@
 import streamlit as st
-import speechrecognition as sr
+import speech_recognition as sr
 
 # Function to capture and recognize speech
 def recognize_speech():
