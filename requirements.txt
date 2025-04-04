@@ -21,5 +21,3 @@ tf-keras
 apscheduler
 duckdb
 speechrecognition
-portaudio19-dev
-pyaudio
