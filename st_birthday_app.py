@@ -60,7 +60,9 @@ if names:
     selected_row = df[df["name"] == selected_name].iloc[0]
     
     with st.form("edit_form"):
-        new_name = st.text_input("Name", value=selected_row["name"])
+        with col1:
+            new_name = st.text_input("Name", value=selected_row["name"])
+        with col2:
         new_birthday = st.date_input(
             "Birthday",
             value=pd.to_datetime(selected_row["birthday"]),
