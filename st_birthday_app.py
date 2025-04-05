@@ -63,12 +63,15 @@ st.dataframe(df)
 # Add new birthday
 st.subheader("➕ Add New Birthday")
 with st.form("add_form"):
-    name = st.text_input("New Name")
-    birthday = st.date_input(
-        "New Birthday",
-        min_value=datetime(1900, 1, 1),
-        max_value=datetime(2100, 12, 31)
-    )
+    col1, col2 = st.columns(2)
+    with col1:
+        name = st.text_input("New Name")
+    with col2:
+        birthday = st.date_input(
+            "New Birthday",
+            min_value=datetime(1900, 1, 1),
+            max_value=datetime(2100, 12, 31)
+        )
     submitted = st.form_submit_button("Add Birthday")
     if submitted:
         add_birthday(name, birthday.strftime('%Y-%m-%d'))
