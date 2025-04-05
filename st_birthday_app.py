@@ -47,7 +47,8 @@ else:
 st.subheader("➕ Add a Birthday")
 with st.form("birthday_form"):
     name = st.text_input("Name")
-    birthday = st.date_input("Birthday")
+    birthday = st.date_input("Birthday", min_value=datetime(1900, 1, 1), max_value=datetime(2100, 12, 31)
+    )
     submitted = st.form_submit_button("Add Birthday")
 
     if submitted:
