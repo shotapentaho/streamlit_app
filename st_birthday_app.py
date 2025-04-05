@@ -26,7 +26,11 @@ def get_today_birthdays():
     """, (today,)).fetchdf()
 
 def add_birthday(name, birthday):
+    existing = con.execute("SELECT COUNT(*) FROM birthdays WHERE name = ?", (name,)).fetchone()[0]
+    if existing > 0:
+        return False  # Duplicate found
     con.execute("INSERT INTO birthdays (name, birthday) VALUES (?, ?)", (name, birthday))
+    return True
 
 def update_birthday(old_name, new_name, new_birthday):
     con.execute("""
