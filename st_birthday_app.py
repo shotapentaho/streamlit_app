@@ -36,7 +36,7 @@ def update_birthday(old_name, new_name, new_birthday):
     """, (new_name, new_birthday, old_name))
 
 # UI
-st.title("🎂 Birthday Reminder App with Edit Feature")
+st.title("🎂 Birthday Reminder!!")
 
 # Birthdays today
 st.subheader("🎉 Birthdays Today")
