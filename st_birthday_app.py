@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS birthdays (
 
 # Helpers
 def get_birthdays():
-    return con.execute("SELECT * FROM birthdays").fetchdf()
+    return con.execute("SELECT * FROM birthdays ORDER BY strftime('%m-%d', birthday) DESC ").fetchdf()
 
 def get_today_birthdays():
     today = datetime.today().strftime('%m-%d')
