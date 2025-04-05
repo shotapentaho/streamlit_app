@@ -75,7 +75,7 @@ if names:
         if save_changes:
             update_birthday(selected_name, new_name, new_birthday.strftime('%Y-%m-%d'))
             st.success(f"Updated {selected_name}'s birthday!")
-            st.experimental_rerun()
+            st.rerun()
 else:
     st.info("No entries to edit.")
 
