@@ -92,4 +92,4 @@ with st.form("add_form"):
     if submitted:
         add_birthday(name, birthday.strftime('%Y-%m-%d'))
         st.success(f"Added {name}'s birthday!")
-        st.experimental_rerun()
+        st.rerun()
