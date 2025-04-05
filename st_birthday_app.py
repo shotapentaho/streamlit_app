@@ -60,6 +60,7 @@ if names:
     selected_row = df[df["name"] == selected_name].iloc[0]
     
     with st.form("edit_form"):
+        col1, col2 = st.columns(2)
         with col1:
             new_name = st.text_input("Name", value=selected_row["name"])
         with col2:
