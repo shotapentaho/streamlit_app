@@ -4,11 +4,9 @@ import duckdb
 from datetime import datetime
 
 DB_FILE = "birthdays.duckdb"
-
-# Connect to DuckDB
 con = duckdb.connect(DB_FILE)
 
-# Initialize table
+# Create table if not exists
 con.execute("""
 CREATE TABLE IF NOT EXISTS birthdays (
     name TEXT,
@@ -16,10 +14,7 @@ CREATE TABLE IF NOT EXISTS birthdays (
 )
 """)
 
-# Helper functions
-def add_birthday(name, birthday):
-    con.execute("INSERT INTO birthdays (name, birthday) VALUES (?, ?)", (name, birthday))
-
+# Helpers
 def get_birthdays():
     return con.execute("SELECT * FROM birthdays").fetchdf()
 
@@ -30,35 +25,68 @@ def get_today_birthdays():
         WHERE strftime('%m-%d', birthday) = ?
     """, (today,)).fetchdf()
 
-# UI
-st.title("🎂 Birthday Reminder App")
+def add_birthday(name, birthday):
+    con.execute("INSERT INTO birthdays (name, birthday) VALUES (?, ?)", (name, birthday))
 
-# Check for today's birthdays
+def update_birthday(old_name, new_name, new_birthday):
+    con.execute("""
+        UPDATE birthdays 
+        SET name = ?, birthday = ? 
+        WHERE name = ?
+    """, (new_name, new_birthday, old_name))
+
+# UI
+st.title("🎂 Birthday Reminder App with Edit Feature")
+
+# Birthdays today
 st.subheader("🎉 Birthdays Today")
 today_bdays = get_today_birthdays()
-
 if not today_bdays.empty:
     for _, row in today_bdays.iterrows():
         st.success(f"🎈 Wish {row['name']} a Happy Birthday!")
 else:
     st.info("No birthdays today.")
 
-# Add birthday form
-st.subheader("➕ Add a Birthday")
-with st.form("birthday_form"):
-    name = st.text_input("Name")
-    birthday = st.date_input("Birthday", min_value=datetime(1900, 1, 1), max_value=datetime(2100, 12, 31)
+# Load all birthdays
+df = get_birthdays()
+st.subheader("📋 All Birthdays")
+st.dataframe(df)
+
+# Select a name to edit
+st.subheader("✏️ Edit a Birthday")
+names = df["name"].tolist()
+if names:
+    selected_name = st.selectbox("Select a person to edit", names)
+    selected_row = df[df["name"] == selected_name].iloc[0]
+    
+    with st.form("edit_form"):
+        new_name = st.text_input("Name", value=selected_row["name"])
+        new_birthday = st.date_input(
+            "Birthday",
+            value=pd.to_datetime(selected_row["birthday"]),
+            min_value=datetime(1900, 1, 1),
+            max_value=datetime(2100, 12, 31)
+        )
+        save_changes = st.form_submit_button("Save Changes")
+
+        if save_changes:
+            update_birthday(selected_name, new_name, new_birthday.strftime('%Y-%m-%d'))
+            st.success(f"Updated {selected_name}'s birthday!")
+            st.experimental_rerun()
+else:
+    st.info("No entries to edit.")
+
+# Add new birthday
+st.subheader("➕ Add New Birthday")
+with st.form("add_form"):
+    name = st.text_input("New Name")
+    birthday = st.date_input(
+        "New Birthday",
+        min_value=datetime(1900, 1, 1),
+        max_value=datetime(2100, 12, 31)
     )
     submitted = st.form_submit_button("Add Birthday")
-
     if submitted:
-        if name:
-            add_birthday(name, birthday.strftime('%Y-%m-%d'))
-            st.success(f"Added birthday for {name}")
-        else:
-            st.warning("Please enter a name.")
-
-# Show all birthdays
-st.subheader("📋 All Birthdays")
-all_birthdays = get_birthdays()
-st.dataframe(all_birthdays)
+        add_birthday(name, birthday.strftime('%Y-%m-%d'))
+        st.success(f"Added {name}'s birthday!")
+        st.experimental_rerun()
