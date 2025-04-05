@@ -63,12 +63,12 @@ if names:
         with col1:
             new_name = st.text_input("Name", value=selected_row["name"])
         with col2:
-        new_birthday = st.date_input(
-            "Birthday",
-            value=pd.to_datetime(selected_row["birthday"]),
-            min_value=datetime(1900, 1, 1),
-            max_value=datetime(2100, 12, 31)
-        )
+            new_birthday = st.date_input(
+                "Birthday",
+                value=pd.to_datetime(selected_row["birthday"]),
+                min_value=datetime(1900, 1, 1),
+                max_value=datetime(2100, 12, 31)
+            )
         save_changes = st.form_submit_button("Save Changes")
 
         if save_changes:
