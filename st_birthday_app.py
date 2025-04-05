@@ -60,6 +60,22 @@ df = get_birthdays()
 st.subheader("📋 All Birthdays")
 st.dataframe(df)
 
+# Add new birthday
+st.subheader("➕ Add New Birthday")
+with st.form("add_form"):
+    name = st.text_input("New Name")
+    birthday = st.date_input(
+        "New Birthday",
+        min_value=datetime(1900, 1, 1),
+        max_value=datetime(2100, 12, 31)
+    )
+    submitted = st.form_submit_button("Add Birthday")
+    if submitted:
+        add_birthday(name, birthday.strftime('%Y-%m-%d'))
+        st.success(f"Added {name}'s birthday!")
+        st.rerun()
+
+
 # Select a name to edit
 st.subheader("✏️ Edit a Birthday")
 names = df["name"].tolist()
@@ -87,17 +103,3 @@ if names:
 else:
     st.info("No entries to edit.")
 
-# Add new birthday
-st.subheader("➕ Add New Birthday")
-with st.form("add_form"):
-    name = st.text_input("New Name")
-    birthday = st.date_input(
-        "New Birthday",
-        min_value=datetime(1900, 1, 1),
-        max_value=datetime(2100, 12, 31)
-    )
-    submitted = st.form_submit_button("Add Birthday")
-    if submitted:
-        add_birthday(name, birthday.strftime('%Y-%m-%d'))
-        st.success(f"Added {name}'s birthday!")
-        st.rerun()
