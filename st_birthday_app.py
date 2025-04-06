@@ -85,15 +85,16 @@ else:
 #else:
 #    st.info("No birthdays today.")
 
-# Load all birthdays
-df = get_birthdays()
-df = df.drop(columns=["age"])
-#st.subheader("📋 All Birthdays")
-st.dataframe(df)
-
 display_or_no=1
 
 if display_or_no:
+    
+    # Load all birthdays
+    df = get_birthdays()
+    df = df.drop(columns=["age"])
+    st.subheader("📋 All Birthdays")
+    st.dataframe(df)
+
     # Add new birthday
     st.subheader("➕ Add New Birthday")
     with st.form("add_form"):
