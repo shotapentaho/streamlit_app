@@ -19,7 +19,7 @@ def get_birthdays():
     return con.execute(""" 
                                     SELECT name, strftime('%m-%d', birthday) AS month_day, birthday
                                     FROM birthdays 
-                                    ORDER BY name DESC 
+                                    ORDER BY name asc
                                     """).fetchdf()
 
 def get_today_birthdays():
