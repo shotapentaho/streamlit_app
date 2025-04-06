@@ -56,7 +56,8 @@ def update_birthday(old_name, new_name, new_birthday):
     """, (new_name, new_birthday, old_name))
 
 # UI
-st.title("🎂 🎉Happy Birthdays reminder this month!!🎈 🎉")
+current_month_abbr = datetime.today().strftime('%b')  # e.g., 'Apr'
+st.title("🎂 🎉Happy {current_month_abbr} Birthdays !!🎈 🎉")
 
 # Birthday (month)
 #st.subheader("📅 Birthdays this month!!")
