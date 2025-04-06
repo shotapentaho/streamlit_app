@@ -82,8 +82,8 @@ else:
 
 # Load all birthdays
 df = get_birthdays()
-#st.subheader("📋 All Birthdays")
-#st.dataframe(df)
+st.subheader("📋 All Birthdays")
+st.dataframe(df)
 
 # Add new birthday
 st.subheader("➕ Add New Birthday")
