@@ -29,6 +29,18 @@ def get_today_birthdays():
         WHERE strftime('%m-%d', birthday) = ?
     """, (today,)).fetchdf()
 
+def get_currentmonth_bdays():
+    current_month = datetime.today().strftime('%m')
+    return con.execute("""
+        SELECT 
+            name, 
+            birthday,
+            strftime('%m-%d', birthday) AS month_day
+        FROM birthdays
+        WHERE strftime('%m', birthday) = ?
+        ORDER BY strftime('%d', birthday) ASC
+    """, (current_month,)).fetchdf()
+
 def add_birthday(name, birthday):
     existing = con.execute("SELECT COUNT(*) FROM birthdays WHERE name = ?", (name,)).fetchone()[0]
     if existing > 0:
@@ -46,14 +58,24 @@ def update_birthday(old_name, new_name, new_birthday):
 # UI
 st.title("🎂 Birthday Reminder!!")
 
-# Birthdays today
-st.subheader("🎉 Birthdays Today")
-today_bdays = get_today_birthdays()
-if not today_bdays.empty:
-    for _, row in today_bdays.iterrows():
-        st.success(f"🎈 Wish {row['name']} a Happy Birthday!")
+# Birthday (month)
+st.subheader("📅 Birthdays this month!!")
+current_month_bdays = get_currentmonth_bdays()
+
+if not current_month_bdays.empty:
+    for _, row in current_month_bdays.iterrows():
+        st.write(f"{row['name']} — 🎂 {row['month_day']}")
 else:
-    st.info("No birthdays today.")
+    st.info("No birthdays this month.")
+
+# Birthdays today
+#st.subheader("🎉 Birthdays Today")
+#today_bdays = get_today_birthdays()
+#if not today_bdays.empty:
+#    for _, row in today_bdays.iterrows():
+#        st.success(f"🎈 Wish {row['name']} a Happy Birthday!")
+#else:
+#    st.info("No birthdays today.")
 
 # Load all birthdays
 df = get_birthdays()
