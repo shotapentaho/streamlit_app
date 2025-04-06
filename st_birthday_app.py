@@ -88,52 +88,55 @@ else:
 # Load all birthdays
 df = get_birthdays()
 df = df.drop(columns=["age"])
-st.subheader("📋 All Birthdays")
+#st.subheader("📋 All Birthdays")
 st.dataframe(df)
 
-# Add new birthday
-st.subheader("➕ Add New Birthday")
-with st.form("add_form"):
-    col1, col2 = st.columns(2)
-    with col1:
-        name = st.text_input("New Name")
-    with col2:
-        birthday = st.date_input(
-            "New Birthday",
-            min_value=datetime(1900, 1, 1),
-            max_value=datetime(2100, 12, 31)
-        )
-    submitted = st.form_submit_button("Add Birthday")
-    if submitted:
-        add_birthday(name, birthday.strftime('%Y-%m-%d'))
-        st.success(f"Added {name}'s birthday!")
-        st.rerun()
+display_or_no=0
 
-
-# Select a name to edit
-st.subheader("✏️ Edit a Birthday")
-names = sorted(df["name"].tolist())
-if names:
-    selected_name = st.selectbox("Select a person to edit", names)
-    selected_row = df[df["name"] == selected_name].iloc[0]
-    
-    with st.form("edit_form"):
+if display_or_no:
+    # Add new birthday
+    st.subheader("➕ Add New Birthday")
+    with st.form("add_form"):
         col1, col2 = st.columns(2)
         with col1:
-            new_name = st.text_input("Name", value=selected_row["name"])
+            name = st.text_input("New Name")
         with col2:
-            new_birthday = st.date_input(
-                "Birthday",
-                value=pd.to_datetime(selected_row["birthday"]),
+            birthday = st.date_input(
+                "New Birthday",
                 min_value=datetime(1900, 1, 1),
                 max_value=datetime(2100, 12, 31)
             )
-        save_changes = st.form_submit_button("Save Changes")
-
-        if save_changes:
-            update_birthday(selected_name, new_name, new_birthday.strftime('%Y-%m-%d'))
-            st.success(f"Updated {selected_name}'s birthday!")
+        submitted = st.form_submit_button("Add Birthday")
+        if submitted:
+            add_birthday(name, birthday.strftime('%Y-%m-%d'))
+            st.success(f"Added {name}'s birthday!")
             st.rerun()
-else:
-    st.info("No entries to edit.")
+
+
+    # Select a name to edit
+    st.subheader("✏️ Edit a Birthday")
+    names = sorted(df["name"].tolist())
+    if names:
+        selected_name = st.selectbox("Select a person to edit", names)
+        selected_row = df[df["name"] == selected_name].iloc[0]
+        
+        with st.form("edit_form"):
+            col1, col2 = st.columns(2)
+            with col1:
+                new_name = st.text_input("Name", value=selected_row["name"])
+            with col2:
+                new_birthday = st.date_input(
+                    "Birthday",
+                    value=pd.to_datetime(selected_row["birthday"]),
+                    min_value=datetime(1900, 1, 1),
+                    max_value=datetime(2100, 12, 31)
+                )
+            save_changes = st.form_submit_button("Save Changes")
+
+            if save_changes:
+                update_birthday(selected_name, new_name, new_birthday.strftime('%Y-%m-%d'))
+                st.success(f"Updated {selected_name}'s birthday!")
+                st.rerun()
+    else:
+        st.info("No entries to edit.")
 
