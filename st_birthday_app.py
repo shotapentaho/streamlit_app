@@ -17,7 +17,12 @@ CREATE TABLE IF NOT EXISTS birthdays (
 # Helpers
 def get_birthdays():
     return con.execute(""" 
-                                    SELECT name, strftime('%m-%d', birthday) AS month_day, birthday
+                                    SELECT name, strftime('%m-%d', birthday) AS month_day, birthday,
+                                    CAST(strftime('%Y', CURRENT_DATE) AS INTEGER) - CAST(strftime('%Y', birthday) AS INTEGER)
+                                    - CASE 
+                                        WHEN strftime('%m-%d', CURRENT_DATE) < strftime('%m-%d', birthday) THEN 1 
+                                        ELSE 0 
+                                    END AS age
                                     FROM birthdays 
                                     ORDER BY name asc
                                     """).fetchdf()
