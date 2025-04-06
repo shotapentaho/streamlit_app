@@ -87,6 +87,7 @@ else:
 
 # Load all birthdays
 df = get_birthdays()
+df = df.drop(columns=["age"])
 st.subheader("📋 All Birthdays")
 st.dataframe(df)
 
