@@ -56,10 +56,10 @@ def update_birthday(old_name, new_name, new_birthday):
     """, (new_name, new_birthday, old_name))
 
 # UI
-st.title("🎂 Birthday Reminder!!")
+st.title("🎂 🎉Happy Birthdays reminder this month!!🎈 🎉")
 
 # Birthday (month)
-st.subheader("📅 Birthdays this month!!")
+#st.subheader("📅 Birthdays this month!!")
 current_month_bdays = get_currentmonth_bdays()
 
 if not current_month_bdays.empty:
