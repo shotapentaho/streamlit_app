@@ -57,7 +57,7 @@ def update_birthday(old_name, new_name, new_birthday):
 
 # UI
 current_month_abbr = datetime.today().strftime('%b')  # e.g., 'Apr'
-st.header(f"🎂 🎉Happy {current_month_abbr} Birthdays !!🎈 🎉")
+st.title(f"🎂 🎉Happy {current_month_abbr} Birthdays !!🎈 🎉")
 
 # Birthday (month)
 #st.subheader("📅 Birthdays this month!!")
@@ -65,7 +65,7 @@ current_month_bdays = get_currentmonth_bdays()
 
 if not current_month_bdays.empty:
     for _, row in current_month_bdays.iterrows():
-        st.write(f"{row['name']} — 🎂 {row['month_day']}")
+        st.header(f"{row['name']} : 🎂 {row['month_day']}")
 else:
     st.info("No birthdays this month.")
 
