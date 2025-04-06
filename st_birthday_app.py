@@ -103,7 +103,7 @@ with st.form("add_form"):
 
 # Select a name to edit
 st.subheader("✏️ Edit a Birthday")
-names = df["name"].tolist()
+names = sorted(df["name"].tolist())
 if names:
     selected_name = st.selectbox("Select a person to edit", names)
     selected_row = df[df["name"] == selected_name].iloc[0]
