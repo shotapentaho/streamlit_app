@@ -91,7 +91,7 @@ df = df.drop(columns=["age"])
 #st.subheader("📋 All Birthdays")
 st.dataframe(df)
 
-display_or_no=0
+display_or_no=1
 
 if display_or_no:
     # Add new birthday
