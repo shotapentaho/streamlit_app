@@ -16,7 +16,7 @@ with col1:
     # Select which log curves to plot
     options = st.multiselect(
         "Select log curves to plot:",
-        ["log(x)", "log10(x)", "log2(x)"],
+        ["log(x)", "log10(x)", "log2(x)", "log5(x)"],
         default=["log(x)", "log10(x)"]
     )
 
@@ -31,6 +31,8 @@ with col2:
         ax.plot(x, np.log10(x), label="log10(x) — Base 10", color="green")
     if "log2(x)" in options:
         ax.plot(x, np.log2(x), label="log2(x) — Base 2", color="red")
+    if "log5(x)" in options:
+    ax.plot(x, np.log5(x), label="log5(x) — Base 5", color="Purple")
 
     ax.set_title("Multiple Logarithmic Functions")
     ax.set_xlabel("x")
