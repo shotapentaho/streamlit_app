@@ -89,7 +89,7 @@ else:
 #    st.info("No birthdays today.")
 
 # UI display_or_no control
-display_all_bdays=1
+display_all_bdays=0
 display_add_edit=0
 
 if display_all_bdays:    
