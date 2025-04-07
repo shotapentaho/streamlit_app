@@ -71,7 +71,7 @@ st.title(f"🎂 🎉Happy '{current_month_abbr}' Birthdays !!🎈 🎉")
 current_month_bdays = get_currentmonth_bdays()
 
 if not current_month_bdays.empty:   
-    st.subheader("Let the cake be endless and the candles few! 🕯️🎈 🎉 Getting ready to celebrate...")
+    st.audio("https://www2.cs.uic.edu/~i101/SoundFiles/HappyBirthday.mp3", format='audio/mp3')
     st.balloons()   # 🎈 balloons!
     
     for _, row in current_month_bdays.iterrows():
