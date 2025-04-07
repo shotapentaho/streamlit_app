@@ -90,7 +90,7 @@ else:
 
 # UI display_or_no control
 display_all_bdays=1
-display_add_edit=1
+display_add_edit=0
 
 if display_all_bdays:    
     # Load all birthdays
