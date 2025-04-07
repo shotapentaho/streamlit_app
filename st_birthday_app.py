@@ -11,7 +11,7 @@ if "con" not in st.session_state:
 con = st.session_state.con
 
 #Upload a (csv)???? set: upload_needed_flag=1
-upload_needed_flag=0
+upload_needed_flag=1
 if upload_needed_flag:
     uploaded_file = st.file_uploader("📥 Upload Birthdays CSV file: ", type="csv")
     if uploaded_file is not None:
