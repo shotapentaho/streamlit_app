@@ -86,17 +86,17 @@ else:
 #    st.info("No birthdays today.")
 
 # UI display_or_no control
-display_or_no=1
-display_add_edit_or_no=0
+display_all_bdays=1
+display_add_edit=0
 
-if display_or_no:
-    
+if display_all_bdays:    
     # Load all birthdays
     df = get_birthdays()
     df = df.drop(columns=["age"])
     st.subheader("📋 All Birthdays")
     st.dataframe(df)
 
+if display_add_edit:
     # Add new birthday
     st.subheader("➕ Add New Birthday")
     with st.form("add_form"):
@@ -115,7 +115,7 @@ if display_or_no:
             st.success(f"Added {name}'s birthday!")
             st.rerun()
 
-if display_add_edit_or_no:
+
     
     # Select a name to edit
     st.subheader("✏️ Edit a Birthday")
