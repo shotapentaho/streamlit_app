@@ -98,7 +98,7 @@ if display_all_bdays:
 
 if display_add_edit:
     # Add new birthday
-    st.subheader("➕ Add New Birthday")
+    st.subheader("➕ Add Birthday!!")
     with st.form("add_form"):
         col1, col2 = st.columns([3,1])
         with col1:
