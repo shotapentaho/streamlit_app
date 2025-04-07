@@ -100,7 +100,7 @@ if display_add_edit:
     # Add new birthday
     st.subheader("➕ Add New Birthday")
     with st.form("add_form"):
-        col1, col2 = st.columns(2)
+        col1, col2 = st.columns([3,1])
         with col1:
             name = st.text_input("New Name")
         with col2:
