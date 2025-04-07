@@ -19,6 +19,22 @@ try:
 except Exception as e:
     st.warning(f"Table 'birthdays' already exists")
 
+uploaded_file = st.file_uploader("📥 Upload a Birthdays CSV file", type="csv")
+
+if uploaded_file is not None:
+    df = pd.read_csv(uploaded_file, usecols=[1, 2])
+
+    if "name" in df.columns and "birthday" in df.columns:
+        # Optional: clear existing data
+        con.execute("DELETE FROM birthdays")
+
+        # Load DataFrame into DuckDB
+        con.register("df_upload", df)
+        con.execute("INSERT INTO birthdays SELECT * FROM df_upload")
+        st.success("✅ Birthday data imported successfully!")
+    else:
+        st.error("❌ CSV must contain 'name' and 'birthday' columns.")
+
 # Helpers
 def get_birthdays():
     return con.execute(""" 
