@@ -7,12 +7,15 @@ DB_FILE = "birthdays.duckdb"
 con = duckdb.connect(DB_FILE)
 
 # Create table if not exists
-con.execute("""
-CREATE TABLE IF NOT EXISTS birthdays (
-    name TEXT,
-    birthday DATE
-)
-""")
+try:
+    con.execute("""
+    CREATE TABLE IF NOT EXISTS birthdays (
+        name TEXT,
+        birthday DATE
+    )
+    """)
+except Exception as e:
+    st.warning(f"Table 'birthdays' already exists")
 
 # Helpers
 def get_birthdays():
