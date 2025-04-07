@@ -115,8 +115,6 @@ if display_add_edit:
             st.success(f"Added {name}'s birthday!")
             st.rerun()
 
-
-    
     # Select a name to edit
     st.subheader("✏️ Edit a Birthday")
     names = sorted(df["name"].tolist())
