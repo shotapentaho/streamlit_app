@@ -10,7 +10,7 @@ if "con" not in st.session_state:
 con = st.session_state.con
 
 #Upload needed?
-upload_needed=1
+upload_needed=0
 
 if upload_needed:
     uploaded_file = st.file_uploader("📥 Upload Birthdays CSV file: ", type="csv")
