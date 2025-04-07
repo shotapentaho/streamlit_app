@@ -72,7 +72,6 @@ current_month_bdays = get_currentmonth_bdays()
 
 if not current_month_bdays.empty:
     st.write("🎉 Getting ready to celebrate...")
-    time.sleep(2)
     st.balloons()   # 🎈 balloons!
     
     for _, row in current_month_bdays.iterrows():
