@@ -71,6 +71,7 @@ st.title(f"🎂 🎉Happy '{current_month_abbr}' Birthdays !!🎈 🎉")
 current_month_bdays = get_currentmonth_bdays()
 
 if not current_month_bdays.empty:
+    st.balloons()   # 🎈 Trigger balloons!
     for _, row in current_month_bdays.iterrows():
         st.header(f"{row['name']} 🎂 {row['month_day']}")
 else:
