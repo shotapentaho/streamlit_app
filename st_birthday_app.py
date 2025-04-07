@@ -7,6 +7,7 @@ DB_FILE = "birthdays.duckdb"
 if "con" not in st.session_state:
     st.session_state.con = duckdb.connect(DB_FILE)
 
+#Connection Object
 con = st.session_state.con
 
 #Upload a (csv)???? set: upload_needed_flag=1
