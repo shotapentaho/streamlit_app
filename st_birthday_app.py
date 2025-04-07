@@ -102,7 +102,7 @@ if display_add_edit:
     with st.form("add_form"):
         col1, col2 = st.columns([3,1])
         with col1:
-            name = st.text_input("New Name")
+            name = st.text_input("New Member!!")
         with col2:
             birthday = st.date_input(
                 "New Birthday",
