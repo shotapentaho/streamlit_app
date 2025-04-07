@@ -87,6 +87,7 @@ else:
 
 # UI display_or_no control
 display_or_no=1
+display_add_edit_or_no=0
 
 if display_or_no:
     
@@ -114,7 +115,8 @@ if display_or_no:
             st.success(f"Added {name}'s birthday!")
             st.rerun()
 
-
+if display_add_edit_or_no:
+    
     # Select a name to edit
     st.subheader("✏️ Edit a Birthday")
     names = sorted(df["name"].tolist())
