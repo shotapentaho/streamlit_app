@@ -9,10 +9,9 @@ if "con" not in st.session_state:
 
 con = st.session_state.con
 
-#Upload needed?
-upload_needed=0
-
-if upload_needed:
+#Upload needed (Backup)?
+upload_needed_flag=0
+if upload_needed_flag:
     uploaded_file = st.file_uploader("📥 Upload Birthdays CSV file: ", type="csv")
     if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
@@ -38,8 +37,6 @@ try:
     """)
 except Exception as e:
     st.warning(f"Table 'birthdays' already exists")
-
-
 
 # Helpers
 def get_birthdays():
@@ -115,8 +112,8 @@ else:
 #else:
 #    st.info("No birthdays today.")
 
-# UI display_or_no control
-display_all_bdays=0
+# UI Control Sections: [display_all_bdays] AND [display_add_edit]
+display_all_bdays=1
 display_add_edit=0
 
 if display_all_bdays:    
