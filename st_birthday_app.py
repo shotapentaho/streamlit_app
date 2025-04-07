@@ -86,7 +86,7 @@ else:
 #    st.info("No birthdays today.")
 
 # UI display_or_no control
-display_or_no=0
+display_or_no=1
 if display_or_no:
     
     # Load all birthdays
