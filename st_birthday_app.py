@@ -4,8 +4,10 @@ import duckdb
 from datetime import datetime
 
 DB_FILE = "birthdays.duckdb"
-con = duckdb.connect(DB_FILE)
+if "con" not in st.session_state:
+    st.session_state.con = duckdb.connect(DB_FILE)
 
+con = st.session_state.con
 # Create table if not exists
 try:
     con.execute("""
