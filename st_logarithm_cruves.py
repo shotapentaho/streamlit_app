@@ -32,7 +32,7 @@ with col2:
     if "log2(x)" in options:
         ax.plot(x, np.log2(x), label="log2(x) — Base 2", color="red")
     if "log5(x)" in options:
-    ax.plot(x, np.log5(x), label="log5(x) — Base 5", color="Purple")
+        ax.plot(x, np.log5(x), label="log5(x) — Base 5", color="Purple")
 
     ax.set_title("Multiple Logarithmic Functions")
     ax.set_xlabel("x")
