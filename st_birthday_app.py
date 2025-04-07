@@ -96,7 +96,7 @@ if display_all_bdays:
     # Load all birthdays
     df = get_birthdays()
     df = df.drop(columns=["age"])
-    st.subheader("📋 All Family Fun members Birthdays")
+    st.subheader("📋 Family Fun members Birthdays 🎉")
     st.dataframe(df)
 
 if display_add_edit:
