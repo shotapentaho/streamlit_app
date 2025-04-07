@@ -64,6 +64,7 @@ def update_birthday(old_name, new_name, new_birthday):
 current_month_abbr = datetime.today().strftime('%B')  # e.g., 'April'
 st.set_page_config(layout="wide")
 st.title(f"🎂 🎉Happy '{current_month_abbr}' Birthdays !!🎈 🎉")
+st.audio("https://www2.cs.uic.edu/~i101/SoundFiles/HappyBirthday.mp3", format='audio/mp3')
 
 
 # Birthday (month)
@@ -71,7 +72,7 @@ st.title(f"🎂 🎉Happy '{current_month_abbr}' Birthdays !!🎈 🎉")
 current_month_bdays = get_currentmonth_bdays()
 
 if not current_month_bdays.empty:   
-    st.audio("https://www2.cs.uic.edu/~i101/SoundFiles/HappyBirthday.mp3", format='audio/mp3')
+    
     st.balloons()   # 🎈 balloons!
     
     for _, row in current_month_bdays.iterrows():
