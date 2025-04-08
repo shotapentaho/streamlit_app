@@ -145,7 +145,7 @@ if display_add_edit:
 
     # Select a name to edit
     st.subheader("✏️ Edit someone's birthday??")
-    names = sorted(df["name"].tolist())
+    #names = sorted(df["name"].tolist())
     if names:
         selected_name = st.selectbox("Let's edit somone!!", names)
         selected_row = df[df["name"] == selected_name].iloc[0]
