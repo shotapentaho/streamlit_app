@@ -26,13 +26,11 @@ with col2:
     fig, ax = plt.subplots()
 
     if "log(x)" in options:
-        ax.plot(x, np.log(x), label="log(x) — Natural Log", color="blue")
+        ax.plot(x, np.log(x), label="log(x) — Natural Log(e~2.718)", color="blue")
     if "log10(x)" in options:
-        ax.plot(x, np.log10(x), label="log10(x) — Base 10", color="green")
+        ax.plot(x, np.log10(x), label="log10(x) — Base 10(Common)", color="green")
     if "log2(x)" in options:
-        ax.plot(x, np.log2(x), label="log2(x) — Base 2", color="red")
-    if "log5(x)" in options:
-        ax.plot(x, np.log5(x), label="log5(x) — Base 5", color="Purple")
+        ax.plot(x, np.log2(x), label="log2(x) — Base 2(Binary)", color="red")
 
     ax.set_title("Multiple Logarithmic Functions")
     ax.set_xlabel("x")
