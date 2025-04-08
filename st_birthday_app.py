@@ -114,8 +114,8 @@ else:
 #    st.info("No birthdays today.")
 
 # UI Control Sections: [display_all_bdays] AND [display_add_edit]
-display_all_bdays=1
-display_add_edit=1
+display_all_bdays=0
+display_add_edit=0
 
 if display_all_bdays:    
     # Load all birthdays
