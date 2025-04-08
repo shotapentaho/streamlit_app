@@ -92,7 +92,6 @@ st.title(f"🎂 🎉Happy '{current_month_abbr}' Birthdays !!🎈 🎉")
 #st.audio("https://www2.cs.uic.edu/~i101/SoundFiles/HappyBirthday.mp3", format='audio/mp3')
 
 # Birthday (month)
-#st.subheader("📅 Birthdays this month!!")
 current_month_bdays = get_currentmonth_bdays()
 
 if not current_month_bdays.empty:    
@@ -101,15 +100,6 @@ if not current_month_bdays.empty:
         st.header(f"{row['name']} 🎂 {row['month_day']}")
 else:
     st.info("No birthdays this month.")
-
-# Birthdays today
-#st.subheader("🎉 Birthdays Today")
-#today_bdays = get_today_birthdays()
-#if not today_bdays.empty:
-#    for _, row in today_bdays.iterrows():
-#        st.success(f"🎈 Wish {row['name']} a Happy Birthday!")
-#else:
-#    st.info("No birthdays today.")
 
 # UI Control Sections: [display_all_bdays] AND [display_add_edit]
 display_all_bdays=1
