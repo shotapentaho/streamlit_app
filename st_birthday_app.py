@@ -97,13 +97,6 @@ current_month_bdays = get_currentmonth_bdays()
 
 if not current_month_bdays.empty:    
     st.balloons()   # 🎈 balloons!
-    
-    # Create a smaller display DataFrame
-    display_df = current_month_bdays[["name", "month_day"]].rename(
-        columns={"name": "Name", "month_day": "Birthday 🎂"}
-    )
-    st.table(display_df)
-
     for _, row in current_month_bdays.iterrows():
         st.header(f"{row['name']} 🎂 {row['month_day']}")
 else:
