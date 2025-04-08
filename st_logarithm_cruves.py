@@ -16,7 +16,7 @@ with col1:
     # Select which log curves to plot
     options = st.multiselect(
         "Select log curves to plot:",
-        ["log(x)", "log10(x)", "log2(x)", "log5(x)"],
+        ["log(x)", "log10(x)", "log2(x)"],
         default=["log(x)", "log10(x)"]
     )
 
