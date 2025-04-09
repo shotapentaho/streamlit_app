@@ -6,6 +6,13 @@ import matplotlib.pyplot as plt
 st.set_page_config(page_title="Quadratic Equation Solver & Grapher", layout="wide")
 st.title("📈 Quadratic Equation Solver & Grapher : axx+bx+c=0 ")
 
+def find_vertex(a, b, c):
+    # Vertex x-coordinate
+    x = -b / (2 * a)
+    # Vertex y-coordinate (plug x back into the equation)
+    y = a * x**2 + b * x + c
+    return (x, y)
+
 # Split the screen into two columns
 col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
 
@@ -32,8 +39,10 @@ with col1:
         roots = []
         result_text = "❌ No real roots (Complex numbers)."
 
-    # Display Result
+    # Display Results
     st.write(result_text)
+    vertex = find_vertex(a, b, c)
+    st.write(f"Vertex is at : {vertex}")
 
 with col2:
     # Plot the Quadratic Function
