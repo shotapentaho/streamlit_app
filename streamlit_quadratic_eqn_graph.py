@@ -10,7 +10,7 @@ st.title("📈 Quadratic Equation Solver & Grapher : axx+bx+c=0 ")
 col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
 
 with col1:
-    # User Inputs with Sliders
+    # User Inputs with Sliders updated April9
     a = st.slider("Enter coefficient a:", min_value=-100.0,  max_value=100.0,  value=1.0,  step=1.0)
     b = st.slider("Enter coefficient b:", min_value=-100.0,  max_value=100.0,  value=-3.0,  step=1.0)
     c = st.slider("Enter coefficient c:", min_value=-100.0,  max_value=100.0,  value=2.0,  step=1.0)
