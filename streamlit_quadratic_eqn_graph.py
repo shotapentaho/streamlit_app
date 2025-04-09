@@ -11,9 +11,9 @@ col1, col2 = st.columns([0.5, 0.5])  # 50-50 split
 
 with col1:
     # User Inputs with Sliders
-    a = st.slider("Enter coefficient a:", min_value=-50.0,  max_value=50.0,  value=1.0,  step=1.0)
-    b = st.slider("Enter coefficient b:", min_value=-50.0,  max_value=50.0,  value=-3.0,  step=1.0)
-    c = st.slider("Enter coefficient c:", min_value=-50.0,  max_value=50.0,  value=2.0,  step=1.0)
+    a = st.slider("Enter coefficient a:", min_value=-100.0,  max_value=100.0,  value=1.0,  step=1.0)
+    b = st.slider("Enter coefficient b:", min_value=-100.0,  max_value=100.0,  value=-3.0,  step=1.0)
+    c = st.slider("Enter coefficient c:", min_value=-100.0,  max_value=100.0,  value=2.0,  step=1.0)
 
     # Calculate Discriminant
     D = b**2 - 4*a*c  # Discriminant
