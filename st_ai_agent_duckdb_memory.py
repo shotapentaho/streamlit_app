@@ -8,7 +8,6 @@ from langchain.tools import DuckDuckGoSearchRun
 # Setup DuckDB connection
 con = duckdb.connect("agent_memory.duckdb")
 con.execute("""
-    DROP TABLE IF EXISTS memory
     CREATE TABLE IF NOT EXISTS memory (        
         prompt TEXT,
         response TEXT,
