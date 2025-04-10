@@ -8,7 +8,7 @@ from langchain.tools import DuckDuckGoSearchRun
 con = duckdb.connect("agent_memory.duckdb")
 con.execute("""
     CREATE TABLE IF NOT EXISTS memory (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY,
         prompt TEXT,
         response TEXT,
         timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
