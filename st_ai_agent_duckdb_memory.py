@@ -4,9 +4,6 @@ from langchain.llms import OpenAI
 from langchain.agents import Tool, initialize_agent
 from langchain.tools import DuckDuckGoSearchRun
 
-with st.sidebar:
-    openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
-    "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
     
 # Setup DuckDB connection
 con = duckdb.connect("agent_memory.duckdb")
@@ -31,7 +28,7 @@ search = DuckDuckGoSearchRun()
 tools = [Tool(name="WebSearch", func=search.run, description="Search the web")]
 
 # Initialize LLM
-llm = OpenAI(api_key=openai_api_key)
+llm = OpenAI(openai_api_key=st.secrets["openai"]["api_key"])
 
 # Memory retrieval
 if show_history:
