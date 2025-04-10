@@ -9,7 +9,7 @@ from langchain.tools import DuckDuckGoSearchRun
 con = duckdb.connect("agent_memory.duckdb")
 con.execute("""
     CREATE TABLE IF NOT EXISTS memory (
-        id BIGINT  PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        id BIGINT  PRIMARY KEY,
         prompt TEXT,
         response TEXT,
         timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
