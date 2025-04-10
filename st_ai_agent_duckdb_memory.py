@@ -16,7 +16,7 @@ con.execute("""
 """)
 
 # Streamlit UI
-#st.set_page_config(page_title="🤖 DuckDB Agent", layout="centered")
+st.set_page_config(page_title="Langchain-DuckDB Agent", layout="wide")
 st.title("🧠 AI-agent Web Search: Langchain with DuckDB")
 
 query = st.text_input("Ask me anything:", placeholder="e.g. What's the weather like in Tokyo today?")
