@@ -17,7 +17,7 @@ con.execute("""
 
 # Streamlit UI
 #st.set_page_config(page_title="🤖 DuckDB Agent", layout="centered")
-st.title("🧠 AI Agent with DuckDB Memory")
+st.title("🧠 AI-agent with DuckDB Memory")
 
 query = st.text_input("Ask me anything:", placeholder="e.g. What's the weather like in Tokyo today?")
 show_history = st.checkbox("Show Memory")
