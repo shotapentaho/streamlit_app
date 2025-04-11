@@ -67,5 +67,5 @@ while True:
                 st.markdown(f"### {city}")
                 fig = draw_analog_clock(now.hour, now.minute, now.second)
                 st.pyplot(fig, clear_figure=True)
-    time.sleep(1)
+    time.sleep(2)
     placeholder.empty()
