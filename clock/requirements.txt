@@ -1,3 +1,5 @@
 streamlit
 datetime
 pytz
+matplotlib
+numpy
