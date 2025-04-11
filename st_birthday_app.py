@@ -35,7 +35,7 @@ if upload_needed_flag:
 con.execute(""" DROP TABLE IF EXISTS birthdays """)
 con.execute("""
             CREATE TABLE birthdays AS
-            SELECT * FROM read_csv_auto('bdays_export.csv', HEADER=TRUE)
+            SELECT * FROM read_csv_auto('/data/bdays_export.csv', HEADER=TRUE)
             """)
 
 # Helpers
