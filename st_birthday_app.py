@@ -3,35 +3,14 @@ import pandas as pd
 import duckdb
 from datetime import datetime
 
+st.set_page_config(page_title="👨‍👩‍👧‍👦 Family birthdays",layout="wide")
 
-st.set_page_config(layout="wide")
 DB_FILE = "birthdays.duckdb"
 if "con" not in st.session_state:
     st.session_state.con = duckdb.connect(DB_FILE)
 
 #Connection Object
 con = st.session_state.con
-
-#Upload a (csv) sometimes upon reboot happes???? Then set below: upload_needed_flag=1
-upload_needed_flag=0
-if upload_needed_flag:
-    uploaded_file = st.file_uploader("📥 Upload Birthdays CSV file: ", type="csv")
-    if uploaded_file is not None:
-        df = pd.read_csv(uploaded_file)
-
-        if "name" in df.columns and "birthday" in df.columns:
-            # Optional: clear existing data
-            con.execute("DELETE FROM birthdays")
-
-            # Load DataFrame into DuckDB
-            con.register("df_upload", df)
-            con.execute("INSERT INTO birthdays SELECT * FROM df_upload")
-            st.success("✅ Birthday data imported successfully!")
-        else:
-            st.error("❌ CSV must contain 'name' and 'birthday' columns.")
-            
-# Create table if not exists
-
 con.execute(""" DROP TABLE IF EXISTS birthdays """)
 con.execute("""
             CREATE TABLE birthdays AS
