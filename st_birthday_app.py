@@ -10,7 +10,7 @@ if "con" not in st.session_state:
 #Connection Object
 con = st.session_state.con
 
-#Upload a (csv)???? set: upload_needed_flag=1
+#Upload a (csv) sometimes upon reboot happes???? Then set below: upload_needed_flag=1
 upload_needed_flag=0
 if upload_needed_flag:
     uploaded_file = st.file_uploader("📥 Upload Birthdays CSV file: ", type="csv")
@@ -102,7 +102,7 @@ else:
     st.info("No birthdays this month.")
 
 # UI Control Sections: [display_all_bdays] AND [display_add_edit]
-display_all_bdays=0
+display_all_bdays=1
 display_add_edit=0
 
 if display_all_bdays:    
