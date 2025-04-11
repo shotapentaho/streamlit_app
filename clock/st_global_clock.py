@@ -50,7 +50,7 @@ for i, (city, tz_str) in enumerate(city_timezones.items()):
     tz = pytz.timezone(tz_str)
     now = datetime.now(tz)
     with cols[i]:
-        st.markdown(f"##{city}")
+        st.markdown(f"#### {city}")
         st.markdown(f"📅 {now.strftime('%A, %d %B %Y')} 🕒 {now.strftime('%I:%M:%S %p')}" )        
         fig = draw_analog_clock(now.hour, now.minute, now.second)
         st.pyplot(fig, clear_figure=True)
