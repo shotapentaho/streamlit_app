@@ -12,14 +12,14 @@ st_autorefresh(interval=1000, key="clock-refresh")
 st.title("🌍🕰️ samaya..as time ")
 
 city_timezones = {
-    "[NYC Boston]": "America/New_York",
+    "[NYC Boston]": "America/New_York",    
+    "[Delhi Mumbai]": "Asia/Kolkata",
+    "[SFO Seattle]": "America/Los_Angeles",
     "London": "Europe/London",
     "Paris": "Europe/Paris",
     "Dubai": "Asia/Dubai",
-    "[Delhi Mumbai]": "Asia/Kolkata",
     "Tokyo": "Asia/Tokyo",
-    "Sydney": "Australia/Sydney",
-    "[SFO Seattle]": "America/Los_Angeles"
+    "Sydney": "Australia/Sydney"   
 }
 
 
