@@ -7,8 +7,8 @@ import pytz
 
 # ✅ MUST be first Streamlit command
 st.set_page_config(page_title="🕰️ Global Clocks", layout="wide")
-# Auto-refresh every 10000 ms (10 sec)
-st_autorefresh(interval=10000, key="clock-refresh")
+# Auto-refresh every 5000 ms (5 sec)
+st_autorefresh(interval=5000, key="clock-refresh")
 st.title("🌍🕰️ samaya..as time ")
 
 city_timezones = {
