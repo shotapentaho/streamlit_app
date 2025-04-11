@@ -36,7 +36,7 @@ con.execute(""" DROP TABLE IF EXISTS birthdays """)
 con.execute("""
             CREATE TABLE birthdays AS
             SELECT * FROM read_csv_auto('bdays_export.csv', HEADER=TRUE)
-""")
+            """)
 
 # Helpers
 def get_birthdays():
