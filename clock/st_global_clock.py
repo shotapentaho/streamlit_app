@@ -8,7 +8,7 @@ import pytz
 # Auto-refresh every 1000 ms (1 sec)
 st_autorefresh(interval=1000, key="clock-refresh")
 
-#st.set_page_config(page_title="Dial Clocks", layout="wide")
+st.set_page_config(page_title="Dial Clocks", layout="wide")
 st.title("🌍🕰️ Global Time")
 
 city_timezones = {
