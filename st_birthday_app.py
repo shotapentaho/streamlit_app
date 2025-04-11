@@ -30,6 +30,7 @@ if upload_needed_flag:
             
 # Create table if not exists
 try:
+    con.execute(""" DROP TABLE IF EXISTS birthdays """)
     con.execute("""
                 CREATE OR REPLACE TABLE birthdays AS
                 SELECT * FROM read_csv_auto('bdays_export.csv', HEADER=TRUE)
