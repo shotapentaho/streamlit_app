@@ -6,9 +6,9 @@ import pytz
 import time
 
 # ========== Configuration ==========
-st.set_page_config(page_title="🌍 Dial Clocks", layout="wide")
-st.title("🕰️ Global Time Dials")
-st.markdown("Showing real-time analog clocks for selected world cities.")
+st.set_page_config(page_title="Dial Clocks", layout="wide")
+st.title("🌍🕰️ Global Time")
+#st.markdown("Showing real-time analog clocks for selected world cities.")
 
 # ========== City Timezones ==========
 city_timezones = {
