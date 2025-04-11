@@ -3,7 +3,7 @@ import pandas as pd
 import duckdb
 from datetime import datetime
 
-st.set_page_config(page_title="👨‍👩‍👧‍👦 Family birthdays",layout="wide")
+st.set_page_config(page_title="👨‍👩‍👧‍👦 Family-fun bdays",layout="wide")
 
 DB_FILE = "birthdays.duckdb"
 if "con" not in st.session_state:
