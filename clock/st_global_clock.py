@@ -12,14 +12,14 @@ st_autorefresh(interval=1000, key="clock-refresh")
 st.title("🌍🕰️ samaya..as time ")
 
 city_timezones = {
-    "NYC": "America/New_York",
+    "NYC/Boston": "America/New_York",
     "London": "Europe/London",
     "Paris": "Europe/Paris",
     "Dubai": "Asia/Dubai",
-    "Mumbai": "Asia/Kolkata",
+    "Delhi,Mumbai": "Asia/Kolkata",
     "Tokyo": "Asia/Tokyo",
     "Sydney": "Australia/Sydney",
-    "SFO": "America/Los_Angeles"
+    "SFO,Seattle": "America/Los_Angeles"
 }
 
 
@@ -50,7 +50,7 @@ for i, (city, tz_str) in enumerate(city_timezones.items()):
     tz = pytz.timezone(tz_str)
     now = datetime.now(tz)
     with cols[i]:
-        st.markdown(f"### {city}")
+        st.markdown(f"#### {city}")
         st.markdown(f"📅 {now.strftime('%A, %d %B %Y')}")
         st.markdown(f"🕒 {now.strftime('%I:%M:%S %p')}")
         fig = draw_analog_clock(now.hour, now.minute, now.second)
