@@ -12,14 +12,14 @@ st_autorefresh(interval=1000, key="clock-refresh")
 st.title("🌍🕰️ Global Time")
 
 city_timezones = {
-    "New York": "America/New_York",
+    "NYC": "America/New_York",
     "London": "Europe/London",
     "Paris": "Europe/Paris",
     "Dubai": "Asia/Dubai",
     "Mumbai": "Asia/Kolkata",
     "Tokyo": "Asia/Tokyo",
     "Sydney": "Australia/Sydney",
-    "San Francisco": "America/Los_Angeles"
+    "SFO": "America/Los_Angeles"
 }
 
 
