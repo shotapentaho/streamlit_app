@@ -31,14 +31,12 @@ if upload_needed_flag:
             st.error("❌ CSV must contain 'name' and 'birthday' columns.")
             
 # Create table if not exists
-try:
-    con.execute(""" DROP TABLE IF EXISTS birthdays """)
-    con.execute("""
-                CREATE OR REPLACE TABLE birthdays AS
-                SELECT * FROM read_csv_auto('bdays_export.csv', HEADER=TRUE)
-    """)
-except Exception as e:
-    st.warning(f"Table 'birthdays' already exists")
+
+con.execute(""" DROP TABLE IF EXISTS birthdays """)
+con.execute("""
+            CREATE TABLE birthdays AS
+            SELECT * FROM read_csv_auto('bdays_export.csv', HEADER=TRUE)
+""")
 
 # Helpers
 def get_birthdays():
