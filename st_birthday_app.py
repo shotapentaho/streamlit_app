@@ -3,6 +3,8 @@ import pandas as pd
 import duckdb
 from datetime import datetime
 
+
+st.set_page_config(layout="wide")
 DB_FILE = "birthdays.duckdb"
 if "con" not in st.session_state:
     st.session_state.con = duckdb.connect(DB_FILE)
@@ -86,7 +88,6 @@ def update_birthday(old_name, new_name, new_birthday):
 
 # UI
 current_month_abbr = datetime.today().strftime('%B')  # e.g., 'April'
-st.set_page_config(layout="wide")
 st.title(f"🎂 🎉Happy '{current_month_abbr}' Birthdays !!🎈 🎉")
 #st.audio("https://www2.cs.uic.edu/~i101/SoundFiles/HappyBirthday.mp3", format='audio/mp3')
 
