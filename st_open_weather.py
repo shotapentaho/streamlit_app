@@ -30,7 +30,7 @@ if st.button("Get Weather"):
             st.write(f"💨 Wind Speed: {data['wind']['speed']} mph")
             st.write(f"📖 Description: {data['weather'][0]['description'].title()}")
         else:
-            st.write("City:", city_name)
+            st.write("City:", city)
             st.write("API Key:", API_KEY)
             st.write("Response:", response.text)
             st.error("City not found. Please check the name.")
