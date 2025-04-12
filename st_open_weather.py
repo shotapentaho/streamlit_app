@@ -18,8 +18,8 @@ def get_weather(city_name):
         "units": "imperial"  # Change to 'metric' for Celsius
     }
     response = requests.get(base_url, params=params)
-    st.write("Response:", response.status_code)
-    st.write("Response:", response.text)
+    #st.write("Response:", response.status_code)
+    #st.write("Response:", response.text)
     return response.json()
 
 if st.button("Get Weather"):
@@ -31,7 +31,5 @@ if st.button("Get Weather"):
             st.write(f"💧 Humidity: {data['main']['humidity']}%")
             st.write(f"💨 Wind Speed: {data['wind']['speed']} mph")
             st.write(f"📖 Description: {data['weather'][0]['description'].title()}")
-        else:
-            st.write("City:", city)
-            st.write("API Key:", API_KEY)            
+        else:    
             st.error("City not found. Please check the name.")
