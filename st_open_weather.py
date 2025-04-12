@@ -32,5 +32,5 @@ if st.button("Get Weather"):
         else:
             st.write("City:", city)
             st.write("API Key:", API_KEY)
-            st.write("Response:", response.text)
+            st.write("Response:", response.status_code)
             st.error("City not found. Please check the name.")
