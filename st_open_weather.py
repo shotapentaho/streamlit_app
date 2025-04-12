@@ -5,7 +5,7 @@ import os
 st.set_page_config(page_title="Weather App", layout="wide")
 st.title("🌤️Your Weather App")
 
-API_KEY = config["api"]["OPENWEATHER_API_KEY"]
+API_KEY = st.secrets["api"]["OPENWEATHER_API_KEY"]
 
 # Input field
 city = st.text_input("Enter a city:", "Shrewsbury, NYC etc..")
