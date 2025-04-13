@@ -46,7 +46,7 @@ def display_forecast(data):
     # Create a row of columns for each day's weather
     cols = st.columns(5)  # Create 5 columns for the 5 days forecast
     
-    for idx, (date, forecast) in enumerate(list(forecast_by_day.items())[:5]):
+    for idx, (date, forecast) in enumerate(list(forecast_by_day.items())[:10]):
         # Get daily summary
         avg_temp = sum(forecast['temps']) / len(forecast['temps'])
         min_temp = min(forecast['temps'])
@@ -68,7 +68,7 @@ def display_forecast(data):
 # Streamlit user input for city name
 city = st.text_input("Enter a city:", "New York")
 
-if st.button("Get 5-Day Forecast") and city:
+if st.button("Get 10-Day Forecast") and city:
     data = get_weather_forecast(city)
     
     # Check if the data is valid before displaying
