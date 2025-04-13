@@ -41,8 +41,8 @@ def display_forecast(data):
     cols = st.columns(5)
     
     for idx, (date, forecast) in enumerate(forecast_by_day.items()):
-    if not forecast['temps'] or not forecast['icons'] or not forecast['description']:
-        continue  # Skip this day if any data is missing
+        if not forecast['temps'] or not forecast['icons'] or not forecast['description']:
+            continue  # Skip this day if any data is missing
 
     avg_temp = sum(forecast['temps']) / len(forecast['temps'])
     descriptions = list(set(forecast['description']))
