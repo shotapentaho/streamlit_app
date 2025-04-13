@@ -49,6 +49,8 @@ def display_forecast(data):
     for idx, (date, forecast) in enumerate(list(forecast_by_day.items())[:5]):
         # Get daily summary
         avg_temp = sum(forecast['temps']) / len(forecast['temps'])
+        min_temp = min(forecast['temps'])
+        max_temp = max(forecast['temps'])
         description = " / ".join(set(forecast['description']))  # Unique descriptions for the day
         icon = forecast['icons'][0]  # Use the first icon of the day
         
@@ -58,7 +60,9 @@ def display_forecast(data):
         with cols[idx]:  # For each column (day)
             st.image(icon_url, width=50)  # Display icon with width
             st.write(f"**{date}**")
-            st.write(f"🌡️ Avg Temp: {avg_temp:.1f}°F")
+            st.write(f"🌡️ Min: **{min_temp:.1f}°F**")
+            st.write(f"🌡️ Max: **{max_temp:.1f}°F**")
+            #st.write(f"🌡️ Avg Temp: {avg_temp:.1f}°F")
             st.write(f"💬 Conditions: {description.capitalize()}")
 
 # Streamlit user input for city name
