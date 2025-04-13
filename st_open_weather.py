@@ -46,7 +46,7 @@ def display_forecast(data):
     # Create a row of columns for each day's weather
     cols = st.columns(5)  # Create 5 columns for the 5 days forecast
     
-    for idx, (date, forecast) in enumerate(forecast_by_day.items()):
+    for idx, (date, forecast) in enumerate(list(forecast_by_day.items())[:5]):
         # Get daily summary
         avg_temp = sum(forecast['temps']) / len(forecast['temps'])
         description = " / ".join(set(forecast['description']))  # Unique descriptions for the day
