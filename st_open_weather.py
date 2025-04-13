@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 from datetime import datetime
-
+ 
 API_KEY = st.secrets["api"]["OPENWEATHER_API_KEY"]
 
 def get_weather_forecast(city_name):
