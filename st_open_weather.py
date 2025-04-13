@@ -54,4 +54,13 @@ def display_forecast(data):
 
         with cols[idx]:
             if is_sunny:
-                st.markdown(f"<div style='text
+                st.markdown(f"<div style='text-align:center'><h3>☀️ Sunny!</h3></div>", unsafe_allow_html=True)
+                st.image(icon_url, width=100)
+                st.write(f"**{date}**")
+                st.write(f"🌡️ Avg Temp: **{avg_temp:.1f}°F**")
+                st.write(f"💬 {desc_combined}")
+            else:
+                st.image(icon_url, width=60)
+                st.write(f"**{date}**")
+                st.write(f"🌡️ Avg Temp: {avg_temp:.1f}°F")
+                st.write(f"💬 {desc_combined}")
