@@ -41,23 +41,26 @@ def display_forecast(data):
     cols = st.columns(5)
     
     for idx, (date, forecast) in enumerate(forecast_by_day.items()):
-        avg_temp = sum(forecast['temps']) / len(forecast['temps'])
-        descriptions = list(set(forecast['description']))
-        icon = forecast['icons'][0]
-        icon_url = f"http://openweathermap.org/img/wn/{icon}@2x.png"
-        
-        desc_combined = " / ".join(descriptions).capitalize()
-        is_sunny = any("clear" in desc or "sun" in desc for desc in descriptions)
+    if not forecast['temps'] or not forecast['icons'] or not forecast['description']:
+        continue  # Skip this day if any data is missing
 
-        with cols[idx]:
-            if is_sunny:
-                st.markdown(f"<div style='text-align:center'><h3>☀️ Sunny!</h3></div>", unsafe_allow_html=True)
-                st.image(icon_url, width=100)
-                st.write(f"**{date}**")
-                st.write(f"🌡️ Avg Temp: **{avg_temp:.1f}°F**")
-                st.write(f"💬 {desc_combined}")
-            else:
-                st.image(icon_url, width=60)
-                st.write(f"**{date}**")
-                st.write(f"🌡️ Avg Temp: {avg_temp:.1f}°F")
-                st.write(f"💬 {desc_combined}")
+    avg_temp = sum(forecast['temps']) / len(forecast['temps'])
+    descriptions = list(set(forecast['description']))
+    icon = forecast['icons'][0]
+    icon_url = f"http://openweathermap.org/img/wn/{icon}@2x.png"
+    
+    desc_combined = " / ".join(descriptions).capitalize()
+    is_sunny = any("clear" in desc or "sun" in desc for desc in descriptions)
+
+    with cols[idx]:
+        if is_sunny:
+            st.markdown(f"<div style='text-align:center'><h3>☀️ Sunny!</h3></div>", unsafe_allow_html=True)
+            st.image(icon_url, width=100)
+            st.write(f"**{date}**")
+            st.write(f"🌡️ Avg Temp: **{avg_temp:.1f}°F**")
+            st.write(f"💬 {desc_combined}")
+        else:
+            st.image(icon_url, width=60)
+            st.write(f"**{date}**")
+            st.write(f"🌡️ Avg Temp: {avg_temp:.1f}°F")
+            st.write(f"💬 {desc_combined}")
