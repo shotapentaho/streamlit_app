@@ -26,7 +26,8 @@ streamlit_urls = {
     "Named Entity Recognition from text":"https://ner-from-text.streamlit.app/",
     "Self Organizing Map - Clustering":"https://self-org-map.streamlit.app/",
     "Game Practice Reminder(SMS- Only US/CA)":"https://game-practice-reminder.streamlit.app/",
-    "Analog clocks world":"https://samaya.streamlit.app/"
+    "Analog clocks world":"https://samaya.streamlit.app/",
+    "Where is the sun!? weather":"https://climate-weather.streamlit.app/"
 }
 
 # Dropdown or radio button for selection
