@@ -6,6 +6,7 @@ st.title("apps @ hot-store 🚀")
 # Dictionary of Streamlit URLs (Replace with your actual links)
 streamlit_urls = {
     "☀️☁️❄️weather":"https://climate-weather.streamlit.app/",
+    "World clocks analog":"https://samaya.streamlit.app/",
     "Explore CSV": "https://visual-csv.streamlit.app/", 
 	"Simple and Compound interest": "https://viz-simple-compound-interest.streamlit.app/",	
     "Linear Equation": "https://viz-linear-eqn.streamlit.app/",
@@ -26,8 +27,8 @@ streamlit_urls = {
     "Detect Mood from Selfie":"https://detect-mood-selfie.streamlit.app/",
     "Named Entity Recognition from text":"https://ner-from-text.streamlit.app/",
     "Self Organizing Map - Clustering":"https://self-org-map.streamlit.app/",
-    "Game Practice Reminder(SMS- Only US/CA)":"https://game-practice-reminder.streamlit.app/",
-    "Analog clocks world":"https://samaya.streamlit.app/"
+    "Game Practice Reminder(SMS- Only US/CA)":"https://game-practice-reminder.streamlit.app/"
+   
 }
 
 # Dropdown or radio button for selection
