@@ -65,18 +65,13 @@ def update_birthday(old_name, new_name, new_birthday):
 
 # UI
 current_month_abbr = datetime.today().strftime('%B')  # e.g., 'April'
-st.title(f"🎂 🎉Happy '{current_month_abbr}' Birthdays !!🎈 🎉")
-#st.audio("https://www2.cs.uic.edu/~i101/SoundFiles/HappyBirthday.mp3", format='audio/mp3')
+st.title(f"🎂 🎉Happy '{current_month_abbr}' Birthdays !!🎈 🎉 datetime.now().strftime("%A, %b %d, %Y %I:%M %p")")
+
+
 
 # Birthday (month)
 current_month_bdays = get_currentmonth_bdays()
 today = datetime.now().strftime("%m-%d")
-
-# Create empty left column, use right column
-left, right = st.columns([3, 1])  # Adjust the ratio as needed
-with right:
-    st.markdown("### 🕒")
-    st.header(datetime.now().strftime("%A, %b %d, %Y %I:%M %p"))
 
 if not current_month_bdays.empty:    
     st.balloons()   # 🎈 balloons!
