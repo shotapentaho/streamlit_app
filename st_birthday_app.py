@@ -65,7 +65,7 @@ def update_birthday(old_name, new_name, new_birthday):
 
 # UI
 current_month_abbr = datetime.today().strftime('%B')  # e.g., 'April'
-st.title(f"🎂 🎉Happy '{current_month_abbr}' Birthdays !!🎈 🎉                           Today: {datetime.now().strftime("%A, %b %d")}")
+st.title(f"🎂 🎉Happy '{current_month_abbr}' Birthdays !!🎈 🎉 Today: {datetime.now().strftime("%b %d, %A")}")
 
 
 
