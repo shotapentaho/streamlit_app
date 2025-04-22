@@ -29,5 +29,5 @@ jobs:
 
           for url in "${apps[@]}"; do
             echo "Pinging $url"
-            curl -s -o /dev/null -w "%{http_code}\n" -H "User-Agent: Mozilla/5.0" "$url"
+            curl -L -s -o /dev/null -w "%{http_code}\n" -H "User-Agent: Mozilla/5.0" "$url"
           done
