@@ -34,6 +34,7 @@ jobs:
             "https://hot-kmeans-clustering.streamlit.app"
             "https://self-org-map.streamlit.app"
             "https://detect-mood-selfie.streamlit.app"
+            "https://detect-bone-fracture.streamlit.app"
             "https://pdf-to-txt.streamlit.app"
             "https://hot-linear-regression.streamlit.app"
             "https://openai-hot-bot.streamlit.app"
