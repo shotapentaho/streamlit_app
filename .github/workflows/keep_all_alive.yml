@@ -13,7 +13,8 @@ jobs:
         run: |
           echo "Pinging all Streamlit apps..."
           apps=(
-            "https://climate-weather.streamlit.app/"
+            "https://hot-store.streamlit.app"
+            "https://climate-weather.streamlit.app"
             "https://samaya.streamlit.app"
             "https://visual-csv.streamlit.app"
             "https://viz-simple-compound-interest.streamlit.app"
@@ -25,6 +26,10 @@ jobs:
             "https://translate-language.streamlit.app"
             "https://ner-from-text.streamlit.app"
             "https://game-practice-reminder.streamlit.app"
+            "https://viz-svm-classifier.streamlit.app"
+            "https://hot-kmeans-clustering.streamlit.app"
+
+
           )
 
           for url in "${apps[@]}"; do
