@@ -1,0 +1,33 @@
+name: Keep All Streamlit Apps Alive
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Every 5 minutes
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping All Streamlit Apps
+        run: |
+          echo "Pinging all Streamlit apps..."
+          apps=(
+            "https://climate-weather.streamlit.app/"
+            "https://samaya.streamlit.app"
+            "https://visual-csv.streamlit.app"
+            "https://viz-simple-compound-interest.streamlit.app"
+            "https://viz-linear-eqn.streamlit.app"
+            "https://graphquadratic.streamlit.app"
+            "https://our-birthdays.streamlit.app"
+            "https://summarize-info.streamlit.app"
+            "https://hot-decision-tree.streamlit.app"
+            "https://translate-language.streamlit.app"
+            "https://ner-from-text.streamlit.app"
+            "https://game-practice-reminder.streamlit.app"
+          )
+
+          for url in "${apps[@]}"; do
+            echo "Pinging $url"
+            curl -s -o /dev/null -w "%{http_code}\n" -H "User-Agent: Mozilla/5.0" "$url"
+          done
