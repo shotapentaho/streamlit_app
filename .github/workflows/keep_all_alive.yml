@@ -24,6 +24,7 @@ jobs:
             "https://viz-logarithm.streamlit.app"
             "https://circle-sector.streamlit.app"
             "https://our-birthdays.streamlit.app"
+            "https://our-anniversaries.streamlit.app"
             "https://summarize-info.streamlit.app"
             "https://hot-decision-tree.streamlit.app"
             "https://translate-language.streamlit.app"
