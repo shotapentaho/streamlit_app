@@ -71,7 +71,12 @@ st.title(f"🎂 🎉Happy '{current_month_abbr}' Birthdays !!🎈 🎉")
 # Birthday (month)
 current_month_bdays = get_currentmonth_bdays()
 today = datetime.now().strftime("%m-%d")
-st.header(f"{datetime.now()}")
+
+# Create empty left column, use right column
+left, right = st.columns([3, 1])  # Adjust the ratio as needed
+with right:
+    st.markdown("### 🕒")
+    st.header(datetime.now().strftime("%A, %b %d, %Y %I:%M %p"))
 
 if not current_month_bdays.empty:    
     st.balloons()   # 🎈 balloons!
