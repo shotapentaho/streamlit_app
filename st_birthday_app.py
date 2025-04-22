@@ -70,11 +70,19 @@ st.title(f"🎂 🎉Happy '{current_month_abbr}' Birthdays !!🎈 🎉")
 
 # Birthday (month)
 current_month_bdays = get_currentmonth_bdays()
+today = datetime.now().strftime("%m-%d")
 
 if not current_month_bdays.empty:    
     st.balloons()   # 🎈 balloons!
     for _, row in current_month_bdays.iterrows():
-        st.header(f"{row['name']} 🎂 {row['month_day']}")
+        is_today = row['month_day'] == today
+        name_display = f"🎉 **{row['name']}** 🎉" if is_today else row['name']
+        date_display = f"🗓️ **{row['month_day']}**" if is_today else row['month_day']
+
+        st.header(f"{name_display} 🎂 {date_display}")
+    
+    #for _, row in current_month_bdays.iterrows():
+    #    st.header(f"{row['name']} 🎂 {row['month_day']}")
 else:
     st.info("No birthdays this month.")
 
