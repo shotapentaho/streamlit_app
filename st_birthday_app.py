@@ -71,6 +71,7 @@ st.title(f"🎂 🎉Happy '{current_month_abbr}' Birthdays !!🎈 🎉")
 # Birthday (month)
 current_month_bdays = get_currentmonth_bdays()
 today = datetime.now().strftime("%m-%d")
+st.header(f"{today}")
 
 if not current_month_bdays.empty:    
     st.balloons()   # 🎈 balloons!
