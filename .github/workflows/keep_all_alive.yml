@@ -20,6 +20,7 @@ jobs:
             "https://viz-simple-compound-interest.streamlit.app"
             "https://viz-linear-eqn.streamlit.app"
             "https://graphquadratic.streamlit.app"
+            "https://circle-sector.streamlit.app"
             "https://our-birthdays.streamlit.app"
             "https://summarize-info.streamlit.app"
             "https://hot-decision-tree.streamlit.app"
@@ -28,8 +29,11 @@ jobs:
             "https://game-practice-reminder.streamlit.app"
             "https://viz-svm-classifier.streamlit.app"
             "https://hot-kmeans-clustering.streamlit.app"
-
-
+            "https://self-org-map.streamlit.app"
+            "https://detect-mood-selfie.streamlit.app"
+            "https://pdf-to-txt.streamlit.app"
+            "https://hot-linear-regression.streamlit.app"
+            "https://openai-hot-bot.streamlit.app"
           )
 
           for url in "${apps[@]}"; do
