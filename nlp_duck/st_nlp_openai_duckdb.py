@@ -7,7 +7,7 @@ import openai
 openai.api_key = st.secrets["openai"]["api_key"]
 
 st.set_page_config(layout="wide")
-st.title("🔍 CSV Natural Language SQL with DuckDB + OpenAI")
+st.title("🔍 CSV analysis with Natural Language!")
 
 uploaded_file = st.file_uploader("📁 Upload your CSV file", type=["csv"])
 
