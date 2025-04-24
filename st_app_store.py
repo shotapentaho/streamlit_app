@@ -38,6 +38,7 @@ st_ml_dl_urls = {
 col1, col2 = st.columns(2)
 
 with col1:
+    
     # Dropdown or radio button for selection
     page_generic = st.selectbox("Select an app here:", list(st_generic_urls.keys()))
 
@@ -62,4 +63,6 @@ with col1:
 
 
 with col1:
+
+    # Dropdown or radio button for selection
     page_ml_dl = st.selectbox("Select an ML/DL/GenAI app here:", list(st_ml_dl_urls.keys()))
