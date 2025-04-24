@@ -70,7 +70,7 @@ with col3:
     page_ml_dl = st.selectbox("Select an ML/DL/GenAI app here:", list(st_ml_dl_urls.keys()))
 
     # Button to open the selected page
-    if st.button("Go to Selected Site"):
+    if st.button("Go to Site"):
         st.markdown(f"[Click here to open {page_ml_dl}]({st_ml_dl_urls[page_ml_dl]})", unsafe_allow_html=True)
         st.write("The link will open in a new tab.")
 
