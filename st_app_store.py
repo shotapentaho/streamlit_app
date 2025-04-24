@@ -14,6 +14,11 @@ st_generic_urls = {
     "Area of Sector (Circle)":"https://circle-sector.streamlit.app/",
     "Triangle by co-ordinates": "https://viz-triangle.streamlit.app/",
     "Multi Log Curves": "https://viz-logarithm.streamlit.app/",
+     "Game Practice Reminder(SMS - Only US/CA)":"https://game-practice-reminder.streamlit.app/"
+     
+}
+
+st_ml_dl_urls = {
     "Text Summarizer": "https://summarize-info.streamlit.app/",
     "PDF Text Extractor":"https://pdf-to-txt.streamlit.app/",
     "Decision Tree Classifier": "https://hot-decision-tree.streamlit.app/",
@@ -26,8 +31,8 @@ st_generic_urls = {
     "Detect Bone Fracture": "https://detect-bone-fracture.streamlit.app/",
     "Detect Mood from Selfie":"https://detect-mood-selfie.streamlit.app/",
     "Named Entity Recognition from text":"https://ner-from-text.streamlit.app/",
-    "Self Organizing Map - Clustering":"https://self-org-map.streamlit.app/",
-    "Game Practice Reminder(SMS - Only US/CA)":"https://game-practice-reminder.streamlit.app/"
+    "Self Organizing Map - Clustering":"https://self-org-map.streamlit.app/"
+   
 }
 
 # Dropdown or radio button for selection
