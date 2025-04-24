@@ -60,7 +60,7 @@ with col1:
             col.markdown(f"[{name}]({url})", unsafe_allow_html=True)  # Create a clickable link in each column
 
 with col2:
-    #st.write("📦 20% width (middle)")
+    st.write("")
 
 with col3:
 
