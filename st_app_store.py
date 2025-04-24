@@ -68,3 +68,21 @@ with col3:
 
     # Dropdown or radio button for selection
     page_ml_dl = st.selectbox("Select an ML/DL/GenAI app here:", list(st_ml_dl_urls.keys()))
+
+    # Button to open the selected page
+    if st.button("Go to Selected Site"):
+        st.markdown(f"[Click here to open {page_ml_dl}]({st_ml_dl_urls[page_ml_dl]})", unsafe_allow_html=True)
+        st.write("The link will open in a new tab.")
+
+    # Optional: Display all links as clickable buttons
+    st.subheader("Quick Links:")
+
+    # Create dynamic columns based on the number of links
+    num_columns = 2  # Adjust this number for different layouts
+    links = list(st_ml_dl_urls.items())
+
+    for i in range(0, len(links), num_columns):
+        cols = st.columns(num_columns)  # Create columns dynamically
+        for col, (name, url) in zip(cols, links[i:i+num_columns]):
+            col.markdown(f"[{name}]({url})", unsafe_allow_html=True)  # Create a clickable link in each column
+
