@@ -43,7 +43,7 @@ def get_currentmonth_anniversaries():
 
 # UI
 current_month_abbr = datetime.today().strftime('%B')  # e.g., 'April'
-st.title(f"🎂 🎉Happy '{current_month_abbr}' anniversaries !!🎈 🎉")
+st.title(f"🎂 🎉Happy '{current_month_abbr}' anniversaries for these couples!!🎈 🎉")
 
 # wed_anniversary_day (month)
 current_month_anniversaries = get_currentmonth_anniversaries()
