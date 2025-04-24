@@ -39,7 +39,7 @@ jobs:
             "https://hot-linear-regression.streamlit.app"
             "https://openai-hot-bot.streamlit.app"
           )
-
+          
           for url in "${apps[@]}"; do
             echo "Pinging $url"
             curl -L -s -o /dev/null -w "%{http_code}\n" -H "User-Agent: Mozilla/5.0" "$url" || true

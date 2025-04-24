@@ -4,7 +4,7 @@ import streamlit as st
 st.title("apps @ hot-store 🚀")
 
 # Dictionary of Streamlit URLs (Replace with your actual links)
-streamlit_urls = {
+st_generic_urls = {
     "☀️☁️❄️weather":"https://climate-weather.streamlit.app/",
     "World clocks analog":"https://samaya.streamlit.app/",
     "Explore CSV": "https://visual-csv.streamlit.app/", 
@@ -31,11 +31,11 @@ streamlit_urls = {
 }
 
 # Dropdown or radio button for selection
-page = st.selectbox("Select an app here:", list(streamlit_urls.keys()))
+page = st.selectbox("Select an app here:", list(st_generic_urls.keys()))
 
 # Button to open the selected page
 if st.button("Go to Selected Page"):
-    st.markdown(f"[Click here to open {page}]({streamlit_urls[page]})", unsafe_allow_html=True)
+    st.markdown(f"[Click here to open {page}]({st_generic_urls[page]})", unsafe_allow_html=True)
     st.write("The link will open in a new tab.")
 
 # Optional: Display all links as clickable buttons
@@ -43,7 +43,7 @@ st.subheader("Quick Links:")
 
 # Create dynamic columns based on the number of links
 num_columns = 3  # Adjust this number for different layouts
-links = list(streamlit_urls.items())
+links = list(st_generic_urls.items())
 
 for i in range(0, len(links), num_columns):
     cols = st.columns(num_columns)  # Create columns dynamically
