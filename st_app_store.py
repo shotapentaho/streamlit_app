@@ -42,7 +42,6 @@ with col1:
     # Dropdown or radio button for selection
     page_generic = st.selectbox("Select an app here:", list(st_generic_urls.keys()))
 
-
     # Button to open the selected page
     if st.button("Go to Selected Site"):
         st.markdown(f"[Click here to open {page_generic}]({st_generic_urls[page_generic]})", unsafe_allow_html=True)
@@ -52,7 +51,7 @@ with col1:
     st.subheader("Quick Links:")
 
     # Create dynamic columns based on the number of links
-    num_columns = 3  # Adjust this number for different layouts
+    num_columns = 2  # Adjust this number for different layouts
     links = list(st_generic_urls.items())
 
     for i in range(0, len(links), num_columns):
