@@ -14,8 +14,8 @@ st_generic_urls = {
     "Area of Sector (Circle)":"https://circle-sector.streamlit.app/",
     "Triangle by co-ordinates": "https://viz-triangle.streamlit.app/",
     "Multi Log Curves": "https://viz-logarithm.streamlit.app/",
-     "Game Practice Reminder(SMS - Only US/CA)":"https://game-practice-reminder.streamlit.app/"
-     
+    "Game Practice Reminder(SMS - Only US/CA)":"https://game-practice-reminder.streamlit.app/"
+
 }
 
 st_ml_dl_urls = {
@@ -36,11 +36,11 @@ st_ml_dl_urls = {
 }
 
 # Dropdown or radio button for selection
-page = st.selectbox("Select an app here:", list(st_generic_urls.keys()))
+page_generic = st.selectbox("Select an app here:", list(st_generic_urls.keys()))
 
 # Button to open the selected page
-if st.button("Go to Selected Page"):
-    st.markdown(f"[Click here to open {page}]({st_generic_urls[page]})", unsafe_allow_html=True)
+if st.button("Go to Selected Site"):
+    st.markdown(f"[Click here to open {page_generic}]({st_generic_urls[page_generic]})", unsafe_allow_html=True)
     st.write("The link will open in a new tab.")
 
 # Optional: Display all links as clickable buttons
