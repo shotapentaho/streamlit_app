@@ -7,7 +7,7 @@ import openai
 openai.api_key = st.secrets["openai"]["api_key"]
 
 st.set_page_config(layout="wide")
-st.title("🔍 CSV analysis with Natural Language!")
+st.title("🔍 CSV analysis with NLP(Natural Language)!")
 
 uploaded_file = st.file_uploader("📁 Upload your CSV file", type=["csv"])
 
