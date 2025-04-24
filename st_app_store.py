@@ -35,7 +35,7 @@ st_ml_dl_urls = {
    
 }
 # Create two columns
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns([4,2,4])
 
 with col1:
 
@@ -59,9 +59,10 @@ with col1:
         for col, (name, url) in zip(cols, links[i:i+num_columns]):
             col.markdown(f"[{name}]({url})", unsafe_allow_html=True)  # Create a clickable link in each column
 
-
-
 with col2:
+    st.write("📦 20% width (middle)")
+
+with col3:
 
     # Dropdown or radio button for selection
     page_ml_dl = st.selectbox("Select an ML/DL/GenAI app here:", list(st_ml_dl_urls.keys()))
