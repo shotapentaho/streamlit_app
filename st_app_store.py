@@ -9,11 +9,11 @@ st.title("apps @ hot-store 🚀")
 st_generic_urls = {
     "☀️☁️❄️weather":"https://climate-weather.streamlit.app/",
     "World clocks analog":"https://samaya.streamlit.app/",
-    "Explore CSV": "https://visual-csv.streamlit.app/", 
-	"Simple and Compound interest": "https://viz-simple-compound-interest.streamlit.app/",	
-    "Linear Equation": "https://viz-linear-eqn.streamlit.app/",
-	"Quadratic Equation": "https://graphquadratic.streamlit.app/",
-    "Area of Sector (Circle)":"https://circle-sector.streamlit.app/",
+    "📈Explore CSV": "https://visual-csv.streamlit.app/", 
+	"📈Simple and Compound interest": "https://viz-simple-compound-interest.streamlit.app/",	
+    "📈Linear Equation": "https://viz-linear-eqn.streamlit.app/",
+	"📈Quadratic Equation": "https://graphquadratic.streamlit.app/",
+    "📐Area of Sector (Circle)":"https://circle-sector.streamlit.app/",
     "Triangle by co-ordinates": "https://viz-triangle.streamlit.app/",
     "Multi Log Curves": "https://viz-logarithm.streamlit.app/",
     "Game Practice Reminder(SMS - Only US/CA)":"https://game-practice-reminder.streamlit.app/"
