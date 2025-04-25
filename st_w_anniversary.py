@@ -19,15 +19,15 @@ con.execute("""
 # get_anniversaries
 def get_anniversaries():
     return con.execute(""" 
-                                    SELECT name, strftime('%m-%d', wed_anniversary_day) AS month_day, wed_anniversary_day,
-                                        CAST(strftime('%Y', CURRENT_DATE) AS INTEGER) - CAST(strftime('%Y', wed_anniversary_day) AS INTEGER)
-                                        - CASE 
-                                            WHEN strftime('%m-%d', CURRENT_DATE) < strftime('%m-%d', wed_anniversary_day) THEN 1 
-                                            ELSE 0 
-                                        END AS age
-                                    FROM anniversaries 
-                                    ORDER BY name asc
-                                    """).fetchdf()
+            SELECT name, strftime('%m-%d', wed_anniversary_day) AS month_day, wed_anniversary_day,
+                CAST(strftime('%Y', CURRENT_DATE) AS INTEGER) - CAST(strftime('%Y', wed_anniversary_day) AS INTEGER)
+                - CASE 
+                    WHEN strftime('%m-%d', CURRENT_DATE) < strftime('%m-%d', wed_anniversary_day) THEN 1 
+                    ELSE 0 
+                END AS age
+            FROM anniversaries 
+            ORDER BY name asc
+            """).fetchdf()
 
 def get_currentmonth_anniversaries():
     current_month = datetime.today().strftime('%m')
