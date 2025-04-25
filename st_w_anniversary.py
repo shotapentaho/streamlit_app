@@ -62,5 +62,5 @@ if display_all_anniversaries:
     # Load all anniversaries
     df = get_anniversaries()
     df = df.drop(columns=["age"])
-    #st.subheader("📋 Family Fun wale!! 🎉")
-    #st.dataframe(df)
+    st.subheader("📋 Family Fun wale!! 🎉")
+    st.dataframe(df)
