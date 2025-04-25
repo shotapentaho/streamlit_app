@@ -51,7 +51,7 @@ current_month_anniversaries = get_currentmonth_anniversaries()
 if not current_month_anniversaries.empty:    
     st.balloons()   # 🎈 balloons!
     for _, row in current_month_anniversaries.iterrows():
-        st.header(f"{row['name']} 🎂 {row['month_day']}")
+        st.header(f"{row['name']} 🎉🎂🎈 {row['month_day']}")
 else:
     st.info("No anniversaries this month.")
 
