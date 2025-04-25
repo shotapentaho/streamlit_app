@@ -56,7 +56,7 @@ else:
     st.info("No anniversaries this month.")
 
 # UI Control Sections: [display_all_anniversaries]
-display_all_anniversaries=1
+display_all_anniversaries=0
 
 if display_all_anniversaries:    
     # Load all anniversaries
