@@ -2,6 +2,7 @@ import streamlit as st
 import duckdb
 import pandas as pd
 import openai
+import matplotlib.pyplot as plt
 
 # Use secrets
 openai.api_key = st.secrets["openai"]["api_key"]
@@ -40,6 +41,30 @@ Only return the SQL code.
 
                 result = con.execute(sql_query).df()
                 st.dataframe(result)
+                plot_result_dataframe(result)
 
             except Exception as e:
                 st.error(f"Error: {e}")
+
+
+
+def plot_result_dataframe(df):
+    if df.empty:
+        st.warning("No data to plot.")
+        return
+    
+    st.subheader("📊 Auto-generated Plot")
+
+    # Pick sensible defaults
+    numeric_columns = df.select_dtypes(include=['number']).columns
+    non_numeric_columns = df.select_dtypes(exclude=['number']).columns
+
+    if len(numeric_columns) >= 1 and len(non_numeric_columns) >= 1:
+        x_col = non_numeric_columns[0]
+        y_col = numeric_columns[0]
+
+        fig, ax = plt.subplots(figsize=(8, 4))
+        df.plot(kind='bar', x=x_col, y=y_col, ax=ax)
+        st.pyplot(fig)
+    else:
+        st.info("Need at least one categorical column and one numeric column to plot.")
