@@ -43,7 +43,7 @@ col1, col2, col3 = st.columns([4,2,4])
 with col3:
 
     # Dropdown or radio button for selection
-    page_generic = st.selectbox("Select an app here:", list(st_generic_urls.keys()))
+    page_generic = st.selectbox("Select one generic app here:", list(st_generic_urls.keys()))
 
     # Button to open the selected page
     if st.button("Go to Selected Site"):
@@ -68,7 +68,7 @@ with col2:
 with col1:
 
     # Dropdown or radio button for selection
-    page_ml_dl = st.selectbox("Select an ML/DL/GenAI app here:", list(st_ml_dl_urls.keys()))
+    page_ml_dl = st.selectbox("Select your ML/DL/GenAI app here:", list(st_ml_dl_urls.keys()))
 
     # Button to open the selected page
     if st.button("Go to Site"):
