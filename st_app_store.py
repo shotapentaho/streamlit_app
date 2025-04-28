@@ -68,7 +68,12 @@ with col2:
 with col1:
 
     # Dropdown or radio button for selection
-    page_ml_dl = st.selectbox("Select your ML/DL/GenAI app here:", list(st_ml_dl_urls.keys()))
+    #page_ml_dl = st.selectbox("Select your LLM, ML, DL app here:", list(st_ml_dl_urls.keys()))
+    st.markdown(
+    "<h3 style='text-align: center; color: black;'>Select your LLM, ML, DL app here:</h3>",
+    unsafe_allow_html=True
+    )
+    page_ml_dl = st.selectbox("", list(st_ml_dl_urls.keys()))
 
     # Button to open the selected page
     if st.button("Go to Site"):
