@@ -88,12 +88,12 @@ Only return the SQL code.
                 sql_query = response.choices[0].message.content.strip()
                 st.code(sql_query, language="sql")
 
-                # ERROR in your code here:
-                # It should be: result = con.execute(sql_query).fetchdf()
-                result = con.execute(sql_query).fetchdf()
-                st.dataframe(result)
-
-                plot_result_dataframe(result)
-
+                # Correct execution & fetching data from DuckDB
+                result = con.execute(sql_query).fetchdf()  # THIS IS THE FIX: use fetchdf() to get the results
+                if not result.empty:
+                    st.dataframe(result)
+                    plot_result_dataframe(result)
+                else:
+                    st.warning("⚠️ No data returned from SQL query.")
             except Exception as e:
                 st.error(f"Error: {e}")
