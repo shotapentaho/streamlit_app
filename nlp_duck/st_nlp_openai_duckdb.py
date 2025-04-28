@@ -10,6 +10,12 @@ openai.api_key = st.secrets["openai"]["api_key"]
 st.set_page_config(layout="wide")
 st.title(" 🔍 📄 🧠 NLP (Natural Language) based data analysis: CSV or JSON!!")
 
+# --- Setup session_state for dataframe and question ---
+if 'df' not in st.session_state:
+    st.session_state.df = None
+if 'question' not in st.session_state:
+    st.session_state.question = ''
+
 def plot_result_dataframe(df):
     if df.empty:
         st.warning("No data to plot.")
@@ -40,20 +46,20 @@ if uploaded_file is not None:
 
     if file_name.endswith('.csv'):
         try:
-            df = pd.read_csv(uploaded_file)
+            st.session_state.df = pd.read_csv(uploaded_file)
             st.success("✅ CSV file loaded!")
             con = duckdb.connect()
-            con.register("data", df)
-            st.write("✅ Data Preview", df.head())
+            con.register("data", st.session_state.df)
+            st.write("✅ Data Preview", st.session_state.df.head())
         except Exception as e:
             st.error(f"Error loading CSV: {e}")
     elif file_name.endswith('.json'):
         try:
-            df = pd.read_json(uploaded_file,lines=True)
+            st.session_state.df = pd.read_json(uploaded_file,lines=True)
             st.success("✅ JSON file loaded!")
             con = duckdb.connect()
-            con.register("data", df)
-            st.write("✅ Data Preview", df.head())
+            con.register("data", st.session_state.df)
+            st.write("✅ Data Preview", st.session_state.df.head())
         except Exception as e:
             st.error(f"Error loading JSON: {e}")
     else:
@@ -80,7 +86,7 @@ Only return the SQL code.
                 sql_query = response.choices[0].message.content.strip()
                 st.code(sql_query, language="sql")
 
-                result = con.execute(sql_query).df()
+                result = con.execute(sql_query).st.session_state.df()
                 st.dataframe(result)
                 plot_result_dataframe(result)
 
