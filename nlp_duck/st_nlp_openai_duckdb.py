@@ -86,13 +86,20 @@ Only return the SQL code.
                     temperature=0,
                 )
                 sql_query = response.choices[0].message.content.strip()
-                st.write("Generated SQL Query:", sql_query)
+
+                # Debugging: Show the generated SQL query
+                st.write("Generated SQL Query:")
                 st.code(sql_query, language="sql")
 
-                # Correct execution & fetching data from DuckDB
+                # Checking if the SQL is syntactically correct before executing
+                # Try running the SQL query
                 result = con.execute(sql_query).fetchdf()  # THIS IS THE FIX: use fetchdf() to get the results
+
+                # Debugging: Show the result
+                st.write("SQL Execution Result:")
+                st.dataframe(result)
+
                 if not result.empty:
-                    st.dataframe(result)
                     plot_result_dataframe(result)
                 else:
                     st.warning("⚠️ No data returned from SQL query.")
