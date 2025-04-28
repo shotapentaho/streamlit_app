@@ -39,12 +39,17 @@ if uploaded_file is not None:
     file_name = uploaded_file.name
 
     if file_name.endswith('.csv'):
-        df = pd.read_csv(uploaded_file)
-        st.success("✅ CSV file loaded!")
+        try:
+            df = pd.read_csv(uploaded_file)
+            st.success("✅ CSV file loaded!")
+        except Exception as e:
+            st.error(f"Error loading CSV: {e}")
     elif file_name.endswith('.json'):
-        df = pd.read_json(uploaded_file)
-        st.success("✅ JSON file loaded!")
-
+        try:
+            df = pd.read_json(uploaded_file)
+            st.success("✅ JSON file loaded!")
+        except Exception as e:
+            st.error(f"Error loading JSON: {e}")
     #df = pd.read_csv(uploaded_file)
 
     con = duckdb.connect()
