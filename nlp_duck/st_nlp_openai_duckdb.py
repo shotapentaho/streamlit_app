@@ -82,7 +82,7 @@ if st.session_state.df is not None:
     # Question Input (reset each time a new file is uploaded)
     question = st.text_input("💬 Ask a question to retrieve data (i.e English): ex row count? OR group by [field] etc. Note: If column name contains space, qualify with double quotes"
                              #,value=st.session_state.question
-                             ,key="question"
+                             #,key="question"
                              ,placeholder="ex: row count? OR group by [field name] etc. Note: If column name contains space, qualify with double quotes",   # 👈 Greyed out tip text
                              )
 
