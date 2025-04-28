@@ -44,7 +44,7 @@ with col3:
 
     # Dropdown or radio button for selection
     st.markdown(
-    "<h3 style='text-align: left; color: red;'>Select one generic app here:</h3>",
+    "<h3 style='text-align: left; color: red;'>Select your utility app here:</h3>",
     unsafe_allow_html=True
     )
     page_generic = st.selectbox("", list(st_generic_urls.keys()))
