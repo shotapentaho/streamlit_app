@@ -86,6 +86,7 @@ Only return the SQL code.
                     temperature=0,
                 )
                 sql_query = response.choices[0].message.content.strip()
+                st.write("Generated SQL Query:", sql_query)
                 st.code(sql_query, language="sql")
 
                 # Correct execution & fetching data from DuckDB
