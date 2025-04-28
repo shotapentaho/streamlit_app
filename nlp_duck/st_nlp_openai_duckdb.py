@@ -32,7 +32,7 @@ def plot_result_dataframe(df):
 openai.api_key = st.secrets["openai"]["api_key"]
 
 st.set_page_config(layout="wide")
-st.title(" 🔍 📄 🧠 NLP (Natural Language) based data analysis: CSV or JSON!!")
+st.title(" 🔍 📄 🧠 NLP (Natural Language) data analysis: on CSV|JSON files")
 
 # --- Setup session_state for dataframe ---
 if 'df' not in st.session_state:
