@@ -45,7 +45,8 @@ if uploaded_file is not None:
     file_name = uploaded_file.name
 
     # Clear the question when a new file is uploaded
-    st.session_state.question = ''  # Reset question
+    st.session_state.question = ''  # Reset question in session_state
+    st.experimental_rerun()  # This will force the page to rerun and reset the question input
 
     if file_name.endswith('.csv'):
         try:
