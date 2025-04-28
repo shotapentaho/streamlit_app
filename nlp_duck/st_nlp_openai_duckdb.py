@@ -83,7 +83,7 @@ if st.session_state.df is not None:
                              ,value=st.session_state.question
                              ,key="question")
     # To clear it
-    st.session_state["question"] = None
+    st.session_state["question"] = ""
 
     # Check if the question has changed or is not empty
     if question:
