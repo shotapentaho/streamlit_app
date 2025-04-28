@@ -69,6 +69,7 @@ if st.session_state.df is not None:
 
     # Question Input
     question = st.text_input("💬 Ask a question in natural language:", value=st.session_state.question, key="question")
+    st.write(f"💬 User Question: {question}").
 
     if question:
         with st.spinner("💡 Generating SQL..."):
