@@ -17,7 +17,7 @@ st_generic_urls = {
     "📐Area of Sector (Circle)":"https://circle-sector.streamlit.app/",
     "Triangle by co-ordinates": "https://viz-triangle.streamlit.app/",
     "Multi Log Curves": "https://viz-logarithm.streamlit.app/",
-    "🎾 Game Practice Reminder(SMS - Only US/CA)":"https://game-practice-reminder.streamlit.app/"
+    "🎾 Game Reminder(SMS - Only US/CA)":"https://game-practice-reminder.streamlit.app/"
 
 }
 
