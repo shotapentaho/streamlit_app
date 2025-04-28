@@ -31,7 +31,9 @@ def plot_result_dataframe(df):
     else:
         st.info("Need at least one categorical column and one numeric column to plot.")
 
-uploaded_file = st.file_uploader("📁 Upload your CSV file", type=["csv"])
+#uploaded_file = st.file_uploader("📁 Upload your CSV file", type=["csv"])
+uploaded_file = st.file_uploader("📁 Upload your CSV or JSON file", type=["csv", "json"])
+
 
 if uploaded_file:
     df = pd.read_csv(uploaded_file)
