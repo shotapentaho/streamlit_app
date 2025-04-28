@@ -37,9 +37,8 @@ def plot_result_dataframe(df):
     else:
         st.info("Need at least one categorical column and one numeric column to plot.")
 
-#uploaded_file = st.file_uploader("📁 Upload your CSV file", type=["csv"])
+# File uploader
 uploaded_file = st.file_uploader("📁 Upload your CSV or JSON file", type=["csv", "json"])
-
 
 if uploaded_file is not None:
     file_name = uploaded_file.name
@@ -48,25 +47,28 @@ if uploaded_file is not None:
         try:
             st.session_state.df = pd.read_csv(uploaded_file)
             st.success("✅ CSV file loaded!")
-            con = duckdb.connect()
-            con.register("data", st.session_state.df)
-            st.write("✅ Data Preview", st.session_state.df.head())
         except Exception as e:
             st.error(f"Error loading CSV: {e}")
     elif file_name.endswith('.json'):
         try:
-            st.session_state.df = pd.read_json(uploaded_file,lines=True)
+            st.session_state.df = pd.read_json(uploaded_file, lines=True)
             st.success("✅ JSON file loaded!")
-            con = duckdb.connect()
-            con.register("data", st.session_state.df)
-            st.write("✅ Data Preview", st.session_state.df.head())
         except Exception as e:
             st.error(f"Error loading JSON: {e}")
     else:
         st.error("❌ Unsupported file format. Please upload a CSV or JSON file.")
-   
 
-    question = st.text_input("💬 Ask a question in natural language:")
+    # IMPORTANT: clear the previous question after upload
+    st.session_state.question = ""
+
+# --- If dataframe is ready ---
+if st.session_state.df is not None:
+    con = duckdb.connect()
+    con.register("data", st.session_state.df)
+    st.write("✅ Data Preview", st.session_state.df.head())
+
+    # Question Input
+    question = st.text_input("💬 Ask a question in natural language:", value=st.session_state.question, key="question")
 
     if question:
         with st.spinner("💡 Generating SQL..."):
@@ -86,10 +88,12 @@ Only return the SQL code.
                 sql_query = response.choices[0].message.content.strip()
                 st.code(sql_query, language="sql")
 
-                result = con.execute(sql_query).st.session_state.df()
+                # ERROR in your code here:
+                # It should be: result = con.execute(sql_query).fetchdf()
+                result = con.execute(sql_query).fetchdf()
                 st.dataframe(result)
+
                 plot_result_dataframe(result)
 
             except Exception as e:
                 st.error(f"Error: {e}")
-
