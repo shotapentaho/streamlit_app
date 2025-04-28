@@ -45,6 +45,7 @@ if 'question' not in st.session_state:
 
 # File uploader
 uploaded_file = st.file_uploader("📁 Upload your CSV or JSON file", type=["csv", "json"])
+st.session_state.question = None  # Default empty question
 
 # When a file is uploaded
 if uploaded_file is not None:
