@@ -87,6 +87,3 @@ Only return the SQL code.
             except Exception as e:
                 st.error(f"Error: {e}")
 
-
-
-
