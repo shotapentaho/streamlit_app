@@ -4,7 +4,7 @@ st.set_page_config(page_title="Hot-Store", layout="wide")
 
 # Streamlit app title
 st.title("🔥 Hot apps @ hot-store 🚀")
-st.image("https://upload.wikimedia.org/wikipedia/commons/4/4b/OpenAI_Logo.svg", width=100)
+
 
 # Dictionary of Streamlit URLs (Replace with your actual links)
 st_generic_urls = {
@@ -22,7 +22,7 @@ st_generic_urls = {
 }
 
 st_ml_dl_urls = {
-    "NLP based Querying CSVs": "https://nlp-query-duckdb.streamlit.app/",
+    "📄🧠 NLP based data analysis on CSVs": "https://nlp-query-duckdb.streamlit.app/",
     "Text Summarizer": "https://summarize-info.streamlit.app/",
     "PDF Text Extractor":"https://pdf-to-txt.streamlit.app/",
     "Decision Tree Classifier": "https://hot-decision-tree.streamlit.app/",
