@@ -10,11 +10,9 @@ openai.api_key = st.secrets["openai"]["api_key"]
 st.set_page_config(layout="wide")
 st.title(" 🔍 📄 🧠 NLP (Natural Language) based data analysis: CSV or JSON!!")
 
-# --- Setup session_state for dataframe and question ---
+# --- Setup session_state for dataframe ---
 if 'df' not in st.session_state:
     st.session_state.df = None
-if 'question' not in st.session_state:
-    st.session_state.question = ""
 
 def plot_result_dataframe(df):
     if df.empty:
@@ -58,21 +56,19 @@ if uploaded_file is not None:
     else:
         st.error("❌ Unsupported file format. Please upload a CSV or JSON file.")
 
-    # IMPORTANT: clear the previous question after upload
-    st.session_state.question = ""
-
 # --- If dataframe is ready ---
 if st.session_state.df is not None:
     con = duckdb.connect()
     con.register("data", st.session_state.df)
     st.write("✅ Data Preview", st.session_state.df.head())
 
-    # Question Input
-    question = st.text_input("💬 Ask a question in natural language:", value=st.session_state.question, key="question")
+    # Question Input (without session_state for simplicity)
+    question = st.text_input("💬 Ask a question in natural language:")
 
     # Check if the question has changed or is not empty
-    if question != "" and question is not None:
+    if question:
         st.write(f"💬 User Question: {question}")  # Log user question for debugging
+
         with st.spinner("💡 Generating SQL..."):
             prompt = f"""
 Translate the following question into SQL for DuckDB.
@@ -82,7 +78,7 @@ Question: {question}
 Only return the SQL code.
 """
 
-            # Show the generated prompt for debugging purposes
+            # Debugging: Show the generated prompt for clarity
             st.write("Generated Prompt:")
             st.code(prompt, language="text")
 
