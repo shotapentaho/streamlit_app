@@ -82,8 +82,6 @@ if st.session_state.df is not None:
     question = st.text_input("💬 Ask a question in natural language to retrieve data (i.e English):"
                              ,value=st.session_state.question
                              ,key="question")
-    # To clear it
-    st.session_state["question"] = ""
 
     # Check if the question has changed or is not empty
     if question:
