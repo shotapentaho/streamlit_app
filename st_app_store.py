@@ -4,6 +4,7 @@ st.set_page_config(page_title="Hot-Store", layout="wide")
 
 # Streamlit app title
 st.title("🔥 Hot apps @ hot-store 🚀")
+st.image("https://upload.wikimedia.org/wikipedia/commons/4/4b/OpenAI_Logo.svg", width=100)
 
 # Dictionary of Streamlit URLs (Replace with your actual links)
 st_generic_urls = {
