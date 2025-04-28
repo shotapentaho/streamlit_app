@@ -79,9 +79,9 @@ if st.session_state.df is not None:
     st.write("✅ Data Preview", st.session_state.df.head())
 
     # Question Input (reset each time a new file is uploaded)
-    question = st.text_input("💬 Ask a question in natural language to retrieve data (i.e English):"
+    question = st.text_input("💬 Ask a question to retrieve data (i.e English): ex row count? or group by [field]"
                              #,value=st.session_state.question
-                             ,value="row count?"
+                             ,placeholder="e.g., rowcount?",   # 👈 Greyed out tip text
                              )
 
     # Check if the question has changed or is not empty
