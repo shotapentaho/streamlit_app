@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 openai.api_key = st.secrets["openai"]["api_key"]
 
 st.set_page_config(layout="wide")
-st.title(" 🔍 📄 🧠 NLP (Natural Language) based CSV data analysis!!")
+st.title(" 🔍 📄 🧠 NLP (Natural Language) based data analysis: CSV or JSON!!")
 
 def plot_result_dataframe(df):
     if df.empty:
@@ -56,11 +56,9 @@ if uploaded_file is not None:
             st.write("✅ Data Preview", df.head())
         except Exception as e:
             st.error(f"Error loading JSON: {e}")
-    #df = pd.read_csv(uploaded_file)
-
-    
-
-    
+    else:
+        st.error("❌ Unsupported file format. Please upload a CSV or JSON file.")
+   
 
     question = st.text_input("💬 Ask a question in natural language:")
 
