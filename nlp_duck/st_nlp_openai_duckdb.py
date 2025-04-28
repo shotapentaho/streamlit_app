@@ -80,7 +80,9 @@ if st.session_state.df is not None:
 
     # Question Input (reset each time a new file is uploaded)
     question = st.text_input("💬 Ask a question in natural language to retrieve data (i.e English):"
-                             ,value=st.session_state.question)
+                             #,value=st.session_state.question
+                             ,value="row count?""
+                             )
 
     # Check if the question has changed or is not empty
     if question:
