@@ -41,6 +41,7 @@ def plot_result_dataframe(df):
 # File uploader
 uploaded_file = st.file_uploader("📁 Upload your CSV or JSON file", type=["csv", "json"])
 
+# When a file is uploaded
 if uploaded_file is not None:
     file_name = uploaded_file.name
 
@@ -63,13 +64,12 @@ if uploaded_file is not None:
     else:
         st.error("❌ Unsupported file format. Please upload a CSV or JSON file.")
 
-    # Force a rerun to reset the state of the question and make sure the dataframe is shown correctly
-    st.rerun()
-
 # --- If dataframe is ready ---
 if st.session_state.df is not None:
     con = duckdb.connect()
     con.register("data", st.session_state.df)
+
+    # Display the dataframe preview
     st.write("✅ Data Preview", st.session_state.df.head())
 
     # Question Input (reset each time a new file is uploaded)
