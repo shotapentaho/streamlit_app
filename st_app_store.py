@@ -43,7 +43,11 @@ col1, col2, col3 = st.columns([4,2,4])
 with col3:
 
     # Dropdown or radio button for selection
-    page_generic = st.selectbox("Select one generic app here:", list(st_generic_urls.keys()))
+    st.markdown(
+    "<h3 style='text-align: left; color: red;'>Select one generic app here:</h3>",
+    unsafe_allow_html=True
+    )
+    page_generic = st.selectbox("", list(st_generic_urls.keys()))
 
     # Button to open the selected page
     if st.button("Go to Selected Site"):
