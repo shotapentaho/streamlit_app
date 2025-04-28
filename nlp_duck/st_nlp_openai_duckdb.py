@@ -77,7 +77,7 @@ if st.session_state.df is not None:
     st.write("✅ Data Preview", st.session_state.df.head())
 
     # Question Input (reset each time a new file is uploaded)
-    question = st.text_input("💬 Ask a question in natural language:", value=st.session_state.question)
+    question = st.text_input("💬 Ask a question in natural language to retrieve data (i.e English):", value=st.session_state.question)
 
     # Check if the question has changed or is not empty
     if question:
