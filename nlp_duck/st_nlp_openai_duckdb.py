@@ -35,8 +35,18 @@ def plot_result_dataframe(df):
 uploaded_file = st.file_uploader("📁 Upload your CSV or JSON file", type=["csv", "json"])
 
 
-if uploaded_file:
-    df = pd.read_csv(uploaded_file)
+if uploaded_file is not None:
+    file_name = uploaded_file.name
+
+    if file_name.endswith('.csv'):
+        df = pd.read_csv(uploaded_file)
+        st.success("✅ CSV file loaded!")
+    elif file_name.endswith('.json'):
+        df = pd.read_json(uploaded_file)
+        st.success("✅ JSON file loaded!")
+
+    #df = pd.read_csv(uploaded_file)
+
     con = duckdb.connect()
     con.register("data", df)
 
