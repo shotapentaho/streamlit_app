@@ -39,7 +39,7 @@ if 'df' not in st.session_state:
     st.session_state.df = None
 
 if 'question' not in st.session_state:
-    st.session_state.question = None  # Default empty question
+    st.session_state.question = "row count?"  # Default empty question
 
 
 # File uploader
