@@ -90,12 +90,12 @@ if st.session_state.df is not None:
 
         with st.spinner("💡 Generating SQL..."):
             prompt = f"""
-Translate the following question into SQL for DuckDB.
-Table name: data
-Schema: {st.session_state.df.dtypes.astype(str).to_string()}
-Question: {question}
-Only return the SQL code.
-"""
+                        Translate the following question into SQL for DuckDB.
+                        Table name: data
+                        Schema: {st.session_state.df.dtypes.astype(str).to_string()}
+                        Question: {question}
+                        Only return the SQL code.
+                        """
 
             # Debugging: Show the generated prompt for clarity
             #st.write("Generated Prompt:")
