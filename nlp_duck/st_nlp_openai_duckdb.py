@@ -42,20 +42,25 @@ if uploaded_file is not None:
         try:
             df = pd.read_csv(uploaded_file)
             st.success("✅ CSV file loaded!")
+            con = duckdb.connect()
+            con.register("data", df)
+            st.write("✅ Data Preview", df.head())
         except Exception as e:
             st.error(f"Error loading CSV: {e}")
     elif file_name.endswith('.json'):
         try:
             df = pd.read_json(uploaded_file)
             st.success("✅ JSON file loaded!")
+            con = duckdb.connect()
+            con.register("data", df)
+            st.write("✅ Data Preview", df.head())
         except Exception as e:
             st.error(f"Error loading JSON: {e}")
     #df = pd.read_csv(uploaded_file)
 
-    con = duckdb.connect()
-    con.register("data", df)
+    
 
-    st.write("✅ Data Preview", df.head())
+    
 
     question = st.text_input("💬 Ask a question in natural language:")
 
