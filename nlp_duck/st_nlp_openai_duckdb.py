@@ -4,6 +4,9 @@ import pandas as pd
 import openai
 import matplotlib.pyplot as plt
 
+
+
+# plot_result_dataframe
 def plot_result_dataframe(df):
     if df.empty:
         st.warning("No data to plot.")
@@ -36,7 +39,7 @@ if 'df' not in st.session_state:
     st.session_state.df = None
 
 if 'question' not in st.session_state:
-    st.session_state.question = ''  # Default empty question
+    st.session_state.question = ""  # Default empty question
 
 
 
@@ -129,5 +132,3 @@ Only return the SQL code.
                         st.warning("⚠️ No data returned from SQL query.")
             except Exception as e:
                 st.error(f"Error: {e}")
-
-
