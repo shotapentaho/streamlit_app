@@ -101,8 +101,8 @@ Only return the SQL code.
                 )
 
                 # Debugging: Show the raw response from OpenAI
-                st.write("OpenAI Raw Response:")
-                st.json(response)  # This will give you the full raw response in JSON format
+                #st.write("OpenAI Raw Response:")
+                #st.json(response)  # This will give you the full raw response in JSON format
 
                 sql_query = response.choices[0].message.content.strip()
 
