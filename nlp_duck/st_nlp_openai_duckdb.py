@@ -51,7 +51,7 @@ if uploaded_file is not None:
     file_name = uploaded_file.name
 
     # Clear the question when a new file is uploaded
-    st.session_state.question = ''  # Reset question in session_state
+    st.session_state.question = None  # Reset question in session_state
 
     # Load the file and update session_state
     if file_name.endswith('.csv'):
