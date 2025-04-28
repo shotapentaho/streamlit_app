@@ -72,6 +72,9 @@ if st.session_state.df is not None:
 
     if question:
         with st.spinner("💡 Generating SQL..."):
+            # Display the question for debugging
+            st.write(f"💬 User Question: {question}")
+
             prompt = f"""
 Translate the following question into SQL for DuckDB.
 Table name: data
@@ -79,15 +82,25 @@ Schema: {st.session_state.df.dtypes.astype(str).to_string()}
 Question: {question}
 Only return the SQL code.
 """
+            # Show the generated prompt for debugging purposes
+            st.write("Generated Prompt:")
+            st.code(prompt, language="text")
+
             try:
+                # Make the OpenAI API request
                 response = openai.ChatCompletion.create(
                     model="gpt-4",
                     messages=[{"role": "user", "content": prompt}],
                     temperature=0,
                 )
+
+                # Debugging: Show the raw response from OpenAI
+                st.write("OpenAI Raw Response:")
+                st.json(response)  # This will give you the full raw response in JSON format
+
                 sql_query = response.choices[0].message.content.strip()
 
-                # Debugging: Log if the sql_query is empty or not
+                # Debugging: Check if the SQL query is generated
                 if not sql_query:
                     st.error("❌ OpenAI returned an empty SQL query.")
                 else:
@@ -95,7 +108,6 @@ Only return the SQL code.
                     st.code(sql_query, language="sql")
 
                 # Checking if the SQL is syntactically correct before executing
-                # Try running the SQL query
                 if sql_query:
                     result = con.execute(sql_query).fetchdf()  # THIS IS THE FIX: use fetchdf() to get the results
 
