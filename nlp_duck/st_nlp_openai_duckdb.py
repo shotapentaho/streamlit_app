@@ -40,8 +40,8 @@ if 'df' not in st.session_state:
 #if 'question' not in st.session_state:
 #    st.session_state.question = "row count?"  # Default empty question
 # Setup session state
-if "question" not in st.session_state:
-    st.session_state["question"] = ""
+#if "question" not in st.session_state:
+#    st.session_state["question"] = ""
 
 # File uploader
 uploaded_file = st.file_uploader("📁 Upload your CSV or JSON file", type=["csv", "json"])
