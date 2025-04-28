@@ -46,8 +46,8 @@ if uploaded_file is not None:
 
     # Clear the question when a new file is uploaded
     st.session_state.question = ''  # Reset question in session_state
-    st.rerun()  # Force the page to rerun and reset the question input
 
+    # Load the file and update session_state
     if file_name.endswith('.csv'):
         try:
             st.session_state.df = pd.read_csv(uploaded_file)
@@ -62,6 +62,9 @@ if uploaded_file is not None:
             st.error(f"Error loading JSON: {e}")
     else:
         st.error("❌ Unsupported file format. Please upload a CSV or JSON file.")
+
+    # Force a rerun to reset the state of the question and make sure the dataframe is shown correctly
+    st.rerun()
 
 # --- If dataframe is ready ---
 if st.session_state.df is not None:
