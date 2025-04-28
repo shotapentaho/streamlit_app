@@ -73,7 +73,7 @@ if uploaded_file is not None:
             prompt = f"""
 Translate the following question into SQL for DuckDB.
 Table name: data
-Schema: {df.dtypes.astype(str).to_string()}
+Schema: {st.session_state.df.dtypes.astype(str).to_string()}
 Question: {question}
 Only return the SQL code.
 """
