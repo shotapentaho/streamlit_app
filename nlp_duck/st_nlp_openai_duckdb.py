@@ -49,7 +49,7 @@ if uploaded_file is not None:
             st.error(f"Error loading CSV: {e}")
     elif file_name.endswith('.json'):
         try:
-            df = pd.read_json(uploaded_file)
+            df = pd.read_json(uploaded_file,lines=True)
             st.success("✅ JSON file loaded!")
             con = duckdb.connect()
             con.register("data", df)
