@@ -87,21 +87,25 @@ Only return the SQL code.
                 )
                 sql_query = response.choices[0].message.content.strip()
 
-                # Debugging: Show the generated SQL query
-                st.write("Generated SQL Query:")
-                st.code(sql_query, language="sql")
+                # Debugging: Log if the sql_query is empty or not
+                if not sql_query:
+                    st.error("❌ OpenAI returned an empty SQL query.")
+                else:
+                    st.write("Generated SQL Query:")
+                    st.code(sql_query, language="sql")
 
                 # Checking if the SQL is syntactically correct before executing
                 # Try running the SQL query
-                result = con.execute(sql_query).fetchdf()  # THIS IS THE FIX: use fetchdf() to get the results
+                if sql_query:
+                    result = con.execute(sql_query).fetchdf()  # THIS IS THE FIX: use fetchdf() to get the results
 
-                # Debugging: Show the result
-                st.write("SQL Execution Result:")
-                st.dataframe(result)
+                    # Debugging: Show the result
+                    st.write("SQL Execution Result:")
+                    st.dataframe(result)
 
-                if not result.empty:
-                    plot_result_dataframe(result)
-                else:
-                    st.warning("⚠️ No data returned from SQL query.")
+                    if not result.empty:
+                        plot_result_dataframe(result)
+                    else:
+                        st.warning("⚠️ No data returned from SQL query.")
             except Exception as e:
                 st.error(f"Error: {e}")
