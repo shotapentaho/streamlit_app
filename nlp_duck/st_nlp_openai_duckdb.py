@@ -77,7 +77,7 @@ if st.session_state.df is not None:
 
     # Check if the question has changed or is not empty
     if question:
-        st.write(f"💬 User Question: {question}")  # Log user question for debugging
+        #st.write(f"💬 User Question: {question}")  # Log user question for debugging
 
         with st.spinner("💡 Generating SQL..."):
             prompt = f"""
