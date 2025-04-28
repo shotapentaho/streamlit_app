@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 openai.api_key = st.secrets["openai"]["api_key"]
 
 st.set_page_config(layout="wide")
-st.title("🔍 NLP (Natural Language) based CSV data analysis!!")
+st.title("🔍📄🧠 NLP (Natural Language) based CSV data analysis!!")
 
 def plot_result_dataframe(df):
     if df.empty:
