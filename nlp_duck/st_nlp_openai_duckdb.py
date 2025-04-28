@@ -89,8 +89,8 @@ Only return the SQL code.
 """
 
             # Debugging: Show the generated prompt for clarity
-            st.write("Generated Prompt:")
-            st.code(prompt, language="text")
+            #st.write("Generated Prompt:")
+            #st.code(prompt, language="text")
 
             try:
                 # Make the OpenAI API request
