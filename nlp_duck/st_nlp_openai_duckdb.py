@@ -14,6 +14,9 @@ st.title(" 🔍 📄 🧠 NLP (Natural Language) based data analysis: CSV or JSO
 if 'df' not in st.session_state:
     st.session_state.df = None
 
+if 'question' not in st.session_state:
+    st.session_state.question = ''  # Default empty question
+
 def plot_result_dataframe(df):
     if df.empty:
         st.warning("No data to plot.")
@@ -41,6 +44,9 @@ uploaded_file = st.file_uploader("📁 Upload your CSV or JSON file", type=["csv
 if uploaded_file is not None:
     file_name = uploaded_file.name
 
+    # Clear the question when a new file is uploaded
+    st.session_state.question = ''  # Reset question
+
     if file_name.endswith('.csv'):
         try:
             st.session_state.df = pd.read_csv(uploaded_file)
@@ -62,8 +68,8 @@ if st.session_state.df is not None:
     con.register("data", st.session_state.df)
     st.write("✅ Data Preview", st.session_state.df.head())
 
-    # Question Input (without session_state for simplicity)
-    question = st.text_input("💬 Ask a question in natural language:")
+    # Question Input (reset each time a new file is uploaded)
+    question = st.text_input("💬 Ask a question in natural language:", value=st.session_state.question)
 
     # Check if the question has changed or is not empty
     if question:
