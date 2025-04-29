@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 from datetime import datetime
+import pandas as pd
 
 # Get API key from Streamlit secrets
 API_KEY = st.secrets["api"]["OPENWEATHER_API_KEY"]
@@ -80,7 +81,7 @@ if st.button("5-Day Forecast") and city:
                 'lat': coord['lat'],
                 'lon': coord['lon']
             }]))
-            
+
             display_forecast(data)
         else:
             st.error("City not found. Please check the name.")
