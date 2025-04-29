@@ -81,7 +81,7 @@ with col1:
     page_ml_dl = st.selectbox("", list(st_ml_dl_urls.keys()))
 
     # Button to open the selected page
-    if st.button("Go to Site"):
+    if st.button("Go to the Site"):
         st.markdown(f"[Click here to open {page_ml_dl}]({st_ml_dl_urls[page_ml_dl]})", unsafe_allow_html=True)
         st.write("The link will open in a new tab.")
 
