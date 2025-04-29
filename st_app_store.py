@@ -45,13 +45,13 @@ with col3:
 
     # Dropdown or radio button for selection
     st.markdown(
-    "<h3 style='text-align: left; color: red;'>Select your utility app here:</h3>",
+    "<h3 style='text-align: left; color: red;'>Select an utility app here:</h3>",
     unsafe_allow_html=True
     )
     page_generic = st.selectbox("", list(st_generic_urls.keys()))
 
     # Button to open the selected page
-    if st.button("Go to Selected Site"):
+    if st.button("Go to Site"):
         st.markdown(f"[Click here to open {page_generic}]({st_generic_urls[page_generic]})", unsafe_allow_html=True)
         st.write("The link will open in a new tab.")
 
@@ -75,7 +75,7 @@ with col1:
     # Dropdown or radio button for selection
     #page_ml_dl = st.selectbox("Select your LLM, ML, DL app here:", list(st_ml_dl_urls.keys()))
     st.markdown(
-    "<h3 style='text-align: left; color: red;'>Select your LLM, ML, DL app here:</h3>",
+    "<h3 style='text-align: left; color: red;'>Select you app: NLP data analysis, Translator, NER more.. :</h3>",
     unsafe_allow_html=True
     )
     page_ml_dl = st.selectbox("", list(st_ml_dl_urls.keys()))
