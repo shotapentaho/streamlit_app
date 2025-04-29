@@ -56,13 +56,13 @@ if uploaded_file is not None:
     if file_name.endswith('.csv'):
         try:
             st.session_state.df = pd.read_csv(uploaded_file)
-            st.success("✅ CSV file loaded!")
+            #st.success("✅ CSV file loaded!")
         except Exception as e:
             st.error(f"Error loading CSV: {e}")
     elif file_name.endswith('.json'):
         try:
             st.session_state.df = pd.read_json(uploaded_file, lines=True)
-            st.success("✅ JSON file loaded!")
+            #st.success("✅ JSON file loaded!")
         except Exception as e:
             st.error(f"Error loading JSON: {e}")
     else:
