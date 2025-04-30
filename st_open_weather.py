@@ -3,6 +3,9 @@ import requests
 from datetime import datetime
 import pandas as pd
 
+st.set_page_config(layout="wide")
+st.title("🌦️ 5-Day Weather Forecast & City Map Viewer")
+
 # Get API key from Streamlit secrets
 API_KEY = st.secrets["api"]["OPENWEATHER_API_KEY"]
 
