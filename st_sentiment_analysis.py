@@ -12,9 +12,7 @@ sentiment_analyzer = pipeline("sentiment-analysis", model=model, tokenizer=token
 
 # Streamlit UI elements
 st.title("Sentiment analysis..")
-st.write(
-    "This is a simple application to analyze the sentiment of a text input. Enter some text and click 'Analyze' to get the sentiment result."
-)
+st.write(f"Transformer model used : {model_name}")
 
 # User input text box
 user_input = st.text_area("Enter text for sentiment analysis:", "")
