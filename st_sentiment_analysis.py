@@ -1,8 +1,13 @@
 import streamlit as st
-from transformers import pipeline
+from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
+
+# Load tokenizer and model manually
+model_name = "cardiffnlp/twitter-roberta-base-sentiment"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForSequenceClassification.from_pretrained(model_name)
 
 #Initialize the Hugging Face sentiment analysis pipeline for multi-class sentiment (positive, negative, neutral)
-sentiment_analyzer = pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment")
+sentiment_analyzer = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
 # Streamlit UI elements
 st.title("Sentiment analysis..")
