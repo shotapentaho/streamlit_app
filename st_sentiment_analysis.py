@@ -10,7 +10,7 @@ model = AutoModelForSequenceClassification.from_pretrained(model_name)
 #Initialize the Hugging Face sentiment analysis pipeline for multi-class sentiment (positive, negative, neutral)
 sentiment_analyzer = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
-# Streamlit UI elements
+# Streamlit UI elements 
 st.title("Sentiment analysis..")
 st.write(f"Transformer model used : {model_name}")
 
