@@ -75,13 +75,16 @@ if st.button("5-Day Forecast") and city:
     # Check if the data is valid before displaying
     if data:
         if data.get("cod") == "200":
-            # Show map with city location
-            coord = data['city']['coord']
-            st.map(data=pd.DataFrame([{
-                'lat': coord['lat'],
-                'lon': coord['lon']
-            }]))
-
-            display_forecast(data)
+            col1, col2 = st.columns(2)
+            
+            with col2:
+                # Show map with city location
+                coord = data['city']['coord']
+                st.map(data=pd.DataFrame([{
+                    'lat': coord['lat'],
+                    'lon': coord['lon']
+                }]))
+            with col1:
+                display_forecast(data)
         else:
             st.error("City not found. Please check the name.")
