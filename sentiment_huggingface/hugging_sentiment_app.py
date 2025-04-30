@@ -11,7 +11,7 @@ st.write("Type a sentence below and let the model predict the sentiment!")
 # Load the Hugging Face pipeline
 @st.cache_resource
 def load_model():
-    return pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english", local_files_only=True)
+    return pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
 
 classifier = load_model()
 
