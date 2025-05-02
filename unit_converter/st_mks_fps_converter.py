@@ -34,7 +34,7 @@ def show_smaller_units(quantity_type, value, direction):
     return None
 
 st.set_page_config(page_title=" 🔁 Units Converter", layout="wide")
-st.title("🔁 MKS ↔ FPS & 🌡️ Temperature Converter")
+st.title("🔁 MKS ↔ FPS & 🌡️ Temperature, Force, Pressure and Energy Converter")
 
 quantity_type = st.selectbox(
     "Choose one to convert:",
