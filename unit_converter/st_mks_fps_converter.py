@@ -11,7 +11,7 @@ def convert_units(value, quantity_type, direction):
 st.set_page_config(page_title=" 🔁 Units Converter", layout="wide")
 st.title("🔁 MKS ↔ FPS & 🌡️ Temperature Converter")
 
-quantity_type = st.selectbox("Choose quantity type:", ['Length', 'Mass', 'Force', 'Temperature'])
+quantity_type = st.selectbox("Choose one, you like to convert:", ['Length', 'Mass', 'Force', 'Temperature'])
 
 # Define labels and slider ranges
 if quantity_type == 'Temperature':
