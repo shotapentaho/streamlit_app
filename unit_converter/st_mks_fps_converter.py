@@ -8,7 +8,7 @@ def convert_units(value, quantity_type, direction):
         factor = factors[quantity_type]
         return value * factor if direction == 'MKS to FPS' else value / factor
 
-st.set_page_config(page_title="Unit Converter", layout="centered")
+st.set_page_config(page_title=" 🔁 Units Converter", layout="wide")
 st.title("🔁 MKS ↔ FPS & 🌡️ Temperature Converter")
 
 quantity_type = st.selectbox("Choose quantity type:", ['Length', 'Mass', 'Force', 'Temperature'])
