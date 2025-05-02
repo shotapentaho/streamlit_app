@@ -68,8 +68,8 @@ def display_forecast(data):
         with cols[idx]:  # For each column (day)
             st.image(icon_url, width=50)  # Display icon with width
             st.write(f"**{date}**")
-            st.write(f"🌡️ Min: **{min_temp:.1f}°F**  **{min_temp_c:.1f}°C**")
-            st.write(f"🌡️ Max: **{max_temp:.1f}°F  **{max_temp_c:.1f}°C****")
+            st.write(f"🌡️ Min: **{min_temp:.1f}°F~**{min_temp_c:.1f}°C**")
+            st.write(f"🌡️ Max: **{max_temp:.1f}°F~**{max_temp_c:.1f}°C****")
             #st.write(f"🌡️ Avg Temp: {avg_temp:.1f}°F")
             st.write(f"💬 Conditions: {description.capitalize()}")
 
