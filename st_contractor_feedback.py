@@ -37,7 +37,7 @@ st.title("📬 US Address & Engagement Form")
 
 street = st.text_input("Street Address", placeholder="123 Main St")
 city = st.text_input("City", placeholder="Springfield")
-state = st.selectbox("State (2-letter abbreviation)", us_states)
+state = st.selectbox("State ", us_states)
 zip_code = st.text_input("ZIP Code", placeholder="90210")
 engagement = st.selectbox("Type of Engagement", engagement_types)
 activity_date = st.date_input("Date of Activity", value=date.today())
