@@ -53,3 +53,29 @@ feedback = st.text_area("Feedback about the customer", placeholder="e.g., Very p
 # Submit
 if st.button("Submit"):
     if not (street and city and zip_code):
+        st.warning("Please fill out all required fields.")
+    else:
+        with duckdb.connect(DB_FILE) as conn:
+            conn.execute("""
+                INSERT INTO engagements (street, city, state, zip_code, engagement_type, activity_date, feedback)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (street, city, state, zip_code, engagement, activity_date, feedback))
+        st.success("Form submitted and saved to database!")
+
+        # Display summary
+        st.markdown(f"""
+        **Address**: {street}, {city}, {state} {zip_code}  
+        **Engagement**: {engagement}  
+        **Activity Date**: {activity_date.strftime('%Y-%m-%d')}  
+        **Customer Feedback**: _{feedback or "No feedback provided."}_
+        """)
+
+# View stored data
+st.subheader("📊 All Submitted Engagements")
+with duckdb.connect(DB_FILE) as conn:
+    df = conn.execute("SELECT * FROM engagements ORDER BY submitted_at DESC").fetchdf()
+
+if df.empty:
+    st.info("No submissions yet.")
+else:
+    st.dataframe(df, use_container_width=True)
