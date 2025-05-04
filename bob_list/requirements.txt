@@ -1,4 +1,4 @@
 streamlit
-snowflake.connector
+snowflake-connector-python
 pandas
 datetime
