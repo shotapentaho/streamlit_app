@@ -45,6 +45,8 @@ def init_db():
             conn.register("import_df", df)
             conn.execute("INSERT INTO engagements SELECT * FROM import_df")
             st.info("Data restored from backup.")
+
+
 init_db()
 
 # UI
