@@ -14,10 +14,9 @@ us_states = [
 engagement_types = ["Electrical", "Painting", "Plumbing"]
 DB_FILE = "engagements.duckdb"
 
-# Initialize DB
+# Initialize DB and add new columns if needed
 def init_db():
     with duckdb.connect(DB_FILE) as conn:
-        conn.execute("DROP TABLE IF EXISTS engagements")
         conn.execute("""
             CREATE TABLE IF NOT EXISTS engagements (
                 street TEXT,
@@ -25,17 +24,21 @@ def init_db():
                 state TEXT,
                 zip_code TEXT,
                 engagement_type TEXT,
-                activity_date DATE,
                 feedback TEXT,
                 submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
+        existing_cols = conn.execute("PRAGMA table_info('engagements')").fetchdf()
+        if 'activity_date' not in existing_cols['name'].values:
+            conn.execute("ALTER TABLE engagements ADD COLUMN activity_date DATE")
+        if 'customer_name' not in existing_cols['name'].values:
+            conn.execute("ALTER TABLE engagements ADD COLUMN customer_name TEXT")
 init_db()
 
 # UI
-st.title("📬 Customer Feedbacks...")
+st.title("📬 US Address & Engagement Form")
 
-# Address Inputs
+customer_name = st.text_input("Customer Name", placeholder="John Doe")
 street = st.text_input("Street Address", placeholder="123 Main St")
 
 col1, col2, col3 = st.columns([3, 1, 2])
@@ -46,32 +49,35 @@ with col2:
 with col3:
     zip_code = st.text_input("ZIP Code", placeholder="90210")
 
-# Other Inputs
 engagement = st.selectbox("Type of Engagement", engagement_types)
 activity_date = st.date_input("Date of Activity", value=date.today())
 feedback = st.text_area("Feedback about the customer", placeholder="e.g., Very polite, always on time...")
 
 # Submit
 if st.button("Submit"):
-    if not (street and city and zip_code):
+    if not (customer_name and street and city and zip_code):
         st.warning("Please fill out all required fields.")
     else:
         with duckdb.connect(DB_FILE) as conn:
             conn.execute("""
-                INSERT INTO engagements (street, city, state, zip_code, engagement_type, activity_date, feedback)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (street, city, state, zip_code, engagement, activity_date, feedback))
+                INSERT INTO engagements (
+                    street, city, state, zip_code, engagement_type, 
+                    activity_date, feedback, customer_name
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """, (street, city, state, zip_code, engagement, activity_date, feedback, customer_name))
         st.success("Form submitted and saved to database!")
 
         # Display summary
         st.markdown(f"""
+        **Customer Name**: {customer_name}  
         **Address**: {street}, {city}, {state} {zip_code}  
         **Engagement**: {engagement}  
         **Activity Date**: {activity_date.strftime('%Y-%m-%d')}  
         **Customer Feedback**: _{feedback or "No feedback provided."}_
         """)
 
-# View stored data
+# Display data
 st.subheader("📊 All Submitted Engagements")
 with duckdb.connect(DB_FILE) as conn:
     df = conn.execute("SELECT * FROM engagements ORDER BY submitted_at DESC").fetchdf()
