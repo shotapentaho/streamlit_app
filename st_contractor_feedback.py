@@ -5,6 +5,9 @@ from datetime import date
 
 st.set_page_config(layout="wide")
 
+DB_FILE = "engagements.duckdb"
+BACKUP_FILE = "engagements_backup.csv"
+
 # US States and Engagements
 us_states = [
     'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
@@ -26,12 +29,22 @@ def init_db():
                 state TEXT,
                 zip_code TEXT,
                 engagement_type TEXT,
-                activity_date DATE,
-                customer_name TEXT,
                 feedback TEXT,
-                submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                activity_date DATE,
+                customer_name TEXT
             )
         """)
+        
+        # Check if table is empty
+        count = conn.execute("SELECT COUNT(*) FROM engagements").fetchone()[0]
+
+        # If empty and backup exists, import from CSV
+        if count == 0 and os.path.exists(BACKUP_FILE):
+            df = pd.read_csv(BACKUP_FILE, parse_dates=["submitted_at", "activity_date"])
+            conn.register("import_df", df)
+            conn.execute("INSERT INTO engagements SELECT * FROM import_df")
+            st.info("Data restored from backup.")
 init_db()
 
 # UI
@@ -65,7 +78,13 @@ if st.button("Submit"):
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """, (street, city, state, zip_code, engagement, activity_date, feedback, customer_name))
+
+            # Export entire table to CSV
+            df_all = conn.execute("SELECT * FROM engagements").fetchdf()
+            df_all.to_csv(BACKUP_FILE, index=False)
+
         st.success("Form submitted and saved to database!")
+
 
         # Display summary
         st.markdown(f"""
