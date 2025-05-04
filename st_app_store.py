@@ -25,10 +25,10 @@ st_generic_urls = {
 
 st_ml_dl_urls = {
     "📄🧠 NLP (English): Analyze and Visualize CSV/JSON": "https://nlp-query-duckdb.streamlit.app/",
-    "NLP - NER Named Entity Recognition":"https://ner-from-text.streamlit.app/",
+    "NLP NER - Named Entity Recognition":"https://ner-from-text.streamlit.app/",
     "NLP Traslator - Human Languages": "https://translate-language.streamlit.app/",
     "Summarize Text": "https://summarize-info.streamlit.app/",
-    "PDF Text Extractor":"https://pdf-to-txt.streamlit.app/",
+    "PyMuPDF - PDF Text Extractor":"https://pdf-to-txt.streamlit.app/",
     "DeepLearning : Detect Bone Fracture": "https://detect-bone-fracture.streamlit.app/",
     "Deep Learning: Detect Mood from Selfie":"https://detect-mood-selfie.streamlit.app/",
     "📈 Classifier - Decision Tree Classifier": "https://hot-decision-tree.streamlit.app/",
