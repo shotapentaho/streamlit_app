@@ -53,7 +53,7 @@ if st.button("Analyze"):
         score = result['score']
 
         # Optional: handle neutral logic only for binary classifiers
-        if isinstance(label, "star"):
+        if "star" in label:
             rating_to_stars(5)     
         else:
             st.subheader(f"Sentiment: {label}")
