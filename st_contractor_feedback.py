@@ -3,6 +3,8 @@ import duckdb
 import pandas as pd
 from datetime import date
 
+st.set_page_config(layout="wide")
+
 # US States and Engagements
 us_states = [
     'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
