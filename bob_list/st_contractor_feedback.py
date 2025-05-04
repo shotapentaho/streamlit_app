@@ -81,6 +81,6 @@ with st.form("engagement_form"):
 
 # Retrieve and display existing data
 st.subheader("All Engagement Records")
-cur.execute("SELECT * FROM engagements ORDER BY submitted_at DESC")
+cur.execute("SELECT * FROM TEST.PUBLIC.engagements ORDER BY submitted_at DESC")
 df = cur.fetch_pandas_all()
 st.dataframe(df, use_container_width=True)
