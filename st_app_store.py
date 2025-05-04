@@ -28,6 +28,7 @@ st_ml_dl_urls = {
     "NLP NER - Named Entity Recognition":"https://ner-from-text.streamlit.app/",
     "NLP Traslator - Human Languages": "https://translate-language.streamlit.app/",
     "NLP Sentiment analysis Huggingface pipeline":"https://get-sentiment.streamlit.app/",
+    "NLP Sentiment Analysis - Custom your model": "https://analyze-sentiment.streamlit.app/",
     "Summarize Text": "https://summarize-info.streamlit.app/",
     "PyMuPDF - PDF Text Extractor":"https://pdf-to-txt.streamlit.app/",
     "DeepLearning : Detect Bone Fracture": "https://detect-bone-fracture.streamlit.app/",
