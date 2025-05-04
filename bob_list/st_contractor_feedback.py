@@ -66,7 +66,7 @@ with st.form("engagement_form"):
             st.warning("Please fill out all required fields.")
         else:
             insert_sql = """
-                INSERT INTO engagements (
+                INSERT INTO TEST.PUBLIC.engagements (
                     customer_name, street, city, state, zip_code, 
                     engagement_type, activity_date, feedback
                 )
