@@ -35,6 +35,7 @@ if st.button("Analyze"):
         st.warning("⚠ Please enter some text for analysis.")
     else:
         result = sentiment_analyzer(user_input)[0]
+        st.write(result)
         label = result['label']
         score = result['score']
 
