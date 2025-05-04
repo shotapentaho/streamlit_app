@@ -30,11 +30,6 @@ def init_db():
                 submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
-        existing_cols = conn.execute("PRAGMA table_info('engagements')").fetchdf()
-        if 'activity_date' not in existing_cols['name'].values:
-            conn.execute("ALTER TABLE engagements ADD COLUMN ")
-        if 'customer_name' not in existing_cols['name'].values:
-            conn.execute("ALTER TABLE engagements ADD COLUMN customer_name TEXT")
 init_db()
 
 # UI
