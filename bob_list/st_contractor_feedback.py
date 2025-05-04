@@ -41,7 +41,7 @@ st.title("Customer Engagement feeder..")
 with st.form("engagement_form"):
     customer_name = st.text_input("Customer Name")
     street = st.text_input("Street Address")
-    col1, col2, col3 = st.columns([2, 1, 2])
+    col1, col2, col3 = st.columns([2, 2, 1])
     with col1:
         city = st.text_input("City")
     with col2:
@@ -54,9 +54,12 @@ with st.form("engagement_form"):
         ])
     with col3:
         zip_code = st.text_input("ZIP Code")
-
-    engagement_type = st.selectbox("Type of work:", ["Electrical", "Painting", "Plumbing"])
-    activity_date = st.date_input("Activity performed on:", value=date.today())
+        
+    col4, col5 = st.columns([1,2])
+    with col4:
+        engagement_type = st.selectbox("Type of work:", ["Electrical", "Painting", "Plumbing"])
+    with col5:
+        activity_date = st.date_input("Activity performed on:", value=date.today())
     feedback = st.text_area("Feedback (if any) on customer:")
 
     submitted = st.form_submit_button("Submit")
