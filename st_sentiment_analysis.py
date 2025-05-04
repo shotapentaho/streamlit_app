@@ -24,6 +24,18 @@ def load_model(model_name):
     model = AutoModelForSequenceClassification.from_pretrained(model_name)
     return pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
+# Function to convert a numeric rating into stars
+def rating_to_stars(rating):
+    # Create a full star unicode for the rating
+    full_star = "⭐"
+    empty_star = "☆"
+    
+    # Calculate how many full stars to show
+    full_stars = full_star * rating
+    empty_stars = empty_star * (5 - rating)
+    
+    return full_stars + empty_stars
+
 sentiment_analyzer = load_model(model_name)
 
 # Text input area
@@ -40,7 +52,11 @@ if st.button("Analyze"):
         score = result['score']
 
         # Optional: handle neutral logic only for binary classifiers
-        st.subheader(f"Sentiment: {label}")
+        if isinstance(label, "star"):
+            rating_to_stars(5)     
+        else:
+            st.subheader(f"Sentiment: {label}")
+        
         st.write(f"Confidence Score: {score:.2f}")
         if label.lower().startswith("pos"):
             st.markdown('<h3 style="color:green;">Positive</h3>', unsafe_allow_html=True)
