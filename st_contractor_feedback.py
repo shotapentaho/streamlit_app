@@ -2,6 +2,7 @@ import streamlit as st
 import duckdb
 import pandas as pd
 from datetime import date
+import os
 
 st.set_page_config(layout="wide")
 
