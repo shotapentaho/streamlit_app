@@ -24,7 +24,7 @@ st_generic_urls = {
 }
 
 st_ml_dl_urls = {
-    "📄🧠 NLP based data analysis CSV/JSON": "https://nlp-query-duckdb.streamlit.app/",
+    "📄🧠 NLP (English): Analyze and Visualize CSV/JSON": "https://nlp-query-duckdb.streamlit.app/",
     "Text Summarizer": "https://summarize-info.streamlit.app/",
     "PDF Text Extractor":"https://pdf-to-txt.streamlit.app/",
     "Decision Tree Classifier": "https://hot-decision-tree.streamlit.app/",
