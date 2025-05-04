@@ -9,7 +9,7 @@ available_models = {
 }
 
 # Streamlit UI
-st.title("Sentiment Analysis with Transformers")
+st.title("Sentiment Analysis - by Models")
 
 # Selectbox for model selection
 selected_model_name = st.selectbox("Select a sentiment analysis model:", list(available_models.keys()))
