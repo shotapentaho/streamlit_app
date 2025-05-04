@@ -41,7 +41,7 @@ st.title("Customer feedbacks..(if any)")
 with st.form("engagement_form"):
     customer_name = st.text_input("Customer Name")
     
-    col4, col1, col2, col3 = st.columns([2, 2, 1, 2])
+    col4, col1, col2, col3 = st.columns([2, 2, 1, 1])
     with col4:
         street = st.text_input("Street:")
     with col1:
