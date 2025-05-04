@@ -55,9 +55,9 @@ with st.form("engagement_form"):
     with col3:
         zip_code = st.text_input("ZIP Code")
 
-    engagement_type = st.selectbox("Type of Engagement", ["Electrical", "Painting", "Plumbing"])
-    activity_date = st.date_input("Date of Activity", value=date.today())
-    feedback = st.text_area("Feedback About the Customer")
+    engagement_type = st.selectbox("Type of work:", ["Electrical", "Painting", "Plumbing"])
+    activity_date = st.date_input("Activity performed on:", value=date.today())
+    feedback = st.text_area("Feedback (if any) on customer:")
 
     submitted = st.form_submit_button("Submit")
 
@@ -80,7 +80,7 @@ with st.form("engagement_form"):
             st.success("Submission saved to Snowflake.")
 
 # Retrieve and display existing data
-st.subheader("All Engagement Records")
+st.subheader("Customer Engagements:")
 cur.execute("SELECT * FROM TEST.PUBLIC.engagements ORDER BY submitted_at DESC")
 df = cur.fetch_pandas_all()
 st.dataframe(df, use_container_width=True)
