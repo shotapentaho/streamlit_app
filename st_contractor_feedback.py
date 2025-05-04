@@ -32,7 +32,7 @@ def init_db():
 init_db()
 
 # UI
-st.title("📬 US Address & Engagement Form")
+st.title("📬 Customer Feedbacks...")
 
 # Address Inputs
 street = st.text_input("Street Address", placeholder="123 Main St")
