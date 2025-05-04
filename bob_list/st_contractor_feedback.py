@@ -41,7 +41,7 @@ st.title("Customer Engagement feeder..")
 with st.form("engagement_form"):
     customer_name = st.text_input("Customer Name")
     
-    col1, col2, col3, col4 = st.columns([2, 2, 1, 2])
+    col4, col1, col2, col3 = st.columns([2, 2, 1, 2])
     with col4:
         street = st.text_input("Street Address")
     with col1:
