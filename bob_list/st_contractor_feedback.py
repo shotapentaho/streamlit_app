@@ -22,7 +22,7 @@ cur = conn.cursor()
 
 # Create table if it doesn't exist
 cur.execute("""
-    CREATE TABLE IF NOT EXISTS engagements (
+    CREATE TABLE IF NOT EXISTS TEST.PUBLIC.engagements (
         customer_name STRING,
         street STRING,
         city STRING,
