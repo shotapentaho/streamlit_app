@@ -24,13 +24,15 @@ def init_db():
                 state TEXT,
                 zip_code TEXT,
                 engagement_type TEXT,
+                activity_date DATE,
+                customer_name TEXT,
                 feedback TEXT,
                 submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
         existing_cols = conn.execute("PRAGMA table_info('engagements')").fetchdf()
         if 'activity_date' not in existing_cols['name'].values:
-            conn.execute("ALTER TABLE engagements ADD COLUMN activity_date DATE")
+            conn.execute("ALTER TABLE engagements ADD COLUMN ")
         if 'customer_name' not in existing_cols['name'].values:
             conn.execute("ALTER TABLE engagements ADD COLUMN customer_name TEXT")
 init_db()
@@ -38,20 +40,20 @@ init_db()
 # UI
 st.title("📬 US Address & Engagement Form")
 
-customer_name = st.text_input("Customer Name", placeholder="John Doe")
-street = st.text_input("Street Address", placeholder="123 Main St")
+customer_name = st.text_input("Customer:", placeholder="John Doe")
+street = st.text_input("Street:", placeholder="123 Main St")
 
 col1, col2, col3 = st.columns([3, 1, 2])
 with col1:
-    city = st.text_input("City", placeholder="Springfield")
+    city = st.text_input("City:", placeholder="Springfield")
 with col2:
-    state = st.selectbox("State", us_states)
+    state = st.selectbox("State:", us_states)
 with col3:
-    zip_code = st.text_input("ZIP Code", placeholder="90210")
+    zip_code = st.text_input("ZIP:", placeholder="90210")
 
-engagement = st.selectbox("Type of Engagement", engagement_types)
-activity_date = st.date_input("Date of Activity", value=date.today())
-feedback = st.text_area("Feedback about the customer", placeholder="e.g., Very polite, always on time...")
+engagement = st.selectbox("Contract Type:", engagement_types)
+activity_date = st.date_input("Activity on:", value=date.today())
+feedback = st.text_area("About work done at customer:", placeholder="e.g., Very polite, always on time...")
 
 # Submit
 if st.button("Submit"):
