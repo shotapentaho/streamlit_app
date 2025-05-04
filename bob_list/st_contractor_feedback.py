@@ -35,7 +35,7 @@ cur.execute("""
     )
 """)
 
-st.title("Customer Engagement feeder..")
+st.title("Know your customers?")
 
 # Form fields
 with st.form("engagement_form"):
@@ -85,7 +85,7 @@ with st.form("engagement_form"):
             st.success("Submission saved to Snowflake.")
 
 # Retrieve and display existing data
-st.subheader("Customer Engagements:")
+st.subheader("All Engagements:")
 cur.execute("SELECT * FROM TEST.PUBLIC.engagements ORDER BY submitted_at DESC")
 df = cur.fetch_pandas_all()
 st.dataframe(df, use_container_width=True)
