@@ -33,7 +33,7 @@ def init_db():
 init_db()
 
 # UI
-st.title("📬 Feedback on Customer - Bob's list")
+st.title("📬 Contract feedbacks on Customer")
 
 customer_name = st.text_input("Customer:", placeholder="John Doe")
 street = st.text_input("Street:", placeholder="123 Main St")
@@ -75,7 +75,7 @@ if st.button("Submit"):
         """)
 
 # Display data
-st.subheader("📊 All Submitted Engagements")
+st.subheader("📊 All Engagements:")
 with duckdb.connect(DB_FILE) as conn:
     df = conn.execute("SELECT * FROM engagements ORDER BY submitted_at DESC").fetchdf()
 
