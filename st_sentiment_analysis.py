@@ -49,7 +49,6 @@ if st.button("Analyze"):
         result = sentiment_analyzer(user_input)[0]
         
         label = result['label']
-        st.write(label)
         score = result['score']
 
         # Optional: handle neutral logic only for binary classifiers
