@@ -38,7 +38,7 @@ def init_db():
 init_db()
 
 # UI
-st.title("📬 US Address & Engagement Form")
+st.title("📬 Feedback on Customer - Bob's list")
 
 customer_name = st.text_input("Customer:", placeholder="John Doe")
 street = st.text_input("Street:", placeholder="123 Main St")
