@@ -25,19 +25,19 @@ st_generic_urls = {
 
 st_ml_dl_urls = {
     "📄🧠 NLP (English): Analyze and Visualize CSV/JSON": "https://nlp-query-duckdb.streamlit.app/",
-    "Text Summarizer": "https://summarize-info.streamlit.app/",
+    "NLP - NER Named Entity Recognition":"https://ner-from-text.streamlit.app/",
+    "NLP Traslator - Human Languages": "https://translate-language.streamlit.app/",
+    "Summarize Text": "https://summarize-info.streamlit.app/",
     "PDF Text Extractor":"https://pdf-to-txt.streamlit.app/",
-    "Decision Tree Classifier": "https://hot-decision-tree.streamlit.app/",
-	"📈K-Means Clustering": "https://hot-kmeans-clustering.streamlit.app/",
-	"📈Linear Regression": "https://hot-linear-regression.streamlit.app/",
-	"📈Logistic Regression": "https://hot-logistic-regression.streamlit.app/",
-    "📈SVM Classifier": "https://viz-svm-classifier.streamlit.app/",
+    "DeepLearning : Detect Bone Fracture": "https://detect-bone-fracture.streamlit.app/",
+    "Deep Learning: Detect Mood from Selfie":"https://detect-mood-selfie.streamlit.app/",
+    "📈 Classifier - Decision Tree Classifier": "https://hot-decision-tree.streamlit.app/",
+	"📈 Clustering K-Means": "https://hot-kmeans-clustering.streamlit.app/",
+	"📈 Linear Regression": "https://hot-linear-regression.streamlit.app/",
+	"📈 Classifier - Logistic Regression": "https://hot-logistic-regression.streamlit.app/",
+    "📈 Classifier - SVM ": "https://viz-svm-classifier.streamlit.app/",
 	"Bot powered by OpenAI": "https://openai-hot-bot.streamlit.app/",
-    "Human Language Translator": "https://translate-language.streamlit.app/",
-    "Detect Bone Fracture": "https://detect-bone-fracture.streamlit.app/",
-    "Detect Mood from Selfie":"https://detect-mood-selfie.streamlit.app/",
-    "Named Entity Recognition from text":"https://ner-from-text.streamlit.app/",
-    "Self Organizing Map - Clustering":"https://self-org-map.streamlit.app/"
+    "Dim Reduction: SOM Unsupervised":"https://self-org-map.streamlit.app/"
    
 }
 # Create two columns
