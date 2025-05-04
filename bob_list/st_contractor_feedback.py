@@ -55,7 +55,7 @@ with st.form("engagement_form"):
             "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
         ])
     with col3:
-        zip_code = st.text_input("ZIP Code")
+        zip_code = st.text_input("ZIP:")
 
     col4, col5 = st.columns([1,2])
     with col4:
