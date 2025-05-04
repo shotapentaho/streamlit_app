@@ -43,11 +43,11 @@ with st.form("engagement_form"):
     
     col4, col1, col2, col3 = st.columns([2, 2, 1, 2])
     with col4:
-        street = st.text_input("Street Address")
+        street = st.text_input("Street:")
     with col1:
-        city = st.text_input("City")
+        city = st.text_input("City:")
     with col2:
-        state = st.selectbox("State", options=[
+        state = st.selectbox("State:", options=[
             "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
             "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
             "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
