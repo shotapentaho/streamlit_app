@@ -40,8 +40,10 @@ st.title("Customer Engagement feeder..")
 # Form fields
 with st.form("engagement_form"):
     customer_name = st.text_input("Customer Name")
-    street = st.text_input("Street Address")
-    col1, col2, col3 = st.columns([2, 2, 1])
+    
+    col1, col2, col3, col4 = st.columns([2, 2, 1, 2])
+    with col4:
+        street = st.text_input("Street Address")
     with col1:
         city = st.text_input("City")
     with col2:
@@ -54,7 +56,7 @@ with st.form("engagement_form"):
         ])
     with col3:
         zip_code = st.text_input("ZIP Code")
-        
+
     col4, col5 = st.columns([1,2])
     with col4:
         engagement_type = st.selectbox("Type of work:", ["Electrical", "Painting", "Plumbing"])
