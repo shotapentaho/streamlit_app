@@ -1,6 +1,7 @@
 import streamlit as st
 import duckdb
 import pandas as pd
+from datetime import date
 
 # US State abbreviations
 us_states = [
@@ -24,6 +25,7 @@ def init_db():
                 state TEXT,
                 zip_code TEXT,
                 engagement_type TEXT,
+                activity_date DATE,
                 feedback TEXT,
                 submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
@@ -38,6 +40,7 @@ city = st.text_input("City", placeholder="Springfield")
 state = st.selectbox("State (2-letter abbreviation)", us_states)
 zip_code = st.text_input("ZIP Code", placeholder="90210")
 engagement = st.selectbox("Type of Engagement", engagement_types)
+activity_date = st.date_input("Date of Activity", value=date.today())
 feedback = st.text_area("Feedback about the customer", placeholder="e.g., Very polite, always on time...")
 
 # Submit form
@@ -47,9 +50,9 @@ if st.button("Submit"):
     else:
         with duckdb.connect(DB_FILE) as conn:
             conn.execute("""
-                INSERT INTO engagements (street, city, state, zip_code, engagement_type, feedback)
-                VALUES (?, ?, ?, ?, ?, ?)
-            """, (street, city, state, zip_code, engagement, feedback))
+                INSERT INTO engagements (street, city, state, zip_code, engagement_type, activity_date, feedback)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (street, city, state, zip_code, engagement, activity_date, feedback))
         st.success("Form submitted and saved to database!")
 
 # Display data on refresh
