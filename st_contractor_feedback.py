@@ -17,6 +17,7 @@ DB_FILE = "engagements.duckdb"
 # Initialize DB
 def init_db():
     with duckdb.connect(DB_FILE) as conn:
+        conn.execute("DROP TABLE IF EXISTS engagements")
         conn.execute("""
             CREATE TABLE IF NOT EXISTS engagements (
                 street TEXT,
