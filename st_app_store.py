@@ -26,7 +26,7 @@ st_generic_urls = {
 st_ml_dl_urls = {
     "📄🧠 NLP (English): Analyze and Visualize CSV/JSON": "https://nlp-query-duckdb.streamlit.app/",
     "NLP NER - Named Entity Recognition":"https://ner-from-text.streamlit.app/",
-    "NLP Traslator - Human Languages": "https://translate-language.streamlit.app/",
+    "NLP Translator - Human Languages": "https://translate-language.streamlit.app/",
     "NLP Sentiment analysis - Hugging Face pipeline":"https://get-sentiment.streamlit.app/",
     "NLP Sentiment Analysis - by models": "https://analyze-sentiment.streamlit.app/",
     "Summarize Text": "https://summarize-info.streamlit.app/",
