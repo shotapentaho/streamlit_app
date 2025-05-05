@@ -4,7 +4,7 @@ from datetime import datetime
 import pandas as pd
 
 st.set_page_config(layout="wide")
-st.title("🌦️ 5-Day Weather Forecast & City Map Viewer")
+st.title("🌦️ 5-Day Weather Forecast & Map")
 
 # Get API key from Streamlit secrets
 API_KEY = st.secrets["api"]["OPENWEATHER_API_KEY"]
@@ -74,7 +74,7 @@ def display_forecast(data):
             st.write(f"💬 Conditions: {description.capitalize()}")
 
 # Streamlit user input for city name
-city = st.text_input("Enter a city:", "New York")
+city = st.text_input("Enter a city:", "Sambalpur, Odisha, India")
 
 if st.button("5-Day Forecast") and city:
     data = get_weather_forecast(city)
