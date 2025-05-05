@@ -12,7 +12,7 @@ if uploaded_file:
     raw_hl7 = uploaded_file.read().decode("utf-8").strip()
     
     try:
-        message = parse_message(raw_hl7)
+        message = parse_message(raw_hl7, validation_level=None)
         st.success("HL7 message parsed successfully!")
 
         # Extract data from segments
