@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import json
 
 def parse_hl7_to_segments(raw):
     segments = raw.strip().split("\n")
@@ -8,7 +7,7 @@ def parse_hl7_to_segments(raw):
 
 def extract_data(segments):
     patient_info = {}
-    observations = []
+    combined_rows = []
 
     for segment in segments:
         seg_type = segment[0]
@@ -23,33 +22,30 @@ def extract_data(segments):
             }
 
         elif seg_type == "OBX":
-            obs = {
+            row = {
+                **patient_info,
                 "Observation ID": segment[3].split("^")[0] if len(segment) > 3 else "",
                 "Observation Desc": segment[3].split("^")[1] if len(segment) > 3 and "^" in segment[3] else "",
                 "Value": segment[5] if len(segment) > 5 else "",
                 "Units": segment[6] if len(segment) > 6 else ""
             }
-            observations.append(obs)
+            combined_rows.append(row)
 
-    return patient_info, observations
+    return combined_rows
 
-st.title("📄 HL7 Parser (Simple + Robust)")
+st.title("📄 HL7 to CSV Parser")
 
 uploaded_file = st.file_uploader("Upload your HL7 file", type=["hl7", "txt"])
 if uploaded_file:
     hl7_data = uploaded_file.read().decode("utf-8")
     segments = parse_hl7_to_segments(hl7_data)
-    patient_info, obx_data = extract_data(segments)
+    combined_rows = extract_data(segments)
 
-    st.subheader("👤 Patient Info")
-    st.json(patient_info)
-
-    if obx_data:
-        df = pd.DataFrame(obx_data)
-        st.subheader("🧪 Observations")
+    if combined_rows:
+        df = pd.DataFrame(combined_rows)
+        st.subheader("👤📊 Combined Patient + Observation Data")
         st.dataframe(df)
 
-        st.download_button("Download CSV", df.to_csv(index=False), "observations.csv", "text/csv")
-        st.download_button("Download JSON", json.dumps(obx_data, indent=2), "observations.json", "application/json")
+        st.download_button("Download CSV", df.to_csv(index=False), "hl7_combined.csv", "text/csv")
     else:
-        st.info("No OBX segments found.")
+        st.info("No OBX or PID segments found.")
