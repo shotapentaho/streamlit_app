@@ -20,7 +20,7 @@ st_generic_urls = {
     "Triangle by co-ordinates": "https://viz-triangle.streamlit.app/",
     "Multi Log Curves": "https://viz-logarithm.streamlit.app/",
     "📐Trigonometry Visualizer":"https://trigonometry.streamlit.app/",
-    "HL7-Health Level Seven to CSV Parser" : "https://parse-hl7-emr.streamlit.app/"
+    "HL7-Health Level Seven to CSV Parser":"https://parse-hl7-emr.streamlit.app/"
 
 }
 
