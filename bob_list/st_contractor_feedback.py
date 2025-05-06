@@ -169,7 +169,7 @@ with st.form("engagement_form"):
 
 #flag_to_display = 0
 st.write(user_exists[1])
-if user_exists[1] == "('admin',)":
+if "admin" in user_exists[1]:
 # Retrieve and display existing data
     st.subheader("All Engagements:")
     cur.execute("SELECT * FROM TEST.PUBLIC.engagements ORDER BY submitted_at DESC")
