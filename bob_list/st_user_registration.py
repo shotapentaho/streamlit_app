@@ -73,9 +73,8 @@ if tab == "Login":
             #st.success(f"Welcome, {full_name}!")
             #st.experimental_rerun()
             st.markdown(
-            f"""<meta http-equiv="refresh" content="0; url=https://bobs-list.streamlit.app">""",
-            unsafe_allow_html=True
-            )
+    """<meta http-equiv="refresh" content="0; url=https://bobs-list.streamlit.app">""",
+    unsafe_allow_html=True)
         else:
             st.error("Invalid username or password.")
 
