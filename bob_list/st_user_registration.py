@@ -78,6 +78,8 @@ if tab == "Login":
                 st.session_state.logged_in = True
                 #st.session_state.full_name = full_name
                 st.success(f"Welcome, {username}!")
+                URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&username="+ username
+                st.write(URL_TO_GO)
                 #st.experimental_rerun()
                 st.markdown("""
                 <a href="https://bobs-list.streamlit.app?logged_in=true&username={username}" target="_blank">
