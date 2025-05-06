@@ -19,8 +19,9 @@ if len(st.query_params)> 1:
      # Update session state based on the URL parameter
     if st.query_params["logged_in"] == "true":
         st.session_state.logged_in = True
-        hashed_password = st.query_params["password"]
-        st.write(hashed_password)
+        which_user_password = is_authenticated_user (st.query_params["password"])
+        st.write(which_user_password)
+        
 else:
     st.error("You must be logged in to access this page.")
     st.stop()  # Stops the app execution here if the user is not logged in.
@@ -57,6 +58,16 @@ def get_contractor_companies(conn):
     rows = cur.fetchall()
     cur.close()
     return [{"label": name, "contractor_id": cid} for cid, name in rows]
+
+# Check password received in URL
+def is_authenticated_user(hash_password_str):
+    cur.execute("SELECT username FROM TEST.PUBLIC.users WHERE hashed_password = %s", (hash_password_str,))
+    row = cur.fetchone()
+    if not row:
+        return False, None
+    else:
+        return True, username
+    return False, None
 
 conn = get_connection()
 cur = conn.cursor()
