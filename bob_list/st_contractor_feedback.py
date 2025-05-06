@@ -20,15 +20,15 @@ def get_connection():
 # ---- Query contractor companies ----
 def get_contractor_companies(conn):
     query = """
-    SELECT contractor_id, contractor_name
+    SELECT contractor_id, contractor_name as name
     FROM test.public.contractors 
-    ORDER BY contractor_name
+    ORDER BY name
     """
     cur = conn.cursor()
     cur.execute(query)
     rows = cur.fetchall()
     cur.close()
-    return [{"label": contractor_name, "contractor_id": cid} for cid, name in rows]
+    return [{"label": name, "contractor_id": cid} for cid, name in rows]
 
 conn = get_connection()
 cur = conn.cursor()
