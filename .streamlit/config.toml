@@ -6,7 +6,7 @@ hide_top_bar = true
 hide_sidebar_nav = true
 
 [theme]
-base = "light"  # or "dark"
+base = "dark"  # or "dark"
 
 [client]
 showErrorDetails = false
