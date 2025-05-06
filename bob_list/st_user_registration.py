@@ -87,11 +87,15 @@ if tab == "Login":
                     st.write()
                     #st.success(f"Hello {username}, you're validated!")
                 with col_3:
+                    # Use JS to redirect
                     st.markdown(f"""
-                    <a href="{URL_TO_GO}" target="_target">
-                        <button style='font-size:20px;padding:10px 20px;margin-top:20px;'>Click for customer feeback </button>
-                    </a>
+                        <meta http-equiv="refresh" content="0; url={URL_TO_GO}">
                     """, unsafe_allow_html=True)
+                    #st.markdown(f"""
+                    #<a href="{URL_TO_GO}" target="_target">
+                    #    <button style='font-size:20px;padding:10px 20px;margin-top:20px;'>Click for customer feeback </button>
+                    #</a>
+                    #""", unsafe_allow_html=True)
                 
             else:
                 st.error("Invalid username or password.")
