@@ -75,7 +75,7 @@ if tab == "Login":
             st.markdown(
                 """
                 <script>
-                    window.open("https://bobs-list.streamlit.app", "_blank");
+                    window.open("https://bobs-list.streamlit.app", "_self");
                 </script>
                 """,
                 unsafe_allow_html=True
