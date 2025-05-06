@@ -63,7 +63,7 @@ selected_contractor = next((c for c in contractors if c["label"] == selected_lab
 
 col4, col5 = st.columns([1,2])
 with col4:
-    engagement_type = st.selectbox("Type of work:", ["Electrical", "Painting", "Plumbing"])
+    engagement_type = st.selectbox("Type of work:", ["Electrical", "Painting", "Plumbing", "Power Wash", "Handyman", "Misc"])
 with col5:
     activity_date = st.date_input("Performed on:", value=date.today())
 
