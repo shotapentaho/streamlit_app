@@ -72,10 +72,15 @@ if tab == "Login":
             #st.session_state.full_name = full_name
             #st.success(f"Welcome, {full_name}!")
             #st.experimental_rerun()
-            
             st.markdown(
-    """<meta http-equiv="refresh" content="0; url=https://bobs-list.streamlit.app">""",
-    unsafe_allow_html=True)
+                    """
+                    <script>
+                        window.open("https://bobs-list.streamlit.app", "_blank");
+                    </script>
+                    """,
+                    unsafe_allow_html=True
+                )
+            
         else:
             st.error("Invalid username or password.")
 
