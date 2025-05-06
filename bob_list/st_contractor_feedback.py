@@ -69,16 +69,20 @@ selected_contractor = next((c for c in contractors if c["label"] == selected_lab
  #Debuggingif selected_contractor:    
                 #st.info(f"Selected Contractor ID: {selected_contractor['contractor_id']}")
 
-col4, col5 = st.columns([1,2])
-with col4:
+col_0, col_1 = st.columns([1,2])
+with col_0:
     engagement_type = st.selectbox("Type of work:", ["Electrical", "Painting", "Plumbing", "Power Wash", "Handyman", "Misc"])
-with col5:
+with col_1:
     activity_date = st.date_input("Performed on:", value=date.today())
 
 # Form fields
 with st.form("engagement_form"):
 
-    customer_name = st.text_input("Customer Name:")
+    col_name, col_ignore = st.columns([1,1])
+    with col_name:
+        customer_name = st.text_input("Customer Name:")
+    with col_ignore:
+        st.write("")
     col4, col1, col2, col3 = st.columns([2, 1, 1, 1])
     with col4:
         street = st.text_input("Street:")
