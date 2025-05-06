@@ -2,7 +2,7 @@ import streamlit as st
 import snowflake.connector
 import pandas as pd
 from datetime import date
-from st-star-rating import st_star_rating
+from st_star_rating import st_star_rating
 
 st.set_page_config(layout="wide")
 
