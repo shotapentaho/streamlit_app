@@ -76,11 +76,12 @@ if tab == "Login":
             valid, full_name = authenticate_user(username, password)
             if valid:
                 st.session_state.logged_in = True
-                st.success(f"Hello {st.session_state.full_name}, you're logged in!")
+                
                 #st.session_state.full_name = full_name
                 #st.success(f"Welcome, {username}!")
                 #st.success(f"Welcome, {full_name}!")
                 URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
+                st.success(f"Hello {username}, you're logged in!")
                 #st.write(URL_TO_GO)
                 st.markdown(f"""
                 <a href="{URL_TO_GO}" target="_target">
