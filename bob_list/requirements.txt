@@ -2,4 +2,4 @@ streamlit
 snowflake-connector-python
 pandas
 datetime
-streamlit-star-rating
+st-star-rating
