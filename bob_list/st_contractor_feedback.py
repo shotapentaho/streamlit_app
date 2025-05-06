@@ -14,6 +14,14 @@ hide_menu_style = """
         """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
+# Check if the user is logged in
+if "logged_in" not in st.session_state or not st.session_state.logged_in:
+    st.error("You must be logged in to access this page.")
+    st.stop()  # Stops the app execution here if the user is not logged in.
+
+# Main app content
+st.title("Welcome to the Bob's List!")
+
 # Connect to Snowflake using Streamlit secrets
 @st.cache_resource
 def get_connection():
@@ -83,7 +91,7 @@ with st.form("engagement_form"):
         customer_name = st.text_input("Customer Name:")
     with col_ignore:
         st.write("")
-        
+
     col4, col1, col2, col3 = st.columns([2, 1, 1, 1])
     with col4:
         street = st.text_input("Street:")
