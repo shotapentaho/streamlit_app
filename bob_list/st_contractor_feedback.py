@@ -17,7 +17,7 @@ st.markdown(hide_menu_style, unsafe_allow_html=True)
 # Check if the user is logged in
 if "logged_in" not in st.session_state or not st.session_state.logged_in:
     st.error("You must be logged in to access this page.")
-    st.stop()  # Stops the app execution here if the user is not logged in.
+    #st.stop()  # Stops the app execution here if the user is not logged in.
 
 # Main app content
 st.title("Welcome to the Bob's List!")
