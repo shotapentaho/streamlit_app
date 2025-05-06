@@ -15,7 +15,7 @@ hide_menu_style = """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 st.write()
-if len(st.query_params)> 0:
+if len(st.query_params)> 1:
      # Update session state based on the URL parameter
     if st.query_params["logged_in"] == "true":
         st.session_state.logged_in = True
