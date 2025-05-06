@@ -85,7 +85,7 @@ with st.form("engagement_form"):
     with col4:
         engagement_type = st.selectbox("Type of work:", ["Electrical", "Painting", "Plumbing"])
     with col5:
-        activity_date = st.date_input("Activity performed on:", value=date.today())
+        activity_date = st.date_input("Performed on:", value=date.today())
     feedback = st.text_area("Feedback (if any) on customer:")
 
     submitted = st.form_submit_button("Submit")
