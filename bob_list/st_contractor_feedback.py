@@ -14,11 +14,9 @@ hide_menu_style = """
         """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
-# Check for 'logged_in' parameter in URL
-logged_in_param = st.query_params["logged_in"]
 
 # Update session state based on the URL parameter
-if logged_in_param == "true":
+if st.query_params["logged_in"] == "true":
     st.session_state.logged_in = True
 else:
     st.error("You must be logged in to access this page.")
