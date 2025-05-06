@@ -84,6 +84,7 @@ if tab == "Login":
                 #st.write(URL_TO_GO)
                 col_2, col_3 = st.columns([1,2])
                 with col_2:
+                    st.success()
                     #st.success(f"Hello {username}, you're validated!")
                 with col_3:
                     st.markdown(f"""
