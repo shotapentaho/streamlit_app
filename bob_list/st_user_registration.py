@@ -46,7 +46,7 @@ def authenticate_user(username, password):
         return False, None
     stored_hash, full_name = row
     if hash_password(password) == stored_hash:
-        return True, full_name
+        return True, full_name, username
     return False, None
 
 # Session state
