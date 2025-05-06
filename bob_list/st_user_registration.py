@@ -80,7 +80,7 @@ if tab == "Login":
                 #st.success(f"Welcome, {full_name}!")
                 #st.experimental_rerun()
                 st.markdown("""
-                <a href="https://bobs-list.streamlit.app?logged_in=true&username=username" target="_blank">
+                <a href="https://bobs-list.streamlit.app?logged_in=true&username={username}" target="_blank">
                     <button style='font-size:20px;padding:10px 20px;margin-top:20px;'>Click: Bob's List</button>
                 </a>
                 """, unsafe_allow_html=True)
