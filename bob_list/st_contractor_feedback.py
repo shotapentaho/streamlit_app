@@ -2,7 +2,7 @@ import streamlit as st
 import snowflake.connector
 import pandas as pd
 from datetime import date
-from st_star_rating import st_star_rating
+#from st_star_rating import st_star_rating
 
 st.set_page_config(layout="wide")
 
@@ -91,7 +91,9 @@ with st.form("engagement_form"):
     # Inside your form
     col_rating, col_feedback = st.columns([1, 3])
     with col_rating:
-        star_rating = st_star_rating(label="Customer Rating", maxValue=5, defaultValue=3, key="rating")
+        rating = st.selectbox("Rate the customer:", ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"])
+        star_rating = len(rating)
+        #star_rating = st_star_rating(label="Customer Rating", maxValue=5, defaultValue=3, key="rating")
 
     with col_feedback:
         feedback = st.text_area("Additional feedback (optional):")
