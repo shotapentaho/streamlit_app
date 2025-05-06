@@ -76,6 +76,7 @@ if tab == "Login":
             valid, full_name = authenticate_user(username, password)
             if valid:
                 st.session_state.logged_in = True
+                st.success(f"Hello {st.session_state.username}, you're logged in!")
                 #st.session_state.full_name = full_name
                 #st.success(f"Welcome, {username}!")
                 #st.success(f"Welcome, {full_name}!")
