@@ -81,13 +81,17 @@ if tab == "Login":
                 #st.success(f"Welcome, {username}!")
                 #st.success(f"Welcome, {full_name}!")
                 URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
-                st.success(f"Hello {username}, you're validated!")
                 #st.write(URL_TO_GO)
-                st.markdown(f"""
-                <a href="{URL_TO_GO}" target="_target">
-                    <button style='font-size:20px;padding:10px 20px;margin-top:20px;'>Now click here to provide customer feeback </button>
-                </a>
-                """, unsafe_allow_html=True)
+                col_2, col_3 = st.columns([1,2])
+                with col_2:
+
+                    st.success(f"Hello {username}, you're validated!")
+                with col_3:
+                    st.markdown(f"""
+                    <a href="{URL_TO_GO}" target="_target">
+                        <button style='font-size:20px;padding:10px 20px;margin-top:20px;'>Now click here to provide customer feeback </button>
+                    </a>
+                    """, unsafe_allow_html=True)
                 
             else:
                 st.error("Invalid username or password.")
