@@ -167,8 +167,8 @@ with st.form("engagement_form"):
             conn.commit()
             st.success("Submission saved to Snowflake.")
 
-#flag_to_display = 0
-st.write(user_exists[1])
+
+#st.write(user_exists[1])
 if "admin" in user_exists[1]:
 # Retrieve and display existing data
     st.subheader("All Engagements:")
