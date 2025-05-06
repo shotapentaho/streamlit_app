@@ -89,7 +89,7 @@ if tab == "Login":
                 with col_3:
                     st.markdown(f"""
                     <a href="{URL_TO_GO}" target="_target">
-                        <button style='font-size:20px;padding:10px 20px;margin-top:20px;'>Click for customer feeback </button>
+                        <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click here customer feeback  </button>
                     </a>
                     """, unsafe_allow_html=True)
                 
