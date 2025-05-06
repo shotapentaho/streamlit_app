@@ -168,6 +168,7 @@ with st.form("engagement_form"):
             st.success("Submission saved to Snowflake.")
 
 #flag_to_display = 0
+st.write(user_exists[1])
 if user_exists[1] == "admin":
 # Retrieve and display existing data
     st.subheader("All Engagements:")
