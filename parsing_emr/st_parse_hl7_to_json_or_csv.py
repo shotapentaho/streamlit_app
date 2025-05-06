@@ -35,6 +35,24 @@ def extract_data(segments):
 
 st.title("📄 HL7 to CSV Parser")
 
+st.markdown("""
+### 🧾 Sample HL7 Message Format
+
+Here's a simplified HL7 message example:
+MSH|^~\&|HIS|RIH|EKG|EKG|202405050930||ADT^A01|MSG00001|P|2.5
+EVN|A01|202405050930
+PID|1||123456^^^HOSP^MR||Doe^John||19800101|M|||123 Main St^^Anytown^NY^12345||555-1234
+OBR|1||1001^LAB|88304^Pathology Exam^L
+OBX|1|NM|1234-5^Hemoglobin^LN||14.5|g/dL|13.5-17.5|N|||F
+OBX|2|NM|5678-9^WBC Count^LN||6.2|K/uL|4.0-10.0|N|||F
+            
+- Only `PID` and `OBX` are parsed.
+- Other segments like `MSH`, `EVN`, `OBR` are ignored for now.
+- Each `OBX` line represents one observation.
+
+Please upload `.hl7` or `.txt` files in a similar format.
+""")
+
 uploaded_file = st.file_uploader("Upload your HL7 file", type=["hl7", "txt"])
 if uploaded_file:
     hl7_data = uploaded_file.read().decode("utf-8")
