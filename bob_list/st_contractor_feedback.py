@@ -14,8 +14,6 @@ hide_menu_style = """
         """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
-#st.write(st.runtime.get_config())
-
 # Connect to Snowflake using Streamlit secrets
 @st.cache_resource
 def get_connection():
