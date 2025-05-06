@@ -5,6 +5,14 @@ from datetime import date
 #from st_star_rating import st_star_rating
 
 st.set_page_config(layout="wide")
+hide_menu_style = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        </style>
+        """
+st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 #st.write(st.runtime.get_config())
 
