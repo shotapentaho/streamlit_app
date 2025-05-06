@@ -96,7 +96,7 @@ with st.form("engagement_form"):
         #star_rating = st_star_rating(label="Customer Rating", maxValue=5, defaultValue=3, key="rating")
 
     with col_feedback:
-        feedback = st.text_area("Additional feedback (optional):")
+        feedback = st.text_area("Additional feedback (from last activity):")
 
 
     submitted = st.form_submit_button("Submit")
