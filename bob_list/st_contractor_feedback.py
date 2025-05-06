@@ -17,6 +17,19 @@ def get_connection():
         schema=st.secrets["snowflake"]["schema"]
     )
 
+# ---- Query contractor companies ----
+def get_contractor_companies(conn):
+    query = """
+    SELECT contractor_id, contractor_name
+    FROM contractors 
+    ORDER BY contractor_name
+    """
+    cur = conn.cursor()
+    cur.execute(query)
+    rows = cur.fetchall()
+    cur.close()
+    return [{"label": name, "id": cid} for cid, name in rows]
+
 conn = get_connection()
 cur = conn.cursor()
 
@@ -36,6 +49,16 @@ cur.execute("""
 """)
 
 st.title("Customer feedbacks..(if any)")
+
+contractors = get_contractor_companies(conn)
+
+# Create label list for dropdown
+contractor_labels = [c["label"] for c in contractors]
+selected_label = st.selectbox("Choose a contractor", contractor_labels)
+# Retrieve ID of selected contractor
+selected_contractor = next((c for c in contractors if c["label"] == selected_label), None)
+if selected_contractor:
+    st.info(f"Selected Contractor ID: {selected_contractor['id']}")
 
 # Form fields
 with st.form("engagement_form"):
