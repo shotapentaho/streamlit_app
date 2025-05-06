@@ -58,9 +58,14 @@ contractor_labels = [c["label"] for c in contractors]
 selected_label = st.selectbox("Contractors:", contractor_labels)
 # Retrieve ID of selected contractor
 selected_contractor = next((c for c in contractors if c["label"] == selected_label), None)
-
  #Debuggingif selected_contractor:    
                 #st.info(f"Selected Contractor ID: {selected_contractor['contractor_id']}")
+
+col4, col5 = st.columns([1,2])
+with col4:
+    engagement_type = st.selectbox("Type of work:", ["Electrical", "Painting", "Plumbing"])
+with col5:
+    activity_date = st.date_input("Performed on:", value=date.today())
 
 # Form fields
 with st.form("engagement_form"):
@@ -82,11 +87,7 @@ with st.form("engagement_form"):
     with col3:
         zip_code = st.text_input("ZIP:")
 
-    col4, col5 = st.columns([1,2])
-    with col4:
-        engagement_type = st.selectbox("Type of work:", ["Electrical", "Painting", "Plumbing"])
-    with col5:
-        activity_date = st.date_input("Performed on:", value=date.today())
+
 
     # Inside your form
     col_rating, col_feedback = st.columns([1, 3])
