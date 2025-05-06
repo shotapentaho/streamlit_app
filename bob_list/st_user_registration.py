@@ -5,6 +5,15 @@ from datetime import datetime
 
 # Connect to Snowflake
 @st.cache_resource
+hide_menu_style = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        </style>
+        """
+st.markdown(hide_menu_style, unsafe_allow_html=True)
+
 def get_connection():
     return snowflake.connector.connect(
         user=st.secrets["snowflake"]["user"],
