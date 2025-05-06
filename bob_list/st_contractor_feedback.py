@@ -41,7 +41,7 @@ def get_connection():
     )
 
 # Check password received in URL
-def is_authenticated_user(hash_password_str):
+def is_valid_user(hash_password_str):
     conn = get_connection()
     cur = conn.cursor()
     cur.execute("SELECT username FROM TEST.PUBLIC.users WHERE hashed_password = %s", (hash_password_str,))
@@ -53,7 +53,7 @@ def is_authenticated_user(hash_password_str):
         return True, username
     return False, None
 
-which_user_password = is_authenticated_user (st.query_params["password"])
+which_user_password = is_valid_user (st.query_params["password"])
 st.write(which_user_password)
 
 # ---- Query contractor companies ----
@@ -68,7 +68,6 @@ def get_contractor_companies(conn):
     rows = cur.fetchall()
     cur.close()
     return [{"label": name, "contractor_id": cid} for cid, name in rows]
-
 
 
 conn = get_connection()
