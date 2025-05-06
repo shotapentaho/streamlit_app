@@ -48,6 +48,7 @@ def is_authenticated_user(hash_password_str):
     row = cur.fetchone()
     if not row:
         return False, None
+    username = row
     else:
         return True, username
     return False, None
