@@ -49,7 +49,7 @@ cur.execute("""
     )
 """)
 
-st.title("Let's rate our customers..")
+st.title("Rate your customers..")
 
 contractors = get_contractor_companies(conn)
 
