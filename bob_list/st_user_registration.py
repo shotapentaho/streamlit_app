@@ -81,7 +81,7 @@ if tab == "Login":
                 URL_TO_GO = f"https://bobs-list.streamlit.app?logged_in=true&username={username}"
                 st.write(URL_TO_GO)
                 st.markdown("""
-                <a href="{URL_TO_GO}" target="_self">
+                <a href=""" + URL_TO_GO + """ target="_self">
                     <button style='font-size:20px;padding:10px 20px;margin-top:20px;'>Click: Bob's List</button>
                 </a>
                 """, unsafe_allow_html=True)
