@@ -78,9 +78,9 @@ if tab == "Login":
                 st.session_state.logged_in = True
                 #st.session_state.full_name = full_name
                 #st.success(f"Welcome, {username}!")
-                st.success(f"Welcome, {full_name}!")
+                #st.success(f"Welcome, {full_name}!")
                 URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
-                st.write(URL_TO_GO)
+                #st.write(URL_TO_GO)
                 st.markdown(f"""
                 <a href="{URL_TO_GO}" target="_target">
                     <button style='font-size:20px;padding:10px 20px;margin-top:20px;'>Click: Bob's List</button>
