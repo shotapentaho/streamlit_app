@@ -55,7 +55,7 @@ contractors = get_contractor_companies(conn)
 
 # Create label list for dropdown
 contractor_labels = [c["label"] for c in contractors]
-selected_label = st.selectbox("Contractors:", contractor_labels)
+selected_label = st.selectbox("Contractor Company:", contractor_labels)
 # Retrieve ID of selected contractor
 selected_contractor = next((c for c in contractors if c["label"] == selected_label), None)
  #Debuggingif selected_contractor:    
@@ -69,8 +69,8 @@ with col5:
 
 # Form fields
 with st.form("engagement_form"):
+
     customer_name = st.text_input("Customer Name:")
-    
     col4, col1, col2, col3 = st.columns([2, 1, 1, 1])
     with col4:
         street = st.text_input("Street:")
