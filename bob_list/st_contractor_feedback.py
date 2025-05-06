@@ -46,6 +46,18 @@ def get_connection():
         schema=st.secrets["snowflake"]["schema"]
     )
 
+# Check password received in URL
+def is_authenticated_user(hash_password_str):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT username FROM TEST.PUBLIC.users WHERE hashed_password = %s", (hash_password_str,))
+    row = cur.fetchone()
+    if not row:
+        return False, None
+    else:
+        return True, username
+    return False, None
+
 # ---- Query contractor companies ----
 def get_contractor_companies(conn):
     query = """
@@ -59,17 +71,7 @@ def get_contractor_companies(conn):
     cur.close()
     return [{"label": name, "contractor_id": cid} for cid, name in rows]
 
-# Check password received in URL
-def is_authenticated_user(hash_password_str):
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute("SELECT username FROM TEST.PUBLIC.users WHERE hashed_password = %s", (hash_password_str,))
-    row = cur.fetchone()
-    if not row:
-        return False, None
-    else:
-        return True, username
-    return False, None
+
 
 conn = get_connection()
 cur = conn.cursor()
