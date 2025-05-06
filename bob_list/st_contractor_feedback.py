@@ -95,11 +95,10 @@ with st.form("engagement_form"):
         else:
             insert_sql = """
                 INSERT INTO TEST.PUBLIC.engagements (
-                    selected_contractor['contractor_id']
-                    customer_name, street, city, state, zip_code, 
+                    contractor_id, customer_name, street, city, state, zip_code, 
                     engagement_type, activity_date, feedback
                 )
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
             cur.execute(insert_sql, (
                 selected_contractor['contractor_id'], customer_name, street, city, state, zip_code,
