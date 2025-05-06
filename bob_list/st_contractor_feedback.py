@@ -25,9 +25,6 @@ else:
     st.session_state.logged_in = False
 
 
-# Main app content
-st.title("Welcome to the Bob's List!")
-
 # Connect to Snowflake using Streamlit secrets
 @st.cache_resource
 def get_connection():
