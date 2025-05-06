@@ -95,6 +95,7 @@ with st.form("engagement_form"):
         else:
             insert_sql = """
                 INSERT INTO TEST.PUBLIC.engagements (
+                    selected_contractor['contractor_id']
                     customer_name, street, city, state, zip_code, 
                     engagement_type, activity_date, feedback
                 )
