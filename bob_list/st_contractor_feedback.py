@@ -28,7 +28,7 @@ def get_contractor_companies(conn):
     cur.execute(query)
     rows = cur.fetchall()
     cur.close()
-    return [{"label": name, "id": cid} for cid, name in rows]
+    return [{"label": contractor_name, "contractor_id": cid} for cid, name in rows]
 
 conn = get_connection()
 cur = conn.cursor()
