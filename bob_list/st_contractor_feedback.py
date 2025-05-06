@@ -66,7 +66,7 @@ selected_contractor = next((c for c in contractors if c["label"] == selected_lab
 with st.form("engagement_form"):
     customer_name = st.text_input("Customer Name:")
     
-    col4, col1, col2, col3 = st.columns([2, 2, 1, 1])
+    col4, col1, col2, col3 = st.columns([2, 1, 1, 1])
     with col4:
         street = st.text_input("Street:")
     with col1:
