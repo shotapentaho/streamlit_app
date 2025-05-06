@@ -15,9 +15,7 @@ hide_menu_style = """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 # Check for 'logged_in' parameter in URL
-#query_params = st.query_params
-query_params = st.experimental_get_query_params()
-logged_in_param = query_params.get("logged_in", [None])[0]
+logged_in_param = st.query_params["logged_in"]
 
 # Update session state based on the URL parameter
 if logged_in_param == "true":
