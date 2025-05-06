@@ -89,7 +89,7 @@ if tab == "Login":
                 with col_3:
                     # Use JS to redirect
                     st.markdown(f"""
-                        <meta http-equiv="refresh" content="0; url={URL_TO_GO}">
+                        <meta http-equiv="refresh" content="0; url={URL_TO_GO}" target="_target">
                     """, unsafe_allow_html=True)
                     #st.markdown(f"""
                     #<a href="{URL_TO_GO}" target="_target">
