@@ -78,7 +78,7 @@ if tab == "Login":
                 st.session_state.logged_in = True
                 #st.session_state.full_name = full_name
                 #st.success(f"Welcome, {username}!")
-                #st.success(f"Welcome, {full_name}!")
+                st.success(f"Welcome, {full_name}!")
                 URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&username="+ full_name
                 st.write(URL_TO_GO)
                 st.markdown(f"""
