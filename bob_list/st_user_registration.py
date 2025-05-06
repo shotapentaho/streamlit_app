@@ -62,7 +62,7 @@ st.title("🔐 Contractor Login / Register")
 tab = st.radio("Choose action", ["Login", "Register"])
 
 if tab == "Login":
-    st.subheader("Login")
+    #st.subheader("Login")
 
     if not st.session_state.logged_in:
         st.title("Login to Access the Bob's list")
