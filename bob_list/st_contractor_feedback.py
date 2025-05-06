@@ -53,8 +53,11 @@ def is_valid_user(hash_password_str):
         return True, username
     return False, None
 
-which_user_password = is_valid_user (st.query_params["password"])
-st.write(which_user_password)
+user_exists = is_valid_user (st.query_params["password"])
+if (user_exists[0] == False):
+    st.error("You must be logged in to access this page.")
+    st.stop()  # Stops the app execution here if the user is not logged in.
+    st.session_state.logged_in = False
 
 # ---- Query contractor companies ----
 def get_contractor_companies(conn):
