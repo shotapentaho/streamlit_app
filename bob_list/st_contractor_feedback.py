@@ -120,8 +120,10 @@ with st.form("engagement_form"):
             conn.commit()
             st.success("Submission saved to Snowflake.")
 
+flag_to_display = 1
+if flag_to_display:
 # Retrieve and display existing data
-st.subheader("All Engagements:")
-cur.execute("SELECT * FROM TEST.PUBLIC.engagements ORDER BY submitted_at DESC")
-df = cur.fetch_pandas_all()
-st.dataframe(df, use_container_width=True)
+    st.subheader("All Engagements:")
+    cur.execute("SELECT * FROM TEST.PUBLIC.engagements ORDER BY submitted_at DESC")
+    df = cur.fetch_pandas_all()
+    st.dataframe(df, use_container_width=True)
