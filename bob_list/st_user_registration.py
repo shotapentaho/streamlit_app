@@ -83,7 +83,7 @@ if tab == "Login":
                 #st.write(URL_TO_GO)
                 st.markdown(f"""
                 <a href="{URL_TO_GO}" target="_target">
-                    <button style='font-size:20px;padding:10px 20px;margin-top:20px;'>Click: Bob's List</button>
+                    <button style='font-size:20px;padding:10px 20px;margin-top:20px;'>Now click here to provide customer feeback </button>
                 </a>
                 """, unsafe_allow_html=True)
                 
@@ -104,7 +104,7 @@ else:
 
 # If logged in
 if st.session_state.logged_in:
-    st.success(f"Hello {st.session_state.full_name}, you're logged in!")
+    #st.success(f"Hello {st.session_state.full_name}, you're logged in!")
     if st.button("Logout"):
         st.session_state.logged_in = False
         st.success("You have been logged out.")
