@@ -120,7 +120,7 @@ with st.form("engagement_form"):
             conn.commit()
             st.success("Submission saved to Snowflake.")
 
-flag_to_display = 1
+flag_to_display = 0
 if flag_to_display:
 # Retrieve and display existing data
     st.subheader("All Engagements:")
