@@ -21,7 +21,7 @@ def get_connection():
 def get_contractor_companies(conn):
     query = """
     SELECT contractor_id, contractor_name
-    FROM contractors 
+    FROM test.public.contractors 
     ORDER BY contractor_name
     """
     cur = conn.cursor()
