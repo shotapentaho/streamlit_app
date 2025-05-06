@@ -63,8 +63,11 @@ tab = st.radio("Choose action", ["Login", "Register"])
 
 if tab == "Login":
     st.subheader("Login")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
+    col_0, col_1 = st.columns([1,2])
+    with col_0:
+        username = st.text_input("Username")
+    with col_1:
+        password = st.text_input("Password", type="password")
     if st.button("Login"):
         valid, full_name = authenticate_user(username, password)
         if valid:
