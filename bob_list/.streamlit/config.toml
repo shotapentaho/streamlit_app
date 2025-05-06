@@ -1,0 +1,5 @@
+[server]
+headless = true
+
+[ui]
+hide_top_bar = true
