@@ -3,3 +3,10 @@ headless = true
 
 [ui]
 hide_top_bar = true
+hide_sidebar_nav = true
+
+[theme]
+base = "light"  # or "dark"
+
+[client]
+showErrorDetails = false
