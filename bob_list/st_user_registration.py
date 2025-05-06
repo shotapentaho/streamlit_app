@@ -69,7 +69,7 @@ if tab == "Login":
         valid, full_name = authenticate_user(username, password)
         if valid:
             st.session_state.logged_in = True
-            st.session_state.full_name = full_name
+            #st.session_state.full_name = full_name
             #st.success(f"Welcome, {full_name}!")
             #st.experimental_rerun()
             st.markdown(
