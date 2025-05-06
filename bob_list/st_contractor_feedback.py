@@ -61,6 +61,8 @@ def get_contractor_companies(conn):
 
 # Check password received in URL
 def is_authenticated_user(hash_password_str):
+    conn = get_connection()
+    cur = conn.cursor()
     cur.execute("SELECT username FROM TEST.PUBLIC.users WHERE hashed_password = %s", (hash_password_str,))
     row = cur.fetchone()
     if not row:
