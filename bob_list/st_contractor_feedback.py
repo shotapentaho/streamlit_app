@@ -19,6 +19,8 @@ if len(st.query_params)> 1:
      # Update session state based on the URL parameter
     if st.query_params["logged_in"] == "true":
         st.session_state.logged_in = True
+        hashed_password = st.query_params["password"]
+        st.write(hashed_password)
 else:
     st.error("You must be logged in to access this page.")
     st.stop()  # Stops the app execution here if the user is not logged in.
