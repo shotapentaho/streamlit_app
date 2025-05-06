@@ -54,7 +54,7 @@ contractors = get_contractor_companies(conn)
 
 # Create label list for dropdown
 contractor_labels = [c["label"] for c in contractors]
-selected_label = st.selectbox("Choose a contractor", contractor_labels)
+selected_label = st.selectbox("Contractor List:", contractor_labels)
 # Retrieve ID of selected contractor
 selected_contractor = next((c for c in contractors if c["label"] == selected_label), None)
 
