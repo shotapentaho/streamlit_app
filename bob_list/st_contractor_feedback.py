@@ -18,17 +18,11 @@ st.write()
 if len(st.query_params)> 1:
      # Update session state based on the URL parameter
     if st.query_params["logged_in"] == "true":
-        st.session_state.logged_in = True
-        which_user_password = is_authenticated_user (st.query_params["password"])
-        st.write(which_user_password)
-        
+        st.session_state.logged_in = True      
 else:
     st.error("You must be logged in to access this page.")
     st.stop()  # Stops the app execution here if the user is not logged in.
     st.session_state.logged_in = False
-
-# Check if the user is logged in
-#if "logged_in" not in st.session_state or not st.session_state.logged_in:
 
 
 # Main app content
@@ -57,6 +51,9 @@ def is_authenticated_user(hash_password_str):
     else:
         return True, username
     return False, None
+
+which_user_password = is_authenticated_user (st.query_params["password"])
+st.write(which_user_password)
 
 # ---- Query contractor companies ----
 def get_contractor_companies(conn):
