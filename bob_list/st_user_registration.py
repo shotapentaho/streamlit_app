@@ -46,7 +46,7 @@ def authenticate_user(username, password):
         return False, None
     stored_hash, full_name = row
     if hash_password(password) == stored_hash:
-        return True, full_name, username
+        return True, full_name
     return False, None
 
 # Session state
@@ -76,7 +76,7 @@ if tab == "Login":
             valid, full_name = authenticate_user(username, password)
             if valid:
                 st.session_state.logged_in = True
-                st.success(f"Hello {st.session_state.username}, you're logged in!")
+                st.success(f"Hello {st.session_state.full_name}, you're logged in!")
                 #st.session_state.full_name = full_name
                 #st.success(f"Welcome, {username}!")
                 #st.success(f"Welcome, {full_name}!")
