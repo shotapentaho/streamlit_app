@@ -81,7 +81,7 @@ if tab == "Login":
                 #st.success(f"Welcome, {username}!")
                 #st.success(f"Welcome, {full_name}!")
                 URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
-                #st.success(f"Hello {username}, you're logged in!")
+                st.success(f"Hello {username}, you're logged in!")
                 #st.write(URL_TO_GO)
                 st.markdown(f"""
                 <a href="{URL_TO_GO}" target="_target">
