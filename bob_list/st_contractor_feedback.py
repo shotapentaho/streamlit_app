@@ -57,8 +57,9 @@ contractor_labels = [c["label"] for c in contractors]
 selected_label = st.selectbox("Choose a contractor", contractor_labels)
 # Retrieve ID of selected contractor
 selected_contractor = next((c for c in contractors if c["label"] == selected_label), None)
-if selected_contractor:     #Debugging
-    #st.info(f"Selected Contractor ID: {selected_contractor['contractor_id']}")
+
+ #Debuggingif selected_contractor:    
+                #st.info(f"Selected Contractor ID: {selected_contractor['contractor_id']}")
 
 # Form fields
 with st.form("engagement_form"):
