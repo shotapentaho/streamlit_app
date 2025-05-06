@@ -98,4 +98,4 @@ if st.session_state.logged_in:
     st.success(f"Hello {st.session_state.full_name}, you're logged in!")
     if st.button("Logout"):
         st.session_state.logged_in = False
-        st.run()
+        st.experimental_rerun()
