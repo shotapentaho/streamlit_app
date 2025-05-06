@@ -167,8 +167,8 @@ with st.form("engagement_form"):
             conn.commit()
             st.success("Submission saved to Snowflake.")
 
-flag_to_display = 0
-if flag_to_display:
+#flag_to_display = 0
+if user_exists[1] == "admin":
 # Retrieve and display existing data
     st.subheader("All Engagements:")
     cur.execute("SELECT * FROM TEST.PUBLIC.engagements ORDER BY submitted_at DESC")
