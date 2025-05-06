@@ -37,8 +37,8 @@ st.title("📄 HL7 to CSV Parser")
 
 st.markdown("""
 ### 🧾 Sample HL7 Message Format
-
-Here's a simplified HL7 message example:
+Ex:
+            
 MSH|^~&|HIS|RIH|EKG|EKG|202405050930||ADT^A01|MSG00001|P|2.5
 EVN|A01|202405050930
 PID|1||123456^^^HOSP^MR||Doe^John||19800101|M|||123 Main St^^Anytown^NY^12345||555-1234
