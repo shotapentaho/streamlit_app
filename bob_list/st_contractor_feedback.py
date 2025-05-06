@@ -14,6 +14,7 @@ hide_menu_style = """
         """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
+st.write(st.query_params)
 
 # Update session state based on the URL parameter
 if st.query_params["logged_in"] == "true":
