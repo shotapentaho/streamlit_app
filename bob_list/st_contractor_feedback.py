@@ -102,7 +102,7 @@ with st.form("engagement_form"):
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             """
             cur.execute(insert_sql, (
-                customer_name, street, city, state, zip_code,
+                contractor_id, customer_name, street, city, state, zip_code,
                 engagement_type, activity_date.isoformat(), feedback
             ))
             conn.commit()
