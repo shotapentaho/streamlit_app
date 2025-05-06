@@ -15,6 +15,9 @@ hide_menu_style = """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 st.write(st.query_params)
+if st.query_params=="{}":
+    st.error("You must be logged in to access this page.")
+    st.stop()  # Stops the app execution here if the user is not logged in.
 
 # Update session state based on the URL parameter
 if st.query_params["logged_in"] == "true":
