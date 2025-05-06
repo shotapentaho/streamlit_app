@@ -2,6 +2,7 @@ import streamlit as st
 import snowflake.connector
 import pandas as pd
 from datetime import date
+from streamlit_star_rating import st_star_rating
 
 st.set_page_config(layout="wide")
 
@@ -86,7 +87,15 @@ with st.form("engagement_form"):
         engagement_type = st.selectbox("Type of work:", ["Electrical", "Painting", "Plumbing"])
     with col5:
         activity_date = st.date_input("Performed on:", value=date.today())
-    feedback = st.text_area("Feedback (if any) on customer:")
+
+    # Inside your form
+    col_rating, col_feedback = st.columns([1, 3])
+    with col_rating:
+        star_rating = st_star_rating(label="Customer Rating", maxValue=5, defaultValue=3, key="rating")
+
+    with col_feedback:
+        feedback = st.text_area("Additional feedback (optional):")
+
 
     submitted = st.form_submit_button("Submit")
 
@@ -97,13 +106,13 @@ with st.form("engagement_form"):
             insert_sql = """
                 INSERT INTO TEST.PUBLIC.engagements (
                     contractor_id, customer_name, street, city, state, zip_code, 
-                    engagement_type, activity_date, feedback
+                    engagement_type, activity_date, rating, feedback
                 )
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
             cur.execute(insert_sql, (
                 selected_contractor['contractor_id'], customer_name, street, city, state, zip_code,
-                engagement_type, activity_date.isoformat(), feedback
+                engagement_type, activity_date.isoformat(), star_rating, feedback
             ))
             conn.commit()
             st.success("Submission saved to Snowflake.")
