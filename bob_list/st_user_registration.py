@@ -63,26 +63,30 @@ tab = st.radio("Choose action", ["Login", "Register"])
 
 if tab == "Login":
     st.subheader("Login")
-    col_0, col_1 = st.columns([1,2])
-    with col_0:
-        username = st.text_input("Username")
-    with col_1:
-        password = st.text_input("Password", type="password")
-    if st.button("Login"):
-        valid, full_name = authenticate_user(username, password)
-        if valid:
-            st.session_state.logged_in = True
-            #st.session_state.full_name = full_name
-            #st.success(f"Welcome, {full_name}!")
-            #st.experimental_rerun()
-            st.markdown("""
-            <a href="https://bobs-list.streamlit.app" target="_blank">
-                <button style='font-size:20px;padding:10px 20px;margin-top:20px;'>Click: Bob's List</button>
-            </a>
-            """, unsafe_allow_html=True)
-            
-        else:
-            st.error("Invalid username or password.")
+    
+    if not st.session_state.logged_in:
+        st.title("Login to Access the App")
+
+        col_0, col_1 = st.columns([1,2])
+        with col_0:
+            username = st.text_input("Username")
+        with col_1:
+            password = st.text_input("Password", type="password")
+        if st.button("Login"):
+            valid, full_name = authenticate_user(username, password)
+            if valid:
+                st.session_state.logged_in = True
+                #st.session_state.full_name = full_name
+                #st.success(f"Welcome, {full_name}!")
+                #st.experimental_rerun()
+                st.markdown("""
+                <a href="https://bobs-list.streamlit.app" target="_blank">
+                    <button style='font-size:20px;padding:10px 20px;margin-top:20px;'>Click: Bob's List</button>
+                </a>
+                """, unsafe_allow_html=True)
+                
+            else:
+                st.error("Invalid username or password.")
 
 else:
     st.subheader("Register")
