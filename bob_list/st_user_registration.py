@@ -72,14 +72,11 @@ if tab == "Login":
             #st.session_state.full_name = full_name
             #st.success(f"Welcome, {full_name}!")
             #st.experimental_rerun()
-            st.markdown(
-                """
-                <script>
-                    window.open("https://bobs-list.streamlit.app", "_self");
-                </script>
-                """,
-                unsafe_allow_html=True
-            )
+            st.markdown("""
+            <a href="https://bobs-list.streamlit.app" target="_blank">
+                <button style='font-size:20px;padding:10px 20px;margin-top:20px;'>Go to Bob's List</button>
+            </a>
+            """, unsafe_allow_html=True)
             
         else:
             st.error("Invalid username or password.")
