@@ -85,21 +85,13 @@ if tab == "Login":
             if valid:
                 st.session_state.logged_in = True
                 st.session_state.full_name = full_name
-                hashed_password = hash_password(password)
-                redirect_url = "https://bobs-list.streamlit.app?logged_in=true&password={hashed_password}"
-                #URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
+                URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
                 #st.write(URL_TO_GO)
                 col_2, col_3 = st.columns([1,2])
                 with col_2:
                     st.write()
                     #st.success(f"Hello {username}, you're validated!")
                 with col_3:
-                    # Perform redirect using JavaScript
-                    st.markdown(f"""
-                        <script>
-                            window.location.href = "{redirect_url}";
-                        </script>
-                    """, unsafe_allow_html=True)
                     #st.markdown(f"""
                     #<a href="{URL_TO_GO}" target="_target">
                     #    <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click here customer feeback  </button>
