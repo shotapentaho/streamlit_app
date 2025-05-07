@@ -3,8 +3,6 @@ import snowflake.connector
 import hashlib
 from datetime import datetime
 
-# Connect to Snowflake
-# @st.cache_resource
 
 def get_connection():
     return snowflake.connector.connect(
