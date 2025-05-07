@@ -41,7 +41,7 @@ def register_user(username, password, full_name):
 def authenticate_user(username, password):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("SELECT hashed_password, full_name FROM TEST.PUBLIC.users WHERE username = ?", (username,))
+    cur.execute("SELECT hashed_password, full_name FROM TEST.PUBLIC.users WHERE username = %s", (username,))
     row = cur.fetchone()
     if not row:
         return False, None
