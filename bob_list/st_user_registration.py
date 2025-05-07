@@ -89,10 +89,6 @@ if tab == "Login":
                         <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click to launch customer feeback screen</button>
                     </a>
                     """, unsafe_allow_html=True)
-                
-                #st.session_state.logged_in = True
-                #st.session_state.full_name = full_name
-                
             else:
                 st.error("Invalid username or password.")
 
