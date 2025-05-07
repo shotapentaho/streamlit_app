@@ -83,6 +83,7 @@ if tab == "Login":
         if st.button("Login"):
             valid, full_name = authenticate_user(username, password)
             if valid:
+                URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
                 st.markdown(f"""
                     <a href="{URL_TO_GO}" target="_target">
                         <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click here customer feeback  </button>
@@ -90,7 +91,7 @@ if tab == "Login":
                     """, unsafe_allow_html=True)
                 st.session_state.logged_in = True
                 st.session_state.full_name = full_name
-                URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
+                #URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
                 #st.write(URL_TO_GO)
                 col_2, col_3 = st.columns([1,2])
                 with col_2:
