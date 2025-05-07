@@ -16,7 +16,7 @@ def get_connection():
 
 conn = get_connection()
 cur = conn.cursor()
-cur.execute(f"USE WAREHOUSE COMPUTE_WH")
+cur.execute("USE WAREHOUSE COMPUTE_WH")
 
 # Hash passwords securely
 def hash_password(password):
