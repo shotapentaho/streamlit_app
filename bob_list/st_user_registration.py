@@ -93,7 +93,6 @@ if tab == "Login":
                 st.session_state.full_name = full_name
                 #URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
                 #st.write(URL_TO_GO)
-
             else:
                 st.error("Invalid username or password.")
 
