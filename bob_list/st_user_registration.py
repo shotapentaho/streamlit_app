@@ -4,7 +4,7 @@ import hashlib
 from datetime import datetime
 
 # Connect to Snowflake
-@st.cache_resource
+# @st.cache_resource
 
 def get_connection():
     return snowflake.connector.connect(
@@ -39,10 +39,6 @@ def register_user(username, password, full_name):
 
 # Check login
 def authenticate_user(username, password):
-    #conn = get_connection()
-    #cur = conn.cursor()
-    st.write(f"Username received: {username}")
-    st.write(f"password received: {password}")
     cur.execute("SELECT hashed_password, full_name FROM TEST.PUBLIC.users WHERE username = %s", (username,))
     row = cur.fetchone()
     if not row:
