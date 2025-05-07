@@ -89,6 +89,14 @@ if tab == "Login":
                         <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click here customer feeback  </button>
                     </a>
                     """, unsafe_allow_html=True)
+                # Perform redirect using JavaScript
+                st.markdown(f"""
+                <script>
+                window.location.href = "{URL_TO_GO}";
+                </script>
+                """, unsafe_allow_html=True)
+                st.stop() 
+
                 st.session_state.logged_in = True
                 st.session_state.full_name = full_name
                 #URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
