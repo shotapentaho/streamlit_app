@@ -25,7 +25,6 @@ def hash_password(password):
 # Register a new user
 def register_user(username, password, full_name):
     hashed = hash_password(password)
-    cur.execute("USE WAREHOUSE COMPUTE_WH")
     cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s", (username,))
     exists = cur.fetchone()[0]
     if exists:
