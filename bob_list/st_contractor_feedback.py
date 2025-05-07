@@ -2,7 +2,7 @@ import streamlit as st
 import snowflake.connector
 import pandas as pd
 from datetime import date
-#from st_star_rating import st_star_rating
+
 
 st.set_page_config(layout="wide")
 hide_menu_style = """
@@ -26,8 +26,6 @@ else:
 
 
 # Connect to Snowflake using Streamlit secrets
-#@st.cache_resource
-
 def get_connection():
     return snowflake.connector.connect(
         user=st.secrets["snowflake"]["user"],
@@ -89,7 +87,7 @@ cur.execute("""
     )
 """)
 
-st.title("Rating customers..")
+st.title("Let's rate a customer..")
 
 contractors = get_contractor_companies(conn)
 
