@@ -75,7 +75,7 @@ if tab == "Login":
     if not st.session_state.logged_in:
         st.title("Login to access the feedback form..")
 
-        col_0, col_1 = st.columns([1,3])
+        col_0, col_1 = st.columns([1,2])
         with col_0:
             username = st.text_input("Username")
         with col_1:
