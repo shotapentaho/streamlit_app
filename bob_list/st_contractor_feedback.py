@@ -72,7 +72,6 @@ def get_contractor_companies(conn):
 
 conn = get_connection()
 cur = conn.cursor()
-cur.execute("USE WAREHOUSE COMPUTE_WH")
 
 st.title("Let's rate a customer..")
 
