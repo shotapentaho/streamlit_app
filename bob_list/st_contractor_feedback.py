@@ -57,13 +57,14 @@ if (user_exists[0] == False):
 
 # ---- Query contractor companies ----
 def get_contractor_companies(conn):
-    cur.execute("USE WAREHOUSE COMPUTE_WH")
+    
     query = """
     SELECT contractor_id, contractor_name as name
     FROM test.public.contractors 
     ORDER BY name
     """
     cur = conn.cursor()
+    cur.execute("USE WAREHOUSE COMPUTE_WH")
     cur.execute(query)
     rows = cur.fetchall()
     cur.close()
