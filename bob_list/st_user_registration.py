@@ -93,7 +93,7 @@ if tab == "Login":
                 st.error("Invalid username or password.")
 
 else:
-    st.subheader("Register")
+    st.subheader("Register a new contractor")
     new_username = st.text_input("Choose a username")
     new_password = st.text_input("Choose a password", type="password")
     full_name = st.text_input("Your full name")
