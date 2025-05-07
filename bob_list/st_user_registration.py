@@ -84,21 +84,20 @@ if tab == "Login":
             valid, full_name = authenticate_user(username, password)
             if valid:
                 st.session_state.logged_in = True
-                
-                #st.session_state.full_name = full_name
-                #st.success(f"Welcome, {username}!")
-                #st.success(f"Welcome, {full_name}!")
-                URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
+                st.session_state.full_name = full_name
+                hashed_password = hash_password(password)
+                redirect_url = "https://bobs-list.streamlit.app?logged_in=true&password={hashed_password}"
+                #URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
                 #st.write(URL_TO_GO)
                 col_2, col_3 = st.columns([1,2])
                 with col_2:
                     st.write()
                     #st.success(f"Hello {username}, you're validated!")
                 with col_3:
-                    # Perform an automatic redirect
+                    # Perform redirect using JavaScript
                     st.markdown(f"""
                         <script>
-                            window.location.href = "{URL_TO_GO}";
+                            window.location.href = "{redirect_url}";
                         </script>
                     """, unsafe_allow_html=True)
                     #st.markdown(f"""
