@@ -26,7 +26,8 @@ else:
 
 
 # Connect to Snowflake using Streamlit secrets
-@st.cache_resource
+#@st.cache_resource
+
 def get_connection():
     return snowflake.connector.connect(
         user=st.secrets["snowflake"]["user"],
