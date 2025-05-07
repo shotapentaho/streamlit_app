@@ -86,7 +86,7 @@ if tab == "Login":
                 URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
                 st.markdown(f"""
                     <a href="{URL_TO_GO}" target="_target">
-                        <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click here customer feeback  </button>
+                        <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click to launch customer feeback screen</button>
                     </a>
                     """, unsafe_allow_html=True)
                 
