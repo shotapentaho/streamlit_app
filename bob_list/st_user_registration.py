@@ -16,6 +16,7 @@ def get_connection():
 
 conn = get_connection()
 cur = conn.cursor()
+cur.execute("USE WAREHOUSE ${warehouse}")
 
 # Hash passwords securely
 def hash_password(password):
