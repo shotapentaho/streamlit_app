@@ -5,6 +5,8 @@ from datetime import datetime
 
 # Connect to Snowflake
 @st.cache_resource
+
+st.set_page_config(layout="wide")
 hide_menu_style = """
         <style>
         #MainMenu {visibility: hidden;}
