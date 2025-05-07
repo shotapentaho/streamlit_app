@@ -73,7 +73,7 @@ if tab == "Login":
     #st.subheader("Login")
 
     if not st.session_state.logged_in:
-        st.title("Login to access the feedback form..")
+        st.title("Login existing contractor..")
 
         col_0, col_1 = st.columns([1,2])
         with col_0:
@@ -86,7 +86,7 @@ if tab == "Login":
                 URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
                 st.markdown(f"""
                     <a href="{URL_TO_GO}" target="_target">
-                        <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Provide your customers feeback here..</button>
+                        <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click: For customer feeback..</button>
                     </a>
                     """, unsafe_allow_html=True)
             else:
