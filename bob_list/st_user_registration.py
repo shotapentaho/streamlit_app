@@ -83,22 +83,13 @@ if tab == "Login":
         if st.button("Login"):
             valid, full_name = authenticate_user(username, password)
             if valid:
-                #URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
-                #st.markdown(f"""
-                #    <a href="{URL_TO_GO}" target="_target">
-                #        <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click here customer feeback  </button>
-                #    </a>
-                #    """, unsafe_allow_html=True)
-                # Perform redirect using JavaScript
-                pwd=hash_password(password)
-                URL_TO_GO = f"https://bobs-list.streamlit.app/?logged_in=true&password={pwd}"
+                URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
                 st.markdown(f"""
-                        <script>
-                        window.location.href = "{URL_TO_GO}";
-                        </script>
-                """, unsafe_allow_html=True)
-                st.stop() 
-
+                    <a href="{URL_TO_GO}" target="_target">
+                        <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click here customer feeback  </button>
+                    </a>
+                    """, unsafe_allow_html=True)
+                
                 #st.session_state.logged_in = True
                 #st.session_state.full_name = full_name
                 
