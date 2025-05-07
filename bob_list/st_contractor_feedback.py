@@ -57,8 +57,7 @@ if (user_exists[0] == False):
 
 # ---- Query contractor companies ----
 def get_contractor_companies(conn):
-    conn = get_connection()
-    cur = conn.cursor()
+    cur.execute("USE WAREHOUSE COMPUTE_WH")
     query = """
     SELECT contractor_id, contractor_name as name
     FROM test.public.contractors 
