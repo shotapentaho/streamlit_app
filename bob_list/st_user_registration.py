@@ -16,7 +16,7 @@ def get_connection():
 
 conn = get_connection()
 cur = conn.cursor()
-cur.execute("USE WAREHOUSE COMPUTE_WH")
+
 
 # Hash passwords securely
 def hash_password(password):
@@ -25,6 +25,7 @@ def hash_password(password):
 # Register a new user
 def register_user(username, password, full_name):
     hashed = hash_password(password)
+    cur.execute("USE WAREHOUSE COMPUTE_WH")
     cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s", (username,))
     exists = cur.fetchone()[0]
     if exists:
