@@ -72,21 +72,6 @@ def get_contractor_companies(conn):
 conn = get_connection()
 cur = conn.cursor()
 
-# Create table if it doesn't exist
-cur.execute("""
-    CREATE TABLE IF NOT EXISTS TEST.PUBLIC.engagements (
-        customer_name STRING,
-        street STRING,
-        city STRING,
-        state STRING,
-        zip_code STRING,
-        engagement_type STRING,
-        activity_date DATE,
-        feedback STRING,
-        submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
-    )
-""")
-
 st.title("Let's rate a customer..")
 
 contractors = get_contractor_companies(conn)
