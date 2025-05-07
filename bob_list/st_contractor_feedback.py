@@ -64,7 +64,7 @@ def get_contractor_companies(conn):
     ORDER BY name
     """
     cur = conn.cursor()
-    cur.execute("USE WAREHOUSE COMPUTE_WH")
+    cur.execute("USE WAREHOUSE compute_wh")
     cur.execute(query)
     rows = cur.fetchall()
     cur.close()
