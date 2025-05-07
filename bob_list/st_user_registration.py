@@ -6,9 +6,6 @@ from datetime import datetime
 # Connect to Snowflake
 @st.cache_resource
 
-st.set_page_config(layout="wide")
-
-
 def get_connection():
     return snowflake.connector.connect(
         user=st.secrets["snowflake"]["user"],
@@ -59,6 +56,7 @@ if "full_name" not in st.session_state:
     st.session_state.full_name = ""
 
 # UI
+st.set_page_config(layout="wide")
 st.title("🔐 Contractor Login / Register")
 
 tab = st.radio("Choose action", ["Login", "Register"])
