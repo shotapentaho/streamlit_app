@@ -70,10 +70,10 @@ st.markdown(hide_menu_style, unsafe_allow_html=True)
 tab = st.radio("Choose action", ["Login", "Register"])
 
 if tab == "Login":
-    #st.subheader("Login")
+    st.subheader("Login existing contractor.")
 
     if not st.session_state.logged_in:
-        st.title("Login existing contractor.")
+        #st.title("Login existing contractor.")
 
         col_0, col_1 = st.columns([1,2])
         with col_0:
