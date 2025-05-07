@@ -88,7 +88,7 @@ if tab == "Login":
                     </a>
                     """, unsafe_allow_html=True)
             else:
-                st.error("Invalid username or password.")
+                st.error("Invalid username or password. If you are not registered, please register first.")
 
 else:
     st.subheader("Register a new contractor")
