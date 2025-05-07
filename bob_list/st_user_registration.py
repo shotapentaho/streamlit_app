@@ -93,9 +93,9 @@ if tab == "Login":
                 pwd=hash_password(password)
                 URL_TO_GO = f"https://bobs-list.streamlit.app/?logged_in=true&password={pwd}"
                 st.markdown(f"""
-                <script>
-                window.location.href = "{URL_TO_GO}";
-                </script>
+                        <script>
+                        window.location.href = "{URL_TO_GO}";
+                        </script>
                 """, unsafe_allow_html=True)
                 st.stop() 
 
