@@ -113,6 +113,7 @@ else:
         contracting_company_state = st.text_input("State:")
     with col_6:
         contracting_company_zip = st.text_input("Zip:")
+        
     if st.button("Register"):
         ok, msg = register_user(new_username, new_password, contracting_company_name)
         if ok:
