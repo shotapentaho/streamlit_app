@@ -40,8 +40,8 @@ def add_contractor(contracting_company_name, contracting_company_street, contrac
     
     cur.execute("""
         INSERT INTO TEST.PUBLIC.contractors (contractor_id, contractor_name, street, city, state, zip)
-        VALUES (contractor_seq.NEXTVAL, %s, %s, %s, %s, %s)
-    """, ( contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip))
+        VALUES (TEST.PUBLIC.contractor_seq.NEXTVAL, %s, %s, %s, %s, %s)
+    """, (contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip))
     conn.commit()
     return True, "Contractor details inserted successfully."
 
