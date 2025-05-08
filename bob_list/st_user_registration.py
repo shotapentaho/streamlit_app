@@ -104,11 +104,8 @@ else:
     
     col_2, col_3, col_4 = st.columns([1,1,1])
     with col_2:
-        contracting_company_name = st.text_input("Company Name:")
-    with col_3:
-        contracting_company_state = st.text_input("State:")
-    with col_4:
-        contracting_company_phone = st.text_input("Phone:")
+        contracting_company_name = st.text_input("Company Name-City-State:")
+    
     if st.button("Register"):
         ok, msg = register_user(new_username, new_password, contracting_company_name)
         if ok:
