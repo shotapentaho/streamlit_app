@@ -126,6 +126,7 @@ else:
 
     if st.button("Register"):
         ok, msg = register_user(new_username, new_password, contracting_company_name)
+        add_contractor(contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip)
         if ok:
             st.success(msg)
         else:
