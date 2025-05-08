@@ -101,9 +101,9 @@ else:
         new_username = st.text_input("Choose a username:")
     with col_1:
         new_password = st.text_input("Choose a password:", type="password")
-    full_name = st.text_input("Company Name:")
+    contracting_company_name = st.text_input("Company Name:")
     if st.button("Register"):
-        ok, msg = register_user(new_username, new_password, full_name)
+        ok, msg = register_user(new_username, new_password, contracting_company_name)
         if ok:
             st.success(msg)
         else:
