@@ -62,6 +62,11 @@ st.title("Analyze, search, download data..")
 
 # Retrieve and display existing data
 st.subheader("All Engagements:")
-cur.execute("SELECT * FROM TEST.PUBLIC.engagements ORDER BY submitted_at DESC")
+cur.execute("""SELECT cont.contractor_name, eng.customer_name, eng.street, eng.city, eng.state, eng.zip_code, eng.engagement_type, eng.activity_date,
+            eng.rating,eng.feedback
+            FROM TEST.PUBLIC.engagements as eng INNER JOIN TEST.PUBLIC.contractors cont ON cont.contractor_id = eng.contractor_id
+            ORDER BY cont.contractor_name, eng.activity_date DESC;
+        """)
+
 df = cur.fetch_pandas_all()
 st.dataframe(df, use_container_width=True)
