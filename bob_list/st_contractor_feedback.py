@@ -147,7 +147,7 @@ with st.form("engagement_form"):
                 engagement_type, activity_date.isoformat(), star_rating, feedback
             ))
             conn.commit()
-            st.success("Submission saved to Snowflake.")
+            st.success("Feedback saved!")
 
 
 #st.write(user_exists[1])
