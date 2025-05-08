@@ -75,7 +75,7 @@ hide_menu_style = """
         """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
-tab = st.radio("Choose:", ["Login", "Register"])
+tab = st.radio("Choose:", ["Login", "Register(New Here)"])
 
 if tab == "Login":
     #st.subheader("Contractor  to login:")
