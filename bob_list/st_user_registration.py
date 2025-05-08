@@ -86,12 +86,11 @@ if tab == "Login":
                     <a href="{URL_TO_GO}" target="_target">
                         <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click and provide customer feeback..</button>
                     </a>
-                    """, unsafe_allow_html=True)
-                st.markdown(f"""
                     <a href="{URL_TO_GO}" target="_target">
                         <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>View, search, analyze customer data.</button>
                     </a>
                     """, unsafe_allow_html=True)
+               
             else:
                 st.error("Invalid username or password. If you are not registered, please register first.")
 
