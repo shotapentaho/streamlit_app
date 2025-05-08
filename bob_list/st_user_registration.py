@@ -91,12 +91,14 @@ if tab == "Login":
         if st.button("Validate"):
             valid, full_name = authenticate_user(username, password)
             if valid:
-                URL_TO_GO = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
+                URL_TO_FEEDBACK = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
+                URL_TO_VIEW_ANALYZE = "https://bobs-analyze.streamlit.app?logged_in=true&password="+ hash_password(password)
+                
                 st.markdown(f"""
-                    <a href="{URL_TO_GO}" target="_target">
+                    <a href="{URL_TO_FEEDBACK}" target="_target">
                         <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click to provide your customer feeback..</button>
                     </a> <a></a> <a></a> <a></a>
-                    <a href="{URL_TO_GO}" target="_target">
+                    <a href="{URL_TO_VIEW_ANALYZE}" target="_target">
                         <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>View, download data..</button>
                     </a>
                     """, unsafe_allow_html=True)
