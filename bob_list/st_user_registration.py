@@ -96,9 +96,9 @@ if tab == "Login":
 
 else:
     st.subheader("Register a new contractor")
-    new_username = st.text_input("Choose a username")
-    new_password = st.text_input("Choose a password", type="password")
-    full_name = st.text_input("Your full name")
+    new_username = st.text_input("Choose a username:")
+    new_password = st.text_input("Choose a password:", type="password")
+    full_name = st.text_input("Company Name:")
     if st.button("Register"):
         ok, msg = register_user(new_username, new_password, full_name)
         if ok:
