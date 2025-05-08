@@ -29,11 +29,21 @@ def register_user(username, password, contracting_company_name):
     if exists:
         return False, "User already exists, pick a different user."
     cur.execute("""
-        INSERT INTO users (username, hashed_password, full_name)
+        INSERT INTO TEST.PUBLIC.users (username, hashed_password, full_name)
         VALUES (%s, %s, %s)
     """, (username, hashed, contracting_company_name))
     conn.commit()
     return True, "User registered successfully."
+
+# Register a new user
+def add_contractor(contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip):
+    
+    cur.execute("""
+        INSERT INTO TEST.PUBLIC.contractors (contractor_id, contractor_name, street, city, state, zip)
+        VALUES (%s, %s, %s, %s, %s, %s)
+    """, (contractor_seq.NEXTVAL, contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip))
+    conn.commit()
+    return True, "Contractor details inserted successfully."
 
 # Check login
 def authenticate_user(username, password):
