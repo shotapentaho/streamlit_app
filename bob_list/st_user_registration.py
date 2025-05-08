@@ -85,7 +85,7 @@ if tab == "Login":
                 st.markdown(f"""
                     <a href="{URL_TO_GO}" target="_target">
                         <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click and provide customer feeback..</button>
-                    </a>
+                    </a> <a></a> <a></a> <a></a>
                     <a href="{URL_TO_GO}" target="_target">
                         <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>View, search, analyze customer data.</button>
                     </a>
