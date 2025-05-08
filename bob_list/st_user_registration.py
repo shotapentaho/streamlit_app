@@ -102,7 +102,7 @@ else:
     with col_1:
         new_password = st.text_input("Choose a password:", type="password")
     
-    col_3, col_4, col_5, col_6= st.columns([1,1,1,1,1])
+    col_3, col_4, col_5, col_6= st.columns([1,1,1,1])
     contracting_company_name = st.text_input("Company Name:")
     with col_3:
         contracting_company_street = st.text_input("Street:")
