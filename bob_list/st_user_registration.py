@@ -78,7 +78,7 @@ st.markdown(hide_menu_style, unsafe_allow_html=True)
 tab = st.radio("Choose:", ["Login", "Register"])
 
 if tab == "Login":
-    st.subheader("Login existing contractor.")
+    st.subheader("Current contractor details to login:")
 
     if not st.session_state.logged_in:
         #st.title("Login existing contractor.")
