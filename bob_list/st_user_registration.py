@@ -101,9 +101,10 @@ else:
         new_username = st.text_input("Choose a username:")
     with col_1:
         new_password = st.text_input("Choose a password:", type="password")
-    
-    col_3, col_4, col_5, col_6= st.columns([1,1,1,1])
+    #Company Details
     contracting_company_name = st.text_input("Company Name:")
+    col_3, col_4, col_5, col_6= st.columns([1,1,1,1])
+    
     with col_3:
         contracting_company_street = st.text_input("Street:")
     with col_4:
