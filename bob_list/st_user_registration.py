@@ -95,7 +95,7 @@ if tab == "Login":
                 st.error("Invalid username or password. If you are not registered, please register first.")
 
 else:
-    st.subheader("Register contracting company:")
+    st.subheader("Register your company:")
     col_0, col_1 = st.columns([1,1])
     with col_0:
         new_username = st.text_input("Choose a username:")
