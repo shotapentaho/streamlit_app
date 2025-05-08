@@ -102,7 +102,7 @@ else:
     with col_1:
         new_password = st.text_input("Choose a password:", type="password")
     
-    col_2, col_3, col_4, col_5, col_6 = st.columns([1,1,1,1,1])
+    col_2, col_3, col_4, col_5, col_6= st.columns([1,1,1,1,1])
     with col_2:
         contracting_company_name = st.text_input("Company Name:")
     with col_3:
@@ -113,7 +113,7 @@ else:
         contracting_company_state = st.text_input("State:")
     with col_6:
         contracting_company_zip = st.text_input("Zip:")
-        
+
     if st.button("Register"):
         ok, msg = register_user(new_username, new_password, contracting_company_name)
         if ok:
