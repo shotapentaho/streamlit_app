@@ -106,7 +106,7 @@ else:
     with col_2:
         contracting_company_name = st.text_input("Company Name:")
     with col_3:
-        contracting_company_city = st.text_input("City/Town:")
+        contracting_company_street_city = st.text_input("Street, City:")
     with col_4:
         contracting_company_state = st.text_input("State:")
     with col_5:
