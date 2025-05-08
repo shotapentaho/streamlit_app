@@ -22,7 +22,7 @@ def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 # Register a new user
-def register_user(username, password, full_name):
+def register_user(username, password, contracting_company_name):
     hashed = hash_password(password)
     cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s", (username,))
     exists = cur.fetchone()[0]
@@ -31,7 +31,7 @@ def register_user(username, password, full_name):
     cur.execute("""
         INSERT INTO users (username, hashed_password, full_name)
         VALUES (%s, %s, %s)
-    """, (username, hashed, full_name))
+    """, (username, hashed, contracting_company_name))
     conn.commit()
     return True, "User registered successfully."
 
