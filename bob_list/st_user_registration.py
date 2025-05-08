@@ -97,7 +97,7 @@ if tab == "Login":
                         <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click to provide your customer feeback..</button>
                     </a> <a></a> <a></a> <a></a>
                     <a href="{URL_TO_GO}" target="_target">
-                        <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>View, search, analyze customer data.</button>
+                        <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>View, download data..</button>
                     </a>
                     """, unsafe_allow_html=True)
                
