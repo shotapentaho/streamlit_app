@@ -3,24 +3,17 @@ import snowflake.connector
 import pandas as pd
 from datetime import date
 import time
-import st_contractor_view_analyze
-
-#st.set_page_config(layout="wide")
-
-tabs = st.tabs(["View and Analysis"])
-with tabs[0]:
-    st_contractor_view_analyze.render()
 
 
-
-hide_menu_style = """
-        <style>
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        header {visibility: hidden;}
-        </style>
-        """
-st.markdown(hide_menu_style, unsafe_allow_html=True)
+def render():
+    hide_menu_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+    st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 st.write()
 if len(st.query_params)> 1:
