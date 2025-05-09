@@ -86,6 +86,7 @@ if "reset_form" in st.session_state and st.session_state.reset_form:
     st.session_state["k_rating"] = ""
     st.session_state["k_feedback"] = ""
     st.session_state["k_engagement_type"] = "Pick one"
+    st.session_state["k_activity_date"] = date.today()
     st.session_state.reset_form = False
 
 contractors = get_contractor_companies(conn)
@@ -113,7 +114,7 @@ with st.form("engagement_form"):
     with col_0:
         engagement_type = st.selectbox("Job done:", ["Pick one", "Electrical", "Painting", "Plumbing", "Power Wash", "Handyman", "Misc"], key="k_engagement_type")
     with col_1:
-        activity_date = st.date_input("Performed/Finished on:", value=date.today())
+        activity_date = st.date_input("Performed/Finished on:", value=date.today(), key="k_activity_date")
 
     col4, col1, col2, col3 = st.columns([2, 1, 1, 1])
     with col4:
