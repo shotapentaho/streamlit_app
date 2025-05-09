@@ -6,6 +6,13 @@ hide_all_footer = """
     .viewerBadge_link__1S137 {display: none;}
     </style>
 """
+hide_header_menu_style = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+        </style>
+        """
 import streamlit as st
 import snowflake.connector
 import hashlib
@@ -78,13 +85,7 @@ st.title(" 🔐 👷 🔄 Contractor Xperiences.. login or register(new here)")
 
 st.markdown(hide_all_footer, unsafe_allow_html=True)
 
-hide_header_menu_style = """
-        <style>
-        #MainMenu {visibility: hidden;}
-        header {visibility: hidden;}
-        footer {visibility: hidden;}
-        </style>
-        """
+
 st.markdown(hide_header_menu_style, unsafe_allow_html=True)
 
 
