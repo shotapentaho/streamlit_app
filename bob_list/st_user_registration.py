@@ -88,7 +88,7 @@ if tab == "Login":
             username = st.text_input("Username")
         with col_1:
             password = st.text_input("Password", type="password")
-        if st.button("Validate"):
+        if st.button("Login"):
             valid, full_name = authenticate_user(username, password)
             if valid:
                 URL_TO_FEEDBACK = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
