@@ -111,7 +111,7 @@ with st.form("engagement_form"):
 
     col_0, col_1 = st.columns([1,2])
     with col_0:
-        engagement_type = st.selectbox("Type of work:", ["Pick job done..", "Electrical", "Painting", "Plumbing", "Power Wash", "Handyman", "Misc"], key="k_engagement_type")
+        engagement_type = st.selectbox("Job done:", ["Pick job done..", "Electrical", "Painting", "Plumbing", "Power Wash", "Handyman", "Misc"], key="k_engagement_type")
     with col_1:
         activity_date = st.date_input("Performed/Finished on:", value=date.today())
 
