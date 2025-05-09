@@ -76,6 +76,17 @@ cur = conn.cursor()
 
 st.title("Let's rate a customer..")
 
+# Reset logic: must come BEFORE widget declaration
+if "reset_form" in st.session_state and st.session_state.reset_form:
+    st.session_state["k_customer_name"] = ""
+    st.session_state["k_street"] = ""
+    st.session_state["k_city"] = ""
+    st.session_state["k_state"] = ""
+    st.session_state["k_zip_code"] = ""
+    st.session_state["k_rating"] = ""
+    st.session_state["k_feedback"] = ""
+    st.session_state.reset_form = False
+
 contractors = get_contractor_companies(conn)
 
 # Create label list for dropdown
@@ -149,14 +160,11 @@ with st.form("engagement_form"):
             ))
             conn.commit()
             st.success("Feedback saved!")
+            time.sleep(1)
+            st.session_state.reset_form = True
+            st.rerun()
 
-            st.session_state["k_customer_name"] = ""
-            st.session_state["k_street"] = ""
-            st.session_state["k_city"] = ""
-            st.session_state["k_state"] = ""
-            st.session_state["k_zip_code"] = ""
-            st.session_state["k_rating"] = ""
-            st.session_state["k_feedback"] = ""
+ 
 
 
 #st.write(user_exists[1])
