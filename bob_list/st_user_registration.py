@@ -110,9 +110,9 @@ else:
     st.subheader("Register your company:")
     col_0, col_1 = st.columns([1,1])
     with col_0:
-        new_username = st.text_input("Choose a username:")
+        new_username = st.text_input("Username:")
     with col_1:
-        new_password = st.text_input("Choose a password:", type="password")
+        new_password = st.text_input("Password:", type="password")
     #Company Details
     contracting_company_name = st.text_input("Company Name:")
     col_3, col_4, col_5, col_6= st.columns([1,1,1,1])
