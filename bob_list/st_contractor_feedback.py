@@ -98,7 +98,7 @@ with st.form("engagement_form"):
 
     col_0, col_1 = st.columns([1,2])
     with col_0:
-        engagement_type = st.selectbox("Type of work:", ["Pick One", "Electrical", "Painting", "Plumbing", "Power Wash", "Handyman", "Misc"], key="engagement_type")
+        engagement_type = st.selectbox("Type of work:", ["Electrical", "Painting", "Plumbing", "Power Wash", "Handyman", "Misc"], key="engagement_type")
     with col_1:
         activity_date = st.date_input("Performed/Finished on:", value=date.today())
 
@@ -149,7 +149,6 @@ with st.form("engagement_form"):
             conn.commit()
             st.success("Feedback saved!")
             # Clear the form
-            st.session_state["engagement_type"] = "Pick One"
             st.session_state["customer_name"] = ""
             st.session_state["street"] = ""
             st.session_state["city"] = ""
