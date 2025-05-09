@@ -77,16 +77,19 @@ def render():
                 if sql_query:
                     #result = cur.execute(sql_query).fetchdf()  # THIS IS THE FIX: use fetchdf() to get the results
                     result = cur.execute(sql_query)
+                    df = cur.fetch_pandas_all()
 
                     # Debugging: Show the result
                     st.write("SQL Execution Result:")
                     st.dataframe(result)
 
-                    if not result.empty:
-                        st.warning("Visualize the result:")
+                    if df.empty:
+                        st.warning("⚠️ No data returned from SQL query.")
                         #plot_result_dataframe(result)
                     else:
-                        st.warning("⚠️ No data returned from SQL query.")
+                        st.write("SQL Execution Result:")
+                        st.dataframe(df)
+                        
             except Exception as e:
                 st.error(f"Error: {e}")
 
