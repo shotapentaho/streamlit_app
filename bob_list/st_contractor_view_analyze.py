@@ -22,9 +22,9 @@ def render():
     client = OpenAI(api_key=st.secrets["openai"]["api_key"])  # Or use env var
 
     # Question Input (reset each time a new file is uploaded)
-    question = st.text_input("💬 Ask a question to retrieve data (i.e English): ex row count? OR group by [field] etc. Note: If column name contains space, qualify with double quotes"
+    question = st.text_input("💬 Ask a question (i.e English): ex show all data? OR group by [field] etc."
                              #,value=st.session_state.question
-                            ,placeholder="ex: row count? OR group by [field name] etc. Note: If column name contains space, qualify with double quotes",   # 👈 Greyed out tip text
+                            ,placeholder="ex: show all data OR group by [state] OR Activity_Date",   # 👈 Greyed out tip text
                              )
     
     # Retrieve and display existing data
