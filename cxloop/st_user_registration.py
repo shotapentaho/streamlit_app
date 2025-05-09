@@ -14,6 +14,8 @@ hide_default_header = """
         </style>
         """
 import streamlit as st
+st.markdown(hide_default_footer, unsafe_allow_html=True)
+st.markdown(hide_default_header, unsafe_allow_html=True)
 import snowflake.connector
 import hashlib
 from datetime import datetime
@@ -83,8 +85,7 @@ if "full_name" not in st.session_state:
 st.title(" 🔐 👷 🔄 Contractor Xperiences.. login or register(new here)")
 
 
-st.markdown(hide_default_footer, unsafe_allow_html=True)
-st.markdown(hide_default_header, unsafe_allow_html=True)
+
 
 
 tab = st.radio("Choose:", ["Login", "Register (i.e for new contractor)"])
