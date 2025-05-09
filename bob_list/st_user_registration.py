@@ -92,7 +92,7 @@ if tab == "Login":
         if st.button("Login"):
             valid, full_name = authenticate_user(username, password)
             if valid:
-                URL_TO_CUSTOMER_EXPERIENCE = "https://cxloop.streamlit.app?logged_in=true&password="+ hash_password(password)
+                URL_TO_CUSTOMER_EXPERIENCE = "https://cxloop.streamlit.app?logged_in=true&username="+ username
                 URL_TO_FEEDBACK = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
                 URL_TO_VIEW_ANALYZE = "https://bobs-analyze.streamlit.app?logged_in=true&password="+ hash_password(password)
                 
