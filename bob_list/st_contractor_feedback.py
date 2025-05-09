@@ -69,11 +69,11 @@ def get_contractor_company(conn, valid_user):
     query = """
     SELECT contractor_id, contractor_name as name
     FROM test.public.contractors 
-    WHERE contractor_name = (select full_name from test.public.users where username = {valid_user})
+    WHERE contractor_name = ( select full_name from test.public.users where username = ? )
     ORDER BY name
     """
     cur = conn.cursor()
-    cur.execute(query)
+    cur.execute(query, (valid_user))
     rows = cur.fetchall()
     cur.close()
     return [{"label": name, "contractor_id": cid} for cid, name in rows]
