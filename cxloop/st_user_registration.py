@@ -157,7 +157,17 @@ if tab == "Register (i.e for new contractor)":
 
 if tab == "Forget Password":
     st.subheader("Lets' reset your password:")
-    username_gotten = st.text_input("Username:")
+    username_forgotten_password = st.text_input("Username:")
+
+    if st.button("Reset Password"):
+        cur.execute("SELECT raw_password FROM TEST.PUBLIC.users WHERE username = %s", (username_forgotten_password,))
+        row = cur.fetchone()
+        if not row:
+            st.error("Invalid username. Please check and try again.")
+        else:
+            # Here you can implement the logic to send a reset link or code to the user's email
+            password = row[0]
+            st.success(f" Password is {password}")
 
 # If logged in
 if st.session_state.logged_in:
