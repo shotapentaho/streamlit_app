@@ -1,4 +1,22 @@
+hide_default_footer = """
+    <style>
+    footer, .st-emotion-cache-1gulkj5 {display: none; visibility: hidden;}
+    .css-qri22k {display: none; visibility: hidden;}
+    .stDeployButton {display: none;}
+    .viewerBadge_link__1S137 {display: none;}
+    </style>
+"""
+hide_default_header = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+        </style>
+        """
 import streamlit as st
+st.markdown(hide_default_footer, unsafe_allow_html=True)
+st.markdown(hide_default_header, unsafe_allow_html=True)
+
 import st_contractor_feedback
 import st_contractor_view_analyze
 
