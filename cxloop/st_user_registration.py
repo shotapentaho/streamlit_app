@@ -162,7 +162,8 @@ if tab == "Forget Password":
 
 
     if st.button("Get Password"):
-        cur.execute("SELECT raw_password FROM TEST.PUBLIC.users WHERE username = %s", (username_forgotten_password,))
+
+        cur.execute("SELECT password_raw FROM TEST.PUBLIC.users WHERE username = %s", (username_forgotten_password,))
         row = cur.fetchone()
         if not row:
             st.error("Invalid username. Please check and try again.")
