@@ -56,7 +56,7 @@ def authenticated_user(hash_password_str):
 
 user_exists = is_valid_user (st.query_params["password"])
 valid_user_name = authenticated_user (st.query_params["password"])
-st.write(f"Validuser:  {valid_user_name[0]}")
+
 
 if (user_exists[0] == False):
     st.error("You must be logged in to access this page.")
@@ -64,7 +64,7 @@ if (user_exists[0] == False):
     st.session_state.logged_in = False
 
 # ---- Query contractor companies ----
-def get_contractor_companies(conn):
+def get_contractor_company(conn):
     
     query = """
     SELECT contractor_id, contractor_name as name
@@ -108,7 +108,7 @@ def render():
         st.session_state["k_activity_date"] = date.today()
         st.session_state.reset_form = False
 
-    contractors = get_contractor_companies(conn)
+    contractors = get_contractor_company(conn)
 
     # Create label list for dropdown
     contractor_labels = [c["label"] for c in contractors]
