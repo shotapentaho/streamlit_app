@@ -150,7 +150,8 @@ with st.form("engagement_form"):
             conn.commit()
             st.success("Feedback saved!")
             # Clear the form
-            time.sleep(1)
+            #time.sleep(1)
+            st.session_state.reset = True
             st.rerun()
 
 
