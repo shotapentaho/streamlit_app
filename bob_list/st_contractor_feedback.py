@@ -86,7 +86,7 @@ if "reset_form" in st.session_state and st.session_state.reset_form:
     st.session_state["k_rating"] = ""
     st.session_state["k_feedback"] = ""
     st.session_state["k_engagement_type"] = "Pick one"
-    st.session_state["k_activity_date"] = date.today()
+    st.session_state["k_activity_date"] = date.date.today()
     st.session_state.reset_form = False
 
 contractors = get_contractor_companies(conn)
