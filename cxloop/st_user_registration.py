@@ -69,8 +69,8 @@ st.title(" 🔐 👷 🔄 Contractor Xperiences.. login or register(new here)")
 
 hide_all_footer = """
     <style>
-    footer, .st-emotion-cache-1gulkj5 {display: none;}
-    .css-qri22k {display: none;}
+    footer, .st-emotion-cache-1gulkj5 {display: none; visibility: hidden;}
+    .css-qri22k {display: none; visibility: hidden;}
     </style>
 """
 st.markdown(hide_all_footer, unsafe_allow_html=True)
