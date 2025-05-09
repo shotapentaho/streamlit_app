@@ -5,8 +5,8 @@ from datetime import date
 
 
 def render():
-    st.header("View Analyze Feedbacks")
-    st.write("Inside View Analyze Tab")
+    st.header("View Analyze Search ..")
+    #st.write("Inside View Analyze Tab")
     hide_menu_style = """
             <style>
             #MainMenu {visibility: hidden;}

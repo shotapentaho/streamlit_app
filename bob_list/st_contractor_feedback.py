@@ -69,8 +69,8 @@ cur = conn.cursor()
 #st.title("Let's rate a customer..")
 
 def render():
-    st.header("Customer Feedback")
-    st.write("Inside Feedback Tab")
+    st.header("Feedback form..")
+    #st.write("Inside Feedback Tab")
     hide_menu_style = """
             <style>
             #MainMenu {visibility: hidden;}
