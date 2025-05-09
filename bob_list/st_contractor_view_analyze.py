@@ -88,7 +88,7 @@ def render():
                         #plot_result_dataframe(result)
                     else:
                         st.write("SQL Execution Result:")
-                        st.dataframe(df)
+                        #st.dataframe(df)       Visualize here
                         
             except Exception as e:
                 st.error(f"Error: {e}")
