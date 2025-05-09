@@ -72,6 +72,7 @@ hide_menu_style = """
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
+        .stDeployButton {display: none;}
         </style>
         """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
