@@ -1,18 +1,16 @@
 import streamlit as st
-import st_contractor_feedback
-import st_contractor_view_analyze
+import st_contractor_feedback as cx_feedback
+import st_contractor_view_analyze as cx_analyze
 
 #st.set_page_config(layout="wide")
 
-tabs = st.tabs(["Customer Feedback", "View Analyze Feedbacks"])
+cxloop_tabs = st.tabs(["Customer Feedback", "View Analyze Feedbacks"])
 
-with tabs[0]:
+with cxloop_tabs[0]:
     st.write("You are on the Feedback")
+    cx_feedback.render()
 
-    st_contractor_feedback.render()
 
-
-with tabs[1]:
+with cxloop_tabs[1]:
     st.write("You are on the View Analysis")
-
-    st_contractor_view_analyze.render()
+    cx_analyze.render()
