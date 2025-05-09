@@ -163,7 +163,7 @@ st.markdown(
     </div>
     <div id='forgot-box' style='display:none; margin-top: 10px;'>
         <form action="" method="post">
-            <input type="email" name="email" placeholder="Enter your email" required style="width: 100%; padding: 5px;" />
+            <input type="email" name="email" placeholder="gupuldw@yahoo.com" required style="width: 100%; padding: 5px;" />
             <input type="submit" value="Send Reset Link" style="margin-top: 5px;" />
         </form>
     </div>
