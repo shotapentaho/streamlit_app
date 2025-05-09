@@ -46,7 +46,7 @@ def render():
         with st.spinner("💡 Generating SQL..."):
             prompt = f"""
                         Translate the following question into SQL for Snowflake.
-                        Table name: data
+                        Table name: engagements
                         Schema: {st.session_state.df.dtypes.astype(str).to_string()}
                         Question: {question}
                         Only return the SQL code.
