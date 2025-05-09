@@ -53,8 +53,8 @@ def authenticated_user(hash_password_str):
     return False, None
 
 user_exists = is_valid_user (st.query_params["password"])
-valid_user_name = authenticated_user (st.query_params["password"])
-st.write(f"Welcome {valid_user_name}")
+#valid_user_name = authenticated_user (st.query_params["password"])
+#st.write(f"Welcome {valid_user_name}")
 
 
 if (user_exists[0] == False):
