@@ -156,7 +156,7 @@ if tab == "Register (i.e for new contractor)":
 
 
 if tab == "Forget Password":
-    st.subheader("Lets' reset your password:")
+    st.subheader("Retrieve your password:")
 
     username_forgotten_password = st.text_input("Username:")
 
