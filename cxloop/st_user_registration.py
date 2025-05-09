@@ -14,6 +14,7 @@ hide_default_header = """
         </style>
         """
 import streamlit as st
+st.set_page_config(page_title="Customer Xperiences..", layout="wide")
 st.markdown(hide_default_footer, unsafe_allow_html=True)
 st.markdown(hide_default_header, unsafe_allow_html=True)
 
@@ -21,7 +22,7 @@ import snowflake.connector
 import hashlib
 from datetime import datetime
 
-st.set_page_config(page_title="Customer Xperiences..", layout="wide")
+
 
 def get_connection():
     return snowflake.connector.connect(
