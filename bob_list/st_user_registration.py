@@ -99,13 +99,7 @@ if tab == "Login":
                 st.markdown(f"""
                     <a href="{URL_TO_CUSTOMER_EXPERIENCE}" target="_target">
                         <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Share your customer experiences..</button>
-                    </a> <a></a> <a></a> <a></a>
-                    <a href="{URL_TO_FEEDBACK}" target="_target">
-                        <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click to provide your customer feeback..</button>
-                    </a> <a></a> <a></a> <a></a>
-                    <a href="{URL_TO_VIEW_ANALYZE}" target="_target">
-                        <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>View, download data..</button>
-                    </a>
+                    </a> 
                     """, unsafe_allow_html=True)
                
             else:
