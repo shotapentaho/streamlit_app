@@ -7,7 +7,7 @@ from openai import OpenAI
 
 
 def render():
-    st.header("Analyze, search, download ..")
+    st.header("Query, Analyze, download ..")
     #st.write("Inside View Analyze Tab")
     hide_menu_style = """
             <style>
