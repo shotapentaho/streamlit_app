@@ -24,7 +24,7 @@ def hash_password(password):
 # Register a new user
 def register_user(username, password, contracting_company_name):
     hashed = hash_password(password)
-    cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s", (username,) " AND full_name = %s", (contracting_company_name,))
+    cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s", (username) " AND full_name = %s", (contracting_company_name))
     exists = cur.fetchone()[0]
     if exists:
         return False, "User already exists, pick a different user."
