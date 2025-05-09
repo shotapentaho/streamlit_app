@@ -30,7 +30,9 @@ def render():
         """)
 
     df = cur.fetch_pandas_all()
-    st.dataframe(df.head(), use_container_width=True)
+    # Display the dataframe preview
+    st.write("✅ Data Preview", st.session_state.df.head())
+    #st.dataframe(df.head(), use_container_width=True)
 
 
 if len(st.query_params)> 1:
