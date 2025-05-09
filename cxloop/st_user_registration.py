@@ -74,13 +74,13 @@ hide_header_menu_style = """
         </style>
         """
 st.markdown(hide_header_menu_style, unsafe_allow_html=True)
-hide_footer_menu_style = """
-        <style>
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        </style>
-        """
-st.markdown(hide_footer_menu_style, unsafe_allow_html=True)
+hide_all_footer = """
+    <style>
+    footer, .st-emotion-cache-1gulkj5 {display: none;}
+    .css-qri22k {display: none;}
+    </style>
+"""
+st.markdown(hide_all_footer, unsafe_allow_html=True)
 
 tab = st.radio("Choose:", ["Login", "Register (i.e for new contractor)"])
 
