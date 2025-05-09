@@ -42,7 +42,22 @@ def is_valid_user(hash_password_str):
         return True, username
     return False, None
 
+def authenticated_user(hash_password_str):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT username FROM TEST.PUBLIC.users WHERE hashed_password = %s", (hash_password_str,))
+    row = cur.fetchone()
+    if not row:
+        return False, None
+    else:
+        username = row
+        return username
+    return False, None
+
 user_exists = is_valid_user (st.query_params["password"])
+valid_user_name = authenticated_user (st.query_params["password"])
+st.write(f"Validuser:  {valid_user_name[0]}")
+
 if (user_exists[0] == False):
     st.error("You must be logged in to access this page.")
     st.stop()  # Stops the app execution here if the user is not logged in.
