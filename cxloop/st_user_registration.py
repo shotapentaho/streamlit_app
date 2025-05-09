@@ -88,12 +88,8 @@ if "full_name" not in st.session_state:
 st.title(" 🔐 👷 🔄 Contractor Xperiences.. login or register(new here)")
 
 
-
-
-
 tab = st.radio("Choose:", ["Login", "Register (i.e for new contractor)"])
 
-tab = st.radio("Forgot:", ["User", "Password"])
 
 if tab == "Login":
     #st.subheader("Contractor  to login:")
@@ -158,6 +154,12 @@ else:
         else:
             st.warning(msg)
 
+
+tab = st.radio("Forgot:", ["User", "Password"])
+
+if tab == "User":   
+    st.subheader("Forgot your username?")
+    st.write("Please contact your administrator to retrieve your username.")
 
 # If logged in
 if st.session_state.logged_in:
