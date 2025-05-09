@@ -5,7 +5,7 @@ from datetime import date
 import time
 import st_contractor_view_analyze
 
-st.set_page_config(layout="wide")
+#st.set_page_config(layout="wide")
 
 tabs = st.tabs(["View and Analysis"])
 with tabs[0]:
