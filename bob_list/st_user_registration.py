@@ -65,7 +65,7 @@ if "full_name" not in st.session_state:
 
 # UI
 st.set_page_config(layout="wide")
-st.title(" 🔐 👷 🔄 Contractor Xperiences.. login or register")
+st.title(" 🔐 👷 🔄 Contractor Xperiences.. login or register(new here)")
 
 hide_menu_style = """
         <style>
