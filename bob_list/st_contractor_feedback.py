@@ -5,12 +5,14 @@ from datetime import date
 import time
 import st_contractor_view_analyze
 
+st.set_page_config(layout="wide")
+
 tabs = st.tabs(["View and Analysis"])
 with tabs[0]:
     st_contractor_view_analyze.render()
 
 
-st.set_page_config(layout="wide")
+
 hide_menu_style = """
         <style>
         #MainMenu {visibility: hidden;}
