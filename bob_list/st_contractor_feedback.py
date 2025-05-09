@@ -6,6 +6,7 @@ import time
 
 
 def render():
+    
     hide_menu_style = """
             <style>
             #MainMenu {visibility: hidden;}
