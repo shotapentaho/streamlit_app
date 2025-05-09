@@ -155,7 +155,7 @@ def render():
         # Inside your form
         col_rating, col_feedback = st.columns([1, 3])
         with col_rating:
-            rating = st.selectbox("Star rating:", ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"], key="k_rating")
+            rating = st.selectbox("Star rating:", ["⭐⭐⭐⭐⭐","⭐⭐⭐⭐","⭐⭐⭐","⭐⭐","⭐"], key="k_rating")
             star_rating = len(rating)
             #star_rating = st_star_rating(label="Customer Rating", maxValue=5, defaultValue=3, key="rating")
 
