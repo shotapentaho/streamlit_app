@@ -2,6 +2,7 @@ import streamlit as st
 import snowflake.connector
 import pandas as pd
 from datetime import date
+import time
 
 
 st.set_page_config(layout="wide")
@@ -149,13 +150,7 @@ with st.form("engagement_form"):
             conn.commit()
             st.success("Feedback saved!")
             # Clear the form
-            st.session_state["customer_name"] = ""
-            st.session_state["street"] = ""
-            st.session_state["city"] = ""
-            st.session_state["state"] = ""
-            st.session_state["zip_code"] = ""
-            st.session_state["rating"] = ""
-            st.session_state["feedback"] = ""
+            time.sleep(1)
             st.rerun()
 
 
