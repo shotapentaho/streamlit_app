@@ -13,6 +13,27 @@ with cxloop_tabs[1]:
     st_contractor_view_analyze.render()
 
 
+if len(st.query_params)> 1:
+     # Update session state based on the URL parameter
+    if st.query_params["logged_in"] == "true":
+        st.session_state.logged_in = True      
+else:
+    st.error("You must be logged in to access this page.")
+    st.stop()  # Stops the app execution here if the user is not logged in.
+    st.session_state.logged_in = False
+
+
+# Connect to Snowflake using Streamlit secrets
+def get_connection():
+    return snowflake.connector.connect(
+        user=st.secrets["snowflake"]["user"],
+        password=st.secrets["snowflake"]["password"],
+        account=st.secrets["snowflake"]["account"],
+        warehouse=st.secrets["snowflake"]["warehouse"],
+        database=st.secrets["snowflake"]["database"],
+        schema=st.secrets["snowflake"]["schema"]
+    )
+
 # Check password received in URL
 def is_valid_user(user_str):
     conn = get_connection()
