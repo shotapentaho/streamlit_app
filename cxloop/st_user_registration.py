@@ -21,6 +21,7 @@ import snowflake.connector
 import hashlib
 from datetime import datetime
 
+st.set_page_config(page_title="Customer Xperiences..", layout="wide")
 
 def get_connection():
     return snowflake.connector.connect(
