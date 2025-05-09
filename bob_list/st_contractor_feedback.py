@@ -64,11 +64,12 @@ if (user_exists[0] == False):
     st.session_state.logged_in = False
 
 # ---- Query contractor companies ----
-def get_contractor_company(conn):
+def get_contractor_company(conn, valid_user):
     
     query = """
     SELECT contractor_id, contractor_name as name
     FROM test.public.contractors 
+    WHERE contractor_name = (select full_name from test.public.users where username = {valid_user})
     ORDER BY name
     """
     cur = conn.cursor()
@@ -108,7 +109,7 @@ def render():
         st.session_state["k_activity_date"] = date.today()
         st.session_state.reset_form = False
 
-    contractors = get_contractor_company(conn)
+    contractors = get_contractor_company(conn, valid_user_name)
 
     # Create label list for dropdown
     contractor_labels = [c["label"] for c in contractors]
