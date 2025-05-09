@@ -116,8 +116,6 @@ with st.form("engagement_form"):
     with col3:
         zip_code = st.text_input("ZIP:")
 
-
-
     # Inside your form
     col_rating, col_feedback = st.columns([1, 3])
     with col_rating:
@@ -148,6 +146,14 @@ with st.form("engagement_form"):
             ))
             conn.commit()
             st.success("Feedback saved!")
+            # Clear the form
+            st.session_state["customer_name"] = ""
+            st.session_state["street"] = ""
+            st.session_state["city"] = ""
+            st.session_state["state"] = ""
+            st.session_state["feedback"] = ""
+            st.session_state["zip_code"] = ""
+            st.session_state["rating"] = ""
             st.rerun()
 
 
