@@ -54,6 +54,7 @@ def get_contractor_companies(conn):
     query = """
     SELECT contractor_id, contractor_name as name
     FROM test.public.contractors 
+    WHERE contractor_name = (select full_name from test.public.users where hashed_password = %s", (hash_password_str,))
     ORDER BY name
     """
     cur = conn.cursor()
