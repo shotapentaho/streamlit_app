@@ -72,6 +72,7 @@ def get_contractor_company(conn, valid_user):
     """
     cur = conn.cursor()
     cur.execute(query, (valid_user,))
+    st.print(f"Query: {query} with {valid_user}")
     rows = cur.fetchall()
     cur.close()
     return [{"label": name, "contractor_id": cid} for cid, name in rows]
