@@ -6,7 +6,7 @@ import time
 
 
 def render():
-    
+    st.header("Customer Feedback")
     hide_menu_style = """
             <style>
             #MainMenu {visibility: hidden;}

@@ -6,7 +6,7 @@ from datetime import date
 #st.set_page_config(layout="wide")
 
 def render():
-    
+    st.header("View Analyze Feedbacks")
     hide_menu_style = """
             <style>
             #MainMenu {visibility: hidden;}

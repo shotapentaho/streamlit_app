@@ -4,7 +4,7 @@ import st_contractor_view_analyze
 
 #st.set_page_config(layout="wide")
 
-tabs = st.tabs(["Customer Feedback"],["View and Analysis"])
+tabs = st.tabs(["Customer Feedback"],["View Analyze Feedbacks"])
 
 with tabs[0]:
     st_contractor_feedback.render()
