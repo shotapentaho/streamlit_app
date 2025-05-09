@@ -3,6 +3,11 @@ import snowflake.connector
 import pandas as pd
 from datetime import date
 import time
+import st_contractor_view_analyze
+
+tabs = st.tabs(["View and Analysis"])
+with tabs[0]:
+    st_contractor_view_analyze.render()
 
 
 st.set_page_config(layout="wide")
