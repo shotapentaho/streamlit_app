@@ -30,7 +30,7 @@ def render():
         """)
 
     df = cur.fetch_pandas_all()
-    st.dataframe(df, use_container_width=True)
+    st.dataframe(df.head(), use_container_width=True)
 
 
 if len(st.query_params)> 1:
