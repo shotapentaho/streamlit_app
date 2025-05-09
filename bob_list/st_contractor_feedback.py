@@ -54,7 +54,7 @@ def authenticated_user(user_str):
 
 user_exists = is_valid_user (st.query_params["username"])
 valid_user_name = authenticated_user (st.query_params["username"])
-#st.write(f"Welcome {valid_user_name}")
+st.write(f"Welcome {valid_user_name}")
 
 
 if (user_exists[0] == False):
