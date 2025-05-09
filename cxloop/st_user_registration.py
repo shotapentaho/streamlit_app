@@ -67,15 +67,20 @@ if "full_name" not in st.session_state:
 #st.set_page_config(layout="wide")
 st.title(" 🔐 👷 🔄 Contractor Xperiences.. login or register(new here)")
 
-hide_menu_style = """
+hide_header_menu_style = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        header {visibility: hidden;}
+        </style>
+        """
+st.markdown(hide_header_menu_style, unsafe_allow_html=True)
+hide_footer_menu_style = """
         <style>
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
-        .css-qri22k {visibility: hidden;}  /* Extra fallback for some Streamlit themes *
-        .stDeployButton {display: none;}
         </style>
         """
-st.markdown(hide_menu_style, unsafe_allow_html=True)
+st.markdown(hide_footer_menu_style, unsafe_allow_html=True)
 
 tab = st.radio("Choose:", ["Login", "Register (i.e for new contractor)"])
 
