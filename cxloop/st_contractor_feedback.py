@@ -162,6 +162,9 @@ def render():
         with col_feedback:
             feedback = st.text_area("Additional feedback (from last activity):", key="k_feedback", height=100)
 
+        # Validation: Prevent future dates
+        if activity_date > datetime.date.today():
+            st.error("⚠️ Activity date cannot be in the future.")
 
         submitted = st.form_submit_button("Submit")
 
