@@ -71,10 +71,11 @@ hide_all_footer = """
     <style>
     footer, .st-emotion-cache-1gulkj5 {display: none; visibility: hidden;}
     .css-qri22k {display: none; visibility: hidden;}
+    .stDeployButton {display: none;}
+    .viewerBadge_link__1S137 {display: none;}
     </style>
 """
 st.markdown(hide_all_footer, unsafe_allow_html=True)
-st.markdown("Created by Sobhan Hota")
 
 hide_header_menu_style = """
         <style>
