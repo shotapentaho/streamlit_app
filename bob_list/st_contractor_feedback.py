@@ -85,6 +85,7 @@ if "reset_form" in st.session_state and st.session_state.reset_form:
     st.session_state["k_zip_code"] = ""
     st.session_state["k_rating"] = ""
     st.session_state["k_feedback"] = ""
+    st.session_state["engagement_type"] = "Electrical"
     st.session_state.reset_form = False
 
 contractors = get_contractor_companies(conn)
