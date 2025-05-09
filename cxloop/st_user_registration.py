@@ -67,13 +67,6 @@ if "full_name" not in st.session_state:
 #st.set_page_config(layout="wide")
 st.title(" 🔐 👷 🔄 Contractor Xperiences.. login or register(new here)")
 
-hide_header_menu_style = """
-        <style>
-        #MainMenu {visibility: hidden;}
-        header {visibility: hidden;}
-        </style>
-        """
-st.markdown(hide_header_menu_style, unsafe_allow_html=True)
 hide_all_footer = """
     <style>
     footer, .st-emotion-cache-1gulkj5 {display: none;}
@@ -81,6 +74,15 @@ hide_all_footer = """
     </style>
 """
 st.markdown(hide_all_footer, unsafe_allow_html=True)
+
+hide_header_menu_style = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        header {visibility: hidden;}
+        </style>
+        """
+st.markdown(hide_header_menu_style, unsafe_allow_html=True)
+
 
 tab = st.radio("Choose:", ["Login", "Register (i.e for new contractor)"])
 
