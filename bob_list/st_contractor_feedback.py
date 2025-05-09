@@ -85,7 +85,7 @@ if "reset_form" in st.session_state and st.session_state.reset_form:
     st.session_state["k_zip_code"] = ""
     st.session_state["k_rating"] = ""
     st.session_state["k_feedback"] = ""
-    st.session_state["k_engagement_type"] = "Electrical"
+    st.session_state["k_engagement_type"] = "Pick job done.."
     st.session_state.reset_form = False
 
 contractors = get_contractor_companies(conn)
@@ -111,7 +111,7 @@ with st.form("engagement_form"):
 
     col_0, col_1 = st.columns([1,2])
     with col_0:
-        engagement_type = st.selectbox("Type of work:", ["Electrical", "Painting", "Plumbing", "Power Wash", "Handyman", "Misc"], key="k_engagement_type")
+        engagement_type = st.selectbox("Type of work:", ["Pick job done..", "Electrical", "Painting", "Plumbing", "Power Wash", "Handyman", "Misc"], key="k_engagement_type")
     with col_1:
         activity_date = st.date_input("Performed/Finished on:", value=date.today())
 
