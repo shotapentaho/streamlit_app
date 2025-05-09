@@ -1,3 +1,11 @@
+hide_all_footer = """
+    <style>
+    footer, .st-emotion-cache-1gulkj5 {display: none; visibility: hidden;}
+    .css-qri22k {display: none; visibility: hidden;}
+    .stDeployButton {display: none;}
+    .viewerBadge_link__1S137 {display: none;}
+    </style>
+"""
 import streamlit as st
 import snowflake.connector
 import hashlib
@@ -67,14 +75,7 @@ if "full_name" not in st.session_state:
 #st.set_page_config(layout="wide")
 st.title(" 🔐 👷 🔄 Contractor Xperiences.. login or register(new here)")
 
-hide_all_footer = """
-    <style>
-    footer, .st-emotion-cache-1gulkj5 {display: none; visibility: hidden;}
-    .css-qri22k {display: none; visibility: hidden;}
-    .stDeployButton {display: none;}
-    .viewerBadge_link__1S137 {display: none;}
-    </style>
-"""
+
 st.markdown(hide_all_footer, unsafe_allow_html=True)
 
 hide_header_menu_style = """
