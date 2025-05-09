@@ -69,7 +69,6 @@ def get_contractor_company(conn, valid_user):
     SELECT contractor_id, contractor_name as name
     FROM test.public.contractors 
     WHERE contractor_name IN ( select full_name from test.public.users where username = %s )
-    ORDER BY name
     """
     cur = conn.cursor()
     cur.execute(query, (valid_user,))
