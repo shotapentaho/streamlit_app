@@ -80,6 +80,7 @@ def render():
                     st.dataframe(result)
 
                     if not result.empty:
+                        st.warning("Visualize the result:")
                         #plot_result_dataframe(result)
                     else:
                         st.warning("⚠️ No data returned from SQL query.")
