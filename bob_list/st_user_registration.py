@@ -114,7 +114,7 @@ else:
     with col_1:
         new_password = st.text_input("Password:", type="password")
     #Company Details
-    contracting_company_name = st.text_input("Company Name:")
+    contracting_company_name = st.text_input("Contracting Company:")
     col_3, col_4, col_5, col_6= st.columns([1,1,1,1])
     
     with col_3:
