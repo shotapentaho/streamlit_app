@@ -3,4 +3,4 @@ snowflake-connector-python
 pandas
 datetime
 st-star-rating
-openai==0.28
+openai>=1.2
