@@ -15,9 +15,19 @@ def render():
             </style>
             """
     st.markdown(hide_menu_style, unsafe_allow_html=True)
+    st.title("Analyze, search, download data..")
+    # Retrieve and display existing data
+    st.subheader("All Engagements:")
+    cur.execute("""SELECT cont.contractor_name, eng.customer_name, eng.street, eng.city, eng.state, eng.zip_code as zip, eng.engagement_type, eng.activity_date,
+            eng.rating,eng.feedback
+            FROM TEST.PUBLIC.engagements as eng INNER JOIN TEST.PUBLIC.contractors cont ON cont.contractor_id = eng.contractor_id
+            ORDER BY cont.contractor_name, eng.activity_date DESC;
+        """)
+
+    df = cur.fetch_pandas_all()
+    st.dataframe(df, use_container_width=True)
 
 
-st.write()
 if len(st.query_params)> 1:
      # Update session state based on the URL parameter
     if st.query_params["logged_in"] == "true":
@@ -62,15 +72,4 @@ if (user_exists[0] == False):
 conn = get_connection()
 cur = conn.cursor()
 
-st.title("Analyze, search, download data..")
 
-# Retrieve and display existing data
-st.subheader("All Engagements:")
-cur.execute("""SELECT cont.contractor_name, eng.customer_name, eng.street, eng.city, eng.state, eng.zip_code as zip, eng.engagement_type, eng.activity_date,
-            eng.rating,eng.feedback
-            FROM TEST.PUBLIC.engagements as eng INNER JOIN TEST.PUBLIC.contractors cont ON cont.contractor_id = eng.contractor_id
-            ORDER BY cont.contractor_name, eng.activity_date DESC;
-        """)
-
-df = cur.fetch_pandas_all()
-st.dataframe(df, use_container_width=True)
