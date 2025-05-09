@@ -156,8 +156,8 @@ if tab == "Register (i.e for new contractor)":
 
 
 if tab == "Forget Password":
-     st.subheader("Lets' reset your password:")
-
+    st.subheader("Lets' reset your password:")
+    username_gotten = st.text_input("Username:")
 
 # If logged in
 if st.session_state.logged_in:
