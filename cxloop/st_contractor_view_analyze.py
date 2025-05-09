@@ -55,7 +55,7 @@ def render():
                         - JOIN engagements.contractor_id = contractors.contractor_id
 
                         Goal:
-                        - Return only relevant columns needed to answer the question below.
+                        - Return only relevant columns needed from engagements tables and only contractore_name from contractors table.
 
                         Schema: {st.session_state.df.dtypes.astype(str).to_string()}
                         Question: {question}
