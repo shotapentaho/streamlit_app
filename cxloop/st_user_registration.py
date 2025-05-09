@@ -155,21 +155,7 @@ else:
             st.warning(msg)
 
 
-# --- Corner Link ---
-st.markdown(
-    """
-    <div style='text-align: right;'>
-        <a href='#' onclick="document.getElementById('forgot-box').style.display='block'; return false;">🔐 Forgot Password?</a>
-    </div>
-    <div id='forgot-box' style='display:none; margin-top: 10px;'>
-        <form action="" method="post">
-            <input type="email" name="email" placeholder="gupuldw@yahoo.com" required style="width: 100%; padding: 5px;" />
-            <input type="submit" value="Send Reset Link" style="margin-top: 5px;" />
-        </form>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+
 
 # If logged in
 if st.session_state.logged_in:
