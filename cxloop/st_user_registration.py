@@ -157,7 +157,9 @@ if tab == "Register (i.e for new contractor)":
 
 if tab == "Forget Password":
     st.subheader("Lets' reset your password:")
+
     username_forgotten_password = st.text_input("Username:")
+    
 
     if st.button("Reset Password"):
         cur.execute("SELECT raw_password FROM TEST.PUBLIC.users WHERE username = %s", (username_forgotten_password,))
