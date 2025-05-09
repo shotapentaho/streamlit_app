@@ -5,19 +5,9 @@ from datetime import date
 import time
 
 
-def render():
-    st.header("Customer Feedback")
-    st.write("Inside Feedback Tab")
-    hide_menu_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            header {visibility: hidden;}
-            </style>
-            """
-    st.markdown(hide_menu_style, unsafe_allow_html=True)
 
-st.write()
+
+
 if len(st.query_params)> 1:
      # Update session state based on the URL parameter
     if st.query_params["logged_in"] == "true":
@@ -76,105 +66,108 @@ def get_contractor_companies(conn):
 conn = get_connection()
 cur = conn.cursor()
 
-st.title("Let's rate a customer..")
+#st.title("Let's rate a customer..")
 
-# Reset logic: must come BEFORE widget declaration
-if "reset_form" in st.session_state and st.session_state.reset_form:
-    st.session_state["k_customer_name"] = ""
-    st.session_state["k_street"] = ""
-    st.session_state["k_city"] = ""
-    st.session_state["k_state"] = ""
-    st.session_state["k_zip_code"] = ""
-    st.session_state["k_rating"] = ""
-    st.session_state["k_feedback"] = ""
-    st.session_state["k_engagement_type"] = "Pick one"
-    st.session_state["k_activity_date"] = date.today()
-    st.session_state.reset_form = False
-
-contractors = get_contractor_companies(conn)
-
-# Create label list for dropdown
-contractor_labels = [c["label"] for c in contractors]
-selected_label = st.selectbox("Contractor Company:", contractor_labels)
-# Retrieve ID of selected contractor
-selected_contractor = next((c for c in contractors if c["label"] == selected_label), None)
- #Debuggingif selected_contractor:    
-                #st.info(f"Selected Contractor ID: {selected_contractor['contractor_id']}")
-
-
-
-# Form fields
-with st.form("engagement_form"):
-
-    col_name, col_ignore = st.columns([1,1])
-    with col_name:
-        customer_name = st.text_input("Customer Name:", key="k_customer_name")
-    with col_ignore:
-        st.write("")
-
-    col_0, col_1 = st.columns([1,2])
-    with col_0:
-        engagement_type = st.selectbox("Job done:", ["Pick one", "Electrical", "Painting", "Plumbing", "Power Wash", "Handyman", "Misc"], key="k_engagement_type")
-    with col_1:
-        activity_date = st.date_input("Performed/Finished on:", value=date.today(), key="k_activity_date")
-
-    col4, col1, col2, col3 = st.columns([2, 1, 1, 1])
-    with col4:
-        street = st.text_input("Street:", key="k_street")
-    with col1:
-        city = st.text_input("City:", key="k_city")
-    with col2:
-        state = st.selectbox("State:", options=[
-            "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
-            "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
-            "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
-            "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
-            "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
-        ], key="k_state")
-    with col3:
-        zip_code = st.text_input("ZIP:", key="k_zip_code")
-
-    # Inside your form
-    col_rating, col_feedback = st.columns([1, 3])
-    with col_rating:
-        rating = st.selectbox("Star rating:", ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"], key="k_rating")
-        star_rating = len(rating)
-        #star_rating = st_star_rating(label="Customer Rating", maxValue=5, defaultValue=3, key="rating")
-
-    with col_feedback:
-        feedback = st.text_area("Additional feedback (from last activity):", key="k_feedback", height=100)
-
-
-    submitted = st.form_submit_button("Submit")
-
-    if submitted:
-        if not (customer_name and street and city and zip_code):
-            st.warning("Please fill out all required fields.")
-        else:
-            insert_sql = """
-                INSERT INTO TEST.PUBLIC.engagements (
-                    contractor_id, customer_name, street, city, state, zip_code, 
-                    engagement_type, activity_date, rating, feedback
-                )
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+def render():
+    st.header("Customer Feedback")
+    st.write("Inside Feedback Tab")
+    hide_menu_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
             """
-            cur.execute(insert_sql, (
-                selected_contractor['contractor_id'], customer_name, street, city, state, zip_code,
-                engagement_type, activity_date.isoformat(), star_rating, feedback
-            ))
-            conn.commit()
-            st.success("Feedback saved!")
-            time.sleep(1)
-            st.session_state.reset_form = True
-            st.rerun()
+    st.markdown(hide_menu_style, unsafe_allow_html=True)
+
+    # Reset logic: must come BEFORE widget declaration
+    if "reset_form" in st.session_state and st.session_state.reset_form:
+        st.session_state["k_customer_name"] = ""
+        st.session_state["k_street"] = ""
+        st.session_state["k_city"] = ""
+        st.session_state["k_state"] = ""
+        st.session_state["k_zip_code"] = ""
+        st.session_state["k_rating"] = ""
+        st.session_state["k_feedback"] = ""
+        st.session_state["k_engagement_type"] = "Pick one"
+        st.session_state["k_activity_date"] = date.today()
+        st.session_state.reset_form = False
+
+    contractors = get_contractor_companies(conn)
+
+    # Create label list for dropdown
+    contractor_labels = [c["label"] for c in contractors]
+    selected_label = st.selectbox("Contractor Company:", contractor_labels)
+    # Retrieve ID of selected contractor
+    selected_contractor = next((c for c in contractors if c["label"] == selected_label), None)
+    #Debuggingif selected_contractor:    
+                    #st.info(f"Selected Contractor ID: {selected_contractor['contractor_id']}")
+
+
+
+    # Form fields
+    with st.form("engagement_form"):
+
+        col_name, col_ignore = st.columns([1,1])
+        with col_name:
+            customer_name = st.text_input("Customer Name:", key="k_customer_name")
+        with col_ignore:
+            st.write("")
+
+        col_0, col_1 = st.columns([1,2])
+        with col_0:
+            engagement_type = st.selectbox("Job done:", ["Pick one", "Electrical", "Painting", "Plumbing", "Power Wash", "Handyman", "Misc"], key="k_engagement_type")
+        with col_1:
+            activity_date = st.date_input("Performed/Finished on:", value=date.today(), key="k_activity_date")
+
+        col4, col1, col2, col3 = st.columns([2, 1, 1, 1])
+        with col4:
+            street = st.text_input("Street:", key="k_street")
+        with col1:
+            city = st.text_input("City:", key="k_city")
+        with col2:
+            state = st.selectbox("State:", options=[
+                "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
+                "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+                "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+                "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+                "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
+            ], key="k_state")
+        with col3:
+            zip_code = st.text_input("ZIP:", key="k_zip_code")
+
+        # Inside your form
+        col_rating, col_feedback = st.columns([1, 3])
+        with col_rating:
+            rating = st.selectbox("Star rating:", ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"], key="k_rating")
+            star_rating = len(rating)
+            #star_rating = st_star_rating(label="Customer Rating", maxValue=5, defaultValue=3, key="rating")
+
+        with col_feedback:
+            feedback = st.text_area("Additional feedback (from last activity):", key="k_feedback", height=100)
+
+
+        submitted = st.form_submit_button("Submit")
+
+        if submitted:
+            if not (customer_name and street and city and zip_code):
+                st.warning("Please fill out all required fields.")
+            else:
+                insert_sql = """
+                    INSERT INTO TEST.PUBLIC.engagements (
+                        contractor_id, customer_name, street, city, state, zip_code, 
+                        engagement_type, activity_date, rating, feedback
+                    )
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """
+                cur.execute(insert_sql, (
+                    selected_contractor['contractor_id'], customer_name, street, city, state, zip_code,
+                    engagement_type, activity_date.isoformat(), star_rating, feedback
+                ))
+                conn.commit()
+                st.success("Feedback saved!")
+                time.sleep(1)
+                st.session_state.reset_form = True
+                st.rerun()
 
  
-
-
-#st.write(user_exists[1])
-if "admin" in user_exists[1]:
-# Retrieve and display existing data
-    st.subheader("All Engagements:")
-    cur.execute("SELECT * FROM TEST.PUBLIC.engagements ORDER BY submitted_at DESC")
-    df = cur.fetch_pandas_all()
-    st.dataframe(df, use_container_width=True)
