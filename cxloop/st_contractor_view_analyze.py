@@ -47,7 +47,16 @@ def render():
         with st.spinner("💡 Generating SQL..."):
             prompt = f"""
                         Translate the following question into SQL for Snowflake.
-                        Table name: engagements
+                        Tables:
+                        - engagements (columns: customer_name, street, city, state, zip_code, engagement_type, activity_date, rating, feedback, contractor_id)
+                        - contractors (columns: contractor_id, contractor_name)
+
+                        Relationship:
+                        - JOIN engagements.contractor_id = contractors.contractor_id
+
+                        Goal:
+                        - Return only relevant columns needed to answer the question below.
+
                         Schema: {st.session_state.df.dtypes.astype(str).to_string()}
                         Question: {question}
                         Only return the SQL code.
