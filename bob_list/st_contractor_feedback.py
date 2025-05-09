@@ -150,9 +150,13 @@ with st.form("engagement_form"):
             conn.commit()
             st.success("Feedback saved!")
             # Clear the form
-            #time.sleep(1)
-            st.session_state.reset = True
-            st.rerun()
+            st.session_state["customer_name"] = ""
+            st.session_state["street"] = ""
+            st.session_state["city"] = ""
+            st.session_state["state"] = ""
+            st.session_state["zip_code"] = ""
+            st.session_state["rating"] = ""
+            st.session_state["feedback"] = ""
 
 
 #st.write(user_exists[1])
