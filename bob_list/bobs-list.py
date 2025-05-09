@@ -7,10 +7,10 @@ st.set_page_config(page_title="Customer Experiences", layout="wide")
 cxloop_tabs = st.tabs(["Customer Feedback", "View Analyze Feedbacks"])
 
 with cxloop_tabs[0]:
-    st.write("You are on the Feedback")
+
     cx_feedback.render()
 
 
 with cxloop_tabs[1]:
-    st.write("You are on the View Analysis")
+
     cx_analyze.render()
