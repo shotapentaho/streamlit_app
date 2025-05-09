@@ -54,7 +54,7 @@ def authenticated_user(user_str):
 
 user_exists = is_valid_user (st.query_params["username"])
 valid_user_name = authenticated_user (st.query_params["username"])
-st.write(f"Welcome {valid_user_name[0]}")
+#st.write(f"Welcome {valid_user_name[0]}")
 
 
 if (user_exists[0] == False):
@@ -108,7 +108,7 @@ def render():
         st.session_state["k_activity_date"] = date.today()
         st.session_state.reset_form = False
 
-    contractors = get_contractor_company(conn, valid_user_name)
+    contractors = get_contractor_company(conn, valid_user_name[0])
 
     # Create label list for dropdown
     contractor_labels = [c["label"] for c in contractors]
