@@ -2,6 +2,7 @@ import streamlit as st
 import snowflake.connector
 import pandas as pd
 from datetime import date
+import openai
 
 
 def render():
@@ -15,6 +16,9 @@ def render():
             </style>
             """
     st.markdown(hide_menu_style, unsafe_allow_html=True)
+
+    # Use secrets
+    openai.api_key = st.secrets["openai"]["api_key"]
 
     # Question Input (reset each time a new file is uploaded)
     question = st.text_input("💬 Ask a question to retrieve data (i.e English): ex row count? OR group by [field] etc. Note: If column name contains space, qualify with double quotes"
@@ -33,6 +37,54 @@ def render():
     # Display the dataframe preview
     st.write("✅ Data Preview", df.head())
     #st.dataframe(df.head(), use_container_width=True)
+
+    if question:
+        #st.write(f"💬 User Question: {question}")  # Log user question for debugging
+
+        with st.spinner("💡 Generating SQL..."):
+            prompt = f"""
+                        Translate the following question into SQL for Snowflake.
+                        Table name: data
+                        Schema: {st.session_state.df.dtypes.astype(str).to_string()}
+                        Question: {question}
+                        Only return the SQL code.
+                        """
+
+            try:
+                # Make the OpenAI API request
+                response = openai.ChatCompletion.create(
+                    model="gpt-4",
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0,
+                )
+
+                # Debugging: Show the raw response from OpenAI
+                #st.write("OpenAI Raw Response:")
+                #st.json(response)  # This will give you the full raw response in JSON format
+
+                sql_query = response.choices[0].message.content.strip()
+
+                # Debugging: Check if the SQL query is generated
+                if not sql_query:
+                    st.error("❌ OpenAI returned an empty SQL query.")
+                else:
+                    st.write("Generated SQL Query:")
+                    st.code(sql_query, language="sql")
+
+                # Checking if the SQL is syntactically correct before executing
+                if sql_query:
+                    result = con.execute(sql_query).fetchdf()  # THIS IS THE FIX: use fetchdf() to get the results
+
+                    # Debugging: Show the result
+                    st.write("SQL Execution Result:")
+                    st.dataframe(result)
+
+                    if not result.empty:
+                        plot_result_dataframe(result)
+                    else:
+                        st.warning("⚠️ No data returned from SQL query.")
+            except Exception as e:
+                st.error(f"Error: {e}")
 
 
 if len(st.query_params)> 1:
