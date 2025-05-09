@@ -15,6 +15,12 @@ def render():
             </style>
             """
     st.markdown(hide_menu_style, unsafe_allow_html=True)
+
+    # Question Input (reset each time a new file is uploaded)
+    question = st.text_input("💬 Ask a question to retrieve data (i.e English): ex row count? OR group by [field] etc. Note: If column name contains space, qualify with double quotes"
+                             #,value=st.session_state.question
+                            ,placeholder="ex: row count? OR group by [field name] etc. Note: If column name contains space, qualify with double quotes",   # 👈 Greyed out tip text
+                             )
     
     # Retrieve and display existing data
     cur.execute("""SELECT cont.contractor_name, eng.customer_name, eng.street, eng.city, eng.state, eng.zip_code as zip, eng.engagement_type, eng.activity_date,
