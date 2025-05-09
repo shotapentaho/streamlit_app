@@ -48,7 +48,7 @@ def render():
             prompt = f"""
                         Translate the following question into SQL for Snowflake.
                         Tables:
-                        - engagements (columns: customer_name, street, city, state, zip_code, engagement_type, activity_date, rating, feedback, contractor_id)
+                        - engagements (columns: engagements.customer_name, engagements.street, engagements.city, engagements.state, engagements.zip_code, engagements.engagement_type, activity_date, rating, feedback, contractor_id)
                         - contractors (columns: contractor_id, contractor_name)
 
                         Relationship:
