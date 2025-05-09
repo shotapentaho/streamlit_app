@@ -74,6 +74,7 @@ hide_all_footer = """
     </style>
 """
 st.markdown(hide_all_footer, unsafe_allow_html=True)
+st.markdown("Created by Sobhan Hota")
 
 hide_header_menu_style = """
         <style>
