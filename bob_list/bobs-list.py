@@ -2,7 +2,7 @@ import streamlit as st
 import st_contractor_feedback
 import st_contractor_view_analyze
 
-#st.set_page_config(layout="wide")
+st.set_page_config(page_title="Customer Xperiences..", layout="wide")
 
 cxloop_tabs = st.tabs(["Customer Feedback", "View Analyze Feedbacks"])
 
