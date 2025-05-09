@@ -149,8 +149,7 @@ with st.form("engagement_form"):
             ))
             conn.commit()
             st.success("Feedback saved!")
-            
-            # Clear the form
+
             st.session_state["k_customer_name"] = ""
             st.session_state["k_street"] = ""
             st.session_state["k_city"] = ""
