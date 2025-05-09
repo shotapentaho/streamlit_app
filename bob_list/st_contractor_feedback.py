@@ -148,6 +148,9 @@ with st.form("engagement_form"):
             ))
             conn.commit()
             st.success("Feedback saved!")
+             # Optional delay so user sees the success message
+            time.sleep(1)
+            st.rerun()
 
 
 #st.write(user_exists[1])
