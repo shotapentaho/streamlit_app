@@ -73,7 +73,7 @@ def get_contractor_company(conn, valid_user):
     ORDER BY name
     """
     cur = conn.cursor()
-    cur.execute(query, (valid_user))
+    cur.execute(query, (valid_user,))
     rows = cur.fetchall()
     cur.close()
     return [{"label": name, "contractor_id": cid} for cid, name in rows]
