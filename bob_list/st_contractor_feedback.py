@@ -118,7 +118,7 @@ def render():
         with col_0:
             engagement_type = st.selectbox("Job done:", ["Pick one", "Electrical", "Painting", "Plumbing", "Power Wash", "Handyman", "Misc"], key="k_engagement_type")
         with col_1:
-            activity_date = st.date_input("Performed/Finished on:", value=date.today(), key="k_activity_date")
+            activity_date = st.date_input("Performed/Finished on:", key="k_activity_date")
 
         col4, col1, col2, col3 = st.columns([2, 1, 1, 1])
         with col4:
