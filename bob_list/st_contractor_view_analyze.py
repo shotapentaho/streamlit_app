@@ -73,7 +73,7 @@ def render():
 
                 # Checking if the SQL is syntactically correct before executing
                 if sql_query:
-                    result = con.execute(sql_query).fetchdf()  # THIS IS THE FIX: use fetchdf() to get the results
+                    result = cur.execute(sql_query).fetchdf()  # THIS IS THE FIX: use fetchdf() to get the results
 
                     # Debugging: Show the result
                     st.write("SQL Execution Result:")
