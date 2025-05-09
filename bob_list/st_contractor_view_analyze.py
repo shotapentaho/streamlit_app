@@ -2,7 +2,7 @@ import streamlit as st
 import snowflake.connector
 import pandas as pd
 from datetime import date
-import openai
+import openai import OpenAI
 
 
 def render():
@@ -18,7 +18,8 @@ def render():
     st.markdown(hide_menu_style, unsafe_allow_html=True)
 
     # Use secrets
-    openai.api_key = st.secrets["openai"]["api_key"]
+    #openai.api_key = st.secrets["openai"]["api_key"]
+    client = OpenAI(api_key=st.secrets["openai"]["api_key"])  # Or use env var
 
     # Question Input (reset each time a new file is uploaded)
     question = st.text_input("💬 Ask a question to retrieve data (i.e English): ex row count? OR group by [field] etc. Note: If column name contains space, qualify with double quotes"
