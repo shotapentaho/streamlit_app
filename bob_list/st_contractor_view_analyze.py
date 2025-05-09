@@ -3,8 +3,10 @@ import snowflake.connector
 import pandas as pd
 from datetime import date
 
+st.set_page_config(layout="wide")
+
 def render():
-    st.set_page_config(layout="wide")
+    
     hide_menu_style = """
             <style>
             #MainMenu {visibility: hidden;}
