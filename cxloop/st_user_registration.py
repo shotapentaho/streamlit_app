@@ -71,7 +71,6 @@ hide_menu_style = """
         <style>
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
-        header {visibility: hidden;}
         .css-qri22k {visibility: hidden;}  /* Extra fallback for some Streamlit themes *
         .stDeployButton {display: none;}
         </style>
