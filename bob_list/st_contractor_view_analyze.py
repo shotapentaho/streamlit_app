@@ -49,10 +49,10 @@ def get_connection():
     )
 
 # Check password received in URL
-def is_valid_user(hash_password_str):
+def is_valid_user(user_str):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("SELECT username FROM TEST.PUBLIC.users WHERE hashed_password = %s", (hash_password_str,))
+    cur.execute("SELECT username FROM TEST.PUBLIC.users WHERE username = %s", (user_str,))
     row = cur.fetchone()
     if not row:
         return False, None
@@ -61,7 +61,7 @@ def is_valid_user(hash_password_str):
         return True, username
     return False, None
 
-user_exists = is_valid_user (st.query_params["password"])
+user_exists = is_valid_user (st.query_params["username"])
 if (user_exists[0] == False):
     st.error("You must be logged in to access this page.")
     st.stop()  # Stops the app execution here if the user is not logged in.
