@@ -93,6 +93,8 @@ st.title(" 🔐 👷 🔄 Contractor Xperiences.. login or register(new here)")
 
 tab = st.radio("Choose:", ["Login", "Register (i.e for new contractor)"])
 
+tab = st.radio("Forgot:", ["User", "Password"])
+
 if tab == "Login":
     #st.subheader("Contractor  to login:")
 
@@ -155,6 +157,7 @@ else:
             st.success(msg)
         else:
             st.warning(msg)
+
 
 # If logged in
 if st.session_state.logged_in:
