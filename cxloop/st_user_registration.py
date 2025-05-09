@@ -170,7 +170,7 @@ if tab == "Forget Password":
         else:
             # Here you can implement the logic to send a reset link or code to the user's email
             password = row[0]
-            st.success(f" Password is {password}")
+            st.success(f" Your Password is: {password}")
 
 # If logged in
 if st.session_state.logged_in:
