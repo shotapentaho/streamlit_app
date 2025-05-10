@@ -104,6 +104,7 @@ if st.query_params.get("page") == "success":
                 if user_data:
                     ok, msg = register_user(user_data["username"], user_data["password"], user_data["name"])
                     st.write(ok, msg)
+                    st.write(user_data["name"])
                     if ok:
                         ok_contractor, msg_contractor = add_contractor(
                                 user_data["name"],
