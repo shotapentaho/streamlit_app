@@ -24,6 +24,11 @@ from datetime import datetime
 import stripe
 import os
 
+
+# Hash passwords securely
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
 # Register a new user
 def register_user(username, password, contracting_company_name):
     hashed = hash_password(password)
@@ -101,9 +106,6 @@ def get_connection():
 conn = get_connection()
 cur = conn.cursor()
 
-# Hash passwords securely
-def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
 
 
 
