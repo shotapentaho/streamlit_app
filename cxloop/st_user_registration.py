@@ -61,7 +61,7 @@ def register_user(username, password, contracting_company_name):
         st.rerun()
         return True, "User registered successfully."
 
-# Register a new user
+# Add row to [contractors] table after register
 def add_contractor(contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip):
     
     cur.execute("""
