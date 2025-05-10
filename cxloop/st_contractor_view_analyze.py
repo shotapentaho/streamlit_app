@@ -91,7 +91,7 @@ def render():
                     df = cur.fetch_pandas_all()
 
                     # Debugging: Show the result
-                    st.write("Result: Click on column header to sort ↑/↓")
+                    st.write("Result: Sort by clicking column header ↑/↓")
                     st.dataframe(result)
 
                     if df.empty:
