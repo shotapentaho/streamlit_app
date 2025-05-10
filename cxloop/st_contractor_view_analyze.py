@@ -38,7 +38,7 @@ def render():
     df = cur.fetch_pandas_all()
     st.session_state.df = df
     # Display the dataframe preview
-    st.write("✅ Data Preview", df.head())
+    st.write("✅ All Data ", df)
     #st.dataframe(df.head(), use_container_width=True)
 
     if question:
