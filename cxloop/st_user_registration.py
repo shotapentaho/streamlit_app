@@ -24,6 +24,29 @@ from datetime import datetime
 import stripe
 import os
 
+# Register a new user
+def register_user(username, password, contracting_company_name):
+    hashed = hash_password(password)
+    cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s AND full_name = %s", (username, contracting_company_name))
+    exists = cur.fetchone()[0]
+    if exists:
+        return False, "User already exists, pick a different user."
+    cur.execute("""
+        INSERT INTO TEST.PUBLIC.users (username, hashed_password, full_name)
+        VALUES (%s, %s, %s)
+    """, (username, hashed, contracting_company_name))
+    conn.commit()
+    return True, "User registered successfully."
+
+# Register a new user
+def add_contractor(contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip):
+    
+    cur.execute("""
+        INSERT INTO TEST.PUBLIC.contractors (contractor_id, contractor_name, street, city, state, zip)
+        VALUES (TEST.PUBLIC.contractor_seq.NEXTVAL, %s, %s, %s, %s, %s)
+    """, (contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip))
+    conn.commit()
+    return True, "Contractor details inserted successfully."
 
 stripe.api_key = st.secrets["stripe"]["secret_key"]
 CXLOOP_APP_URL = "https://cxloop-enter.streamlit.app/" 
@@ -74,29 +97,9 @@ cur = conn.cursor()
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
-# Register a new user
-def register_user(username, password, contracting_company_name):
-    hashed = hash_password(password)
-    cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s AND full_name = %s", (username, contracting_company_name))
-    exists = cur.fetchone()[0]
-    if exists:
-        return False, "User already exists, pick a different user."
-    cur.execute("""
-        INSERT INTO TEST.PUBLIC.users (username, hashed_password, full_name)
-        VALUES (%s, %s, %s)
-    """, (username, hashed, contracting_company_name))
-    conn.commit()
-    return True, "User registered successfully."
 
-# Register a new user
-def add_contractor(contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip):
-    
-    cur.execute("""
-        INSERT INTO TEST.PUBLIC.contractors (contractor_id, contractor_name, street, city, state, zip)
-        VALUES (TEST.PUBLIC.contractor_seq.NEXTVAL, %s, %s, %s, %s, %s)
-    """, (contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip))
-    conn.commit()
-    return True, "Contractor details inserted successfully."
+
+
 
 # Check login
 def authenticate_user(username, password):
