@@ -162,9 +162,9 @@ if tab == "Register":
         new_username = st.text_input("Username:")
     with col_1:
         new_password = st.text_input("Password:", type="password")
-    #Company Details
-    col_11, col_12 = st.columns([1,1,1,1])
 
+    #Company Details
+    col_11, col_12 = st.columns([1,1])
     with col_11:
         contracting_company_name = st.text_input("Contracting Company:")
     with col_12:
