@@ -32,9 +32,9 @@ def register_user(username, password, contracting_company_name):
     if exists:
         return False, "User already exists, pick a different user."
     cur.execute("""
-        INSERT INTO TEST.PUBLIC.users (username, hashed_password, full_name)
-        VALUES (%s, %s, %s)
-    """, (username, hashed, contracting_company_name))
+        INSERT INTO TEST.PUBLIC.users (username, hashed_password, password_raw, full_name)
+        VALUES (%s, %s, %s, %s)
+    """, (username, hashed, password, contracting_company_name))
     conn.commit()
     return True, "User registered successfully."
 
