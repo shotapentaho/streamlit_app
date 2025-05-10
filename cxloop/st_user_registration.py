@@ -163,6 +163,7 @@ if tab == "Login":
                
             else:
                 st.error("Invalid username or password. If you are not registered, please register first.")
+                st.error("Already user, but forgot password. Choose Forgot Password above.")
 
 if tab == "Register":
 
