@@ -105,15 +105,17 @@ if st.query_params.get("page") == "success":
                     ok, msg = register_user(user_data["username"], user_data["password"], user_data["name"])
                     #st.write(ok, msg)
                     if ok:
-                        add_contractor(
-                            user_data["name"],
-                            user_data["street"],
-                            user_data["city"],
-                            user_data["state"],
-                            user_data["zip"]
-                        )
-                        st.success("🎉 Registration complete! You may now log in.")
-                        #del st.session_state["pending_user"]
+                        ok_contractor, msg_contractor = add_contractor(
+                                user_data["name"],
+                                user_data["street"],
+                                user_data["city"],
+                                user_data["state"],
+                                user_data["zip"]
+                            )
+                        if ok_contractor:  
+                            st.success("🎉 Registration complete! You may now log in.")
+                        else:
+                            st.error(msg_contractor)
                     else:
                         st.warning(msg)
             else:
