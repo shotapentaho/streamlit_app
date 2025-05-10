@@ -71,7 +71,7 @@ def get_contractor_company(conn, valid_user):
     cur = conn.cursor()
 
     query = """
-    SELECT contractor_id, contractor_name as name
+    SELECT distinct contractor_id, contractor_name as name
     FROM test.public.contractors 
     WHERE contractor_name IN ( select full_name from test.public.users where username = %s )
     """
