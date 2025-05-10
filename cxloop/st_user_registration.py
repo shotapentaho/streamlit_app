@@ -218,7 +218,7 @@ if tab == "Register":
 
         # Validate user to contractor
         ok, msg = validate_user_to_contractor(new_username, contracting_company_name)
-        st.write(f"validate_user_to_contractor: {msg}")
+        
 
         if ok:
 
@@ -262,6 +262,9 @@ if tab == "Register":
 
             st.markdown(f"[Click here to pay →]({session.url})", unsafe_allow_html=True)
             st.stop()  # Stop further execution until payment is confirmed
+        else:
+            st.error(msg)
+             
         
         #ok, msg = register_user(new_username, new_password, contracting_company_name)
         #if ok:
