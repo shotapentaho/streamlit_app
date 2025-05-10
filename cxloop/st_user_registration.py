@@ -78,8 +78,10 @@ if st.query_params.get("page") == "success":
                 st.error("⚠️ Payment was not completed.")
         except Exception as e:
             st.error(f"Something went wrong: {e}")
-    st.stop()  # Prevent the rest of the app from rendering on success page
-
+    #st.stop()  # Prevent the rest of the app from rendering on success page
+    else:
+        st.error("⚠️ No session ID found in the URL.")
+        st.stop()  # Prevent the rest of the app from rendering on success page
 
 def get_connection():
     return snowflake.connector.connect(
