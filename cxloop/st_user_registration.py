@@ -28,6 +28,34 @@ import os
 stripe.api_key = st.secrets["stripe"]["secret_key"]
 CXLOOP_APP_URL = "https://cxloop-enter.streamlit.app/" 
 
+# ⬇️ Handle success from Stripe at the top
+if st.query_params.get("page") == "success":
+    session_id = st.query_params.get("session_id")
+    if session_id:
+        try:
+            session = stripe.checkout.Session.retrieve(session_id)
+            if session.payment_status == "paid":
+                user_data = st.session_state.get("pending_user")
+                if user_data:
+                    ok, msg = register_user(user_data["username"], user_data["password"], user_data["name"])
+                    if ok:
+                        add_contractor(
+                            user_data["name"],
+                            user_data["street"],
+                            user_data["city"],
+                            user_data["state"],
+                            user_data["zip"]
+                        )
+                        st.success("🎉 Registration complete! You may now log in.")
+                        del st.session_state["pending_user"]
+                    else:
+                        st.warning(msg)
+            else:
+                st.error("⚠️ Payment was not completed.")
+        except Exception as e:
+            st.error(f"Something went wrong: {e}")
+    st.stop()  # Prevent the rest of the app from rendering on success page
+
 
 def get_connection():
     return snowflake.connector.connect(
@@ -132,7 +160,13 @@ if tab == "Register":
     with col_1:
         new_password = st.text_input("Password:", type="password")
     #Company Details
-    contracting_company_name = st.text_input("Contracting Company:")
+    col_11, col_12 = st.columns([1,1,1,1])
+
+    with col_11:
+        contracting_company_name = st.text_input("Contracting Company:")
+    with col_12:
+        contracting_company_email = st.text_input("Email:")
+
     col_3, col_4, col_5, col_6= st.columns([1,1,1,1])
     
     with col_3:
@@ -152,13 +186,45 @@ if tab == "Register":
         contracting_company_zip = st.text_input("Zip:")
 
     if st.button("Register & Pay"):
-        ok, msg = register_user(new_username, new_password, contracting_company_name)
+
+        # Store form data temporarily in session_state
+        st.session_state["pending_user"] = {
+            "username": new_username,
+            "password": new_password,
+            "name": contracting_company_name,
+            "street": contracting_company_street,
+            "city": contracting_company_city,
+            "state": contracting_company_state,
+            "zip": contracting_company_zip,
+            "email": contracting_company_email,
+        }
+
+        # Create Stripe checkout session
+        session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[{
+                "price_data": {
+                    "currency": "usd",
+                    "product_data": {"name": "Registration Fee"},
+                    "unit_amount": 100,  # $1.00
+                },
+                "quantity": 1,
+            }],
+            mode="payment",
+            success_url=f"{CXLOOP_APP_URL}/?page=success&session_id={{CHECKOUT_SESSION_ID}}",
+            cancel_url=f"{CXLOOP_APP_URL}/?page=cancel",
+            metadata={"username": new_username, "email": contracting_company_email, "name": contracting_company_name},
+        )
+
+        st.markdown(f"[Click here to pay →]({session.url})", unsafe_allow_html=True)
+        st.stop()  # Stop further execution until payment is confirmed
         
-        if ok:
-            add_contractor(contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip)
-            st.success(msg)
-        else:
-            st.warning(msg)
+        #ok, msg = register_user(new_username, new_password, contracting_company_name)
+        #if ok:
+        #    add_contractor(contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip)
+        #    st.success(msg)
+        #else:
+        #    st.warning(msg)
 
 
 if tab == "Forgot Password":
