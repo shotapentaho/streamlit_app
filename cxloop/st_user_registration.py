@@ -94,7 +94,7 @@ if st.query_params.get("page") == "success":
                             user_data["zip"]
                         )
                         st.success("🎉 Registration complete! You may now log in.")
-                        del st.session_state["pending_user"]
+                        #del st.session_state["pending_user"]
                     else:
                         st.warning(msg)
             else:
