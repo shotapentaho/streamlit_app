@@ -28,6 +28,19 @@ import os
 # Hash passwords securely
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
+def get_connection():
+    return snowflake.connector.connect(
+        user=st.secrets["snowflake"]["user"],
+        password=st.secrets["snowflake"]["password"],
+        account=st.secrets["snowflake"]["account"],
+        warehouse=st.secrets["snowflake"]["warehouse"],
+        database=st.secrets["snowflake"]["database"],
+        schema=st.secrets["snowflake"]["schema"]
+    )
+
+conn = get_connection()
+cur = conn.cursor()
+
 
 # Register a new user
 def register_user(username, password, contracting_company_name):
@@ -92,21 +105,6 @@ if st.query_params.get("page") == "success":
     else:
         st.error("⚠️ No session ID found in the URL.")
         st.stop()  # Prevent the rest of the app from rendering on success page
-
-def get_connection():
-    return snowflake.connector.connect(
-        user=st.secrets["snowflake"]["user"],
-        password=st.secrets["snowflake"]["password"],
-        account=st.secrets["snowflake"]["account"],
-        warehouse=st.secrets["snowflake"]["warehouse"],
-        database=st.secrets["snowflake"]["database"],
-        schema=st.secrets["snowflake"]["schema"]
-    )
-
-conn = get_connection()
-cur = conn.cursor()
-
-
 
 
 
