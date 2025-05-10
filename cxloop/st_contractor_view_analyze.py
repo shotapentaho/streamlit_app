@@ -55,8 +55,8 @@ def render():
                         - JOIN engagements.contractor_id = contractors.contractor_id
 
                         Goal:
+                        - Ignore all columns contractors table except contractor_name.
                         - Return only relevant columns needed from engagements tables.
-                        - Ignore all columns contractors table except contractor_name. 
 
                         Schema: {st.session_state.df.dtypes.astype(str).to_string()}
                         Question: {question}
