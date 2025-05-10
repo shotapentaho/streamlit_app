@@ -78,13 +78,12 @@ if st.query_params.get("page") == "success":
         try:
             session = stripe.checkout.Session.retrieve(session_id)
             if session.payment_status == "paid":
-                st.write(f"session.payment_status: {session.payment_status}")
-                #user_data = st.session_state.get("pending_user")
+                #st.write(f"session.payment_status: {session.payment_status}")
                 user_data = session.metadata
                 #st.write(user_data)
                 if user_data:
                     ok, msg = register_user(user_data["username"], user_data["password"], user_data["name"])
-                    st.write(ok, msg)
+                    #st.write(ok, msg)
                     if ok:
                         add_contractor(
                             user_data["name"],
@@ -105,8 +104,6 @@ if st.query_params.get("page") == "success":
     else:
         st.error("⚠️ No session ID found in the URL.")
         st.stop()  # Prevent the rest of the app from rendering on success page
-
-
 
 
 # Check login
