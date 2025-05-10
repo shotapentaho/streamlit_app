@@ -20,7 +20,7 @@ st.markdown(hide_default_header, unsafe_allow_html=True)
 
 import snowflake.connector
 import hashlib
-from datetime import datetime
+from datetime import datetime, timedelta
 import stripe
 import os
 
@@ -45,14 +45,16 @@ cur = conn.cursor()
 # Register a new user
 def register_user(username, password, contracting_company_name):
     hashed = hash_password(password)
+    # Expiration date set to 1 year from now
+    expiration_date = datetime.now() + timedelta(days=365)
     cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s AND full_name = %s", (username, contracting_company_name))
     exists = cur.fetchone()[0]
     if exists:
         return False, "User already exists, pick a different user."
     cur.execute("""
-        INSERT INTO TEST.PUBLIC.users (username, hashed_password, password_raw, full_name)
-        VALUES (%s, %s, %s, %s)
-    """, (username, hashed, password, contracting_company_name))
+        INSERT INTO TEST.PUBLIC.users (username, hashed_password, password_raw, full_name, member_expiration_date)
+        VALUES (%s, %s, %s, %s, %s)
+    """, (username, hashed, password, contracting_company_name, expiration_date))
     conn.commit()
     return True, "User registered successfully."
 
