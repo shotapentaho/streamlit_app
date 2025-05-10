@@ -51,7 +51,7 @@ def register_user(username, password, contracting_company_name):
     cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s AND full_name = %s", (username, contracting_company_name))
     exists = cur.fetchone()[0]
     if exists:
-        return False, "User already exists, pick a different user."
+        return True, "User exists, you may login now!"
     else:
         cur.execute("""
             INSERT INTO TEST.PUBLIC.users (username, hashed_password, password_raw, full_name, member_expiration_date)
