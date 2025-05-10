@@ -91,7 +91,7 @@ def render():
                     df = cur.fetch_pandas_all()
 
                     # Debugging: Show the result
-                    st.write("SQL Execution Result:")
+                    st.write("Result:")
                     st.dataframe(result)
 
                     if df.empty:
