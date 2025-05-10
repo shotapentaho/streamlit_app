@@ -46,7 +46,8 @@ cur = conn.cursor()
 def register_user(username, password, contracting_company_name):
     hashed = hash_password(password)
     # Expiration date set to 1 year from now
-    expiration_date = datetime.now() + timedelta(days=365)
+    expiration_date = (datetime.now() + timedelta(days=365)).strftime("%Y-%m-%d %H:%M:%S")  # <-- formatted string
+
     cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s AND full_name = %s", (username, contracting_company_name))
     exists = cur.fetchone()[0]
     if exists:
