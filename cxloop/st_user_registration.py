@@ -74,7 +74,7 @@ if st.query_params.get("page") == "success":
     session_id = st.query_params.get("session_id")
 
     if session_id:
-        st.write(f"Success page loaded with session ID: {session_id}")
+        #st.write(f"Success page loaded with session ID: {session_id}")
         try:
             session = stripe.checkout.Session.retrieve(session_id)
             if session.payment_status == "paid":
