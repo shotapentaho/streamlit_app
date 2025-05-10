@@ -61,7 +61,8 @@ if st.query_params.get("page") == "success":
             session = stripe.checkout.Session.retrieve(session_id)
             if session.payment_status == "paid":
                 st.write(f"session.payment_status: {session.payment_status}")
-                user_data = st.session_state.get("pending_user")
+                #user_data = st.session_state.get("pending_user")
+                user_data = session.metadata
                 st.write(user_data)
                 if user_data:
                     ok, msg = register_user(user_data["username"], user_data["password"], user_data["name"])
