@@ -54,11 +54,13 @@ CXLOOP_APP_URL = "https://cxloop-enter.streamlit.app/"
 # ⬇️ Handle success from Stripe at the top
 if st.query_params.get("page") == "success":
     session_id = st.query_params.get("session_id")
+
     if session_id:
         st.write(f"Success page loaded with session ID: {session_id}")
         try:
             session = stripe.checkout.Session.retrieve(session_id)
             if session.payment_status == "paid":
+                st.write(f"session.payment_status: {session.payment_status}")
                 user_data = st.session_state.get("pending_user")
                 if user_data:
                     ok, msg = register_user(user_data["username"], user_data["password"], user_data["name"])
