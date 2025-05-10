@@ -222,7 +222,16 @@ if tab == "Register":
             mode="payment",
             success_url=f"{CXLOOP_APP_URL}/?page=success&session_id={{CHECKOUT_SESSION_ID}}",
             cancel_url=f"{CXLOOP_APP_URL}/?page=cancel",
-            metadata={"username": new_username, "email": contracting_company_email, "name": contracting_company_name},
+            metadata={
+                "username": new_username,
+                "password": new_password,
+                "name": contracting_company_name,
+                "street": contracting_company_street,
+                "city": contracting_company_city,
+                "state": contracting_company_state,
+                "zip": contracting_company_zip,
+                "email": contracting_company_email,
+            },
         )
 
         st.markdown(f"[Click here to pay →]({session.url})", unsafe_allow_html=True)
