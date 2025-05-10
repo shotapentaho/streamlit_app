@@ -265,14 +265,6 @@ if tab == "Register":
         else:
             st.error(msg)
              
-        
-        #ok, msg = register_user(new_username, new_password, contracting_company_name)
-        #if ok:
-        #    add_contractor(contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip)
-        #    st.success(msg)
-        #else:
-        #    st.warning(msg)
-
 
 if tab == "Forgot Password":
     st.subheader("Retrieve your password:")
