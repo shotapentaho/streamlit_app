@@ -41,6 +41,15 @@ def is_valid_user(user_str):
         return True, username
     return False, None
 
+user_exists = is_valid_user (st.query_params["username"])
+#valid_user_name = authenticated_user (st.query_params["username"])
+#st.write(f"Welcome {valid_user_name[0]}")
+
+if (user_exists[0] == False):
+    st.error("You must be logged in to access this page.")
+    st.stop()  # Stops the app execution here if the user is not logged in.
+    st.session_state.logged_in = False
+
 def authenticated_user(user_str):
     conn = get_connection()
     cur = conn.cursor()
@@ -53,15 +62,7 @@ def authenticated_user(user_str):
         return username
     return False, None
 
-user_exists = is_valid_user (st.query_params["username"])
-#valid_user_name = authenticated_user (st.query_params["username"])
-#st.write(f"Welcome {valid_user_name[0]}")
 
-
-if (user_exists[0] == False):
-    st.error("You must be logged in to access this page.")
-    st.stop()  # Stops the app execution here if the user is not logged in.
-    st.session_state.logged_in = False
 
 # ---- Query contractor companies ----
 def get_contractor_company(conn, valid_user):
