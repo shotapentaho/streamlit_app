@@ -82,7 +82,7 @@ def validate_user_to_contractor(username, contracting_company_name):
     cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s AND full_name = %s", (username, contracting_company_name))
     exists = cur.fetchone()[0]
     if exists:
-        return False, "This user is already assoicated to a contracting company, you may choose another company to register."
+        return False, "User {username} is assoicated to this contracting company {contracting_company_name}, you may choose another company to register."
     else:
         return True, "Procced to registration"
 
