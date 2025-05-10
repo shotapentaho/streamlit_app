@@ -15,7 +15,7 @@ else:
     st.session_state.logged_in = False
 
 
-cxloop_tabs = st.tabs(["Feedback Entry", "View Analyze Ratings"])
+cxloop_tabs = st.tabs(["Feedback Entry", "View, filter, analyze data"])
 
 with cxloop_tabs[0]:
     st_contractor_feedback.render()
