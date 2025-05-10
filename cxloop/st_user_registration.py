@@ -52,13 +52,14 @@ def register_user(username, password, contracting_company_name):
     exists = cur.fetchone()[0]
     if exists:
         return False, "User already exists, pick a different user."
-    cur.execute("""
-        INSERT INTO TEST.PUBLIC.users (username, hashed_password, password_raw, full_name, member_expiration_date)
-        VALUES (%s, %s, %s, %s, %s)
-    """, (username, hashed, password, contracting_company_name, expiration_date))
-    conn.commit()
+    else:
+        cur.execute("""
+            INSERT INTO TEST.PUBLIC.users (username, hashed_password, password_raw, full_name, member_expiration_date)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (username, hashed, password, contracting_company_name, expiration_date))
+        conn.commit()
     
-    return True, "User registered successfully."
+        return True, "User registered successfully."
 
 # Register a new user
 def add_contractor(contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip):
