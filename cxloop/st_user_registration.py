@@ -218,6 +218,7 @@ if tab == "Register":
 
         # Validate user to contractor
         ok, msg = validate_user_to_contractor(new_username, contracting_company_name)
+        st.write(f"validate_user_to_contractor: {msg}")
 
         if ok:
 
