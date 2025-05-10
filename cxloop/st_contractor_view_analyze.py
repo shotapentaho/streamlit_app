@@ -97,9 +97,9 @@ def render():
                     if df.empty:
                         st.warning("⚠️ No data returned from SQL query.")
                         #plot_result_dataframe(result)
-                    else:
-                        st.write("Visualize Result:")
-                        #st.dataframe(df)       Visualize here
+                    #else:
+                        #st.write("Visualize Result:")      # Visualize here
+                        #st.dataframe(df)      
                         
             except Exception as e:
                 st.error(f"Error: {e}")
