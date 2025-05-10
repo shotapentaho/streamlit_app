@@ -4,3 +4,4 @@ pandas
 datetime
 st-star-rating
 openai>=1.2
+stripe

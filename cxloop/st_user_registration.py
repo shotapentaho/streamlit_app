@@ -21,7 +21,12 @@ st.markdown(hide_default_header, unsafe_allow_html=True)
 import snowflake.connector
 import hashlib
 from datetime import datetime
+import stripe
+import os
 
+
+stripe.api_key = st.secrets["stripe"]["secret_key"]
+CXLOOP_APP_URL = "https://cxloop-enter.streamlit.app/" 
 
 
 def get_connection():
@@ -88,7 +93,7 @@ if "full_name" not in st.session_state:
 st.title(" 🔐 👷 🔄 Contractor Xperiences.. login or register(new here)")
 
 
-tab = st.radio("Choose:", ["Login", "Register (i.e for new contractor)", "Forgot Password"])
+tab = st.radio("Choose:", ["Login", "Register", "Forgot Password"])
 
 
 if tab == "Login":
@@ -118,8 +123,9 @@ if tab == "Login":
             else:
                 st.error("Invalid username or password. If you are not registered, please register first.")
 
-if tab == "Register (i.e for new contractor)":
-    st.subheader("Register your company:")
+if tab == "Register":
+
+    st.subheader("Register your company to use the service:")
     col_0, col_1 = st.columns([1,1])
     with col_0:
         new_username = st.text_input("Username:")
@@ -145,7 +151,7 @@ if tab == "Register (i.e for new contractor)":
     with col_6:
         contracting_company_zip = st.text_input("Zip:")
 
-    if st.button("Register"):
+    if st.button("Register & Pay"):
         ok, msg = register_user(new_username, new_password, contracting_company_name)
         
         if ok:
