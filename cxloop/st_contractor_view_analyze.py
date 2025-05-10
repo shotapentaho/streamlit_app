@@ -81,8 +81,8 @@ def render():
                 if not sql_query:
                     st.error("❌ OpenAI returned an empty SQL query.")
                 else:
-                    #st.write("Generated SQL Query:")
-                    #st.code(sql_query, language="sql")
+                    st.write("Generated SQL Query:")
+                    st.code(sql_query, language="sql")
 
                 # Checking if the SQL is syntactically correct before executing
                 if sql_query:
