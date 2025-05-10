@@ -220,7 +220,7 @@ if tab == "Register":
                 "price_data": {
                     "currency": "usd",
                     "product_data": {"name": "Registration Fee"},
-                    "unit_amount": 100,  # $1.00
+                    "unit_amount": 499,  # $4.99
                 },
                 "quantity": 1,
             }],
