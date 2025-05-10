@@ -103,8 +103,7 @@ if st.query_params.get("page") == "success":
                 #st.write(user_data)
                 if user_data:
                     ok, msg = register_user(user_data["username"], user_data["password"], user_data["name"])
-                    st.write(ok, msg)
-                    st.write(user_data["name"])
+                    #st.write(ok, msg)
                     if ok:
                         ok_contractor, msg_contractor = add_contractor(
                                 user_data["name"],
@@ -114,7 +113,7 @@ if st.query_params.get("page") == "success":
                                 user_data["zip"]
                             )
                         if ok_contractor:  
-                            st.success("🎉 Registration complete! You may now log in.")
+                            st.success("🎉 Contracting company registration complete! You may now log in.")
                         else:
                             st.error(msg_contractor)
                     else:
