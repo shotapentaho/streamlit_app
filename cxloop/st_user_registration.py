@@ -57,7 +57,7 @@ def register_user(username, password, contracting_company_name):
         VALUES (%s, %s, %s, %s, %s)
     """, (username, hashed, password, contracting_company_name, expiration_date))
     conn.commit()
-    conn.close()
+    
     return True, "User registered successfully."
 
 # Register a new user
