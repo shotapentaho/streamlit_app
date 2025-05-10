@@ -67,7 +67,7 @@ def add_contractor(contracting_company_name, contracting_company_street, contrac
     cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s AND full_name = %s", (username, contracting_company_name))
     exists = cur.fetchone()[0]
     if exists:
-        return False, "This user and Contracting Company already exists, you may choose another company to register."
+        return False, "This user is assoicated to contracting company, you may choose another company to register."
     else:
         cur.execute("""
             INSERT INTO TEST.PUBLIC.contractors (contractor_id, contractor_name, street, city, state, zip)
