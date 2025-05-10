@@ -64,7 +64,7 @@ def register_user(username, password, contracting_company_name):
 # Add row to [contractors] table after register
 def add_contractor(contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip):
     
-    cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE full_name = %s", (contracting_company_name))
+    cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.contractors WHERE contractor_name = %s", (contracting_company_name))
     exists = cur.fetchone()[0]
     if exists:
         return False, "This company is already present in the database. "
