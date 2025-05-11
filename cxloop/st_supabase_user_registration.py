@@ -166,14 +166,28 @@ if st.query_params.get("page") == "success":
 
 # Check login
 def authenticate_user(username, password):
-    cur.execute("SELECT hashed_password, full_name FROM TEST.PUBLIC.users WHERE username = %s", (username,))
-    row = cur.fetchone()
-    if not row:
+
+    conn = get_connection()
+    response = (
+    conn
+    .table("users")
+    .select("hashed_password, full_name")
+    .eq("username", username)
+    .single()  # Assumes usernames are unique
+    .execute()
+    )
+
+    # Get the count of matching rows
+    count = response.count
+    if count > 0:
+        stored_hash = response.data["hashed_password"]
+        full_name = response.data["full_name"]
+        if hash_password(password) == stored_hash:
+            return True, full_name
+        else:
+            return False, None
+    else:
         return False, None
-    stored_hash, full_name = row
-    if hash_password(password) == stored_hash:
-        return True, full_name
-    return False, None
 
 # Session state
 if "logged_in" not in st.session_state:
