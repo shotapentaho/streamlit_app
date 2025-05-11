@@ -333,7 +333,9 @@ if tab == "Forgot Password":
             .execute()
         )
 
-        if response.status_code == 200:
+        # Get the count of matching rows
+        count = response.count
+        if count > 0:
             password_raw = response.data["password_raw"]
             st.success(f" Your Password is: {password_raw}")
         else:
