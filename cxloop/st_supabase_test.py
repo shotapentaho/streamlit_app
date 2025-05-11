@@ -17,6 +17,8 @@ hide_default_header = """
 import streamlit as st
 from supabase import create_client
 import pandas as pd
+st.markdown(hide_default_footer, unsafe_allow_html=True)
+st.markdown(hide_default_header, unsafe_allow_html=True)
 
 sb_url = st.secrets["supabase"]["url"]
 anon_key = st.secrets["supabase"]["key"]
