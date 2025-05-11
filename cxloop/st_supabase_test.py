@@ -26,10 +26,9 @@ def get_connection():
     return create_client(sb_url, anon_key)  
 
 conn = get_connection()
-cur = conn.cursor()
 
 # Fetch data from a table
-response = cur.execute(" SELECT * from users")
+response = conn.table("users").select("*").execute()
 
 # Convert to DataFrame
 df = pd.DataFrame(response.data)
