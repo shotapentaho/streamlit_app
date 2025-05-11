@@ -4,10 +4,13 @@ import pandas as pd
 
 sb_url = st.secrets["supabase"]["url"]
 anon_key = st.secrets["supabase"]["key"]
-supabase = create_client(sb_url, anon_key)
+def get_connection():
+    return create_client(sb_url, anon_key)  
+
+conn = get_connection()
 
 # Fetch data from a table
-response = supabase.table("users").select("*").execute()
+response = conn.table("users").select("*").execute()
 
 # Convert to DataFrame
 df = pd.DataFrame(response.data)
