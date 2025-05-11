@@ -5,4 +5,4 @@ datetime
 st-star-rating
 openai>=1.2
 stripe
-supabase
+#supabase
