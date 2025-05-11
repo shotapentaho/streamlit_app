@@ -184,8 +184,8 @@ if tab == "Login":
                     """, unsafe_allow_html=True)
                
             else:
-                st.warning("Invalid username or password. If you are not registered, please register first.")
-                st.warning("if forgot password. Choose Forgot Password above.")
+                st.error("Invalid username or password. If you are not registered, please register first.")
+                st.error("if forgot password. Choose Forgot Password above.")
 
 if tab == "Register":
 
