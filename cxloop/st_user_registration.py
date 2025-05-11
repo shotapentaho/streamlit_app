@@ -166,11 +166,11 @@ if tab == "Login":
             username = st.text_input("Username")
         with col_1:
             password = st.text_input("Password", type="password")
-        if st.button("Login"):
-            # Check if username and password are provided
-            if not username or not password:
+
+        if not username or not password:
                 st.warning("Please check any blank fields.")
-            
+        if st.button("Login"):
+
             valid, full_name = authenticate_user(username, password)
             if valid:
                 URL_TO_CUSTOMER_EXPERIENCE = "https://cxloop.streamlit.app?logged_in=true&username="+ username
