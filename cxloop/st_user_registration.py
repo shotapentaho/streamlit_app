@@ -167,6 +167,10 @@ if tab == "Login":
         with col_1:
             password = st.text_input("Password", type="password")
         if st.button("Login"):
+            # Check if username and password are provided
+            if not username or not password:
+                st.warning("Please check any blank fields.")
+            
             valid, full_name = authenticate_user(username, password)
             if valid:
                 URL_TO_CUSTOMER_EXPERIENCE = "https://cxloop.streamlit.app?logged_in=true&username="+ username
@@ -216,6 +220,9 @@ if tab == "Register":
         ])
     with col_6:
         contracting_company_zip = st.text_input("Zip:")
+
+    if not new_username or not contracting_company_name or not new_password or not contracting_company_email or not contracting_company_street or not contracting_company_city or not contracting_company_state or not contracting_company_zip:
+        st.warning("Please check any blank fields.")
 
     if st.button("Register & Pay"):
 
