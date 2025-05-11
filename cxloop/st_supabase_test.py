@@ -28,10 +28,10 @@ def get_connection():
 conn = get_connection()
 
 # Fetch data from a table
-response = conn.table("users").select("*").execute()
+users = conn.table("users").select("*").execute()
 
 # Convert to DataFrame
-df = pd.DataFrame(response.data)
+df = pd.DataFrame(users.data)
 
 # Display using Streamlit
 st.dataframe(df)
