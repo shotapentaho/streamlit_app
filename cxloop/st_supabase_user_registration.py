@@ -123,7 +123,7 @@ def validate_user_to_contractor(username, contracting_company_name):
         return True, "Procced to registration"
 
 stripe.api_key = st.secrets["stripe"]["secret_key"]
-CXLOOP_APP_URL = "https://cxloop-enter.streamlit.app/" 
+CXLOOP_APP_URL = "https://cxloop-enter-sb.streamlit.app/" 
 
 # ⬇️ Handle success from Stripe at the top
 if st.query_params.get("page") == "success":
