@@ -84,7 +84,7 @@ def add_contractor(contracting_company_name, contracting_company_street, contrac
     conn = get_connection()
     response = (conn
                 .table("contractors")
-                .select("id", count="exact")  # Use any column name, 'id' is fine
+                .select("CONTRACTOR_ID", count="exact")  # Use any column name, 'id' is fine
                 .eq("contractor_name", contracting_company_name)
                 .execute()
                 )
@@ -110,7 +110,7 @@ def validate_user_to_contractor(username, contracting_company_name):
     response = (
         conn
         .table("users")
-        .select("id", count='exact')  # 'id' can be any column; count='exact' is key
+        .select("user_id", count='exact')  # 'id' can be any column; count='exact' is key
         .eq("username", username)
         .eq("full_name", contracting_company_name)
         .execute()
