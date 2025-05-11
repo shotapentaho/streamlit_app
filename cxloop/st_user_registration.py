@@ -165,6 +165,9 @@ if tab == "Login":
         with col_1:
             password = st.text_input("Password", type="password")
 
+        if not username or not password:
+            st.warning("Please check any blank fields.")
+
         if st.button("Login"):
 
             valid, full_name = authenticate_user(username, password)
