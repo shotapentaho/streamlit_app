@@ -160,8 +160,7 @@ if tab == "Login":
 
     if not st.session_state.logged_in:
 
-        if not username or not password:
-            st.warning("Please check any blank fields.")
+
 
         col_0, col_1 = st.columns([1,2])
         with col_0:
@@ -169,7 +168,8 @@ if tab == "Login":
         with col_1:
             password = st.text_input("Password", type="password")
 
-
+        if not username or not password:
+            st.warning("Please check any blank fields.")
 
         if st.button("Login"):
 
