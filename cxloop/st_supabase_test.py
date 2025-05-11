@@ -1,23 +1,11 @@
+from supabase import create_client
 import streamlit as st
-import psycopg2
-import pandas as pd
 
+sb_url = st.secrets["supabase"]["url"]
+anon_key = st.secrets["supabase"]["key"]
+supabase = create_client(sb_url, anon_key)
 
-def get_connection():
-    # Connect to Supabase PostgreSQL using the secrets
-    return psycopg2.connect(
-        user=st.secrets["supabase"]["user"],
-        password=st.secrets["supabase"]["password"],
-        host=st.secrets["supabase"]["host"],
-        port=st.secrets["supabase"]["port"],
-        database=st.secrets["supabase"]["database"]
-    )
+# Fetch data from a table
+response = supabase.table("cxloop.users").select("*").execute()
 
-# Establish connection
-conn = get_connection()
-
-# Query a table (e.g., contractors)
-df = pd.read_sql("SELECT * FROM cxloop.users", conn)
-
-# Display the table
-st.dataframe(df)
+st.write(response.data)
