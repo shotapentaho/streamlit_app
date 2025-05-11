@@ -36,8 +36,6 @@ def get_connection():
     return create_client(sb_url, anon_key)
 
 
-
-
 # Register a new user
 def register_user(username, password, contracting_company_name):
 
@@ -308,20 +306,25 @@ if tab == "Register":
 
 if tab == "Forgot Password":
     st.subheader("Retrieve your password:")
-
     username_forgotten_password = st.text_input("Username:")
 
-
     if st.button("Get Password"):
+        conn = get_connection()
+        response = (
+            conn
+            .table("users")
+            .select("password_raw")
+            .eq("username", username_forgotten_password)
+            .single()  # Assumes username is unique
+            .execute()
+        )
 
-        cur.execute("SELECT password_raw FROM TEST.PUBLIC.users WHERE username = %s", (username_forgotten_password,))
-        row = cur.fetchone()
-        if not row:
-            st.error("Invalid username. Please check and try again.")
+        if response.status_code == 200:
+            password_raw = response.data["password_raw"]
+            st.success(f" Your Password is: {password_raw}")
         else:
-            # Here you can implement the logic to send a reset link or code to the user's email
-            password = row[0]
-            st.success(f" Your Password is: {password}")
+            st.error("Invalid username. Please check and try again.")
+        
 
 # If logged in
 if st.session_state.logged_in:
