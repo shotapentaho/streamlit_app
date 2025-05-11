@@ -13,8 +13,9 @@ hide_default_header = """
         footer {visibility: hidden;}
         </style>
 """
-from supabase import create_client
+
 import streamlit as st
+from supabase import create_client
 import pandas as pd
 
 sb_url = st.secrets["supabase"]["url"]
