@@ -159,13 +159,17 @@ if tab == "Login":
     #st.subheader("Contractor  to login:")
 
     if not st.session_state.logged_in:
-        #st.title("Login existing contractor.")
+
+        if not username or not password:
+            st.warning("Please check any blank fields.")
 
         col_0, col_1 = st.columns([1,2])
         with col_0:
             username = st.text_input("Username")
         with col_1:
             password = st.text_input("Password", type="password")
+
+
 
         if st.button("Login"):
 
@@ -182,8 +186,7 @@ if tab == "Login":
                     """, unsafe_allow_html=True)
                
             else:
-                st.error("Check for empty fields. Invalid username/password")
-                st.error("If you are not registered, please register first.")
+                st.error("Invalid username or password. If you are not registered, please register first.")
                 st.error("if forgot password. Choose Forgot Password above.")
 
 if tab == "Register":
