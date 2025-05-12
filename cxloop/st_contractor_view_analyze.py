@@ -27,7 +27,7 @@ def render():
     # Question Input (reset each time a new file is uploaded)
     question = st.text_input("💬 Get data (i.e. just query in English), Ex: show data for MA state OR filter on company name OR group by State etc.."
                              #,value=st.session_state.question
-                            ,placeholder="ex: show all data OR group by [state] OR Activity_Date",   # 👈 Greyed out tip text
+                            ,placeholder="ex: show all data OR group by State OR Activity_Date",   # 👈 Greyed out tip text
                              )
     
     # Retrieve and display existing data
