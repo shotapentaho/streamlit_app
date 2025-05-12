@@ -11,7 +11,6 @@ def render():
     cur = conn.cursor()
 
     st.header("Query, Analyze, Download ..")
-    #st.write("Inside View Analyze Tab")
     hide_menu_style = """
             <style>
             #MainMenu {visibility: hidden;}
@@ -26,7 +25,7 @@ def render():
     client = OpenAI(api_key=st.secrets["openai"]["api_key"])  # Or use env var
 
     # Question Input (reset each time a new file is uploaded)
-    question = st.text_input("💬 Query here (i.e. in English),   Ex: show data OR filter a State OR group by State etc.."
+    question = st.text_input("💬 Get data here (i.e. in English), Ex: show data for MA state OR filter on company name OR group by State etc.."
                              #,value=st.session_state.question
                             ,placeholder="ex: show all data OR group by [state] OR Activity_Date",   # 👈 Greyed out tip text
                              )
