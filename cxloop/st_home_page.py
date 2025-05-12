@@ -5,10 +5,20 @@ from PIL import Image
 logo = Image.open("./cxloop/media/cxloop_logo.png")
 st.image(logo, use_container_width=True)
 
-# Title
-st.markdown("## 🔐 👷 🔄 Contractor Xperiences")
-st.markdown("### Login or Register (new here)")
+# Top-right button with CSS
+st.markdown("""
+    <style>
+    .top-right-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+    }
+    </style>
 
-# Navigation button
-if st.button("🔑 Go to Login/Register Page"):
-    st.switch_page("./cxloop/st_user_registration.py")  # or replace with actual filename
+    <div class="top-right-button">
+        <a href="https://cxloop-enter.streamlit.app/" target="_blank">
+            <button style='font-size:16px;padding:8px 16px;'>🔑 Login/Register</button>
+        </a>
+    </div>
+""", unsafe_allow_html=True)
