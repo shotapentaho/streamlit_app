@@ -1,13 +1,5 @@
 #Import necessary libraries
-hide_menu_style = """
-    <style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    </style>
-    """
 import streamlit as st
-st.markdown(hide_menu_style, unsafe_allow_html=True)
 import snowflake.connector
 import pandas as pd
 from datetime import date
@@ -19,8 +11,14 @@ def render():
     cur = conn.cursor()
 
     st.header("Query, Analyze, Download ..")
-
-
+    hide_menu_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+    st.markdown(hide_menu_style, unsafe_allow_html=True)
 
     # Use secrets
     #openai.api_key = st.secrets["openai"]["api_key"]
