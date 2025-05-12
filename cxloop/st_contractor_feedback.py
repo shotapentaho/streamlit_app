@@ -6,7 +6,6 @@ from datetime import date
 import time
 
 
-
 if len(st.query_params)> 1:
      # Update session state based on the URL parameter
     if st.query_params["logged_in"] == "true":
