@@ -10,7 +10,9 @@ st.markdown(hide_default_header, unsafe_allow_html=True)
 from PIL import Image
 
 # Load and show logo
-logo = Image.open("./cxloop/media/cxloop_logo.png")
+#logo = Image.open("./cxloop/media/cxloop_logo.png")
+logo = Image.open("./cxloop/media/contractors_at_job.jpeg")
+
 st.image(logo, use_container_width=True)
 
 # Top-right button with CSS
