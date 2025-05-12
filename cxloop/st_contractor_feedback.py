@@ -157,6 +157,7 @@ def render():
             activity_labels = [c["label"] for c in all_activity_types]
             engagement_type = st.selectbox("Job Done:", activity_labels)
             #engagement_type = st.selectbox("Job done:", ["Pick one", "Electrical", "Painting", "Plumbing", "Power Wash", "Handyman", "Misc"], key="k_engagement_type")
+            
         with col_1:
             activity_date = st.date_input("Performed/Finished on:", key="k_activity_date")
 
