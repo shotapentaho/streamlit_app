@@ -122,7 +122,7 @@ def render():
         st.session_state["k_zip_code"] = ""
         st.session_state["k_rating"] = ""
         st.session_state["k_feedback"] = ""
-        st.session_state["k_engagement_type"] = "Pick one"
+        #st.session_state["k_engagement_type"] = "Pick one"
         st.session_state["k_activity_date"] = date.today()
         st.session_state.reset_form = False
 
@@ -147,9 +147,16 @@ def render():
         with col_ignore:
             st.write("")
 
+        
+        
+
         col_0, col_1 = st.columns([1,2])
         with col_0:
-            engagement_type = st.selectbox("Job done:", ["Pick one", "Electrical", "Painting", "Plumbing", "Power Wash", "Handyman", "Misc"], key="k_engagement_type")
+            all_activity_types = get_all_contract_activity_types()
+            # Create contractors list for dropdown
+            activity_labels = [c["label"] for c in all_activity_types]
+            engagement_type = st.selectbox("Job Done:", activity_labels)
+            #engagement_type = st.selectbox("Job done:", ["Pick one", "Electrical", "Painting", "Plumbing", "Power Wash", "Handyman", "Misc"], key="k_engagement_type")
         with col_1:
             activity_date = st.date_input("Performed/Finished on:", key="k_activity_date")
 
