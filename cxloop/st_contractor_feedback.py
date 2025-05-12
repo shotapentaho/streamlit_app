@@ -153,7 +153,7 @@ def render():
         col_0, col_1 = st.columns([1,2])
         with col_0:
             all_activity_types = get_all_contract_activity_types()
-            # Create contractors list for dropdown
+            # Create activity_labels list for dropdown
             activity_labels = [c["label"] for c in all_activity_types]
             engagement_type = st.selectbox("Job Done:", activity_labels)
         with col_1:
