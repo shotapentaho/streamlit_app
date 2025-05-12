@@ -1,3 +1,10 @@
+hide_default_header = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+        </style>
+        """
 import streamlit as st
 from PIL import Image
 
