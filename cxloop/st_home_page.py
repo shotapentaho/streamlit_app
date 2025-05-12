@@ -11,4 +11,4 @@ st.markdown("### Login or Register (new here)")
 
 # Navigation button
 if st.button("🔑 Go to Login/Register Page"):
-    st.switch_page("st_user_registration.py")  # or replace with actual filename
+    st.switch_page("./cxloop/st_user_registration.py")  # or replace with actual filename
