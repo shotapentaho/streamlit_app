@@ -147,9 +147,6 @@ def render():
         with col_ignore:
             st.write("")
 
-        
-        
-
         col_0, col_1 = st.columns([1,2])
         with col_0:
             all_activity_types = get_all_contract_activity_types()
