@@ -14,10 +14,22 @@ hide_default_footer = """
     .viewerBadge_link__1S137 {display: none;}
     </style>
 """
+hide_github_icon = """
+    <style>
+        .viewerBadge_container__1QSob,
+        .viewerBadge_link__1S137,
+        .viewerBadge_text__1JaDK,
+        #MainMenu,
+        footer {
+            display: none !important;
+        }
+    </style>
+"""
 import streamlit as st
 st.set_page_config(page_title="Customer Xperiences..", layout="wide")
 st.markdown(hide_default_footer, unsafe_allow_html=True)
 st.markdown(hide_default_header, unsafe_allow_html=True)
+st.markdown(hide_github_icon, unsafe_allow_html=True)
 
 
 import snowflake.connector
