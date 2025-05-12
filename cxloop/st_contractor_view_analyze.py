@@ -7,6 +7,9 @@ from openai import OpenAI
 
 
 def render():
+    conn = get_connection()
+    cur = conn.cursor()
+
     st.header("Query, Analyze, Download ..")
     #st.write("Inside View Analyze Tab")
     hide_menu_style = """
@@ -146,7 +149,5 @@ if (user_exists[0] == False):
     st.session_state.logged_in = False
 
 
-conn = get_connection()
-cur = conn.cursor()
 
 
