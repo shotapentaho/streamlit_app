@@ -15,10 +15,10 @@ hide_default_footer = """
     </style>
 """
 import streamlit as st
-
+st.set_page_config(page_title="Customer Xperiences..", layout="wide")
 st.markdown(hide_default_footer, unsafe_allow_html=True)
 st.markdown(hide_default_header, unsafe_allow_html=True)
-st.set_page_config(page_title="Customer Xperiences..", layout="wide")
+
 
 import snowflake.connector
 import hashlib
