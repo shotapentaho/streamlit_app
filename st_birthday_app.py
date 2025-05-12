@@ -1,9 +1,18 @@
+hide_default_header = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+        </style>
+        """
 import streamlit as st
+st.set_page_config(page_title="👨‍👩‍👧‍👦🎂 Family-fun bdays",layout="wide")
+st.markdown(hide_default_header, unsafe_allow_html=True)
 import pandas as pd
 import duckdb
 from datetime import datetime
 
-st.set_page_config(page_title="👨‍👩‍👧‍👦🎂 Family-fun bdays",layout="wide")
+
 
 DB_FILE = "birthdays.duckdb"
 if "con" not in st.session_state:
