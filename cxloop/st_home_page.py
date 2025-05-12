@@ -6,6 +6,7 @@ hide_default_header = """
         </style>
         """
 import streamlit as st
+st.markdown(hide_default_header, unsafe_allow_html=True)
 from PIL import Image
 
 # Load and show logo
