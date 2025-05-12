@@ -1,4 +1,12 @@
+hide_default_header = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+        </style>
+        """
 import streamlit as st
+st.markdown(hide_default_header, unsafe_allow_html=True)
 import pandas as pd
 import duckdb
 from datetime import datetime
