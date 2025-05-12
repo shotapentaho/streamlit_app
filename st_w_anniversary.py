@@ -6,13 +6,14 @@ hide_default_header = """
         </style>
         """
 import streamlit as st
+st.set_page_config(page_title="👨‍👩‍👧‍👦 Family-fun Anniversaries",layout="wide")
 st.markdown(hide_default_header, unsafe_allow_html=True)
 
 import pandas as pd
 import duckdb
 from datetime import datetime
 
-st.set_page_config(page_title="👨‍👩‍👧‍👦 Family-fun Anniversaries",layout="wide")
+
 DB_FILE = "anniversaries.duckdb"
 if "con" not in st.session_state:
     st.session_state.con = duckdb.connect(DB_FILE)
