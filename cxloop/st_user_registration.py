@@ -1,3 +1,11 @@
+
+hide_default_header = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+        </style>
+        """
 hide_default_footer = """
     <style>
     footer, .st-emotion-cache-1gulkj5 {display: none; visibility: hidden;}
@@ -6,17 +14,11 @@ hide_default_footer = """
     .viewerBadge_link__1S137 {display: none;}
     </style>
 """
-hide_default_header = """
-        <style>
-        #MainMenu {visibility: hidden;}
-        header {visibility: hidden;}
-        footer {visibility: hidden;}
-        </style>
-        """
 import streamlit as st
-st.set_page_config(page_title="Customer Xperiences..", layout="wide")
+
 st.markdown(hide_default_footer, unsafe_allow_html=True)
 st.markdown(hide_default_header, unsafe_allow_html=True)
+st.set_page_config(page_title="Customer Xperiences..", layout="wide")
 
 import snowflake.connector
 import hashlib
