@@ -63,24 +63,37 @@ def authenticated_user(user_str):
     return False, None
 
 
-
-# ---- Query contractor companies ----
-def get_contractor_company(conn, valid_user):
+# -Query contractor companies ---
+def get_contractor_company(valid_user):
     
     conn = get_connection()
     cur = conn.cursor()
-
     query = """
     SELECT distinct contractor_id, contractor_name as name
     FROM test.public.contractors 
     WHERE contractor_name IN ( select full_name from test.public.users where username = %s )
     """
-    cur = conn.cursor()
     cur.execute(query, (valid_user,))
     #st.print(f"Query: {query} with {valid_user}")
     rows = cur.fetchall()
     cur.close()
     return [{"label": name, "contractor_id": cid} for cid, name in rows]
+
+# -Query engagement types  ---
+def get_all_contract_activity_types():
+    
+    conn = get_connection()
+    cur = conn.cursor()
+
+    query = """
+            SELECT activity_id, activity_name as engagement_type 
+            FROM test.public.contract_activity_type
+            ORDER BY activity_name
+            """
+    cur.execute(query)
+    rows = cur.fetchall()
+    cur.close()
+    return [{"label": engagement_type, "activity_id": aid} for aid, engagement_type in rows]
 
 
 conn = get_connection()
@@ -113,9 +126,9 @@ def render():
         st.session_state["k_activity_date"] = date.today()
         st.session_state.reset_form = False
 
-    contractors = get_contractor_company(conn, st.query_params["username"])
+    contractors = get_contractor_company(st.query_params["username"])
 
-    # Create label list for dropdown
+    # Create contractors list for dropdown
     contractor_labels = [c["label"] for c in contractors]
     selected_label = st.selectbox("Contractor Company:", contractor_labels)
     # Retrieve ID of selected contractor
