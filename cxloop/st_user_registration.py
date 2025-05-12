@@ -42,7 +42,6 @@ def get_connection():
 conn = get_connection()
 cur = conn.cursor()
 
-
 # Register a new user
 def register_user(username, password, contracting_company_name):
     hashed = hash_password(password)
