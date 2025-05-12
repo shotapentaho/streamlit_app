@@ -7,6 +7,7 @@ hide_default_header = """
         """
 import streamlit as st
 st.markdown(hide_default_header, unsafe_allow_html=True)
+
 import pandas as pd
 import duckdb
 from datetime import datetime
