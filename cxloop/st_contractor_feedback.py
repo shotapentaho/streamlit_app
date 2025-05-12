@@ -96,13 +96,11 @@ def get_all_contract_activity_types():
     return [{"label": engagement_type, "activity_id": aid} for aid, engagement_type in rows]
 
 
-conn = get_connection()
-cur = conn.cursor()
-
-#st.title("Let's rate a customer..")
 
 def render():
     st.header("Feedback form..")
+    conn = get_connection()
+    cur = conn.cursor()
     #st.write("Inside Feedback Tab")
     hide_menu_style = """
             <style>
