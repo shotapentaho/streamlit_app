@@ -22,8 +22,6 @@ with top_col2:
         st.success("Logging out...")
         # Clear query params to avoid triggering login logic again
         st.query_params.clear()
-
-        # Perform redirect using JS (not meta refresh to avoid issues)
         st.markdown("""
             <script>
                 window.location.replace("https://cxloop.co");
@@ -31,13 +29,14 @@ with top_col2:
         """, unsafe_allow_html=True)
         st.stop()
 
+# --- Main content if still logged in ---
+if st.session_state.get("logged_in"):
+    cxloop_tabs = st.tabs(["Feedback Entry", "Query all feedbacks "])
 
-cxloop_tabs = st.tabs(["Feedback Entry", "Query all feedbacks "])
+    with cxloop_tabs[0]:
+        st_contractor_feedback.render()
 
-with cxloop_tabs[0]:
-    st_contractor_feedback.render()
-
-with cxloop_tabs[1]:
-    st_contractor_view_analyze.render()
+    with cxloop_tabs[1]:
+        st_contractor_view_analyze.render()
 
 
