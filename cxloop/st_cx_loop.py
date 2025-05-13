@@ -43,18 +43,6 @@ else:
     st.stop()  # Stops the app execution here if the user is not logged in.
 
 
-
-# --- Main content if still logged in ---
-if st.session_state.get("logged_in"):
-    cxloop_tabs = st.tabs(["Feedback Entry", "Query all feedbacks "])
-
-    with cxloop_tabs[0]:
-        st_contractor_feedback.render()
-
-    with cxloop_tabs[1]:
-        st_contractor_view_analyze.render()
-
-
 # --- TOP RIGHT LOGOUT BUTTON ---
 top_col1, top_col2 = st.columns([8, 1])
 with top_col2:
@@ -76,3 +64,15 @@ if st.session_state.logged_in:
     st.success("You are logged in. Welcome to the protected page!")
 else:
     st.warning("You are not logged in.")
+
+# --- Main content if still logged in ---
+if st.session_state.get("logged_in"):
+    cxloop_tabs = st.tabs(["Feedback Entry", "Query all feedbacks "])
+
+    with cxloop_tabs[0]:
+        st_contractor_feedback.render()
+
+    with cxloop_tabs[1]:
+        st_contractor_view_analyze.render()
+
+
