@@ -48,13 +48,13 @@ with top_col2:
     if st.button("Logout"):
         st.session_state.logged_in = False
 
-                # Redirect to cxloop.io in same tab
+        # Redirect to another Streamlit app (in the same tab)
         st.markdown("""
             <script>
-                window.location.href = "https://cxloop.io";
+                window.location.href = "https://cxloop-enter.streamlit.app/";
             </script>
         """, unsafe_allow_html=True)
-        
+
         st.stop()
 
 
