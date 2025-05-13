@@ -54,16 +54,16 @@ with top_col2:
         st.session_state.logged_in = False
         st.session_state.logout_triggered = True
 
-# --- Perform redirect after logout ---
-if st.session_state.logout_triggered:
-    LOGOUT_URL = "https://cxloop.co/"
-    st.markdown("### Logging out...")
-    st.markdown(f"""
-        <a href="{LOGOUT_URL}" target="_target">
-            <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click here to logout.</button>
-        </a> 
-        """, unsafe_allow_html=True)
-    st.stop()
+    # --- Perform redirect after logout ---
+    if st.session_state.logout_triggered:
+        LOGOUT_URL = "https://cxloop.co/"
+        st.markdown("### Logging out...")
+        st.markdown(f"""
+            <a href="{LOGOUT_URL}" target="_target">
+                <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click here to logout.</button>
+            </a> 
+            """, unsafe_allow_html=True)
+        st.stop()
 
 
 # --- Main content if still logged in ---
