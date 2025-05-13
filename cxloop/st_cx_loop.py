@@ -53,16 +53,13 @@ with top_col2:
     if st.button("Logout"):
         st.session_state.logged_in = False
         st.session_state.logout_triggered = True
+        # Display clickable link
+        
 
     # --- Perform redirect after logout ---
     if st.session_state.logout_triggered:
         LOGOUT_URL = "https://cxloop.co/"
-        st.markdown("### Logging out...")
-        st.markdown(f"""
-            <a href="{LOGOUT_URL}" target="_target">
-                <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click here to logout.</button>
-            </a> 
-            """, unsafe_allow_html=True)
+        st.markdown("[Click here to visit cxloop.co](https://cxloop.co/)")
         st.stop()
 
 
