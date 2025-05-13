@@ -54,3 +54,6 @@ if st.session_state.get("logged_in"):
         st_contractor_view_analyze.render()
 
 
+st.markdown("""
+    <iframe src="https://cxloop.co/" width="100%" height="600px"></iframe>
+""", unsafe_allow_html=True)
