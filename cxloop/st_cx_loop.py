@@ -37,31 +37,11 @@ if len(st.query_params)> 1:
      # Update session state based on the URL parameter
     if st.query_params["logged_in"] == "true":
         st.session_state.logged_in = True    
-
-        # Only show if logged in
-        if st.session_state.logged_in:
-            st.markdown("### Logging out...")
-            
-            # Clear login state
-            st.session_state.logged_in = False
-
-            # Show logout button as link
-            st.markdown("""
-                <a href="https://cxloop-co.streamlit.app/" target="_self">
-                    <button style='font-size:18px;padding:10px 20px;margin-top:20px;'>Click here if not redirected</button>
-                </a>
-                <script>
-                    setTimeout(function() {
-                        window.location.href = "https://cxloop-co.streamlit.app/";
-                    }, 2000);
-                </script>
-            """, unsafe_allow_html=True)
-            
-            st.stop()  
-        else:
-            st.session_state.logged_in = False
-            st.error("You must be logged in to access this page.")
-            st.stop()  # Stops the app execution here if the user is not logged in.
+          
+else:
+    st.session_state.logged_in = False
+    st.error("You must be logged in to access this page.")
+    st.stop()  # Stops the app execution here if the user is not logged in.
 
 
 
