@@ -52,7 +52,7 @@ with top_col2:
         LOGOUT_URL = "https://cxloop-co.steramlit.app"
 
         st.markdown(f"""
-        <a href="{LOGOUT_URL}" target="_self" style="
+        <a href="{LOGOUT_URL}" target="_target" style="
             display: inline-block;
             font-size: 18px;
             padding: 10px 20px;
