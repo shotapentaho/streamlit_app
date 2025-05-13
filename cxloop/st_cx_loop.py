@@ -46,7 +46,7 @@ else:
 
 # --- Main content if still logged in ---
 if st.session_state.get("logged_in"):
-    cxloop_tabs = st.tabs(["Feedback Entryyy", "Query all feedbacks "])
+    cxloop_tabs = st.tabs(["Feedback entry", "Query all feedbacks "])
 
     with cxloop_tabs[0]:
         st_contractor_feedback.render()
