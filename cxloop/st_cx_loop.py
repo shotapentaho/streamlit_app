@@ -44,7 +44,7 @@ else:
 
 if st.button("Go to App..."):
     st.markdown("""
-        <a href="https://cxloop-co.streamlit.app/">
+        <a href="https://cxloop-co.streamlit.app/" target="_blank">
             <button style='font-size:18px;padding:10px 20px;margin-top:10px;'>testing</button>
         </a>
     """, unsafe_allow_html=True)
