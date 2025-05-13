@@ -21,10 +21,10 @@ with top_col2:
         st.session_state.logged_in = False
         st.success("Logging out...")
         # Inject JavaScript redirect
-        st.markdown("""
-            <script>
-                window.location.href = "http://cxloop.co";
-            </script>
+        st.markdown(f"""
+        <a href="http://cxloop.co" target="_target">
+            <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Logging o</button>
+        </a> 
         """, unsafe_allow_html=True)
         st.stop()
 
