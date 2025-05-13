@@ -47,7 +47,14 @@ top_col1, top_col2 = st.columns([8, 1])
 with top_col2:
     if st.button("Logout"):
         st.session_state.logged_in = False
-        st.experimental_redirect("https://cxloop.co")
+            # JavaScript to open cxloop.io in a new tab
+        st.markdown("""
+            <script>
+                window.open("https://cxloop.co", "_blank");
+            </script>
+        """, unsafe_allow_html=True)
+
+        st.stop()
 
 
 # --- Main content if still logged in ---
