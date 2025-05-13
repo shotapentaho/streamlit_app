@@ -58,13 +58,11 @@ with top_col2:
 if st.session_state.logout_triggered:
     LOGOUT_URL = "https://cxloop.co/"
     st.markdown("### Logging out... Redirecting you now.")
-    st.markdown("""
-        <script>
-            setTimeout(function() {
-                window.location.href = {LOGOUT_URL};
-            }, 2000);
-        </script>
-    """, unsafe_allow_html=True)
+    st.markdown(f"""
+        <a href="{LOGOUT_URL}" target="_target">
+            <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Share your customer experiences..</button>
+        </a> 
+        """, unsafe_allow_html=True)
     st.stop()
 
 
