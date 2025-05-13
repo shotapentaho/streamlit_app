@@ -47,7 +47,7 @@ else:
 top_col1, top_col2 = st.columns([8, 1])
 with top_col2:
     # Log out and redirect to another app/page
-    if st.button("Loooogout"):
+    if st.button("Loogout"):
         st.session_state.logged_in = False
         st.markdown("""
             <script>
