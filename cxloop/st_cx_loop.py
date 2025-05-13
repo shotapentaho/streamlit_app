@@ -20,7 +20,7 @@ with top_col2:
     if st.button("Logout"):
         st.session_state.logged_in = False
         st.success("Logging out...")
-    # Force redirect using meta refresh
+        #Force redirect using meta refresh
         st.markdown("""
             <meta http-equiv="refresh" content="0; url=https://google.com/" />
         """, unsafe_allow_html=True)
