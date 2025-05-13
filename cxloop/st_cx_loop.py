@@ -45,7 +45,7 @@ else:
 if st.button("Go to App..."):
     st.markdown("""
         <script>
-            window.location.href = "https://cxloop-co.streamlit.app/";
+            window.location.href = "https://cxloop.co/";
         </script>
     """, unsafe_allow_html=True)
 
