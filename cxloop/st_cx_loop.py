@@ -49,7 +49,7 @@ with top_col2:
     # Log out and redirect to another app/page
     if st.button("Loogout"):
         st.session_state.logged_in = False
-        st.markdown("""
+        st.markdown(f"""
             <script>
                 window.location.href = "https://cxloop.co/";
             </script>
