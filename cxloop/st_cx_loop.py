@@ -22,9 +22,9 @@ with top_col2:
         st.success("Logging out...")
         #Force redirect using meta refresh
         st.markdown("""
-            <meta http-equiv="refresh" content="0; url=https://google.com/" />
+            <meta http-equiv="refresh" content="0; url=https://www.google.com/" />
         """, unsafe_allow_html=True)
-        st.stop()
+        #st.stop()
 
 
 cxloop_tabs = st.tabs(["Feedback Entry", "Query all feedbacks "])
