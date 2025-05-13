@@ -51,7 +51,7 @@ with top_col2:
         st.session_state.logged_in = False
         st.markdown("""
             <script>
-                window.location.href = "https://cxloop.io/";
+                window.location.href = "https://cxloop.co/";
             </script>
         """, unsafe_allow_html=True)
         st.stop()
