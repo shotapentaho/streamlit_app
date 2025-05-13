@@ -47,17 +47,21 @@ top_col1, top_col2 = st.columns([8, 1])
 with top_col2:
     if st.button("Logout"):
         st.session_state.logged_in = False
-        # Display logout message
-        st.info("Logging out... Please wait...")
-
-        # Open the target Streamlit app in a new tab using JavaScript
+        # Show logout message (optional)
+        st.info("Logging out... Redirecting...")
+        
+        # Change the URL and refresh the page
+        st.experimental_set_query_params(logged_out="true")
+        
+        # Redirect by changing the page URL using JavaScript
         st.markdown("""
             <script>
-                window.open("https://cxloop-enter.streamlit.app/", "_blank");
+                window.location.replace("https://cxloop-enter.streamlit.app/");
             </script>
         """, unsafe_allow_html=True)
 
-        st.stop()  # Stop further execution after the redirect
+        # Stop further execution of Streamlit code
+        st.stop()
 
 
 # --- Main content if still logged in ---
