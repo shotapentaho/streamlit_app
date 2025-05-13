@@ -196,7 +196,7 @@ if tab == "Login":
                     </a> 
                     """, unsafe_allow_html=True)
                 # Optional: wait before rerunning the app
-                st.info("The app will refresh in 5min...")
+                #st.info("The app will refresh in 5min...")
                 time.sleep(300)
                 st.rerun()
                
