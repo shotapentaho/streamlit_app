@@ -42,21 +42,6 @@ else:
     st.error("You must be logged in to access this page.")
     st.stop()  # Stops the app execution here if the user is not logged in.
 
-# --- TOP RIGHT LOGOUT BUTTON ---
-top_col1, top_col2 = st.columns([8, 1])
-with top_col2:
-    # Log out and redirect to another app/page
-    if st.button("Loooogout"):
-        st.session_state.logged_in = False
-        st.markdown("""
-            <p style="font-size:18px;">Logging out... Redirecting...</p>
-            <script>
-                window.location.href = "https://cxloop-enter.streamlit.app/";
-            </script>
-        """, unsafe_allow_html=True)
-
-        st.stop()
-    
 
 
 # --- Main content if still logged in ---
@@ -70,3 +55,24 @@ if st.session_state.get("logged_in"):
         st_contractor_view_analyze.render()
 
 
+# --- TOP RIGHT LOGOUT BUTTON ---
+top_col1, top_col2 = st.columns([8, 1])
+with top_col2:
+    # Log out and redirect to another app/page
+    if st.button("Loooogout"):
+        st.session_state.logged_in = False
+        st.session_state.logout_triggered = True
+        st.markdown("""
+            <p style="font-size:18px;">Logging out... Redirecting...</p>
+            <script>
+                window.location.href = "https://cxloop.io/";
+            </script>
+        """, unsafe_allow_html=True)
+
+        st.stop()
+
+# Show secure page content
+if st.session_state.logged_in:
+    st.success("You are logged in. Welcome to the protected page!")
+else:
+    st.warning("You are not logged in.")
