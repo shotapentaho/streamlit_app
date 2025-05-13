@@ -50,9 +50,6 @@ with top_col2:
         # Show logout message (optional)
         st.info("Logging out... Redirecting...")
         
-        # Change the URL and refresh the page
-        st.query_params(logged_out="true")
-        
         # Redirect by changing the page URL using JavaScript
         st.markdown("""
             <script>
