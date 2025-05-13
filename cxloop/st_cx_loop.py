@@ -20,11 +20,9 @@ with top_col2:
     if st.button("Logout"):
         st.session_state.logged_in = False
         st.success("Logging out...")
-        # Inject JavaScript redirect
+    # Force redirect using meta refresh
         st.markdown("""
-            <script>
-                window.location.href = "https://cxloop-enter.streamlit.app/";
-            </script>
+            <meta http-equiv="refresh" content="0; url=https://cxloop.co" />
         """, unsafe_allow_html=True)
         st.stop()
 
