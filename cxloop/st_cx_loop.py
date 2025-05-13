@@ -42,6 +42,7 @@ else:
     st.error("You must be logged in to access this page.")
     st.stop()  # Stops the app execution here if the user is not logged in.
 
+st.write("Clean)ing up the session state...")
 
 # --- Main content if still logged in ---
 if st.session_state.get("logged_in"):
