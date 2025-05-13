@@ -48,16 +48,13 @@ with top_col2:
     if st.button("Logout"):
         st.session_state.logged_in = False
 
-        st.rerun()
-        # Display a message indicating the user is logging out
-        st.info("Logging out... Redirecting...")
+        # Set a query parameter to trigger the redirect
+        st.experimental_set_query_params(logged_out="true")
 
-        # Redirect using JavaScript after the page rerun
+        # Redirect to the new page after updating the URL
         st.markdown("""
             <script>
-                setTimeout(function(){
-                    window.location.href = "https://cxloop-enter.streamlit.app/";
-                }, 1000);  // 1 second delay to avoid abrupt page load
+                window.location.href = "https://cxloop-enter.streamlit.app/";
             </script>
         """, unsafe_allow_html=True)
 
