@@ -51,7 +51,7 @@ with top_col2:
         st.info("Logging out... Redirecting...")
         
         # Change the URL and refresh the page
-        st.experimental_set_query_params(logged_out="true")
+        st.query_params(logged_out="true")
         
         # Redirect by changing the page URL using JavaScript
         st.markdown("""
