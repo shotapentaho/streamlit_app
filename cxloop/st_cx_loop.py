@@ -49,7 +49,7 @@ with top_col2:
         st.session_state.logged_in = False
         # Show logout message (optional)
         st.info("Logging out... Redirecting...")
-        LOGOUT_URL = "https://cxloop.co"
+        LOGOUT_URL = "https://cxloop-co.steramlit.app"
 
         st.markdown(f"""
         <a href="{LOGOUT_URL}" target="_self" style="
