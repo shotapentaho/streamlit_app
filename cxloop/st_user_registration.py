@@ -194,6 +194,7 @@ if tab == "Login":
                         <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Share your customer experiences..</button>
                     </a> 
                     """, unsafe_allow_html=True)
+                st.stop()
                
             else:
                 st.error("Invalid username or password. If you are not registered, please register first.")
