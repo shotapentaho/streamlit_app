@@ -49,14 +49,11 @@ with top_col2:
     # Log out and redirect to another app/page
     if st.button("Loooogout"):
         st.session_state.logged_in = False
-        st.session_state.logout_triggered = True
         st.markdown("""
-            <p style="font-size:18px;">Logging out... Redirecting...</p>
             <script>
                 window.location.href = "https://cxloop.io/";
             </script>
         """, unsafe_allow_html=True)
-
         st.stop()
 
 # --- Main content if still logged in ---
