@@ -37,6 +37,7 @@ import hashlib
 from datetime import datetime, timedelta
 import stripe
 import os
+import time
 
 
 # Hash passwords securely
@@ -194,6 +195,9 @@ if tab == "Login":
                         <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Share your customer experiences..</button>
                     </a> 
                     """, unsafe_allow_html=True)
+                # Optional: wait before rerunning the app
+                st.info("The app will refresh in 5min...")
+                time.sleep(300)
                 st.rerun()
                
             else:
