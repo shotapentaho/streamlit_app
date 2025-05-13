@@ -49,7 +49,7 @@ with top_col2:
         st.session_state.logged_in = False
 
         # Set a query parameter to trigger the redirect
-        st.experimental_set_query_params(logged_out="true")
+        st.query_params(logged_out="true")
 
         # Redirect to the new page after updating the URL
         st.markdown("""
