@@ -42,7 +42,13 @@ else:
     st.error("You must be logged in to access this page.")
     st.stop()  # Stops the app execution here if the user is not logged in.
 
+# Initialize session state
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = True
 
+if "logout_triggered" not in st.session_state:
+    st.session_state.logout_triggered = False
+    
 # --- TOP RIGHT LOGOUT BUTTON ---
 top_col1, top_col2 = st.columns([8, 1])
 with top_col2:
