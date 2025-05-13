@@ -46,15 +46,6 @@ if "logout_triggered" not in st.session_state:
     st.session_state.logout_triggered = False
 
 
-# --- TOP RIGHT LOGOUT BUTTON ---
-top_col1, top_col2 = st.columns([8, 1])
-with top_col2:
-    st.session_state.logged_in = False
-    st.session_state.logout_triggered = True
-    st.markdown("[Logout..](https://cxloop.co/)")
-    st.stop()
-
-
 # --- Main content if still logged in ---
 if st.session_state.get("logged_in"):
     cxloop_tabs = st.tabs(["Feedback Entry", "Query all feedbacks "])
@@ -66,3 +57,10 @@ if st.session_state.get("logged_in"):
         st_contractor_view_analyze.render()
 
 
+# --- TOP RIGHT LOGOUT BUTTON ---
+top_col1, top_col2 = st.columns([8, 1])
+with top_col2:
+    st.session_state.logged_in = False
+    st.session_state.logout_triggered = True
+    st.markdown("[Logout..](https://cxloop.co/)")
+    st.stop()
