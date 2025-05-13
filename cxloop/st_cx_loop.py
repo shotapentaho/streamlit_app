@@ -44,9 +44,9 @@ else:
 
 if st.button("Go to App..."):
     st.markdown("""
-        <script>
-            window.location.href = "https://cxloop.co/";
-        </script>
+        <a href="https://cxloop.co/" target="_self">
+            <button style='font-size:18px;padding:10px 20px;margin-top:10px;'></button>
+        </a>
     """, unsafe_allow_html=True)
 
 
