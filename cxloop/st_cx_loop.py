@@ -14,6 +14,14 @@ else:
     st.stop()  # Stops the app execution here if the user is not logged in.
     st.session_state.logged_in = False
 
+# --- TOP RIGHT LOGOUT BUTTON ---
+top_col1, top_col2 = st.columns([8, 1])
+with top_col2:
+    if st.button("Logout"):
+        st.session_state.logged_in = False
+        st.success("You have been logged out.")
+        st.stop()
+
 
 cxloop_tabs = st.tabs(["Feedback Entry", "Query all feedbacks "])
 
