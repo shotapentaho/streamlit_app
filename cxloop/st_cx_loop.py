@@ -45,9 +45,6 @@ else:
 if "logout_triggered" not in st.session_state:
     st.session_state.logout_triggered = False
 
-# --- Logout logic ---
-if st.button("Logout"):
-
 
 # --- TOP RIGHT LOGOUT BUTTON ---
 top_col1, top_col2 = st.columns([8, 1])
