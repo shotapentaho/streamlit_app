@@ -22,7 +22,7 @@ with top_col2:
         st.success("Logging out...")
     # Force redirect using meta refresh
         st.markdown("""
-            <meta http-equiv="refresh" content="0; url=https://cxloop-enter.streamlit.app/" />
+            <meta http-equiv="refresh" content="0; url=https://cxloop.co" />
         """, unsafe_allow_html=True)
         st.stop()
 
