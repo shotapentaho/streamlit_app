@@ -60,7 +60,7 @@ if st.session_state.logout_triggered:
     st.markdown("### Logging out... Redirecting you now.")
     st.markdown(f"""
         <a href="{LOGOUT_URL}" target="_target">
-            <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Share your customer experiences..</button>
+            <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Click here to logout.</button>
         </a> 
         """, unsafe_allow_html=True)
     st.stop()
