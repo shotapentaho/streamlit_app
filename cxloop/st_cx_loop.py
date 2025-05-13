@@ -47,6 +47,14 @@ top_col1, top_col2 = st.columns([8, 1])
 with top_col2:
     if st.button("Logout"):
         st.session_state.logged_in = False
+
+                # Redirect to cxloop.io in same tab
+        st.markdown("""
+            <script>
+                window.location.href = "https://cxloop.io";
+            </script>
+        """, unsafe_allow_html=True)
+        
         st.stop()
 
 
