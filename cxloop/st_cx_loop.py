@@ -49,18 +49,10 @@ if "logout_triggered" not in st.session_state:
 # --- TOP RIGHT LOGOUT BUTTON ---
 top_col1, top_col2 = st.columns([8, 1])
 with top_col2:
-    # Log out and redirect to another app/page
-    if st.button("Logout"):
-        st.session_state.logged_in = False
-        st.session_state.logout_triggered = True
-        # Display clickable link
-        
-
-    # --- Perform redirect after logout ---
-    if st.session_state.logout_triggered:
-        LOGOUT_URL = "https://cxloop.co/"
-        st.markdown("[Click here to visit cxloop.co](https://cxloop.co/)")
-        st.stop()
+    st.session_state.logged_in = False
+    st.session_state.logout_triggered = True
+    st.markdown("[Logout..](https://cxloop.co/)")
+    st.stop()
 
 
 # --- Main content if still logged in ---
