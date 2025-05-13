@@ -5,8 +5,17 @@ hide_default_header = """
         footer {visibility: hidden;}
         </style>
         """
+hide_default_footer = """
+    <style>
+    footer, .st-emotion-cache-1gulkj5 {display: none; visibility: hidden;}
+    .css-qri22k {display: none; visibility: hidden;}
+    .stDeployButton {display: none;}
+    .viewerBadge_link__1S137 {display: none;}
+    </style>
+"""
 import streamlit as st
 st.markdown(hide_default_header, unsafe_allow_html=True)
+st.markdown(hide_default_footer, unsafe_allow_html=True)
 from PIL import Image
 
 # Load and show logo
