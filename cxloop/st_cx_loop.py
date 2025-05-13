@@ -62,7 +62,7 @@ if st.session_state.logout_triggered:
         <script>
             setTimeout(function() {
                 window.location.href = {LOGOUT_URL};
-            }, 2000);  // Redirect after 2 seconds
+            }, 2000);
         </script>
     """, unsafe_allow_html=True)
     st.stop()
