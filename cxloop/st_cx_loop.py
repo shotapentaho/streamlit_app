@@ -66,10 +66,6 @@ with top_col2:
             Logout
         </a>
     """, unsafe_allow_html=True)
-            
-        
-        # Stop further execution of Streamlit code
-        st.stop()
 
 
 # --- Main content if still logged in ---
