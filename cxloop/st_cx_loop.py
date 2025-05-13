@@ -44,11 +44,6 @@ else:
     st.stop()  # Stops the app execution here if the user is not logged in.
 
 
-
-
-
-
-
 # --- Main content if still logged in ---
 if st.session_state.get("logged_in"):
     cxloop_tabs = st.tabs(["Feedback Entry", "Query all feedbacks "])
