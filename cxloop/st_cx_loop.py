@@ -51,7 +51,7 @@ with top_col2:
         st.info("Logging out... Redirecting...")
 
         # Trigger a rerun so the page refreshes
-        st.experimental_rerun()  # This reloads the page to ensure the state is reset
+        st.rerun()  # This reloads the page to ensure the state is reset
 
         # Redirect to the new page after updating the URL
         st.markdown("""
