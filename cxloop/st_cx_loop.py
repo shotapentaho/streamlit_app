@@ -45,10 +45,19 @@ else:
 # --- TOP RIGHT LOGOUT BUTTON ---
 top_col1, top_col2 = st.columns([8, 1])
 with top_col2:
+    # Log out and redirect to another app/page
     if st.button("Logout"):
         st.session_state.logged_in = False
+
+        st.markdown("""
+            <p style="font-size:18px;">Logging out... Redirecting...</p>
+            <script>
+                window.location.href = "https://cxloop-enter.streamlit.app/";
+            </script>
+        """, unsafe_allow_html=True)
+
         st.stop()
- 
+    
 
 
 # --- Main content if still logged in ---
