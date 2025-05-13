@@ -56,9 +56,9 @@ with top_col2:
 
 # --- Perform redirect after logout ---
 if st.session_state.logout_triggered:
-    LOGOUT_URL= "https://cxloop.co/"
+    LOGOUT_URL = "https://cxloop.co/"
     st.markdown("### Logging out... Redirecting you now.")
-    st.markdown(f"""
+    st.markdown("""
         <script>
             setTimeout(function() {
                 window.location.href = {LOGOUT_URL};
