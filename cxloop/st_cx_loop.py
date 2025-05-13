@@ -20,11 +20,16 @@ with top_col2:
     if st.button("Logout"):
         st.session_state.logged_in = False
         st.success("Logging out...")
-        #Force redirect using meta refresh
+        # Clear query params to avoid triggering login logic again
+        st.query_params.clear()
+
+        # Perform redirect using JS (not meta refresh to avoid issues)
         st.markdown("""
-            <meta http-equiv="refresh" content="0; url=https://www.google.com/" />
+            <script>
+                window.location.replace("https://cxloop.co");
+            </script>
         """, unsafe_allow_html=True)
-        #st.stop()
+        st.stop()
 
 
 cxloop_tabs = st.tabs(["Feedback Entry", "Query all feedbacks "])
