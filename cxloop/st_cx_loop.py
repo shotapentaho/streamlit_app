@@ -52,10 +52,12 @@ with top_col2:
         # Display a message indicating the user is logging out
         st.info("Logging out... Redirecting...")
 
-        # Redirect to another Streamlit app (in the same tab)
+        # Redirect using JavaScript after the page rerun
         st.markdown("""
             <script>
-                window.location.href = "https://cxloop-enter.streamlit.app/";
+                setTimeout(function(){
+                    window.location.href = "https://cxloop-enter.streamlit.app/";
+                }, 1000);  // 1 second delay to avoid abrupt page load
             </script>
         """, unsafe_allow_html=True)
 
