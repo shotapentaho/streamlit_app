@@ -10,24 +10,22 @@ if len(st.query_params)> 1:
     if st.query_params["logged_in"] == "true":
         st.session_state.logged_in = True      
 else:
+    st.session_state.logged_in = False
     st.error("You must be logged in to access this page.")
     st.stop()  # Stops the app execution here if the user is not logged in.
-    st.session_state.logged_in = False
 
 # --- TOP RIGHT LOGOUT BUTTON ---
 top_col1, top_col2 = st.columns([8, 1])
 with top_col2:
     if st.button("Logout"):
         st.session_state.logged_in = False
-        st.success("Logging out...")
-        # Clear query params to avoid triggering login logic again
-        st.query_params.clear()
+        # Use JavaScript to redirect the top window (works on Streamlit Cloud)
         st.markdown("""
             <script>
-                window.location.replace("https://cxloop.co");
+                window.top.location.href = "https://cxloop.co";
             </script>
         """, unsafe_allow_html=True)
-        st.stop()
+        st.stop()  # Ensure nothing else renders
 
 # --- Main content if still logged in ---
 if st.session_state.get("logged_in"):
