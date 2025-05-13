@@ -46,26 +46,25 @@ else:
 top_col1, top_col2 = st.columns([8, 1])
 with top_col2:
     if st.button("Logout"):
-        st.session_state.logged_in = False
+        #st.session_state.logged_in = False
         # Show logout message (optional)
         st.info("Logging out... Redirecting...")
         LOGOUT_URL = "https://cxloop-co.steramlit.app"
-
         st.markdown(f"""
-        <a href="{LOGOUT_URL}" target="_target" style="
-            display: inline-block;
-            font-size: 18px;
-            padding: 10px 20px;
-            margin-top: 10px;
-            background-color: #e74c3c;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-        ">
-            Logout
-        </a>
-    """, unsafe_allow_html=True)
+    <a href="{LOGOUT_URL}" target="_self" style="
+        display: inline-block;
+        font-size: 18px;
+        padding: 10px 20px;
+        margin-top: 10px;
+        background-color: #e74c3c;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+    ">
+        Logout
+    </a>
+""", unsafe_allow_html=True)
 
 
 # --- Main content if still logged in ---
