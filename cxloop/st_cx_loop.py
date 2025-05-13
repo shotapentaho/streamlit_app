@@ -47,13 +47,13 @@ top_col1, top_col2 = st.columns([8, 1])
 with top_col2:
     if st.button("Logout"):
         URL_TO_LOGOUT = "https://cxloop-co.streamlit.app/"
-        st.session_state.logged_in = False
+        
         st.markdown(f"""
         <a href="{URL_TO_LOGOUT}" target="_target">
         <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Logout..</button>
         </a> 
         """, unsafe_allow_html=True)
-
+        st.session_state.logged_in = False
         st.stop()
 
 
