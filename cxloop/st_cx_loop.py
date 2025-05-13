@@ -50,7 +50,7 @@ if "logout_triggered" not in st.session_state:
 top_col1, top_col2 = st.columns([8, 1])
 with top_col2:
     # Log out and redirect to another app/page
-    if st.button("Logut"):
+    if st.button("Logout"):
         st.session_state.logged_in = False
         st.session_state.logout_triggered = True
 
