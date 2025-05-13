@@ -60,6 +60,7 @@ if st.session_state.logout_triggered:
     st.markdown("### Logging out... Redirecting you now.")
     st.markdown("""
         <script>
+            alert("You have been logged out. Redirecting to the homepage.");
             setTimeout(function() {
                 window.location.href = {LOGOUT_URL};
             }, 2000);  // Redirect after 2 seconds
