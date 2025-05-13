@@ -49,7 +49,7 @@ with top_col2:
         URL_TO_LOGOUT = "https://cxloop-co.streamlit.app/"
         
         st.markdown(f"""
-        <a href="{URL_TO_LOGOUT}" target="_target">
+        <a href="{URL_TO_LOGOUT}" target="_self">
         <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Logout..</button>
         </a> 
         """, unsafe_allow_html=True)
