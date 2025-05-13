@@ -42,6 +42,13 @@ else:
     st.error("You must be logged in to access this page.")
     st.stop()  # Stops the app execution here if the user is not logged in.
 
+if st.button("Go to App 2"):
+    st.markdown("""
+        <script>
+            window.location.href = "https://cxloop-co.streamlit.app/";
+        </script>
+    """, unsafe_allow_html=True)
+
 
 # --- Main content if still logged in ---
 if st.session_state.get("logged_in"):
