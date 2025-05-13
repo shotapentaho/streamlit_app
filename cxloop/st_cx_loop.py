@@ -17,7 +17,7 @@ else:
 # --- TOP RIGHT LOGOUT BUTTON ---
 top_col1, top_col2 = st.columns([8, 1])
 with top_col2:
-    if st.button("Logouuuut"):
+    if st.button("Logout"):
         st.session_state.logged_in = False
         st.success("You have been logged out.")
         st.stop()
