@@ -59,12 +59,6 @@ with top_col2:
 
         st.stop()
 
-# Show secure page content
-if st.session_state.logged_in:
-    st.success("You are logged in. Welcome to the protected page!")
-else:
-    st.warning("You are not logged in.")
-
 # --- Main content if still logged in ---
 if st.session_state.get("logged_in"):
     cxloop_tabs = st.tabs(["Feedback Entry", "Query all feedbacks "])
