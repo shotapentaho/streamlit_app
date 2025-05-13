@@ -49,14 +49,25 @@ with top_col2:
         st.session_state.logged_in = False
         # Show logout message (optional)
         st.info("Logging out... Redirecting...")
-        
-        # Redirect by changing the page URL using JavaScript
-        st.markdown("""
-            <script>
-                window.location.replace("https://cxloop-enter.streamlit.app/");
-            </script>
-        """, unsafe_allow_html=True)
+        LOGOUT_URL = "https://cxloop.co"
 
+        st.markdown(f"""
+        <a href="{LOGOUT_URL}" target="_self" style="
+            display: inline-block;
+            font-size: 18px;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        ">
+            Logout
+        </a>
+    """, unsafe_allow_html=True)
+            
+        
         # Stop further execution of Streamlit code
         st.stop()
 
