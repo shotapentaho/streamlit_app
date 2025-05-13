@@ -23,7 +23,7 @@ with top_col2:
         # Inject JavaScript redirect
         st.markdown("""
             <script>
-                window.location.href = "https://cxloop.co";
+                window.location.href = "http://cxloop.co";
             </script>
         """, unsafe_allow_html=True)
         st.stop()
