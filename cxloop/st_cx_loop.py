@@ -48,9 +48,6 @@ with top_col2:
     if st.button("Logout"):
         st.session_state.logged_in = False
 
-        # Set a query parameter to trigger the redirect
-        st.query_params(logged_out="true")
-
         # Redirect to the new page after updating the URL
         st.markdown("""
             <script>
