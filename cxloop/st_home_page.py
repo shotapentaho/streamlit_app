@@ -36,11 +36,7 @@ with st.container():
             </a>
         """, unsafe_allow_html=True)
 
-# Create two columns: left wide, right narrow (logo)
-st.write("")
-st.write("")
-st.write("")
-col1, col2 = st.columns([20, 2])
-with col2:
+# Optional: Secondary logo displayed below
+col3, col4 = st.columns([20, 2])
+with col4:
     st.image(brain_python_openai_logo, use_container_width=True)
-#with col2:
