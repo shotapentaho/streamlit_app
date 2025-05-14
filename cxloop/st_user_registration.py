@@ -181,10 +181,10 @@ def membership_valid(username):
     if not row:
         return False, None
     member_expiration_date, = row
-    if member_expiration_date > datetime.now() + timedelta(days=30):
+    if member_expiration_date > datetime.now() + timedelta(days=0):
         return True, None
     else:
-        st.warning("Your membership is about to expire {member_expiration_date}. Choose Register or renewal membership option above.")
+        st.warning("Your membership is about to expire in 30 days. Choose Register or renewal membership option above.")
         st.stop()
         return False, None
 
