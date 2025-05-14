@@ -331,7 +331,7 @@ if tab == "Renew Membership":
 
     st.subheader("Renew service:")
     f_username = st.text_input("Username:")
-    tab = st.radio("Choose Renewal Options:", ["6-months or $30", "1-year or $55", "3-years or $150"], horizontal=True)
+    tab = st.radio("Choose Renewal Options:", ["6-months or $XX", "1-year or $YY", "3-years or $ZZ"], horizontal=True)
 
 
 
