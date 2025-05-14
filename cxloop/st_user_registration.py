@@ -232,7 +232,7 @@ if tab == "Login":
                     time.sleep(300)
                     clear_form()
                     st.rerun()
-                elif valid and not valid_membership:
+                else:
                     st.error("Renew Membership to access the service.")
             else:
                 st.error("Invalid username or password. If you are not registered, please register first.")
