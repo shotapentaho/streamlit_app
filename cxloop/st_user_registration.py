@@ -172,7 +172,7 @@ def membership_valid(username):
     if member_expiration_date > datetime.now() + timedelta(days=30):
         return True, None
     else:
-        st.warning("Your membership is about to expire. Please renew your membership.")
+        st.warning("Your membership is about to expire. Choose renew membership.")
         return False, None
 
 
@@ -213,8 +213,7 @@ if tab == "Login":
 
             valid, full_name = authenticate_user(username, password)
             valid_membership = membership_valid(username)
-            st.warning(valid_membership)
-
+          
 
             if valid:
 
