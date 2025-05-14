@@ -25,7 +25,7 @@ brain_python_openai_logo = Image.open("./cxloop/media/human_python_openai.png")
 # Create two columns: left wide, right narrow (logo)
 col1, col2 = st.columns([7, 3])
 with col2:
-    st.image(brain_python_openai_logo, use_column_width=True)
+    st.image(brain_python_openai_logo, use_container_width=True)
 
 st.image(cxloop_logo, use_container_width=True)
 
