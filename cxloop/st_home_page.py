@@ -24,6 +24,10 @@ brain_python_openai_logo = Image.open("./cxloop/media/human-python-openai.png")
 #logo = Image.open("./cxloop/media/contractors_at_job.jpeg")
 
 st.image(cxloop_logo, use_container_width=True)
+# Create two columns: left wide, right narrow (logo)
+col1, col2 = st.columns([9, 1])
+with col2:
+    st.image(brain_python_openai_logo, use_column_width=True)
 
 # Top-right button with CSS
 st.markdown("""
