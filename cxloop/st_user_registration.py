@@ -145,8 +145,8 @@ if st.query_params.get("page") == "success":
 
 # Check login
 def authenticate_user(username, password):
-    
-    cur.execute("""SELECT hashed_password, full_name 
+
+    cur.execute("""SELECT hashed_password, full_name
                    FROM TEST.PUBLIC.users 
                    WHERE username = %s
                 """, (username,))
@@ -156,6 +156,21 @@ def authenticate_user(username, password):
     stored_hash, full_name = row
     if hash_password(password) == stored_hash:
         return True, full_name
+    return False, None
+
+# Check membership_valid
+def membership_valid(username):
+
+    cur.execute("""SELECT member_expiration_date
+                   FROM TEST.PUBLIC.users 
+                   WHERE username = %s
+                """, (username,))
+    row = cur.fetchone()
+    if not row:
+        return False, None
+    member_expiration_date = row
+    if member_expiration_date > datetime.now()-30:
+        return True, member_expiration_date
     return False, None
 
 # Session state
@@ -194,6 +209,7 @@ if tab == "Login":
         if st.button("Login"):
 
             valid, full_name = authenticate_user(username, password)
+
             if valid:
                 URL_TO_CUSTOMER_EXPERIENCE = "https://cxloop.streamlit.app?logged_in=true&username="+ username
                 #URL_TO_FEEDBACK = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
