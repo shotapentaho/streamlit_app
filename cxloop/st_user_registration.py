@@ -248,10 +248,8 @@ if tab == "Register":
         new_password = st.text_input("Password:", type="password")
     with col_2:
         options_with_prices = {"3-months": 15,"6-months": 55,"1-year": 100}
-
         renewal_option = st.selectbox("Select your renewal period:", list(options_with_prices.keys()))
-    
-    st.write(f"Selected renewal option: {renewal_option} for ${options_with_prices[renewal_option]}")
+    st.write(f"Selected renewal option: {renewal_option} for {options_with_prices[renewal_option]*100}")
 
     #Company Details
     col_11, col_12 = st.columns([1,1])
