@@ -147,7 +147,7 @@ if st.query_params.get("page") == "success":
 def authenticate_user(username, password):
     cur.execute("""SELECT hashed_password, full_name 
                    FROM TEST.PUBLIC.users 
-                   WHERE username = %s and member_expiration_date > current_date
+                   WHERE username = %s
                 """, (username,))
     row = cur.fetchone()
     if not row:
