@@ -241,11 +241,15 @@ if tab == "Login":
 if tab == "Register":
 
     st.subheader("Register your company to use the service:")
-    col_0, col_1 = st.columns([1,1])
+    col_0, col_1, col_2 = st.columns([1,1,1])
     with col_0:
         new_username = st.text_input("Username:")
     with col_1:
         new_password = st.text_input("Password:", type="password")
+    with col_2:
+        options_with_prices = {"3-months $15": 15,"6-months $55": 55,"1-year $100": 100}
+
+        renewal_option = st.selectbox("Select your renewal period:", list(options_with_prices.keys()))
 
     #Company Details
     col_11, col_12 = st.columns([1,1])
@@ -280,7 +284,6 @@ if tab == "Register":
         # Validate user to contractor
         ok, msg = validate_user_to_contractor(new_username, contracting_company_name)
         
-
         if ok:
 
             # Store form data temporarily in session_state
