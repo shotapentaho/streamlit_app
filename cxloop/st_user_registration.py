@@ -75,7 +75,7 @@ def register_user(username, password, contracting_company_name, renewal_periond)
             WHERE username = %s
             """, (expiration_date, username))
         conn.commit()
-        return True, "User's expiration date updated! You may log in now."
+        return True, "User membership is renewed successfully, now Choose login to access."
 
     else:
     
@@ -100,7 +100,7 @@ def add_contractor(contracting_company_name, contracting_company_street, contrac
             VALUES (TEST.PUBLIC.contractor_seq.NEXTVAL, %s, %s, %s, %s, %s)
         """, (contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip))
         conn.commit()
-        return True, "Contractor company details inserted successfully."
+        return True, "Contractor company added successfully."
 
 # Validate [user] to [company] before register
 def validate_user_to_contractor(username, contracting_company_name):
