@@ -28,7 +28,7 @@ with st.container():
     # Row for header: logo left, button right
     col1, col2 = st.columns([9, 1])
     with col1:
-        st.image(cxloop_logo, use_column_width=True)
+        st.image(cxloop_logo, use_container_width=True)
     with col2:
         st.markdown("""
             <a href="https://cxloop-enter.streamlit.app/" target="_blank">
