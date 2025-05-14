@@ -209,8 +209,11 @@ if tab == "Login":
         if st.button("Login"):
 
             valid, full_name = authenticate_user(username, password)
+            valid_membership = membership_valid(username)
 
-            if valid:
+
+            if valid and valid_membership:
+
                 URL_TO_CUSTOMER_EXPERIENCE = "https://cxloop.streamlit.app?logged_in=true&username="+ username
                 #URL_TO_FEEDBACK = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
                 #URL_TO_VIEW_ANALYZE = "https://bobs-analyze.streamlit.app?logged_in=true&password="+ hash_password(password)
@@ -224,7 +227,8 @@ if tab == "Login":
                 time.sleep(300)
                 clear_form()
                 st.rerun()
-               
+            elif valid and not valid_membership:
+                st.error("Renew Membership to access the service.")
             else:
                 st.error("Invalid username or password. If you are not registered, please register first.")
                 st.error("if forgot password. Choose Forgot Password above.")
