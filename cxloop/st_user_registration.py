@@ -270,14 +270,14 @@ if tab == "Register":
         subscription_amt_list = [c["subscription_amt_usd"] for c in all_subscriptions]
 
         # Show selectbox with just labels
-        selected_label = st.selectbox("Select renewal period:", subscription_labels)
+        selected_sub_period = st.selectbox("Select renewal period:", subscription_labels)
 
         # Match selected label to its amount
-        selected_index = subscription_labels.index(selected_label)
-        selected_amount = subscription_amt_list[selected_index]
+        selected_index = subscription_labels.index(selected_sub_period)
+        selected_sub_amount = subscription_amt_list[selected_index]
 
         # Display result
-        st.write(f"💳 You selected: **{selected_label}** — Price: **${selected_amount}**")
+        st.write(f"💳 You selected: **{selected_sub_period}** — Price: **${selected_sub_amount}**")
 
     #Company Details
     col_11, col_12 = st.columns([1,1])
@@ -324,8 +324,8 @@ if tab == "Register":
                 "state": contracting_company_state,
                 "zip": contracting_company_zip,
                 "email": contracting_company_email,
-                "renewal_periond": renewal_option,
-                "renewal_amount": renewal_amt_stripe
+                "renewal_periond": selected_sub_period,
+                "renewal_amount": selected_sub_amount
             }
 
             # Create Stripe checkout session
@@ -334,8 +334,8 @@ if tab == "Register":
                 line_items=[{
                     "price_data": {
                         "currency": "usd",
-                        "product_data": {"name": f"cxloop.co registration - {renewal_option.capitalize()}"},
-                        "unit_amount": renewal_amt_stripe,  # $4.99
+                        "product_data": {"name": f"cxloop.co registration - {selected_sub_period.capitalize()}"},
+                        "unit_amount": selected_sub_amount,  # $4.99
                     },
                     "quantity": 1,
                 }],
@@ -351,8 +351,8 @@ if tab == "Register":
                     "state": contracting_company_state,
                     "zip": contracting_company_zip,
                     "email": contracting_company_email,
-                    "renewal_periond": renewal_option,
-                    "renewal_amount": renewal_amt_stripe
+                    "renewal_periond": selected_sub_period,
+                    "renewal_amount": selected_sub_amount
                 },
             )
 
