@@ -309,7 +309,7 @@ if tab == "Register":
                 line_items=[{
                     "price_data": {
                         "currency": "usd",
-                        "product_data": {"name": f"Registration - {renewal_option.capitalize()}"},
+                        "product_data": {"name": f"cxloop.co registration - {renewal_option.capitalize()}"},
                         "unit_amount": renewal_amt_stripe,  # $4.99
                     },
                     "quantity": 1,
