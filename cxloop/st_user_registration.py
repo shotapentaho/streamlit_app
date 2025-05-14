@@ -252,7 +252,7 @@ if tab == "Register":
         renewal_amt_stripe = options_with_prices[renewal_option]*100
         # Show user what they've selected
         #st.write(f"Selected plan: **{renewal_option}**")
-        st.write(f"Price for Stripe (in cents): **{renewal_amt_stripe}**")
+        #st.write(f"Price for Stripe (in cents): **{renewal_amt_stripe}**")
 
     #Company Details
     col_11, col_12 = st.columns([1,1])
