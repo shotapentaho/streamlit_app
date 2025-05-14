@@ -66,9 +66,18 @@ def register_user(username, password, contracting_company_name, renewal_periond)
 
     cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s AND full_name = %s", (username, contracting_company_name))
     exists = cur.fetchone()[0]
+
     if exists:
-        return True, "User exists, you may login now!"
+        cur.execute("""
+            UPDATE TEST.PUBLIC.users
+            SET member_expiration_date = %s
+            WHERE username = %s
+        """, (expiration_date, username))
+        conn.commit()
+        return True, "User's expiration date updated! You may log in now."
+
     else:
+    
         cur.execute("""
             INSERT INTO TEST.PUBLIC.users (username, hashed_password, password_raw, full_name, member_expiration_date)
             VALUES (%s, %s, %s, %s, %s)
