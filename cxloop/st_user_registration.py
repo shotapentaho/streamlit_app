@@ -247,10 +247,10 @@ if tab == "Register":
     with col_1:
         new_password = st.text_input("Password:", type="password")
     with col_2:
-        options_with_prices = {"3-months": 15,"6-months": 55,"1-year": 100}
+        options_with_prices = {"3-months": 3-15,"6-months": 6-55,"1-year": 12-100}
         renewal_option = st.selectbox("Select your renewal period:", list(options_with_prices.keys()))
         renewal_amt_stripe = options_with_prices[renewal_option]*100
-        st.write(f"Renewal Amount: ${options_with_prices[renewal_option]}")
+        #st.write(f"Renewal Amount: ${options_with_prices[renewal_option]}")
 
     #Company Details
     col_11, col_12 = st.columns([1,1])
