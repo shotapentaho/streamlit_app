@@ -217,7 +217,7 @@ if "full_name" not in st.session_state:
     st.session_state.full_name = ""
 
 # UI
-st.title(" 🔐 👷‍♂️  Contractor Xperiences..login or register (new here)")
+st.title(" 🔐 👷‍♂️ 👷‍♀️ 🔄  Contractor Xperiences..login or register (new here)")
 
 tab = st.radio("Choose:", ["Login", "Register or renewal membership", "Forgot Password"])
 
