@@ -36,7 +36,7 @@ st.markdown("""
     .top-right-button {
         position: absolute;
         top: 0px;
-        right: 20px;
+        right: 80px;
         z-index: 9999;
     }
     </style>
