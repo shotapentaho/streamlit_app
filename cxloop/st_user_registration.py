@@ -331,10 +331,12 @@ if tab == "Renew Membership":
 
     st.subheader("Renew service:")
     f_username = st.text_input("Username:")
+    options_with_prices = {"3-months $15": 15,"6-months $55": 55,"1-year $100": 100}
+
     renewal_option = st.selectbox(
-        "Renewal period:",
-        options=["3-months", "6-months", "1-year", "2-Year", "3-Year"]
-    )
+    "Select your renewal period:",
+    list(options_with_prices.keys()))
+    
 
     if st.button("Renew & Pay"):
         # Validate user to contractor
