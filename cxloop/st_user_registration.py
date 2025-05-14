@@ -332,7 +332,6 @@ if tab == "Forgot Password":
 
     username_forgotten_password = st.text_input("Username:")
 
-
     if st.button("Get Password"):
 
         cur.execute("SELECT password_raw FROM TEST.PUBLIC.users WHERE username = %s", (username_forgotten_password,))
