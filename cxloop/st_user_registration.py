@@ -63,6 +63,7 @@ def register_user(username, password, contracting_company_name, renewal_periond)
     # Expiration date set to renewal_periond
     days_int = int(renewal_periond.split()[0])*30  # Convert months to days
     expiration_date = (datetime.now() + timedelta(days=days_int)).strftime("%Y-%m-%d %H:%M:%S")  # <-- formatted string
+    st.write(f"Expiration date for {username} is going to set now {expiration_date}")
 
     cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s AND full_name = %s", (username, contracting_company_name))
     exists = cur.fetchone()[0]
@@ -72,7 +73,7 @@ def register_user(username, password, contracting_company_name, renewal_periond)
             UPDATE TEST.PUBLIC.users
             SET member_expiration_date = %s
             WHERE username = %s
-        """, (expiration_date, username))
+            """, (expiration_date, username))
         conn.commit()
         return True, "User's expiration date updated! You may log in now."
 
