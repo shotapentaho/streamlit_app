@@ -211,8 +211,8 @@ if tab == "Login":
 
         if st.button("Login"):
 
-            valid, full_name = authenticate_user(username, password)
             valid_membership = membership_valid(username)
+            valid, full_name = authenticate_user(username, password)
           
 
             if valid:
@@ -228,7 +228,6 @@ if tab == "Login":
                             <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Share your customer experiences..</button>
                         </a> 
                         """, unsafe_allow_html=True)
-                    #st.info("The app will refresh in 5min...")
                     time.sleep(300)
                     clear_form()
                     st.rerun()
