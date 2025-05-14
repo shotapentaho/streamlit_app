@@ -44,7 +44,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 # Create two columns: left wide, right narrow (logo)
-col1, col2 = st.columns([20, 3])
+col1, col2 = st.columns([20, 4])
 with col2:
     st.image(brain_python_openai_logo, use_container_width=True)
 #with col2:
