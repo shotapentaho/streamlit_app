@@ -34,7 +34,7 @@ st.image(cxloop_logo, use_container_width=True)
 st.markdown("""
     <style>
     .top-right-button {
-        position: right;
+        position: left;
         top: 0px;
         right: 20px;
         z-index: 9999;
