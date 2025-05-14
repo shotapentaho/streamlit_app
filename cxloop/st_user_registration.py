@@ -236,7 +236,7 @@ if tab == "Login":
                     st.error("Renew Membership to access the service.")
             else:
                 st.error("Invalid username or password. If you are not registered, please register first.")
-                st.error("if forgot password. Choose Forgot Password above.")
+                st.error("If you forgot your password. Choose 'Forgot Password' above.")
 
 if tab == "Register":
 
