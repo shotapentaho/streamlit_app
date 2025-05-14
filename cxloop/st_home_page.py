@@ -21,14 +21,8 @@ from PIL import Image
 # Load and show logo
 cxloop_logo = Image.open("./cxloop/media/cxloop_logo.png")
 brain_python_openai_logo = Image.open("./cxloop/media/human_python_openai.png")
-#logo = Image.open("./cxloop/media/contractors_at_job.jpeg")
-# Create two columns: left wide, right narrow (logo)
-col1, col2 = st.columns([2, 8])
-with col1:
-    st.image(brain_python_openai_logo, use_container_width=True)
-#with col2:
-    
 
+    
 st.image(cxloop_logo, use_container_width=True)
 
 
@@ -49,3 +43,8 @@ st.markdown("""
         </a>
     </div>
 """, unsafe_allow_html=True)
+# Create two columns: left wide, right narrow (logo)
+col1, col2 = st.columns([2, 8])
+with col2:
+    st.image(brain_python_openai_logo, use_container_width=True)
+#with col2:
