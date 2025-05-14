@@ -58,9 +58,10 @@ conn = get_connection()
 cur = conn.cursor()
 
 # Register a new user
-def register_user(username, password, contracting_company_name):
+def register_user(username, password, contracting_company_name, renewal_periond):
     hashed = hash_password(password)
     # Expiration date set to 1 year from now
+    
     expiration_date = (datetime.now() + timedelta(days=365)).strftime("%Y-%m-%d %H:%M:%S")  # <-- formatted string
 
     cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s AND full_name = %s", (username, contracting_company_name))
@@ -117,7 +118,7 @@ if st.query_params.get("page") == "success":
                 user_data = session.metadata
                 #st.write(user_data)
                 if user_data:
-                    ok, msg = register_user(user_data["username"], user_data["password"], user_data["name"])
+                    ok, msg = register_user(user_data["username"], user_data["password"], user_data["name"], user_data["renewal_periond"])
                     #st.write(ok, msg)
                     if ok:
                         ok_contractor, msg_contractor = add_contractor(
