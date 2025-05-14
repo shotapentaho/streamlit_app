@@ -46,6 +46,7 @@ st.markdown("""
 # Create two columns: left wide, right narrow (logo)
 st.write("")
 st.write("")
+st.write("")
 col1, col2 = st.columns([20, 2])
 with col2:
     st.image(brain_python_openai_logo, use_container_width=True)
