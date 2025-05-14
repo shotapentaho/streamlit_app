@@ -337,8 +337,8 @@ if tab == "Renew Membership":
     if st.button("Renew & Pay  "):
         # Validate user to contractor
         ok, msg = validate_user_to_contractor(f_username, contracting_company_name)
-    else:
-        st.error(msg)
+        if ok:
+
 
 
 
