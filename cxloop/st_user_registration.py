@@ -272,7 +272,7 @@ if tab == "Login":
 
 if tab == "Register or renewal membership":
 
-    st.subheader("Register or Renew membership here :")
+    st.subheader("Register or Renew membership :")
     col_0, col_1, col_2 = st.columns([1,1,1])
     with col_0:
         new_username = st.text_input("Username:")
