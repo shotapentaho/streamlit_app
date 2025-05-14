@@ -330,6 +330,9 @@ if tab == "Register":
 if tab == "Renew Membership":
 
     st.subheader("Renew service:")
+    f_username = st.text_input("Username:")
+    tab = st.radio("Choose renewal options:", ["3-months", "1-year", "3-years"])
+
 
 if tab == "Forgot Password":
     st.subheader("Retrieve your password:")
