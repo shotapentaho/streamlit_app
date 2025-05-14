@@ -183,14 +183,15 @@ def get_all_subscriptions():
     cur = conn.cursor()
 
     query = """
-            SELECT subscription_months, subscription_amt_usd
+            SELECT subscription_months as months, subscription_amt_usd as amount
             FROM test.public.subscription
             ORDER BY subscription_months
             """
     cur.execute(query)
     rows = cur.fetchall()
     cur.close()
-    return [{"label": subscription_months, "subscription_amt_usd": subscription_amt_usd} for subscription_amt_usd, subscription_months in rows]
+    return [{"label": f"{months} months", "subscription_amt_usd": amount} for months, amount in rows]
+
 
 # Session state
 if "logged_in" not in st.session_state:
@@ -263,13 +264,20 @@ if tab == "Register":
         new_password = st.text_input("Password:", type="password")
     with col_2:
         all_subscriptions = get_all_subscriptions()
-        # Create activity_labels list for dropdown
-        subscription_periods = [c["label"] for c in all_subscriptions]
-        subscription_amt = [c["subscription_amt_usd"] for c in all_subscriptions]
-        subscriptions = st.selectbox("Select your renewal period:", all_subscriptions)
-        # Show user what they've selected
-        #st.write(f"Selected plan: **{renewal_option}**")
-        #st.write(f"Price for Stripe (in cents): **{renewal_amt_stripe}**")
+
+        # Create dropdown labels and extract matching amount
+        subscription_labels = [c["label"] for c in all_subscriptions]
+        subscription_amt_list = [c["subscription_amt_usd"] for c in all_subscriptions]
+
+        # Show selectbox with just labels
+        selected_label = st.selectbox("Select your renewal period:", subscription_labels)
+
+        # Match selected label to its amount
+        selected_index = subscription_labels.index(selected_label)
+        selected_amount = subscription_amt_list[selected_index]
+
+        # Display result
+        st.write(f"💳 You selected: **{selected_label}** — Price: **${selected_amount}**")
 
     #Company Details
     col_11, col_12 = st.columns([1,1])
