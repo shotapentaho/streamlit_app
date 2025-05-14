@@ -327,6 +327,10 @@ if tab == "Register":
             st.error(msg)
              
 
+if tab == "Renew Membership":
+
+    st.subheader("Renew service:")
+
 if tab == "Forgot Password":
     st.subheader("Retrieve your password:")
 
