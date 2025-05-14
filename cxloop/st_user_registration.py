@@ -170,11 +170,11 @@ def membership_valid(username):
         return False, None
     member_expiration_date, = row
     if member_expiration_date > datetime.now() + timedelta(days=30):
-        return True, member_expiration_date
+        return True, None
     else:
         st.warning("Your membership is about to expire. Please renew your membership.")
         return False, None
-    #return False, None
+
 
 # Session state
 if "logged_in" not in st.session_state:
