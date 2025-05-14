@@ -176,6 +176,21 @@ def membership_valid(username):
         st.stop()
         return False, None
 
+# Subscriptions types  ---
+def get_all_subscriptions():
+    
+    conn = get_connection()
+    cur = conn.cursor()
+
+    query = """
+            SELECT subscription_months, subscription_amt_usd
+            FROM test.public.subscription
+            ORDER BY subscription_months
+            """
+    cur.execute(query)
+    rows = cur.fetchall()
+    cur.close()
+    return [{"label": subscription_months, "subscription_amt_usd": subscription_amt_usd} for subscription_amt_usd, subscription_months in rows]
 
 # Session state
 if "logged_in" not in st.session_state:
@@ -247,9 +262,11 @@ if tab == "Register":
     with col_1:
         new_password = st.text_input("Password:", type="password")
     with col_2:
-        options_with_prices = {"3-months": 15,"6-months": 55,"12-months": 100}
-        renewal_option = st.selectbox("Select your renewal period:", list(options_with_prices.keys()))
-        renewal_amt_stripe = options_with_prices[renewal_option]*100
+        all_subscriptions = get_all_subscriptions()
+        # Create activity_labels list for dropdown
+        subscription_period = [c["label"] for c in all_subscriptions]
+        subscription_amt = [c["subscription_amt_usd"] for c in all_subscriptions]
+        engagement_type = st.selectbox("Select your renewal period:", list(subscription_period.keys(subscription_amt)))
         # Show user what they've selected
         #st.write(f"Selected plan: **{renewal_option}**")
         #st.write(f"Price for Stripe (in cents): **{renewal_amt_stripe}**")
