@@ -19,10 +19,11 @@ st.markdown(hide_default_footer, unsafe_allow_html=True)
 from PIL import Image
 
 # Load and show logo
-logo = Image.open("./cxloop/media/cxloop_logo.png")
+cxloop_logo = Image.open("./cxloop/media/cxloop_logo.png")
+brain_python_openai_logo = Image.open("./cxloop/media/human-python-openai.png")
 #logo = Image.open("./cxloop/media/contractors_at_job.jpeg")
 
-st.image(logo, use_container_width=True)
+st.image(cxloop_logo, use_container_width=True)
 
 # Top-right button with CSS
 st.markdown("""
