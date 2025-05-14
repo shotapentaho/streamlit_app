@@ -331,12 +331,11 @@ if tab == "Renew Membership":
 
     st.subheader("Renew service:")
     f_username = st.text_input("Username:")
-    contracting_company_name = st.text_input("Contracting Company:")
     tab = st.radio("Choose Renewal Options:", ["6-months or $XX", "1-year or $YY", "3-years or $ZZ"], horizontal=True)
 
-    if st.button("Renew & Pay  "):
+    if st.button("Renew & Pay"):
         # Validate user to contractor
-        ok, msg = validate_user_to_contractor(f_username, contracting_company_name)
+        ok, msg = validate_user_to_contractor(f_username)
         
 
 
