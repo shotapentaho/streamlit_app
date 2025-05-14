@@ -92,15 +92,16 @@ def add_contractor(contracting_company_name, contracting_company_street, contrac
     
     cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.contractors WHERE contractor_name = %s", (contracting_company_name))
     exists = cur.fetchone()[0]
-    if exists:
-        return False, "This company is already present in the database. "
-    else:
+    if not exists:
         cur.execute("""
             INSERT INTO TEST.PUBLIC.contractors (contractor_id, contractor_name, street, city, state, zip)
             VALUES (TEST.PUBLIC.contractor_seq.NEXTVAL, %s, %s, %s, %s, %s)
         """, (contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip))
         conn.commit()
         return True, "Contractor company added successfully."
+    else:
+        return True, f"Contracting company {contracting_company_name} already exists."
+        
 
 # Validate [user] to [company] before register
 def validate_user_to_contractor(username, contracting_company_name):
