@@ -173,6 +173,7 @@ def membership_valid(username):
         return True, None
     else:
         st.warning("Your membership is about to expire. Choose renew membership.")
+        st.stop()
         return False, None
 
 
