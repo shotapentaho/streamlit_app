@@ -168,7 +168,7 @@ def membership_valid(username):
     row = cur.fetchone()
     if not row:
         return False, None
-    member_expiration_date = row
+    member_expiration_date, = row
     if member_expiration_date > datetime.now() - timedelta(days=30):
         return True, member_expiration_date
     return False, None
