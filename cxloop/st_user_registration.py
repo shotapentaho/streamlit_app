@@ -275,10 +275,12 @@ if tab == "Register":
         # Match selected label to its amount
         selected_index = subscription_labels.index(selected_sub_period)
         selected_sub_amount = subscription_amt_list[selected_index]
-
         # Display result
         st.write(f"💳 You selected: **{selected_sub_period}** — Price: **${selected_sub_amount}**")
 
+        selected_sub_amount_stripe = int(selected_sub_amount * 100)
+
+        
     #Company Details
     col_11, col_12 = st.columns([1,1])
     with col_11:
@@ -325,7 +327,7 @@ if tab == "Register":
                 "zip": contracting_company_zip,
                 "email": contracting_company_email,
                 "renewal_periond": selected_sub_period,
-                "renewal_amount": selected_sub_amount
+                "renewal_amount": selected_sub_amount_stripe
             }
 
             # Create Stripe checkout session
@@ -335,7 +337,7 @@ if tab == "Register":
                     "price_data": {
                         "currency": "usd",
                         "product_data": {"name": f"cxloop.co registration - {selected_sub_period.capitalize()}"},
-                        "unit_amount": selected_sub_amount,  # $4.99
+                        "unit_amount":  selected_sub_amount_stripe,
                     },
                     "quantity": 1,
                 }],
@@ -352,7 +354,7 @@ if tab == "Register":
                     "zip": contracting_company_zip,
                     "email": contracting_company_email,
                     "renewal_periond": selected_sub_period,
-                    "renewal_amount": selected_sub_amount
+                    "renewal_amount": selected_sub_amount_stripe
                 },
             )
 
