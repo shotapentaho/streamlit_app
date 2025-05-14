@@ -189,7 +189,7 @@ if "full_name" not in st.session_state:
 st.title(" 🔐 👷 🔄 Contractor Xperiences.. login or register(new here)")
 
 
-tab = st.radio("Choose:", ["Login", "Register", "Renew Membership", "Forgot Password"])
+tab = st.radio("Choose:", ["Login", "Register", "Forgot Password"])
 
 # Function to clear form
 def clear_form():
