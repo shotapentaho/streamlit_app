@@ -325,7 +325,7 @@ if tab == "Register or renewal membership":
     if not new_username or not contracting_company_name or not new_password or not contracting_company_email or not contracting_company_street or not contracting_company_city or not contracting_company_state or not contracting_company_zip:
         st.warning("Please check any blank fields.")
 
-    if st.button("Register & Pay"):
+    if st.button("Register/Renew & Pay"):
 
         # Validate user to contractor
         ok, msg = validate_user_to_contractor(new_username, contracting_company_name)
