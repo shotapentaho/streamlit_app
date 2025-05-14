@@ -184,7 +184,7 @@ def membership_valid(username):
     if member_expiration_date >= datetime.now() + timedelta(days=0):
         return True, None
     elif member_expiration_date < datetime.now() + timedelta(days=10):
-        st.warning("Your membership is about to expire in less than 10 days. Please renew membership soon.")
+        st.warning("Your membership is about to expire in less than 10 days. Choose Register or renewal membership option above.")
         return True, None
     else:
         st.warning("Your membership is expired. Choose Register or renewal membership option above.")
