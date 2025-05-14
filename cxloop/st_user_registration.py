@@ -266,7 +266,7 @@ if tab == "Register":
         # Create activity_labels list for dropdown
         subscription_periods = [c["label"] for c in all_subscriptions]
         subscription_amt = [c["subscription_amt_usd"] for c in all_subscriptions]
-        subscriptions = st.selectbox("Select your renewal period:", subscription_periods)
+        subscriptions = st.selectbox("Select your renewal period:", all_subscriptions[subscription_periods])
         # Show user what they've selected
         #st.write(f"Selected plan: **{renewal_option}**")
         #st.write(f"Price for Stripe (in cents): **{renewal_amt_stripe}**")
