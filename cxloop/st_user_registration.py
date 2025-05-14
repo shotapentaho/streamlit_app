@@ -309,8 +309,8 @@ if tab == "Register":
                 line_items=[{
                     "price_data": {
                         "currency": "usd",
-                        "product_data": {"name": "Registration Fee"},
-                        "unit_amount": 499,  # $4.99
+                        "product_data": {"name": f"Registration - {renewal_option.capitalize()}"},
+                        "unit_amount": renewal_amt_stripe,  # $4.99
                     },
                     "quantity": 1,
                 }],
