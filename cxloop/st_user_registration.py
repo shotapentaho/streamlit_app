@@ -255,7 +255,7 @@ if tab == "Login":
 
 if tab == "Register":
 
-    st.subheader("Register your company to use the service:")
+    st.subheader("Register your company to use the service----:")
     col_0, col_1, col_2 = st.columns([1,1,1])
     with col_0:
         new_username = st.text_input("Username:")
