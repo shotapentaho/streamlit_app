@@ -22,27 +22,20 @@ from PIL import Image
 cxloop_logo = Image.open("./cxloop/media/cxloop_logo.png")
 brain_python_openai_logo = Image.open("./cxloop/media/human_python_openai.png")
 
-    
-st.image(cxloop_logo, use_container_width=True)
+ 
+# Container for header
+with st.container():
+    # Row for header: logo left, button right
+    col1, col2 = st.columns([9, 1])
+    with col1:
+        st.image(cxloop_logo, use_column_width=True)
+    with col2:
+        st.markdown("""
+            <a href="https://cxloop-enter.streamlit.app/" target="_blank">
+                <button style='font-size:18px;padding:8px 16px;margin-top:10px;'>🔑 Login/Register</button>
+            </a>
+        """, unsafe_allow_html=True)
 
-
-# Top-right button with CSS
-st.markdown("""
-    <style>
-    .top-right-button {
-        position: absolute;
-        top: 0px;
-        right: 20px;
-        z-index: 9999;
-    }
-    </style>
-
-    <div class="top-right-button">
-        <a href="https://cxloop-enter.streamlit.app/" target="_blank">
-            <button style='font-size:24px;padding:8px 16px;'>🔑 Login/Register</button>
-        </a>
-    </div>
-""", unsafe_allow_html=True)
 # Create two columns: left wide, right narrow (logo)
 st.write("")
 st.write("")
