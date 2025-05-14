@@ -217,7 +217,7 @@ if "full_name" not in st.session_state:
 st.title(" 🔐 👷 🔄 Contractor Xperiences.. login or register(new here)")
 
 
-tab = st.radio("Choose:", ["Login", "Register", "Renew Membership", "Forgot Password"])
+tab = st.radio("Choose:", ["Login", "Register New or Renew Membership", "Forgot Password"])
 
 # Function to clear form
 def clear_form():
@@ -266,9 +266,9 @@ if tab == "Login":
                 st.error("Invalid username or password. If you are not registered, please register first.")
                 st.error("If you forgot your password. Choose 'Forgot Password' above.")
 
-if tab == "Register" or tab == "Renew Membership":
+if tab == "Register New or Renew Membership":
 
-    st.subheader("Register your company to use the service :")
+    st.subheader("Register new or Renew membership here :")
     col_0, col_1, col_2 = st.columns([1,1,1])
     with col_0:
         new_username = st.text_input("Username:")
