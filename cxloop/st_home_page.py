@@ -39,7 +39,7 @@ st.markdown("""
 
     <div class="top-right-button">
         <a href="https://cxloop-enter.streamlit.app/" target="_blank">
-            <button style='font-size:16px;padding:8px 16px;'>🔑 Login/Register</button>
+            <button style='font-size:24px;padding:8px 16px;'>🔑 Login/Register</button>
         </a>
     </div>
 """, unsafe_allow_html=True)
