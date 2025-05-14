@@ -140,7 +140,7 @@ if st.query_params.get("page") == "success":
                                 user_data["zip"]
                             )
                         if ok_contractor:  
-                            st.success("🎉 Contracting company registration complete! You may now log in.")
+                            st.success("🎉 Contracting company registration/renewal complete now, thanks! You may now log in.")
                         else:
                             st.error(msg_contractor)
                     else:
