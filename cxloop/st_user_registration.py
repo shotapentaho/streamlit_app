@@ -213,6 +213,7 @@ if tab == "Login":
 
             valid, full_name = authenticate_user(username, password)
             valid_membership = membership_valid(username)
+            st.warning(valid_membership)
 
 
             if valid and valid_membership:
