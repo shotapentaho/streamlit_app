@@ -216,23 +216,25 @@ if tab == "Login":
             st.warning(valid_membership)
 
 
-            if valid and valid_membership:
+            if valid:
 
-                URL_TO_CUSTOMER_EXPERIENCE = "https://cxloop.streamlit.app?logged_in=true&username="+ username
-                #URL_TO_FEEDBACK = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
-                #URL_TO_VIEW_ANALYZE = "https://bobs-analyze.streamlit.app?logged_in=true&password="+ hash_password(password)
-                
-                st.markdown(f"""
-                    <a href="{URL_TO_CUSTOMER_EXPERIENCE}" target="_target">
-                        <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Share your customer experiences..</button>
-                    </a> 
-                    """, unsafe_allow_html=True)
-                #st.info("The app will refresh in 5min...")
-                time.sleep(300)
-                clear_form()
-                st.rerun()
-            elif valid and not valid_membership:
-                st.error("Renew Membership to access the service.")
+                if valid_membership:
+
+                    URL_TO_CUSTOMER_EXPERIENCE = "https://cxloop.streamlit.app?logged_in=true&username="+ username
+                    #URL_TO_FEEDBACK = "https://bobs-list.streamlit.app?logged_in=true&password="+ hash_password(password)
+                    #URL_TO_VIEW_ANALYZE = "https://bobs-analyze.streamlit.app?logged_in=true&password="+ hash_password(password)
+                    
+                    st.markdown(f"""
+                        <a href="{URL_TO_CUSTOMER_EXPERIENCE}" target="_target">
+                            <button style='font-size:30px;padding:10px 20px;margin-top:20px;'>Share your customer experiences..</button>
+                        </a> 
+                        """, unsafe_allow_html=True)
+                    #st.info("The app will refresh in 5min...")
+                    time.sleep(300)
+                    clear_form()
+                    st.rerun()
+                elif valid and not valid_membership:
+                    st.error("Renew Membership to access the service.")
             else:
                 st.error("Invalid username or password. If you are not registered, please register first.")
                 st.error("if forgot password. Choose Forgot Password above.")
