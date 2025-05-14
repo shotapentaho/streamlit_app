@@ -286,7 +286,7 @@ if tab == "Register or renewal membership":
         subscription_amt_list = [c["subscription_amt_usd"] for c in all_subscriptions]
 
         # Show selectbox with just labels
-        selected_sub_period = st.selectbox("Select renewal period:", subscription_labels)
+        selected_sub_period = st.selectbox("Membership period:", subscription_labels)
 
         # Match selected label to its amount
         selected_index = subscription_labels.index(selected_sub_period)
