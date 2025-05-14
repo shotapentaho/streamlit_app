@@ -251,8 +251,8 @@ if tab == "Register":
         renewal_option = st.selectbox("Select your renewal period:", list(options_with_prices.keys()))
         renewal_amt_stripe = options_with_prices[renewal_option]*100
         # Show user what they've selected
-        st.write(f"Selected plan: **{renewal_option}**")
-        st.write(f"Price for Stripe (in cents): **{renewal_amt_stripe}**")
+        #st.write(f"Selected plan: **{renewal_option}**")
+        #st.write(f"Price for Stripe (in cents): **{renewal_amt_stripe}**")
 
     #Company Details
     col_11, col_12 = st.columns([1,1])
@@ -299,6 +299,8 @@ if tab == "Register":
                 "state": contracting_company_state,
                 "zip": contracting_company_zip,
                 "email": contracting_company_email,
+                "renewal_periond": renewal_option,
+                "renewal_amount": renewal_amt_stripe
             }
 
             # Create Stripe checkout session
@@ -324,6 +326,8 @@ if tab == "Register":
                     "state": contracting_company_state,
                     "zip": contracting_company_zip,
                     "email": contracting_company_email,
+                    "renewal_periond": renewal_option,
+                    "renewal_amount": renewal_amt_stripe
                 },
             )
 
