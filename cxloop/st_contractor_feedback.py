@@ -268,7 +268,21 @@ def render():
 
     st.header(f" {st.query_params["username"]} feedbacks..you may edit")
     original_df = display_user_feedbacks(st.query_params["username"])
-    edited_df = st.data_editor(original_df, num_rows="dynamic", use_container_width=True)
+    edited_df = st.data_editor( original_df,
+                                column_config={
+                                    "rating": st.column_config.SelectboxColumn("Rating", options=["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"]),
+                                    "feedback": st.column_config.TextColumn("Feedback"),
+                                    "contractor_name": st.column_config.TextColumn("Contractor", disabled=True),
+                                    "customer_name": st.column_config.TextColumn("Customer", disabled=True),
+                                    "activity_date": st.column_config.DateColumn("Date", disabled=True),
+                                    "street": st.column_config.TextColumn("Street", disabled=True),
+                                    "city": st.column_config.TextColumn("City", disabled=True),
+                                    "state": st.column_config.TextColumn("State", disabled=True),
+                                    "zip": st.column_config.TextColumn("ZIP", disabled=True),
+                                    "engagement_type": st.column_config.TextColumn("Engagement Type", disabled=True),
+                                },
+                                use_container_width=True
+                             )
     #st.write("✅ All Data ", edited_df)
 
     # Identify changed rows
