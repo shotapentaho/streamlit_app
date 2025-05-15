@@ -35,7 +35,7 @@ import st_contractor_view_analyze
 
 if len(st.query_params)> 1:
      # Update session state based on the URL parameter
-    if st.query_params.get("logged_in", "false") == "true":
+    if st.query_params["logged_in"] == "true":
         st.session_state.logged_in = True    
           
 else:

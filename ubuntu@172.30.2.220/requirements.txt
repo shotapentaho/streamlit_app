@@ -1,0 +1,9 @@
+streamlit>=1.28
+snowflake-connector-python
+pandas
+datetime
+openai>=1.2
+stripe
+Pillow
+#supabase
+#st-star-rating
