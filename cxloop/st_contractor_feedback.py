@@ -95,18 +95,19 @@ def get_all_contract_activity_types():
     return [{"label": engagement_type, "activity_id": aid} for aid, engagement_type in rows]
 
 # -- User feedbacks ---
-def display_user_feedbacks():
+def display_user_feedbacks(username):
     
     conn = get_connection()
     cur = conn.cursor()
 
     # Retrieve and display existing data
-    cur.execute("""SELECT cont.contractor_name, eng.customer_name, eng.street, eng.city, eng.state, eng.zip_code as zip, eng.engagement_type, eng.activity_date,
+    query = """SELECT cont.contractor_name, eng.customer_name, eng.street, eng.city, eng.state, eng.zip_code as zip, eng.engagement_type, eng.activity_date,
             eng.rating,eng.feedback
             FROM TEST.PUBLIC.engagements as eng INNER JOIN TEST.PUBLIC.contractors cont ON cont.contractor_id = eng.contractor_id
+                WHERE username = %s
             ORDER BY cont.contractor_name, eng.activity_date DESC;
-        """)
-
+        """
+    cur.execute(query, (username,))
     df = cur.fetch_pandas_all()
     cur.close()
     return df
@@ -219,7 +220,6 @@ def render():
                 st.rerun()
 
         st.header("Display Results..")
-        valid_user_name = authenticated_user (st.query_params["username"])
-        df = display_user_feedbacks(valid_user_name)
+        df = display_user_feedbacks(st.query_params["username"])
         st.write("✅ All Data ", df)
  
