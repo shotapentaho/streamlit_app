@@ -140,7 +140,8 @@ def update_feedback_rows(original_df, edited_df):
                     SELECT contractor_id FROM TEST.PUBLIC.contractors WHERE contractor_name = %s
                 )   
             """
-            params = (
+            
+            params = tuple(value.item() if isinstance(value, np.generic) else value for value in [
                 edited_row["CUSTOMER_NAME"],
                 edited_row["STREET"],
                 edited_row["CITY"],
@@ -150,7 +151,7 @@ def update_feedback_rows(original_df, edited_df):
                 edited_row["FEEDBACK"],
                 edited_row["ACTIVITY_DATE"],
                 edited_row["CONTRACTOR_NAME"]
-            )
+            ])  # Convert to tuple
             cur.execute(update_sql, params)
 
     conn.commit()
