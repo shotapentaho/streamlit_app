@@ -220,6 +220,6 @@ def render():
 
         st.header("Display Results..")
         valid_user_name = authenticated_user (st.query_params["username"])
-        df = display_user_feedbacks(valid_user_name[0])
+        df = display_user_feedbacks(valid_user_name[1])
         st.write("✅ All Data ", df)
  
