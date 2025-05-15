@@ -269,12 +269,12 @@ def render():
                                 column_config={
                                     "rating": st.column_config.SelectboxColumn("k_rating", options=["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"]),
                                     "feedback": st.column_config.TextColumn("k_feedback"),
-                                    "customer_name": st.column_config.TextColumn("k_customer_name", disabled=True),
-                                    "activity_date": st.column_config.DateColumn("k_activity_date", disabled=True),
-                                    "street": st.column_config.TextColumn("k_street", disabled=True),
-                                    "city": st.column_config.TextColumn("k_city", disabled=True),
-                                    "state": st.column_config.TextColumn("k_state", disabled=True),
-                                    "zip": st.column_config.TextColumn("k_zip", disabled=True)
+                                    "customer_name": st.column_config.TextColumn("k_customer_name"),
+                                    "activity_date": st.column_config.DateColumn("k_activity_date"),
+                                    "street": st.column_config.TextColumn("k_street"),
+                                    "city": st.column_config.TextColumn("k_city"),
+                                    "state": st.column_config.TextColumn("k_state"),
+                                    "zip": st.column_config.TextColumn("k_zip")
                                 },
                                 use_container_width=True
                              )
