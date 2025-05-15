@@ -75,7 +75,7 @@ def register_user(username, password, contracting_company_name, renewal_periond)
             WHERE username = %s
             """, (expiration_date, username))
         conn.commit()
-        st.rerun()
+        #st.rerun()
         st.write(f"New expiration date for {username} : {expiration_date}")
         return True, "User membership is renewed successfully, now Choose login to access."
     else:
