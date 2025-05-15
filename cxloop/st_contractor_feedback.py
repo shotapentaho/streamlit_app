@@ -275,7 +275,8 @@ def render():
                                     "zip": st.column_config.TextColumn("zip"),    
                                     "rating": st.column_config.SelectboxColumn("rating", options=["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"]),
                                     "feedback": st.column_config.TextColumn("feedback"),
-                                    "activity_date": st.column_config.DateColumn("activity_date")
+                                    "activity_date": st.column_config.DateColumn("activity_date"),
+                                    "contractor_name": st.column_config.TextColumn("contractor_name", disabled=True)
                                 },
                                 use_container_width=True
                              )
