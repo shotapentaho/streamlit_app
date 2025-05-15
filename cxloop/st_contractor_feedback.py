@@ -136,9 +136,7 @@ def update_feedback_rows(original_df, edited_df):
                     rating = %s,
                     feedback = %s,
                     activity_date = %s
-                WHERE contractor_id = (
-                    SELECT contractor_id FROM TEST.PUBLIC.contractors WHERE contractor_name = %s
-                )   
+                WHERE ENGAGEMENT_ID = %s  
             """
             
             params = tuple(value.item() if isinstance(value, np.generic) else value for value in [
@@ -150,7 +148,7 @@ def update_feedback_rows(original_df, edited_df):
                 edited_row["RATING"],
                 edited_row["FEEDBACK"],
                 edited_row["ACTIVITY_DATE"],
-                edited_row["CONTRACTOR_NAME"]
+                int(edited_row["ENGAGEMENT_ID"])
             ])  # Convert to tuple
             cur.execute(update_sql, params)
 
@@ -276,9 +274,8 @@ def render():
                                     "zip": st.column_config.TextColumn("zip"),    
                                     "rating": st.column_config.SelectboxColumn("rating", options=["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"]),
                                     "feedback": st.column_config.TextColumn("feedback"),
-                                    "activity_date": st.column_config.DateColumn("activity_date"),
-                                    "contractor_name": st.column_config.TextColumn("contractor_name", disabled=True)
-                                },
+                                    "activity_date": st.column_config.DateColumn("activity_date")                                },
+                                disabled=["ENGAGEMENT_ID", "CONTRACTOR_NAME", "ENGAGEMENT_TYPE"],  # Make these read-only
                                 use_container_width=True
                              )
     #st.write("✅ All Data ", edited_df)
