@@ -267,14 +267,14 @@ def render():
     original_df = display_user_feedbacks(st.query_params["username"])
     edited_df = st.data_editor( original_df,
                                 column_config={
-                                    "rating": st.column_config.SelectboxColumn("k_rating", options=["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"]),
-                                    "feedback": st.column_config.TextColumn("k_feedback"),
-                                    "customer_name": st.column_config.TextColumn("k_customer_name"),
-                                    "activity_date": st.column_config.DateColumn("k_activity_date"),
-                                    "street": st.column_config.TextColumn("k_street"),
-                                    "city": st.column_config.TextColumn("k_city"),
-                                    "state": st.column_config.TextColumn("k_state"),
-                                    "zip": st.column_config.TextColumn("k_zip")
+                                    "customer_name": st.column_config.TextColumn("customer_name"),
+                                    "street": st.column_config.TextColumn("street"),
+                                    "city": st.column_config.TextColumn("city"),
+                                    "state": st.column_config.TextColumn("state"),
+                                    "zip": st.column_config.TextColumn("zip"),    
+                                    "rating": st.column_config.SelectboxColumn("rating", options=["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"]),
+                                    "feedback": st.column_config.TextColumn("feedback"),
+                                    "activity_date": st.column_config.DateColumn("activity_date")
                                 },
                                 use_container_width=True
                              )
