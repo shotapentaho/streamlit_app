@@ -4,7 +4,7 @@ import snowflake.connector
 import pandas as pd
 from datetime import date
 import time
-
+import numpy as np
 
 if len(st.query_params)> 1:
      # Update session state based on the URL parameter
