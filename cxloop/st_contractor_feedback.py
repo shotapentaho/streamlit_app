@@ -104,7 +104,8 @@ def display_user_feedbacks(username):
     query = """SELECT cont.contractor_name, eng.customer_name, eng.street, eng.city, eng.state, eng.zip_code as zip, eng.engagement_type, eng.activity_date,
             eng.rating,eng.feedback
             FROM TEST.PUBLIC.engagements as eng INNER JOIN TEST.PUBLIC.contractors cont ON cont.contractor_id = eng.contractor_id
-                WHERE eng.username = %s
+                INNER JOIN TEST.PUBLIC.users u ON u.full_name = cont.contractor_name
+                AND u.username = %s
             ORDER BY cont.contractor_name, eng.activity_date DESC;
         """
     cur.execute(query, (username,))
