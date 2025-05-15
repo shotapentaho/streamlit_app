@@ -222,5 +222,6 @@ def render():
 
     st.header("Display Results..")
     df = display_user_feedbacks(st.query_params["username"])
-    st.write("✅ All Data ", df)
+    edited_df = st.data_editor(df, num_rows="dynamic", use_container_width=True)
+    st.write("✅ All Data ", edited_df)
  
