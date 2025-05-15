@@ -218,11 +218,8 @@ def render():
                 st.session_state.reset_form = True
                 st.rerun()
 
-    st.header("Display Results..")
-    valid_user_name = authenticated_user (st.query_params["username"])
-    df = display_user_feedbacks(valid_user_name[0])
-    st.write("✅ All Data ", df)
-
-    #st.dataframe(df.head(), use_container_width=True)
-
+        st.header("Display Results..")
+        valid_user_name = authenticated_user (st.query_params["username"])
+        df = display_user_feedbacks(valid_user_name[0])
+        st.write("✅ All Data ", df)
  
