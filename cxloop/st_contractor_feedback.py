@@ -113,6 +113,52 @@ def display_user_feedbacks(username):
     cur.close()
     return df
 
+def update_feedback_rows(original_df, edited_df):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    # Iterate row by row
+    for idx in range(len(original_df)):
+        original_row = original_df.iloc[idx]
+        edited_row = edited_df.iloc[idx]
+
+        if not original_row.equals(edited_row):
+            st.info(f"Updating row {idx + 1}...")
+
+            # Use identifying columns (e.g., contractor_name, activity_date) to locate the row
+            update_sql = """
+                UPDATE TEST.PUBLIC.engagements
+                SET customer_name = %s,
+                    street = %s,
+                    city = %s,
+                    state = %s,
+                    zip_code = %s,
+                    engagement_type = %s,
+                    rating = %s,
+                    feedback = %s
+                WHERE contractor_id = (
+                    SELECT contractor_id FROM TEST.PUBLIC.contractors WHERE contractor_name = %s
+                )
+                AND activity_date = %s
+            """
+
+            cur.execute(update_sql, (
+                edited_row["customer_name"],
+                edited_row["street"],
+                edited_row["city"],
+                edited_row["state"],
+                edited_row["zip"],
+                edited_row["engagement_type"],
+                edited_row["rating"],
+                edited_row["feedback"],
+                edited_row["contractor_name"],
+                edited_row["activity_date"],
+            ))
+
+    conn.commit()
+    cur.close()
+
+
 
 def render():
     st.header("Feedback form..")
@@ -221,7 +267,17 @@ def render():
                 st.rerun()
 
     st.header(f" {st.query_params["username"]} feedbacks..you may edit")
-    df = display_user_feedbacks(st.query_params["username"])
-    edited_df = st.data_editor(df, num_rows="dynamic", use_container_width=True)
-    st.write("✅ All Data ", edited_df)
+    original_df = display_user_feedbacks(st.query_params["username"])
+    edited_df = st.data_editor(original_df, num_rows="dynamic", use_container_width=True)
+    #st.write("✅ All Data ", edited_df)
+
+    # Identify changed rows
+    changed_rows = edited_df.compare(original_df)
+    if not changed_rows.empty:
+        st.warning("Changes detected!")
+        if st.button("💾 Save Changes"):
+            update_feedback_rows(original_df, edited_df)
+            st.success("Changes saved!")
+            st.rerun()
+
  
