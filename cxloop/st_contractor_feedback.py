@@ -267,14 +267,14 @@ def render():
     original_df = display_user_feedbacks(st.query_params["username"])
     edited_df = st.data_editor( original_df,
                                 column_config={
-                                    "rating": st.column_config.SelectboxColumn("Rating", options=["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"]),
-                                    "feedback": st.column_config.TextColumn("Feedback"),
-                                    "customer_name": st.column_config.TextColumn("Customer", disabled=True),
-                                    "activity_date": st.column_config.DateColumn("Date", disabled=True),
-                                    "street": st.column_config.TextColumn("Street", disabled=True),
-                                    "city": st.column_config.TextColumn("City", disabled=True),
-                                    "state": st.column_config.TextColumn("State", disabled=True),
-                                    "zip": st.column_config.TextColumn("ZIP", disabled=True)
+                                    "rating": st.column_config.SelectboxColumn("k_rating", options=["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"]),
+                                    "feedback": st.column_config.TextColumn("k_feedback"),
+                                    "customer_name": st.column_config.TextColumn("k_customer_name", disabled=True),
+                                    "activity_date": st.column_config.DateColumn("k_activity_date", disabled=True),
+                                    "street": st.column_config.TextColumn("k_street", disabled=True),
+                                    "city": st.column_config.TextColumn("k_city", disabled=True),
+                                    "state": st.column_config.TextColumn("k_state", disabled=True),
+                                    "zip": st.column_config.TextColumn("k_zip", disabled=True)
                                 },
                                 use_container_width=True
                              )
