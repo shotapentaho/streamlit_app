@@ -133,13 +133,12 @@ def update_feedback_rows(original_df, edited_df):
                     city = %s,
                     state = %s,
                     zip_code = %s,
-                    engagement_type = %s,
                     rating = %s,
-                    feedback = %s
+                    feedback = %s,
+                    activity_date = %s
                 WHERE contractor_id = (
                     SELECT contractor_id FROM TEST.PUBLIC.contractors WHERE contractor_name = %s
-                )
-                AND activity_date = %s
+                )   
             """
 
             cur.execute(update_sql, (
@@ -148,10 +147,8 @@ def update_feedback_rows(original_df, edited_df):
                 edited_row["city"],
                 edited_row["state"],
                 edited_row["zip"],
-                edited_row["engagement_type"],
                 edited_row["rating"],
                 edited_row["feedback"],
-                edited_row["contractor_name"],
                 edited_row["activity_date"],
             ))
 
