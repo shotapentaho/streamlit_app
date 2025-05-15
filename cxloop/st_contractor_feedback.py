@@ -263,7 +263,7 @@ def render():
                 st.session_state.reset_form = True
                 st.rerun()
 
-    st.header(f" {st.query_params["username"]} feedbacks..you may edit and save")
+    st.header(f" {st.query_params["username"]} your feedbacks below..you may edit and save")
     original_df = display_user_feedbacks(st.query_params["username"])
     edited_df = st.data_editor( original_df,
                                 column_config={
