@@ -219,7 +219,7 @@ def render():
                 st.session_state.reset_form = True
                 st.rerun()
 
-        st.header("Display Results..")
-        df = display_user_feedbacks(st.query_params["username"])
-        st.write("✅ All Data ", df)
+    st.header("Display Results..")
+    df = display_user_feedbacks(st.query_params["username"])
+    st.write("✅ All Data ", df)
  
