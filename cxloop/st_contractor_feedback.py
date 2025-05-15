@@ -101,7 +101,7 @@ def display_user_feedbacks(username):
     cur = conn.cursor()
 
     # Retrieve and display existing data
-    query = """SELECT cont.contractor_name, eng.customer_name, eng.street, eng.city, eng.state, eng.zip_code as zip, eng.engagement_type, eng.activity_date,
+    query = """SELECT eng.ENGAGEMENT_ID, cont.contractor_name, eng.customer_name, eng.street, eng.city, eng.state, eng.zip_code as zip, eng.engagement_type, eng.activity_date,
             eng.rating,eng.feedback
             FROM TEST.PUBLIC.engagements as eng INNER JOIN TEST.PUBLIC.contractors cont ON cont.contractor_id = eng.contractor_id
                 INNER JOIN TEST.PUBLIC.users u ON u.full_name = cont.contractor_name
