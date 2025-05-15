@@ -220,7 +220,7 @@ def render():
                 st.session_state.reset_form = True
                 st.rerun()
 
-    st.header("Display Results..")
+    st.header(f"Display {st.query_params["username"]} all feedbacks..")
     df = display_user_feedbacks(st.query_params["username"])
     edited_df = st.data_editor(df, num_rows="dynamic", use_container_width=True)
     st.write("✅ All Data ", edited_df)
