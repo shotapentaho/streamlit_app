@@ -251,7 +251,7 @@ def render():
                         contractor_id, customer_name, street, city, state, zip_code, 
                         engagement_type, activity_date, rating, feedback
                     )
-                    VALUES (TEST.PUBLIC.ENGAGEMENT_ID_SEQ.NEXTVAL,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    VALUES (ENGAGEMENT_ID_SEQ.NEXTVAL,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """
                 cur.execute(insert_sql, (
                     selected_contractor['contractor_id'], customer_name, street, city, state, zip_code,
