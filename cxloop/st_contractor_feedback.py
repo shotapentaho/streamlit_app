@@ -131,7 +131,7 @@ def render():
     # Retrieve ID of selected contractor
     selected_contractor = next((c for c in contractors if c["label"] == selected_label), None)
     #Debuggingif selected_contractor:    
-                    #st.info(f"Selected Contractor ID: {selected_contractor['contractor_id']}")
+    #st.info(f"Selected Contractor ID: {selected_contractor['contractor_id']}")
 
 
 
