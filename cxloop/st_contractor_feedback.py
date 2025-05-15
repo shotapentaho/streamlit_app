@@ -142,14 +142,14 @@ def update_feedback_rows(original_df, edited_df):
             """
 
             cur.execute(update_sql, (
-                edited_row["customer_name"],
-                edited_row["street"],
-                edited_row["city"],
-                edited_row["state"],
-                edited_row["zip"],
-                edited_row["rating"],
-                edited_row["feedback"],
-                edited_row["activity_date"],
+                edited_row["CUSTOMER_NAME"],
+                edited_row["STREET"],
+                edited_row["CITY"],
+                edited_row["STATE"],
+                edited_row["ZIP"],
+                edited_row["RATING"],
+                edited_row["FEEDBACK"],
+                edited_row["ACTIVITY_DATE"],
             ))
 
     conn.commit()
