@@ -63,7 +63,7 @@ def register_user(username, password, contracting_company_name, renewal_periond)
     # Expiration date set to renewal_periond
     days_int = int(renewal_periond.split()[0])*30  # Convert months to days
     expiration_date = (datetime.now() + timedelta(days=days_int)).strftime("%Y-%m-%d %H:%M:%S")  # <-- formatted string
-    st.write(f"New expiration date for {username} : {expiration_date}")
+    #st.write(f"New expiration date for {username} : {expiration_date}")
 
     cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s AND full_name = %s", (username, contracting_company_name))
     exists = cur.fetchone()[0]
@@ -76,10 +76,9 @@ def register_user(username, password, contracting_company_name, renewal_periond)
             """, (expiration_date, username))
         conn.commit()
         st.rerun()
+        st.write(f"New expiration date for {username} : {expiration_date}")
         return True, "User membership is renewed successfully, now Choose login to access."
-
     else:
-    
         cur.execute("""
             INSERT INTO TEST.PUBLIC.users (username, hashed_password, password_raw, full_name, member_expiration_date)
             VALUES (%s, %s, %s, %s, %s)
