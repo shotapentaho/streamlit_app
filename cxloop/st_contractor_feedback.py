@@ -247,13 +247,13 @@ def render():
                 st.warning("Please fill out all required fields.")
             else:
                 insert_sql = """
-                    INSERT INTO TEST.PUBLIC.engagements (
+                    INSERT INTO TEST.PUBLIC.engagements (engagement_id,
                         contractor_id, customer_name, street, city, state, zip_code, 
                         engagement_type, activity_date, rating, feedback
                     )
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """
-                cur.execute(insert_sql, (
+                cur.execute(insert_sql, (ENGAGEMENT_ID_SEQ.NEXTVAL
                     selected_contractor['contractor_id'], customer_name, street, city, state, zip_code,
                     engagement_type, activity_date.isoformat(), star_rating, feedback
                 ))
