@@ -40,8 +40,8 @@ def render():
     df = cur.fetch_pandas_all()
     st.session_state.df = df
     # Display the dataframe preview
-    #st.write("✅ All Data ", df)
-    #st.dataframe(df.head(), use_container_width=True)
+    st.write("✅ All Data ", df)
+    st.dataframe(df.head(), use_container_width=True)
 
     if question:
         #st.write(f"💬 User Question: {question}")  # Log user question for debugging
