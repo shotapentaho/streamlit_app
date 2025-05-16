@@ -58,12 +58,12 @@ conn = get_connection()
 cur = conn.cursor()
 
 # Register a new user
-def register_user(username, password, contracting_company_name, renewal_periond):
+def register_user(username, password, contracting_company_name, email, renewal_period):
     hashed = hash_password(password)
-    # Expiration date set to renewal_periond
-    days_int = int(renewal_periond.split()[0])*30  # Convert months to days
+    # Expiration date set to renewal_period
+    days_int = int(renewal_period.split()[0])*30  # Convert months to days
     expiration_date = (datetime.now() + timedelta(days=days_int)).strftime("%Y-%m-%d %H:%M:%S")  # <-- formatted string
-    #st.write(f"New expiration date for {username} : {expiration_date}")
+    st.write(f"Membership expiration date set for {username} : {expiration_date}")
 
     cur.execute("SELECT COUNT(*) FROM TEST.PUBLIC.users WHERE username = %s AND full_name = %s", (username, contracting_company_name))
     exists = cur.fetchone()[0]
@@ -71,21 +71,21 @@ def register_user(username, password, contracting_company_name, renewal_periond)
     if exists:
         cur.execute("""
             UPDATE TEST.PUBLIC.users
-            SET member_expiration_date = %s
+            SET member_expiration_date = %s,
+            member_email = %s
             WHERE username = %s
-            """, (expiration_date, username))
+            """, (expiration_date, email, username))
         conn.commit()
-        #st.rerun()
-        st.write(f"New expiration date for {username} : {expiration_date}")
-        return True, "User membership is renewed successfully, now Choose login to access."
+        return True, "User membership is renewed successfully."
+
     else:
+
         cur.execute("""
-            INSERT INTO TEST.PUBLIC.users (username, hashed_password, password_raw, full_name, member_expiration_date)
+            INSERT INTO TEST.PUBLIC.users (username, hashed_password, password_raw, full_name, member_expiration_date, member_email)
             VALUES (%s, %s, %s, %s, %s)
-        """, (username, hashed, password, contracting_company_name, expiration_date))
+        """, (username, hashed, password, contracting_company_name, expiration_date, email))
         conn.commit()
-        st.rerun()
-        return True, "User registered successfully."
+        return True, "User membership is registered successfully."
 
 # Add row to [contractors] table after register
 def add_contractor(contracting_company_name, contracting_company_street, contracting_company_city, contracting_company_state, contracting_company_zip):
@@ -129,9 +129,14 @@ if st.query_params.get("page") == "success":
                 user_data = session.metadata
                 #st.write(user_data)
                 if user_data:
-                    ok, msg = register_user(user_data["username"], user_data["password"], user_data["name"], user_data["renewal_periond"])
-                    st.write(ok, msg)
-                    if ok:
+                    ok_register, register_msg = register_user(user_data["username"],
+                                             user_data["password"], 
+                                             user_data["name"], 
+                                             user_data["email"],
+                                             user_data["renewal_periond"]
+                                             )
+                    #st.write(ok_register, register_msg)
+                    if ok_register:
                         ok_contractor, msg_contractor = add_contractor(
                                 user_data["name"],
                                 user_data["street"],
@@ -140,11 +145,11 @@ if st.query_params.get("page") == "success":
                                 user_data["zip"]
                             )
                         if ok_contractor:  
-                            st.success("🎉 Contracting company registration/renewal complete now, thanks! You may now log in.")
+                            st.success(f"🎉 {register_msg} thanks! You may log in now.")
                         else:
                             st.error(msg_contractor)
                     else:
-                        st.warning(msg)
+                        st.warning(register_msg)
             else:
                 st.error("⚠️ Payment was not completed.")
         except Exception as e:
