@@ -64,7 +64,3 @@ CREATE TABLE IF NOT EXISTS TEST.PUBLIC.users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 );
 
---ALTER TABLE test.public.users ADD COLUMN password_raw STRING;
---ALTER TABLE test.public.users ADD COLUMN member_expiration_date TIMESTAMP;
---ALTER TABLE test.public.users ADD COLUMN member_email STRING;
-
