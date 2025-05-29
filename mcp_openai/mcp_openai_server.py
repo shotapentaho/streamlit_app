@@ -14,12 +14,14 @@ app = Flask(__name__)
 def mcp():
     data = request.json
     prompt = data.get("prompt")
+    model_p = data.get("model", "gpt-3.5-turbo")  # Default if not sent
+
     if not prompt:
         return jsonify({"error": "Prompt required"}), 400
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4",
+            model = model_p,
             messages=[{"role": "user", "content": prompt}]
         )
         answer = response.choices[0].message.content
