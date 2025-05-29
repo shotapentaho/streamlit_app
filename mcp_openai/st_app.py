@@ -6,13 +6,12 @@ import openai
 st.set_page_config(layout="wide")
 st.title("🧠 MCP Client")
 
-openai.api_key = st.secrets["openai"]["api_key"]
-
 prompt = st.text_area("Enter your prompt:")
 
 if st.button("Send to MCP Server"):
     with st.spinner("Waiting for response..."):
         try:
+            # Replace with your EC2/GCP public IP or domain and port 5000
             response = requests.post("https://mcp-openai.streamlit.app:5000/mcp", json={"prompt": prompt}, timeout=30)
             st.write("Response status code:", response.status_code)
             if response.status_code == 200:
