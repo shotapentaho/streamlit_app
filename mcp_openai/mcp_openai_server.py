@@ -4,7 +4,8 @@ import os
 import streamlit as st
 
 
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+openai.api_key = st.secrets["openai"]["api_key"]
+
 app = Flask(__name__)
 
 @app.route("/mcp", methods=["POST"])

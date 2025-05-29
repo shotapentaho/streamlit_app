@@ -6,7 +6,7 @@ import openai
 st.set_page_config(layout="wide")
 st.title("🧠 MCP Client via Streamlit + OpenAI")
 
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+openai.api_key = st.secrets["openai"]["api_key"]
 
 prompt = st.text_area("Enter your prompt:")
 
