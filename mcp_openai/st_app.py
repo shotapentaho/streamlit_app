@@ -4,7 +4,7 @@ import json
 import openai
 
 st.set_page_config(layout="wide")
-st.title("🧠 MCP Client via Streamlit + OpenAI")
+st.title("🧠 MCP Client")
 
 openai.api_key = st.secrets["openai"]["api_key"]
 
