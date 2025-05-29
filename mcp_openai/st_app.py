@@ -13,7 +13,7 @@ prompt = st.text_area("Enter your prompt:")
 if st.button("Send to MCP Server"):
     with st.spinner("Waiting for response..."):
         try:
-            response = requests.post("https://mcp-openai.streamlit.app/mcp", json={"prompt": prompt})
+            response = requests.post("https://mcp-openai.streamlit.app/", json={"prompt": prompt})
             st.write("Response status code:", response.status_code)
             if response.status_code == 200:
                 result = response.json()
