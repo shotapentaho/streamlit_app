@@ -12,6 +12,7 @@ app = Flask(__name__)
 def mcp():
     data = request.json
     prompt = data.get("prompt")
+    print("Received prompt:", prompt)
 
     if not prompt:
         return jsonify({"error": "Prompt required"}), 400
