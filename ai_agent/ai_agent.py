@@ -4,7 +4,6 @@ import os
 from langgraph.graph import Graph
 from langsmith import traceable
 
-# Set LangSmith environment variables
 os.environ["LANGCHAIN_API_KEY"] = st.secrets["langsmith"]["api_key"]
 os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 
@@ -14,8 +13,9 @@ client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 def ai_node(data):
     try:
         user_message = data["message"]
+        model = data.get("model", "gpt-3.5-turbo")
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model=model,
             messages=[{"role": "user", "content": user_message}],
         )
         return {"response": response.choices[0].message.content}
@@ -25,7 +25,7 @@ def ai_node(data):
 graph = Graph()
 graph.add_node("ai", ai_node)
 graph.set_entry_point("ai")
-graph.set_finish_point("ai")   # <<--- ADD THIS LINE!
+graph.set_finish_point("ai")
 compiled_graph = graph.compile()
 
 st.set_page_config(layout="wide")
@@ -35,11 +35,16 @@ col1, col2 = st.columns([1,2])
 
 with col1:
     user_input = st.text_input("Ask your AI agent anything:")
+    model_name = st.selectbox(
+        "Choose OpenAI model:",
+        ["gpt-3.5-turbo", "gpt-4o", "gpt-4-turbo", "gpt-4"],
+        index=0
+    )
 
 with col2:
     if user_input:
         with st.spinner("Thinking..."):
-            result = compiled_graph.invoke({"message": user_input})
+            result = compiled_graph.invoke({"message": user_input, "model": model_name})
             st.write("Raw result:", result)
             ai_response = (
                 result["response"]
