@@ -10,7 +10,6 @@ os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 
-
 @traceable(name="AI Agent Run")
 def ai_node(data):
     user_message = data["message"]
@@ -21,8 +20,7 @@ def ai_node(data):
         )
         return {"response": response.choices[0].message.content}
     except Exception as e:
-        return {"response": f"OPENAI ERROR: {str(e)}"}
-        #return {"response": f"Error: {str(e)}"}
+        return {"response": f"Error: {str(e)}"}
 
 graph = Graph()
 graph.add_node("ai", ai_node)
