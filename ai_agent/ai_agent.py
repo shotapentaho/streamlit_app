@@ -7,7 +7,7 @@ from langgraph.graph import Graph
 from langsmith import traceable
 
 
-print("LANGCHAIN_PROJECT =", os.environ.get("LANGCHAIN_PROJECT"))
+st.write("Project:", os.environ.get("LANGCHAIN_PROJECT"))
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 
 @traceable(name="AI Agent Run")
