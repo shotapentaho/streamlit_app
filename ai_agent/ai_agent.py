@@ -12,19 +12,20 @@ client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 
 @traceable(name="AI Agent Run")
 def ai_node(data):
-    user_message = data["message"]
     try:
+        user_message = data["message"]
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": user_message}],
         )
         return {"response": response.choices[0].message.content}
     except Exception as e:
-        return {"response": f"Error: {str(e)}"}
+        return {"response": f"OPENAI ERROR: {str(e)}"}
 
 graph = Graph()
 graph.add_node("ai", ai_node)
 graph.set_entry_point("ai")
+graph.set_finish_point("ai")   # <<--- ADD THIS LINE!
 compiled_graph = graph.compile()
 
 st.set_page_config(layout="wide")
