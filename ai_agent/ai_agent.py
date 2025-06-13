@@ -8,24 +8,23 @@ from langsmith import traceable
 os.environ["LANGCHAIN_API_KEY"] = st.secrets["langsmith"]["api_key"]
 os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 
-# Set up OpenAI client (new API)
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 
 @traceable(name="AI Agent Run")
 def ai_node(data):
     user_message = data["message"]
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": user_message}],
-    )
-    return {"response": response.choices[0].message.content}
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": user_message}],
+        )
+        return {"response": response.choices[0].message.content}
+    except Exception as e:
+        return {"response": f"Error: {str(e)}"}
 
-# Set up LangGraph
 graph = Graph()
 graph.add_node("ai", ai_node)
 graph.set_entry_point("ai")
-
-# Compile the graph
 compiled_graph = graph.compile()
 
 st.set_page_config(layout="wide")
@@ -40,7 +39,11 @@ with col2:
     if user_input:
         with st.spinner("Thinking..."):
             result = compiled_graph.invoke({"message": user_input})
-            ai_response = result["response"]
+            ai_response = (
+                result["response"]
+                if result and isinstance(result, dict) and "response" in result
+                else "Sorry, something went wrong."
+            )
             st.markdown(f"**AI:** {ai_response}")
 
     st.info("This demo uses LangGraph for orchestration and LangSmith for experiment tracking.")
