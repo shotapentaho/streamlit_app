@@ -8,17 +8,17 @@ from langsmith import traceable
 os.environ["LANGCHAIN_API_KEY"] = st.secrets["langsmith"]["api_key"]
 os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 
-# Set OpenAI API key
-openai.api_key = st.secrets["openai"]["api_key"]
+# Set up OpenAI client (new API)
+client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 
 @traceable(name="AI Agent Run")
 def ai_node(data):
     user_message = data["message"]
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": user_message}],
     )
-    return {"response": response["choices"][0]["message"]["content"]}
+    return {"response": response.choices[0].message.content}
 
 # Set up LangGraph
 graph = Graph()
@@ -28,14 +28,19 @@ graph.set_entry_point("ai")
 # Compile the graph
 compiled_graph = graph.compile()
 
+st.set_page_config(layout="wide")
 st.title("🧠 LangGraph + LangSmith AI Agent")
 
-user_input = st.text_input("Ask your AI agent anything:")
+col1, col2 = st.columns([1,2])
 
-if user_input:
-    with st.spinner("Thinking..."):
-        result = compiled_graph.invoke({"message": user_input})
-        ai_response = result["response"]
-        st.markdown(f"**AI:** {ai_response}")
+with col1:
+    user_input = st.text_input("Ask your AI agent anything:")
 
-st.info("This demo uses LangGraph for orchestration and LangSmith for experiment tracking.")
+with col2:
+    if user_input:
+        with st.spinner("Thinking..."):
+            result = compiled_graph.invoke({"message": user_input})
+            ai_response = result["response"]
+            st.markdown(f"**AI:** {ai_response}")
+
+    st.info("This demo uses LangGraph for orchestration and LangSmith for experiment tracking.")
