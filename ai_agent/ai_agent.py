@@ -1,4 +1,5 @@
 import streamlit as st
+st.set_page_config(layout="wide")
 import openai
 import os
 os.environ["LANGCHAIN_API_KEY"] = st.secrets["langsmith"]["api_key"]
@@ -29,7 +30,7 @@ graph.set_entry_point("ai")
 graph.set_finish_point("ai")
 compiled_graph = graph.compile()
 
-st.set_page_config(layout="wide")
+
 st.title("🧠 LangGraph + LangSmith AI Agent")
 
 col1, col2 = st.columns([1,2])
