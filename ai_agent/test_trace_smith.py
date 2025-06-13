@@ -1,19 +1,12 @@
-import os
-import streamlit as st
+from langchain_openai import ChatOpenAI
 
-# Set environment variables BEFORE any langsmith/langchain imports!
-os.environ["LANGCHAIN_API_KEY"] = st.secrets["langsmith"]["api_key"]
-os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 
-# For debugging: show the project name being used
-st.write("LangSmith Project:", os.environ.get("LANGCHAIN_PROJECT"))
+LANGSMITH_TRACING=True
+LANGSMITH_ENDPOINT="https://api.smith.langchain.com"
+LANGSMITH_API_KEY="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"
+LANGSMITH_PROJECT="hello-test-tracing-langsmith"
+OPENAI_API_KEY="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"
 
-from langsmith import traceable
 
-@traceable
-def add(a, b):
-    return a + b
-
-if st.button("Send Trace!"):
-    result = add(1, 2)
-    st.write("Result:", result)
+llm = ChatOpenAI()
+llm.invoke("Hello, world!")

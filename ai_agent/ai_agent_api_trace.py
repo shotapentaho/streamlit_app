@@ -13,8 +13,7 @@ os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 
 st.write("Project:", os.environ.get("LANGCHAIN_PROJECT"))
 project_name = st.secrets["langsmith"]["project_name"]
-project_url = f"https://smith.langchain.com/projects/{project_name}"
-st.markdown(f"[🔗 View this project in LangSmith Dashboard]({project_url})", unsafe_allow_html=True)
+
 
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 
