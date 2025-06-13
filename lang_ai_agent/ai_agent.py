@@ -10,7 +10,7 @@ from langsmith import traceable
 import openai
 
 
-st.write("Project: ", os.environ.get("LANGCHAIN_PROJECT"))
+st.write("Project: main", os.environ.get("LANGCHAIN_PROJECT"))
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 
 @traceable(name="AI Agent Run")
