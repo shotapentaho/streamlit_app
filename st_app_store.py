@@ -26,7 +26,7 @@ st_generic_urls = {
 
 st_ml_dl_urls = {
     "📄🧠 NLP (English) on DuckDB: Analyze and Visualize CSV/JSON": "https://nlp-query-duckdb.streamlit.app/",
-    "Langsmith AI-agent with OpenAI LLM": "https://agent-ai-lg-trace.streamlit.app/",
+    "LangGraph for orchestration and LangSmith with OpenAI LLM": "https://agent-ai-lg-trace.streamlit.app/",
     "NLP NER - Named Entity Recognition":"https://ner-from-text.streamlit.app/",
     "NLP Translator - Human Languages": "https://translate-language.streamlit.app/",
     "NLP Sentiment analysis - Hugging Face pipeline":"https://get-sentiment.streamlit.app/",
