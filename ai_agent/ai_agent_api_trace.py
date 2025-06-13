@@ -87,9 +87,9 @@ Payload:
             }
             response = requests.post(api_url, headers=headers, json=payload)
             st.write("API response:", response.status_code, response.text)
-            if response.status_code == 200 or response.status_code == 201:
+
+            if response.status_code in [200, 201, 202]:
                 st.success("Trace successfully sent via API! Check your LangSmith dashboard.")
             else:
-                st.error("Error sending trace via API.")
-
+                st.error(f"Error sending trace via API. Status: {response.status_code} Body: {response.text}")
     st.info("This demo uses LangGraph for orchestration and LangSmith for experiment tracking.")
