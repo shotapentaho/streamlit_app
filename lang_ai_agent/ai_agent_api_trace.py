@@ -11,7 +11,7 @@ st.set_page_config(layout="wide")
 os.environ["LANGCHAIN_API_KEY"] = st.secrets["langsmith"]["api_key"]
 os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 
-st.write("Project: ", os.environ.get("LANGCHAIN_PROJECT"))
+st.write("Project:", os.environ.get("LANGCHAIN_PROJECT"))
 
 
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
