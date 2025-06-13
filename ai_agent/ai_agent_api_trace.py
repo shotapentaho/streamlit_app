@@ -1,16 +1,18 @@
 import os
 import streamlit as st
-st.set_page_config(layout="wide")
-
-os.environ["LANGCHAIN_API_KEY"] = st.secrets["langsmith"]["api_key"]
-os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
-
+import requests
 from langgraph.graph import Graph
 from langsmith import traceable
 import openai
 
+st.set_page_config(layout="wide")
+
+# Set environment variables from secrets
+os.environ["LANGCHAIN_API_KEY"] = st.secrets["langsmith"]["api_key"]
+os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 
 st.write("Project:", os.environ.get("LANGCHAIN_PROJECT"))
+
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 
 @traceable(name="AI Agent Run")
@@ -31,7 +33,6 @@ graph.add_node("ai", ai_node)
 graph.set_entry_point("ai")
 graph.set_finish_point("ai")
 compiled_graph = graph.compile()
-
 
 st.title("🧠 LangGraph + LangSmith AI Agent")
 
@@ -56,5 +57,39 @@ with col2:
                 else "Sorry, something went wrong."
             )
             st.markdown(f"**AI:** {ai_response}")
+
+        # --- API Endpoint + Payload display and send ---
+        st.subheader("Send Trace via LangSmith API")
+        api_url = "https://api.smith.langchain.com/runs"
+        api_key = st.secrets["langsmith"]["api_key"]
+        project_name = st.secrets["langsmith"]["project_name"]
+        payload = {
+            "name": "Streamlit Manual Trace",
+            "project_name": project_name,
+            "run_type": "chain",
+            "inputs": {"input": user_input, "model": model_name},
+            "outputs": {"output": ai_response},
+            "extra": {},
+            "tags": ["api_test", "streamlit"]
+        }
+        st.code(f"""POST {api_url}
+Headers:
+    x-api-key: {api_key}
+    Content-Type: application/json
+Payload:
+{payload}
+""", language="python")
+
+        if st.button("Send Trace via API"):
+            headers = {
+                "x-api-key": api_key,
+                "Content-Type": "application/json"
+            }
+            response = requests.post(api_url, headers=headers, json=payload)
+            st.write("API response:", response.status_code, response.text)
+            if response.status_code == 200 or response.status_code == 201:
+                st.success("Trace successfully sent via API! Check your LangSmith dashboard.")
+            else:
+                st.error("Error sending trace via API.")
 
     st.info("This demo uses LangGraph for orchestration and LangSmith for experiment tracking.")
