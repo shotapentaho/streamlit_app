@@ -2,3 +2,5 @@ streamlit
 langgraph 
 langsmith 
 openai
+langchain 
+langchain-openai

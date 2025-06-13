@@ -2,7 +2,6 @@ import os
 import streamlit as st
 st.set_page_config(layout="wide")
 
-
 os.environ["LANGCHAIN_API_KEY"] = st.secrets["langsmith"]["api_key"]
 os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 
