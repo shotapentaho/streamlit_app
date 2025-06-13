@@ -10,6 +10,7 @@ os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 
+
 @traceable(name="AI Agent Run")
 def ai_node(data):
     user_message = data["message"]
