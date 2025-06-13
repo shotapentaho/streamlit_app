@@ -5,9 +5,18 @@ st.set_page_config(layout="wide")
 
 os.environ["LANGCHAIN_API_KEY"] = st.secrets["langsmith"]["api_key"]
 os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
+
 from langgraph.graph import Graph
 from langsmith import traceable
 import openai
+
+@traceable
+def add(a, b):
+    return a + b
+
+if st.button("Test Trace"):
+    result = add(1, 2)
+    st.write("Result:", result)
 
 st.write("Project:", os.environ.get("LANGCHAIN_PROJECT"))
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
