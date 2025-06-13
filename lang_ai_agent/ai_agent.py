@@ -2,15 +2,15 @@ import os
 import streamlit as st
 st.set_page_config(layout="wide")
 
-os.environ["LANGCHAIN_API_KEY"] = st.secrets["langsmith"]["api_key"]
-os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
+
 
 from langgraph.graph import Graph
 from langsmith import traceable
 import openai
 
-
-st.write("Project: main", os.environ.get("LANGCHAIN_PROJECT"))
+os.environ["LANGCHAIN_API_KEY"] = st.secrets["langsmith"]["api_key"]
+os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
+#st.write("Project: main", os.environ.get("LANGCHAIN_PROJECT"))
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 
 @traceable(name="AI Agent Run")
