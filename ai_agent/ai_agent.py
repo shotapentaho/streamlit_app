@@ -21,7 +21,8 @@ def ai_node(data):
         )
         return {"response": response.choices[0].message.content}
     except Exception as e:
-        return {"response": f"Error: {str(e)}"}
+        return {"response": f"OPENAI ERROR: {str(e)}"}
+        #return {"response": f"Error: {str(e)}"}
 
 graph = Graph()
 graph.add_node("ai", ai_node)
