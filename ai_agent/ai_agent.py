@@ -11,7 +11,6 @@ os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 # Set OpenAI API key
 openai.api_key = st.secrets["openai"]["api_key"]
 
-# AI node with tracing
 @traceable(name="AI Agent Run")
 def ai_node(data):
     user_message = data["message"]
@@ -21,19 +20,21 @@ def ai_node(data):
     )
     return {"response": response["choices"][0]["message"]["content"]}
 
-# LangGraph setup
+# Set up LangGraph
 graph = Graph()
 graph.add_node("ai", ai_node)
 graph.set_entry_point("ai")
 
-# Streamlit UI
+# Compile the graph
+compiled_graph = graph.compile()
+
 st.title("🧠 LangGraph + LangSmith AI Agent")
 
 user_input = st.text_input("Ask your AI agent anything:")
 
 if user_input:
     with st.spinner("Thinking..."):
-        result = graph.invoke({"message": user_input})
+        result = compiled_graph.invoke({"message": user_input})
         ai_response = result["response"]
         st.markdown(f"**AI:** {ai_response}")
 
