@@ -4,6 +4,7 @@ import requests
 from langgraph.graph import Graph
 from langsmith import traceable
 import openai
+import pytz
 
 st.set_page_config(layout="wide")
 
@@ -14,21 +15,27 @@ os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 #st.write("Project:", os.environ.get("LANGCHAIN_PROJECT"))
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 api_key = st.secrets["OPEN_WEATHER"]["OPENWEATHER_API_KEY"]  # Add your key to .streamlit/secrets.toml
+
+
 cities = [
-    "New York",
-    "London",
-    "Tokyo",
-    "Sydney",
-    "Cape Town",
-    "São Paulo"
+    {"name": "New York", "timezone": "America/New_York"},
+    {"name": "London", "timezone": "Europe/London"},
+    {"name": "Tokyo", "timezone": "Asia/Tokyo"},
+    {"name": "Sydney", "timezone": "Australia/Sydney"},
+    {"name": "Cape Town", "timezone": "Africa/Johannesburg"},
+    {"name": "São Paulo", "timezone": "America/Sao_Paulo"}
 ]
 
 cols = st.columns(len(cities))
-
 for idx, city in enumerate(cities):
     with cols[idx]:
+        # Get current time in the city's timezone
+        city_tz = pytz.timezone(city["timezone"])
+        city_time = datetime.now(city_tz).strftime("%Y-%m-%d %H:%M")
+        
+        # Get weather info
         url = (
-            f"https://api.openweathermap.org/data/2.5/weather?q={city}"
+            f"https://api.openweathermap.org/data/2.5/weather?q={city['name']}"
             f"&appid={api_key}&units=metric"
         )
         response = requests.get(url)
@@ -38,9 +45,10 @@ for idx, city in enumerate(cities):
             icon_url = f"http://openweathermap.org/img/wn/{icon_code}@2x.png"
             st.image(icon_url, width=60)
             st.markdown(
-                f"**{city}**<br>"
+                f"**{city['name']}**<br>"
                 f"{data['main']['temp']}°C<br>"
-                f"{data['weather'][0]['description'].title()}",
+                f"{data['weather'][0]['description'].title()}<br>"
+                f"🕒 {city_time}",
                 unsafe_allow_html=True
             )
         else:
