@@ -80,12 +80,12 @@ st.title("🧠 LangGraph + LangSmith AI Agent")
 col1, col2 = st.columns([1,2])
 
 with col1:
-    user_input = st.text_input("Ask your AI agent anything:")
     model_name = st.selectbox(
         "Choose OpenAI model:",
         ["gpt-3.5-turbo", "gpt-4o", "gpt-4-turbo", "gpt-4"],
         index=0
     )
+    user_input = st.text_input("Ask your AI agent anything:")
 
 with col2:
     if user_input:
