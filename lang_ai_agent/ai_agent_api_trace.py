@@ -13,6 +13,22 @@ os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 
 #st.write("Project:", os.environ.get("LANGCHAIN_PROJECT"))
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
+api_key = st.secrets["openweathermap_api_key"]  # Add your key to .streamlit/secrets.toml
+city = st.text_input("Enter a city", "London")
+
+if city:
+    url = (
+        f"https://api.openweathermap.org/data/2.5/weather?q={city}"
+        f"&appid={api_key}&units=metric"
+    )
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        st.write(f"**Weather in {city}:**")
+        st.write(f"Temperature: {data['main']['temp']} °C")
+        st.write(f"Condition: {data['weather'][0]['description'].title()}")
+    else:
+        st.error("City not found or API error.")
 
 @traceable(name="AI Agent Run")
 def ai_node(data):
