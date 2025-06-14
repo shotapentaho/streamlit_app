@@ -15,34 +15,36 @@ os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 api_key = st.secrets["OPEN_WEATHER"]["OPENWEATHER_API_KEY"]  # Add your key to .streamlit/secrets.toml
 cities = [
-    "New York",       # America/New_York
-    "London",         # Europe/London
-    "Tokyo",          # Asia/Tokyo
-    "Sydney",         # Australia/Sydney
-    "Cape Town",      # Africa/Johannesburg
-    "São Paulo"       # America/Sao_Paulo
+    "New York",
+    "London",
+    "Tokyo",
+    "Sydney",
+    "Cape Town",
+    "São Paulo"
 ]
 
-for city in cities:
-    url = (
-        f"https://api.openweathermap.org/data/2.5/weather?q={city}"
-        f"&appid={api_key}&units=metric"
-    )
-    response = requests.get(url)
-    st.subheader(city)
-    if response.status_code == 200:
-        data = response.json()
-        icon_code = data['weather'][0]['icon']
-        icon_url = f"http://openweathermap.org/img/wn/{icon_code}@2x.png"
-        st.markdown(
-            f"""
-            ![]({icon_url})
-            **Temperature:** {data['main']['temp']} °C  
-            **Condition:** {data['weather'][0]['description'].title()}
-            """
+cols = st.columns(len(cities))
+
+for idx, city in enumerate(cities):
+    with cols[idx]:
+        url = (
+            f"https://api.openweathermap.org/data/2.5/weather?q={city}"
+            f"&appid={api_key}&units=metric"
         )
-    else:
-        st.error("City not found or API error.")
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            icon_code = data['weather'][0]['icon']
+            icon_url = f"http://openweathermap.org/img/wn/{icon_code}@2x.png"
+            st.image(icon_url, width=60)
+            st.markdown(
+                f"**{city}**<br>"
+                f"{data['main']['temp']}°C<br>"
+                f"{data['weather'][0]['description'].title()}",
+                unsafe_allow_html=True
+            )
+        else:
+            st.error("API error")
 
 @traceable(name="AI Agent Run")
 def ai_node(data):
