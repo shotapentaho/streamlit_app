@@ -91,7 +91,7 @@ with col2:
     if user_input:
         with st.spinner("Thinking..."):
             result = compiled_graph.invoke({"message": user_input, "model": model_name})
-            st.write("Raw result:", result)
+            #st.write("Raw result:", result)
             ai_response = (
                 result["response"]
                 if result and isinstance(result, dict) and "response" in result
