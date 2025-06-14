@@ -5,7 +5,7 @@ from langgraph.graph import Graph
 from langsmith import traceable
 import openai
 import pytz
-import datetime
+from datetime import datetime
 
 st.set_page_config(layout="wide")
 
