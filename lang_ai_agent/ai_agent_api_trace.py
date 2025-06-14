@@ -133,4 +133,4 @@ Payload:
                 st.success("Trace successfully sent via API! Check your LangSmith dashboard.")
             else:
                 st.error(f"Error sending trace via API. Status: {response.status_code} Body: {response.text}")
-    st.info("This demo uses LangGraph for orchestration and LangSmith for experiment tracking.")
+    #st.info("This demo uses LangGraph for orchestration and LangSmith for experiment tracking.")
