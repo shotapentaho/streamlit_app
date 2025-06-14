@@ -14,27 +14,35 @@ os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 #st.write("Project:", os.environ.get("LANGCHAIN_PROJECT"))
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 api_key = st.secrets["OPEN_WEATHER"]["OPENWEATHER_API_KEY"]  # Add your key to .streamlit/secrets.toml
-city = st.text_input("Enter a city", "London")
+cities = [
+    "New York",       # America/New_York
+    "London",         # Europe/London
+    "Tokyo",          # Asia/Tokyo
+    "Sydney",         # Australia/Sydney
+    "Cape Town",      # Africa/Johannesburg
+    "São Paulo"       # America/Sao_Paulo
+]
 
-if city:
+for city in cities:
     url = (
         f"https://api.openweathermap.org/data/2.5/weather?q={city}"
         f"&appid={api_key}&units=metric"
     )
     response = requests.get(url)
+    st.subheader(city)
     if response.status_code == 200:
         data = response.json()
-        st.markdown(f"""
-        **Weather in {city}:**  Temperature: {data['main']['temp']} °C  Condition: {data['weather'][0]['description'].title()}
-        """
-        )
-        
-        # Get the icon code
         icon_code = data['weather'][0]['icon']
         icon_url = f"http://openweathermap.org/img/wn/{icon_code}@2x.png"
-        st.image(icon_url, caption=data['weather'][0]['description'].title())
+        st.markdown(
+            f"""
+            ![]({icon_url})
+            **Temperature:** {data['main']['temp']} °C  
+            **Condition:** {data['weather'][0]['description'].title()}
+            """
+        )
     else:
-        st.error("City not found.")
+        st.error("City not found or API error.")
 
 @traceable(name="AI Agent Run")
 def ai_node(data):
