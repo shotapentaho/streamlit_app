@@ -24,7 +24,8 @@ cities = [
     {"name": "Tokyo", "timezone": "Asia/Tokyo"},
     {"name": "Sydney", "timezone": "Australia/Sydney"},
     {"name": "Cape Town", "timezone": "Africa/Johannesburg"},
-    {"name": "São Paulo", "timezone": "America/Sao_Paulo"}
+    {"name": "São Paulo", "timezone": "America/Sao_Paulo"},
+    {"name": "Delhi", "timezone": "Asia/Kolkata"}
 ]
 
 cols = st.columns(len(cities))
