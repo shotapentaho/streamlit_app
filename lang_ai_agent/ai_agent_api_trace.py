@@ -27,8 +27,13 @@ if city:
         st.write(f"**Weather in {city}:**")
         st.write(f"Temperature: {data['main']['temp']} °C")
         st.write(f"Condition: {data['weather'][0]['description'].title()}")
+        
+        # Get the icon code
+        icon_code = data['weather'][0]['icon']
+        icon_url = f"http://openweathermap.org/img/wn/{icon_code}@2x.png"
+        st.image(icon_url, caption=data['weather'][0]['description'].title())
     else:
-        st.error("City not found or API error.")
+        st.error("City not found.")
 
 @traceable(name="AI Agent Run")
 def ai_node(data):
