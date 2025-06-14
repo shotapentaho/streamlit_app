@@ -13,7 +13,7 @@ os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 
 #st.write("Project:", os.environ.get("LANGCHAIN_PROJECT"))
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
-api_key = st.secrets["openweathermap_api_key"]  # Add your key to .streamlit/secrets.toml
+api_key = st.secrets["OPEN_WEATHER"]["OPENWEATHER_API_KEY"]  # Add your key to .streamlit/secrets.toml
 city = st.text_input("Enter a city", "London")
 
 if city:
