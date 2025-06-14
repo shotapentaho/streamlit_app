@@ -24,11 +24,8 @@ if city:
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        st.markdown(
-            f"""
-        **Weather in {city}:**  
-        Temperature: {data['main']['temp']} °C  
-        Condition: {data['weather'][0]['description'].title()}
+        st.markdown(f"""
+        **Weather in {city}:**  Temperature: {data['main']['temp']} °C  Condition: {data['weather'][0]['description'].title()}
         """
         )
         
