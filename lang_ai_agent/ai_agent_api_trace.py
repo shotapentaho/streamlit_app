@@ -24,9 +24,13 @@ if city:
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        st.write(f"**Weather in {city}:**")
-        st.write(f"Temperature: {data['main']['temp']} °C")
-        st.write(f"Condition: {data['weather'][0]['description'].title()}")
+        st.markdown(
+            f"""
+        **Weather in {city}:**  
+        Temperature: {data['main']['temp']} °C  
+        Condition: {data['weather'][0]['description'].title()}
+        """
+        )
         
         # Get the icon code
         icon_code = data['weather'][0]['icon']
