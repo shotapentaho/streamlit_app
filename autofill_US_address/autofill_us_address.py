@@ -24,12 +24,13 @@ def autocomplete_address(input_text):
     st.write("Autocomplete status:", r.status_code)
     st.write("Autocomplete response:", r.text)
     if r.status_code == 200:
-        return r.json().get("places", [])
+        # Use 'suggestions', not 'places'
+        return r.json().get("suggestions", [])
     else:
         return []
 
 def get_place_details(place_id):
-    url = f"https://places.googleapis.com/v1/places/{place_id}"
+    url = f"https://places.googleapis.com/v1/{place_id}"
     headers = {
         "X-Goog-Api-Key": GOOGLE_API_KEY,
     }
@@ -44,19 +45,19 @@ def get_place_details(place_id):
     else:
         return {}
 
-st.title("US Address Autocomplete & Autofill (New API, Debug Mode)")
+st.title("US Address Autocomplete & Autofill (New API, Suggestions Fix)")
 
 street_input = st.text_input("Start typing street address...")
 
 suggestions = autocomplete_address(street_input) if street_input else []
 
 if suggestions:
-    st.write("Suggestions:", suggestions)
-    options = [s.get('formattedAddress', 'NO_ADDRESS') for s in suggestions]
-    selected = st.selectbox("Select Address", options)
+    # Each suggestion is in suggestion['placePrediction']
+    addresses = [s["placePrediction"]["text"]["text"] for s in suggestions]
+    selected = st.selectbox("Select Address", addresses)
     if selected:
-        selected_idx = options.index(selected)
-        place_id = suggestions[selected_idx]['id']
+        selected_idx = addresses.index(selected)
+        place_id = suggestions[selected_idx]['placePrediction']['place']
         details = get_place_details(place_id)
         st.write("Place details:", details)
         address = (details.get("addresses") or [{}])[0]
