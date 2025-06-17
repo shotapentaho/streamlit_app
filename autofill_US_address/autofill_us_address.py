@@ -6,75 +6,56 @@ GOOGLE_API_KEY = st.secrets["google"]["PLACES_API_KEY"]
 def autocomplete_address(input_text):
     if not input_text:
         return []
-    url = (
-        f"https://maps.googleapis.com/maps/api/place/autocomplete/json"
-        f"?input={input_text}&types=address&components=country:us&key={GOOGLE_API_KEY}"
-    )
-    r = requests.get(url)
+    url = "https://places.googleapis.com/v1/places:autocomplete"
+    headers = {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": GOOGLE_API_KEY,
+        "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.id"
+    }
+    data = {
+        "input": input_text,
+        "locationBias": {
+            "rectangle": {
+                "low": {"latitude": 24.396308, "longitude": -125.0},
+                "high": {"latitude": 49.384358, "longitude": -66.93457}
+            }
+        }
+    }
+    r = requests.post(url, json=data, headers=headers)
     if r.status_code == 200:
-        return r.json().get('predictions', [])
+        predictions = r.json().get("places", [])
+        return predictions
     else:
+        st.write("Autocomplete error:", r.text)
         return []
 
 def get_place_details(place_id):
-    url = (
-        f"https://maps.googleapis.com/maps/api/place/details/json"
-        f"?place_id={place_id}&fields=address_components,formatted_address&key={GOOGLE_API_KEY}"
-    )
-    r = requests.get(url)
+    url = f"https://places.googleapis.com/v1/places/{place_id}"
+    headers = {
+        "X-Goog-Api-Key": GOOGLE_API_KEY,
+        "X-Goog-FieldMask": "id,displayName,formattedAddress,location,addresses"
+    }
+    r = requests.get(url, headers=headers)
     if r.status_code == 200:
-        return r.json().get('result', {})
+        return r.json()
     else:
+        st.write("Place details error:", r.text)
         return {}
 
-def extract_address_components(components):
-    city = state = zip_code = ""
-    for comp in components:
-        if "locality" in comp["types"]:
-            city = comp["long_name"]
-        elif "postal_town" in comp["types"] and not city:
-            city = comp["long_name"]
-        elif "sublocality" in comp["types"] and not city:
-            city = comp["long_name"]
-        elif "administrative_area_level_2" in comp["types"] and not city:
-            city = comp["long_name"]
-        elif "administrative_area_level_1" in comp["types"]:
-            state = comp["short_name"]
-        elif "postal_code" in comp["types"]:
-            zip_code = comp["long_name"]
-    return city, state, zip_code
-
-st.title("US Address Autocomplete & Autofill (with Debug)")
+st.title("US Address Autocomplete & Autofill (New API)")
 
 street_input = st.text_input("Start typing street address...")
 
 suggestions = autocomplete_address(street_input) if street_input else []
-selected = None
-selected_place_id = None
 
 if suggestions:
-    options = [s['description'] for s in suggestions]
-    selected = st.selectbox("Select Address", options, key="address_select")
+    options = [s['formattedAddress'] for s in suggestions]
+    selected = st.selectbox("Select Address", options)
     if selected:
         selected_idx = options.index(selected)
-        selected_place_id = suggestions[selected_idx]['place_id']
-
-if "autofill_data" not in st.session_state:
-    st.session_state["autofill_data"] = {"city": "", "state": "", "zip": ""}
-
-if selected_place_id:
-    details = get_place_details(selected_place_id)
-    st.write("Google Place Details:", details)  # <--- DEBUG! See what comes back
-    components = details.get("address_components", [])
-    city, state, zip_code = extract_address_components(components)
-    st.session_state["autofill_data"] = {
-        "city": city, "state": state, "zip": zip_code
-    }
-
-city_val = st.session_state["autofill_data"]["city"]
-state_val = st.session_state["autofill_data"]["state"]
-zip_val = st.session_state["autofill_data"]["zip"]
-
-st.text_input("City", value=city_val, key="city_input")
-st.text_input("State", value=state_val, key="state_input")
-st.text_input("ZIP", value=zip_val, key="zip_input")
+        place_id = suggestions[selected_idx]['id']
+        details = get_place_details(place_id)
+        st.write("Place details:", details)
+        # You will need to adjust extraction depending on the returned "addresses" structure!
+else:
+    st.info("Start typing your street address to see suggestions.")
