@@ -29,26 +29,26 @@ def get_place_details(place_id):
 
 st.title("US Address Autocomplete & Autofill")
 
-# 1. User types street address
-street_input = st.text_input("Start typing street address...")
+# Step 1: User types street address
+street_input = st.text_input("Start typing street address...", key="street_input")
 
-# 2. Show suggestions
+# Step 2: Show suggestions as user types
 suggestions = autocomplete_address(street_input) if street_input else []
 
-selected = None
-selected_place_id = None
-if suggestions:
-    options = [s['description'] for s in suggestions]
-    selected = st.selectbox("Select Address", options)
-    if selected:
-        selected_idx = options.index(selected)
-        selected_place_id = suggestions[selected_idx]['place_id']
+# Step 3: Select suggestion
+options = [s['description'] for s in suggestions]
+selected_address = st.selectbox("Select Address", options, key="address_select") if options else None
 
-# 3. Autofill city, state, zip
-city = state = zip_code = ""
-if selected_place_id:
+# Step 4: When address is selected, fetch details
+if "autofill_data" not in st.session_state:
+    st.session_state.autofill_data = {"city": "", "state": "", "zip_code": ""}
+
+if selected_address and options:
+    selected_idx = options.index(selected_address)
+    selected_place_id = suggestions[selected_idx]['place_id']
     details = get_place_details(selected_place_id)
     components = details.get("address_components", [])
+    city = state = zip_code = ""
     for comp in components:
         if "locality" in comp["types"]:
             city = comp["long_name"]
@@ -56,7 +56,14 @@ if selected_place_id:
             state = comp["short_name"]
         if "postal_code" in comp["types"]:
             zip_code = comp["long_name"]
+    # Update session state to trigger autofill
+    st.session_state.autofill_data = {"city": city, "state": state, "zip_code": zip_code}
 
-st.text_input("City", value=city)
-st.text_input("State", value=state)
-st.text_input("ZIP", value=zip_code)
+# Step 5: Autofill text fields (editable)
+city_val = st.session_state.autofill_data["city"]
+state_val = st.session_state.autofill_data["state"]
+zip_val = st.session_state.autofill_data["zip_code"]
+
+city_val = st.text_input("City", value=city_val, key="city_input")
+state_val = st.text_input("State", value=state_val, key="state_input")
+zip_val = st.text_input("ZIP", value=zip_val, key="zip_input")
