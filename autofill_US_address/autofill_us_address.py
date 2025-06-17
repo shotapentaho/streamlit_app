@@ -21,12 +21,10 @@ def autocomplete_address(input_text):
         }
     }
     r = requests.post(url, json=data, headers=headers)
-    st.write("Autocomplete status:", r.status_code)
-    st.write("Autocomplete response:", r.text)
     if r.status_code == 200:
-        # Use 'suggestions', not 'places'
         return r.json().get("suggestions", [])
     else:
+        st.write("Autocomplete error:", r.text)
         return []
 
 def get_place_details(place_id):
@@ -38,34 +36,39 @@ def get_place_details(place_id):
         "fields": "id,formattedAddress,addresses"
     }
     r = requests.get(url, headers=headers, params=params)
-    st.write("Details status:", r.status_code)
-    st.write("Details response:", r.text)
     if r.status_code == 200:
         return r.json()
     else:
+        st.write("Place details error:", r.text)
         return {}
 
-st.title("US Address Autocomplete & Autofill (New API, Suggestions Fix)")
+st.title("Click-to-Autofill Address Example")
 
-street_input = st.text_input("Start typing street address...")
+if "address_input" not in st.session_state:
+    st.session_state["address_input"] = ""
 
-suggestions = autocomplete_address(street_input) if street_input else []
+address_input = st.text_input("Type your address", value=st.session_state["address_input"], key="address_input_box")
+
+suggestions = autocomplete_address(address_input) if address_input else []
 
 if suggestions:
-    # Each suggestion is in suggestion['placePrediction']
-    addresses = [s["placePrediction"]["text"]["text"] for s in suggestions]
-    selected = st.selectbox("Select Address", addresses)
-    if selected:
-        selected_idx = addresses.index(selected)
-        place_id = suggestions[selected_idx]['placePrediction']['place']
-        details = get_place_details(place_id)
-        st.write("Place details:", details)
-        address = (details.get("addresses") or [{}])[0]
-        city = address.get("locality", "")
-        state = address.get("administrativeArea", "")
-        zip_code = address.get("postalCode", "")
-        st.text_input("City", value=city)
-        st.text_input("State", value=state)
-        st.text_input("ZIP", value=zip_code)
-else:
-    st.info("Start typing your street address to see suggestions.")
+    st.write("Suggestions:")
+    for i, s in enumerate(suggestions):
+        label = s["placePrediction"]["text"]["text"]
+        place_id = s["placePrediction"]["place"]
+        # Use a unique key for each button
+        if st.button(label, key=f"suggestion_{i}"):
+            st.session_state["address_input"] = label
+            st.session_state["selected_place_id"] = place_id
+            st.experimental_rerun()
+
+if "selected_place_id" in st.session_state:
+    details = get_place_details(st.session_state["selected_place_id"])
+    st.write("Place details:", details)
+    address = (details.get("addresses") or [{}])[0]
+    city = address.get("locality", "")
+    state = address.get("administrativeArea", "")
+    zip_code = address.get("postalCode", "")
+    st.text_input("City", value=city)
+    st.text_input("State", value=state)
+    st.text_input("ZIP", value=zip_code)
