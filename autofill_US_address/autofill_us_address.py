@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # Replace with your Google Places API key or Smarty US Autocomplete API credentials
-GOOGLE_API_KEY = st.secrets["GOOGLE"]["PLACES_API_KEY"]  # Or use your preferred secrets management
+GOOGLE_API_KEY = st.secrets["google"]["PLACES_API_KEY"]  # Or use your preferred secrets management
 
 def autocomplete_address(input_text):
     if not input_text:
