@@ -19,7 +19,7 @@ def autocomplete_address(input_text):
 def get_place_details(place_id):
     url = (
         f"https://maps.googleapis.com/maps/api/place/details/json"
-        f"?place_id={place_id}&fields=address_components,formatted_address&key={GOOGLE_API_KEY}"
+        f"?place_id={place_id}&fields=address_components&key={GOOGLE_API_KEY}"
     )
     r = requests.get(url)
     if r.status_code == 200:
@@ -27,43 +27,52 @@ def get_place_details(place_id):
     else:
         return {}
 
-st.title("US Address Autocomplete & Autofill")
-
-# Step 1: User types street address
-street_input = st.text_input("Start typing street address...", key="street_input")
-
-# Step 2: Show suggestions as user types
-suggestions = autocomplete_address(street_input) if street_input else []
-
-# Step 3: Select suggestion
-options = [s['description'] for s in suggestions]
-selected_address = st.selectbox("Select Address", options, key="address_select") if options else None
-
-# Step 4: When address is selected, fetch details
-if "autofill_data" not in st.session_state:
-    st.session_state.autofill_data = {"city": "", "state": "", "zip_code": ""}
-
-if selected_address and options:
-    selected_idx = options.index(selected_address)
-    selected_place_id = suggestions[selected_idx]['place_id']
-    details = get_place_details(selected_place_id)
-    components = details.get("address_components", [])
+def extract_address_components(components):
     city = state = zip_code = ""
     for comp in components:
-        if "locality" in comp["types"]:
+        if "locality" in comp["types"] or "postal_town" in comp["types"]:
             city = comp["long_name"]
-        if "administrative_area_level_1" in comp["types"]:
+        elif "administrative_area_level_1" in comp["types"]:
             state = comp["short_name"]
-        if "postal_code" in comp["types"]:
+        elif "postal_code" in comp["types"]:
             zip_code = comp["long_name"]
-    # Update session state to trigger autofill
-    st.session_state.autofill_data = {"city": city, "state": state, "zip_code": zip_code}
+        # Fallback for city
+        elif "sublocality" in comp["types"] and not city:
+            city = comp["long_name"]
+        elif "administrative_area_level_2" in comp["types"] and not city:
+            city = comp["long_name"]
+    return city, state, zip_code
 
-# Step 5: Autofill text fields (editable)
-city_val = st.session_state.autofill_data["city"]
-state_val = st.session_state.autofill_data["state"]
-zip_val = st.session_state.autofill_data["zip_code"]
+st.title("US Address Autocomplete & Autofill")
 
-city_val = st.text_input("City", value=city_val, key="city_input")
-state_val = st.text_input("State", value=state_val, key="state_input")
-zip_val = st.text_input("ZIP", value=zip_val, key="zip_input")
+street_input = st.text_input("Start typing street address...")
+
+suggestions = autocomplete_address(street_input) if street_input else []
+selected = None
+selected_place_id = None
+
+if suggestions:
+    options = [s['description'] for s in suggestions]
+    selected = st.selectbox("Select Address", options, key="address_select")
+    if selected:
+        selected_idx = options.index(selected)
+        selected_place_id = suggestions[selected_idx]['place_id']
+
+if "autofill_data" not in st.session_state:
+    st.session_state["autofill_data"] = {"city": "", "state": "", "zip": ""}
+
+if selected_place_id:
+    details = get_place_details(selected_place_id)
+    components = details.get("address_components", [])
+    city, state, zip_code = extract_address_components(components)
+    st.session_state["autofill_data"] = {
+        "city": city, "state": state, "zip": zip_code
+    }
+
+city_val = st.session_state["autofill_data"]["city"]
+state_val = st.session_state["autofill_data"]["state"]
+zip_val = st.session_state["autofill_data"]["zip"]
+
+st.text_input("City", value=city_val, key="city_input")
+st.text_input("State", value=state_val, key="state_input")
+st.text_input("ZIP", value=zip_val, key="zip_input")
