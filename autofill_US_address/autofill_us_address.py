@@ -7,10 +7,7 @@ def autocomplete_address(input_text):
     if not input_text:
         return []
     url = "https://places.googleapis.com/v1/places:autocomplete"
-    headers = {
-        "Content-Type": "application/json",
-        "X-Goog-Api-Key": GOOGLE_API_KEY,
-    }
+    headers = {"Content-Type": "application/json", "X-Goog-Api-Key": GOOGLE_API_KEY}
     data = {
         "input": input_text,
         "locationBias": {
@@ -29,11 +26,9 @@ def autocomplete_address(input_text):
 
 def get_place_details(place_id):
     url = f"https://places.googleapis.com/v1/{place_id}"
-    headers = {
-        "X-Goog-Api-Key": GOOGLE_API_KEY,
-    }
+    headers = {"X-Goog-Api-Key": GOOGLE_API_KEY}
     params = {
-        "fields": "id,formattedAddress,addresses"
+        "fields": "id,formattedAddress,addressComponents"
     }
     r = requests.get(url, headers=headers, params=params)
     if r.status_code == 200:
@@ -42,33 +37,41 @@ def get_place_details(place_id):
         st.write("Place details error:", r.text)
         return {}
 
-st.title("Click-to-Autofill Address Example")
+def extract_address_component(components, type_name):
+    for comp in components:
+        if type_name in comp.get("types", []):
+            return comp.get("longText", "")
+    return ""
+
+st.title("Click-to-Autofill Address")
 
 if "address_input" not in st.session_state:
     st.session_state["address_input"] = ""
-
 address_input = st.text_input("Type your address", value=st.session_state["address_input"], key="address_input_box")
+
+if address_input != st.session_state.get("address_input", ""):
+    st.session_state["address_input"] = address_input
+    st.session_state.pop("selected_place_id", None)
 
 suggestions = autocomplete_address(address_input) if address_input else []
 
-if suggestions:
-    st.write("Suggestions:")
+if suggestions and "selected_place_id" not in st.session_state:
+    st.info("Click a suggestion to autofill:")
     for i, s in enumerate(suggestions):
         label = s["placePrediction"]["text"]["text"]
         place_id = s["placePrediction"]["place"]
-        # Use a unique key for each button
         if st.button(label, key=f"suggestion_{i}"):
             st.session_state["address_input"] = label
             st.session_state["selected_place_id"] = place_id
-            st.rerun()
+            st.experimental_rerun()
 
 if "selected_place_id" in st.session_state:
     details = get_place_details(st.session_state["selected_place_id"])
-    st.write("Place details:", details)
-    address = (details.get("addresses") or [{}])[0]
-    city = address.get("locality", "")
-    state = address.get("administrativeArea", "")
-    zip_code = address.get("postalCode", "")
+    components = details.get("addressComponents", [])
+    city = extract_address_component(components, "locality")
+    state = extract_address_component(components, "administrative_area_level_1")
+    zip_code = extract_address_component(components, "postal_code")
+    st.success(f"Selected: {st.session_state['address_input']}")
     st.text_input("City", value=city)
     st.text_input("State", value=state)
     st.text_input("ZIP", value=zip_code)
