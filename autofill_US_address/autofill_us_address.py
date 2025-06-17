@@ -34,7 +34,6 @@ def get_place_details(place_id):
     headers = {
         "X-Goog-Api-Key": GOOGLE_API_KEY,
     }
-    # You can specify more fields here as needed, e.g. addresses, formattedAddress
     params = {
         "fields": "id,formattedAddress,addresses"
     }
