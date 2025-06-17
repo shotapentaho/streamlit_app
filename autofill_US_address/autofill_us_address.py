@@ -21,11 +21,11 @@ def autocomplete_address(input_text):
         }
     }
     r = requests.post(url, json=data, headers=headers)
+    st.write("Autocomplete status:", r.status_code)
+    st.write("Autocomplete response:", r.text)
     if r.status_code == 200:
-        predictions = r.json().get("places", [])
-        return predictions
+        return r.json().get("places", [])
     else:
-        st.write("Autocomplete error:", r.text)
         return []
 
 def get_place_details(place_id):
@@ -37,27 +37,29 @@ def get_place_details(place_id):
         "fields": "id,formattedAddress,addresses"
     }
     r = requests.get(url, headers=headers, params=params)
+    st.write("Details status:", r.status_code)
+    st.write("Details response:", r.text)
     if r.status_code == 200:
         return r.json()
     else:
-        st.write("Place details error:", r.text)
         return {}
 
-st.title("US Address Autocomplete & Autofill (New API)")
+st.title("US Address Autocomplete & Autofill (New API, Debug Mode)")
 
 street_input = st.text_input("Start typing street address...")
 
 suggestions = autocomplete_address(street_input) if street_input else []
 
 if suggestions:
-    options = [s['formattedAddress'] for s in suggestions]
+    st.write("Suggestions:", suggestions)
+    options = [s.get('formattedAddress', 'NO_ADDRESS') for s in suggestions]
     selected = st.selectbox("Select Address", options)
     if selected:
         selected_idx = options.index(selected)
         place_id = suggestions[selected_idx]['id']
         details = get_place_details(place_id)
         st.write("Place details:", details)
-        address = details.get("addresses", [{}])[0]
+        address = (details.get("addresses") or [{}])[0]
         city = address.get("locality", "")
         state = address.get("administrativeArea", "")
         zip_code = address.get("postalCode", "")
