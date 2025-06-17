@@ -10,10 +10,10 @@ def autocomplete_address(input_text):
     headers = {
         "Content-Type": "application/json",
         "X-Goog-Api-Key": GOOGLE_API_KEY,
-        "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.id"
     }
     data = {
         "input": input_text,
+        "fieldMask": "places.id,places.formattedAddress",
         "locationBias": {
             "rectangle": {
                 "low": {"latitude": 24.396308, "longitude": -125.0},
@@ -33,9 +33,12 @@ def get_place_details(place_id):
     url = f"https://places.googleapis.com/v1/places/{place_id}"
     headers = {
         "X-Goog-Api-Key": GOOGLE_API_KEY,
-        "X-Goog-FieldMask": "id,displayName,formattedAddress,location,addresses"
     }
-    r = requests.get(url, headers=headers)
+    # You can specify more fields here as needed, e.g. addresses, formattedAddress
+    params = {
+        "fields": "id,formattedAddress,addresses"
+    }
+    r = requests.get(url, headers=headers, params=params)
     if r.status_code == 200:
         return r.json()
     else:
@@ -56,6 +59,13 @@ if suggestions:
         place_id = suggestions[selected_idx]['id']
         details = get_place_details(place_id)
         st.write("Place details:", details)
-        # You will need to adjust extraction depending on the returned "addresses" structure!
+        # Extract city/state/zip from details['addresses'][0] if available
+        address = details.get("addresses", [{}])[0]
+        city = address.get("locality", "")
+        state = address.get("administrativeArea", "")
+        zip_code = address.get("postalCode", "")
+        st.text_input("City", value=city)
+        st.text_input("State", value=state)
+        st.text_input("ZIP", value=zip_code)
 else:
     st.info("Start typing your street address to see suggestions.")
