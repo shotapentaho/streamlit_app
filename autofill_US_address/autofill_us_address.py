@@ -27,26 +27,26 @@ def get_place_details(place_id):
     else:
         return {}
 
-st.title("US Street Address Autocomplete & Autofill")
+st.title("US Address Autocomplete & Autofill")
 
+# 1. User types street address
 street_input = st.text_input("Start typing street address...")
 
-suggestions = []
-if street_input:
-    suggestions = autocomplete_address(street_input)
+# 2. Show suggestions
+suggestions = autocomplete_address(street_input) if street_input else []
 
 selected = None
+selected_place_id = None
 if suggestions:
     options = [s['description'] for s in suggestions]
     selected = st.selectbox("Select Address", options)
-    selected_idx = options.index(selected) if selected in options else None
-    selected_place_id = suggestions[selected_idx]['place_id'] if selected_idx is not None else None
-else:
-    st.info("Start typing your street address to see suggestions.")
+    if selected:
+        selected_idx = options.index(selected)
+        selected_place_id = suggestions[selected_idx]['place_id']
 
-# Autofill city, state, zip if address selected
+# 3. Autofill city, state, zip
 city = state = zip_code = ""
-if selected and selected_place_id:
+if selected_place_id:
     details = get_place_details(selected_place_id)
     components = details.get("address_components", [])
     for comp in components:
