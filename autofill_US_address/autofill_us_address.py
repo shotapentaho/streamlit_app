@@ -13,7 +13,6 @@ def autocomplete_address(input_text):
     }
     data = {
         "input": input_text,
-        "fieldMask": "places.id,places.formattedAddress",
         "locationBias": {
             "rectangle": {
                 "low": {"latitude": 24.396308, "longitude": -125.0},
@@ -58,7 +57,6 @@ if suggestions:
         place_id = suggestions[selected_idx]['id']
         details = get_place_details(place_id)
         st.write("Place details:", details)
-        # Extract city/state/zip from details['addresses'][0] if available
         address = details.get("addresses", [{}])[0]
         city = address.get("locality", "")
         state = address.get("administrativeArea", "")
