@@ -63,7 +63,7 @@ if suggestions and "selected_place_id" not in st.session_state:
         if st.button(label, key=f"suggestion_{i}"):
             st.session_state["address_input"] = label
             st.session_state["selected_place_id"] = place_id
-            st.experimental_rerun()
+            st.rerun()
 
 if "selected_place_id" in st.session_state:
     details = get_place_details(st.session_state["selected_place_id"])
