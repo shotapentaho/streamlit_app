@@ -142,7 +142,7 @@ if st.session_state.get('get_aqi', False):
 
     data = get_weather_forecast(city)
     coord = data['city']['coord']
-    st.write(coord['lat'], coord['lon'])
+    #st.write(coord['lat'], coord['lon'])
     ##################################Weather 5Days Forecast ##################################
     if data:
         if data.get("cod") == "200":
@@ -161,10 +161,9 @@ if st.session_state.get('get_aqi', False):
             st.error("City not found. Please check the name.")
 
  ##################################Air Quality Index (AQI) Section##################################
+        #lat, lon = get_coordinates(city, API_KEY)
+        lat, lon = coord['lat'], coord['lon']
 
-  
-
-        lat, lon = get_coordinates(city, API_KEY)
         if lat and lon:
             aqi_data = get_air_quality(lat, lon, API_KEY)
             if "list" in aqi_data and len(aqi_data["list"]) > 0:
