@@ -141,6 +141,11 @@ if get_aqi and not city:
 if st.session_state.get('get_aqi', False):
 
     data = get_weather_forecast(city)
+    coord = data['city']['coord']
+    st.write(data=pd.DataFrame([{
+            'lat': coord['lat'],
+            'lon': coord['lon']
+        }]))
     ##################################Weather 5Days Forecast ##################################
     if data:
         if data.get("cod") == "200":
@@ -160,10 +165,7 @@ if st.session_state.get('get_aqi', False):
 
  ##################################Air Quality Index (AQI) Section##################################
 
-        st.write(data=pd.DataFrame([{
-                    'lat': coord['lat'],
-                    'lon': coord['lon']
-                }]))
+  
 
         lat, lon = get_coordinates(city, API_KEY)
         if lat and lon:
