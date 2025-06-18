@@ -3,6 +3,8 @@ import openai
 import sqlite3
 import os
 import re
+import string
+from difflib import SequenceMatcher
 
 def create_db(db_path="rag_docs.db"):
     conn = sqlite3.connect(db_path)
@@ -15,16 +17,6 @@ def create_db(db_path="rag_docs.db"):
     ''')
     conn.commit()
     conn.close()
-
-def drop_table(db_path, table_name):
-    conn = sqlite3.connect(db_path)
-    try:
-        cursor = conn.cursor()
-        cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
-        conn.commit()
-        print(f"Table '{table_name}' dropped (if it existed).")
-    finally:
-        conn.close()
 
 def add_document(content, db_path="rag_docs.db"):
     conn = sqlite3.connect(db_path)
@@ -46,9 +38,35 @@ def is_question(text):
     text = text.strip().lower()
     return text.endswith("?") or bool(re.match(question_words, text))
 
+def normalize(text):
+    text = text.strip().lower()
+    text = text.translate(str.maketrans('', '', string.punctuation))
+    return text
+
+def find_best_answer_in_docs(question, docs, threshold=0.75):
+    """
+    Try to find the best matching Q: ...\nA: ... in docs for the given question using fuzzy matching.
+    Returns the answer if found (with high similarity), else None.
+    """
+    q_norm = normalize(question)
+    best_score = 0
+    best_answer = None
+    for doc_id, content in docs:
+        match = re.search(r"^q:\s*(.*)$\s*a:\s*(.+)", content, re.IGNORECASE | re.MULTILINE | re.DOTALL)
+        if match:
+            q_in_db = normalize(match.group(1))
+            a_in_db = match.group(2).strip()
+            score = SequenceMatcher(None, q_norm, q_in_db).ratio()
+            if score > best_score:
+                best_score = score
+                best_answer = a_in_db
+    if best_score >= threshold:
+        return best_answer
+    return None
+
 create_db()
 
-st.title("Simple RAG App (OpenAI + SQLite) Streamlit")
+st.title("Smarter RAG App (OpenAI + SQLite)")
 
 openai_api_key = st.secrets["openai"]["api_key"]
 client = openai.OpenAI(api_key=openai_api_key)
@@ -69,22 +87,6 @@ if st.button("Upload Document"):
 st.header("2. Ask a Question")
 question = st.text_input("Your question:")
 
-def find_answer_in_docs(question, docs):
-    """
-    Try to find an exact match for the question in Q&A docs in the DB.
-    Returns the answer if found, else None.
-    """
-    q_str = question.strip().lower()
-    for doc_id, content in docs:
-        # Look for Q: ...\nA: ... style
-        match = re.search(r"^q:\s*(.*)$\s*a:\s*(.+)", content, re.IGNORECASE | re.MULTILINE | re.DOTALL)
-        if match:
-            q_in_db = match.group(1).strip().lower()
-            a_in_db = match.group(2).strip()
-            if q_in_db == q_str:
-                return a_in_db
-    return None
-
 if st.button("Ask"):
     docs = get_all_documents()
     if not docs:
@@ -92,8 +94,8 @@ if st.button("Ask"):
     elif not question.strip():
         st.warning("Please enter a question.")
     else:
-        # 1. Search for Q&A in DB
-        answer = find_answer_in_docs(question, docs)
+        # 1. Try to find a best fuzzy match for the question in Q&A docs
+        answer = find_best_answer_in_docs(question, docs)
         if answer:
             st.markdown("**Answer (from DocDB):**")
             st.write(answer)
