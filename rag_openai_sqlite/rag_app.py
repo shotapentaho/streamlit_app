@@ -37,7 +37,7 @@ create_db()
 st.title("🦾 Simple RAG App (OpenAI + SQLite + Streamlit)")
 
 # Set your OpenAI API key
-openai.api_key = st.secrets["openai"]["api_key"]
+openai_api_key = st.secrets["openai"]["api_key"]
 
 st.header("1. Add Document")
 doc_text = st.text_area("Paste your document text here:")
@@ -68,9 +68,11 @@ if st.button("Ask"):
         
 
         prompt = f"Context:\n{context}\n\nQuestion: {question}\nAnswer:"
+        client = openai.OpenAI(openai_api_key)
+
         with st.spinner("Generating answer..."):
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant."},
                     {"role": "user", "content": prompt}
@@ -79,7 +81,6 @@ if st.button("Ask"):
                 temperature=0.2,
             )
             answer = response.choices[0].message.content.strip()
-
         st.markdown("**Answer:**")
         st.write(answer)
 
