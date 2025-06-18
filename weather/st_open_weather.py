@@ -163,6 +163,27 @@ if get_aqi and not city:
     st.stop()
 
 if st.session_state.get('get_aqi', False):
+        
+
+    data = get_weather_forecast(city)
+    
+    # Check if the data is valid before displaying
+    if data:
+        if data.get("cod") == "200":
+            col1, col2 = st.columns(2)
+            
+            with col2:
+                # Show map with city location
+                coord = data['city']['coord']
+                st.map(data=pd.DataFrame([{
+                    'lat': coord['lat'],
+                    'lon': coord['lon']
+                }]))
+            with col1:
+                display_forecast(data)
+        else:
+            st.error("City not found. Please check the name.")
+
         #city = st.session_state.get(city)
         #API_KEY = st.secrets["api"]["OPENWEATHER_API_KEY"]
         lat, lon = get_coordinates(city, API_KEY)
