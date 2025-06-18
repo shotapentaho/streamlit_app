@@ -34,11 +34,12 @@ def get_all_documents(db_path="rag_docs.db"):
 
 def is_question(text):
     """
-    Returns True if the text is a question (starts with a question word and ends with '?')
+    Returns True if the text ends with a question mark (?)
+    OR starts with a question word (even if no '?')
     """
     question_words = r"^(who|what|when|where|why|how|is|are|do|does|did|can|could|would|should|will|shall|may|might|whose|whom|which)\b"
     text = text.strip().lower()
-    return bool(re.match(question_words, text)) and text.endswith("?")
+    return text.endswith("?") or bool(re.match(question_words, text))
 
 # ---- App Logic ----
 create_db()
