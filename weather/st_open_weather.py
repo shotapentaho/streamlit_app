@@ -4,7 +4,7 @@ from datetime import datetime
 import pandas as pd
 
 st.set_page_config(layout="wide")
-st.title("🌦️ 5-Day Weather Forecast & Map")
+st.title("🌦️ 5-Day Weather Forecast, Air Quality & Map")
 
 # Get API key from Streamlit secrets
 API_KEY = st.secrets["api"]["OPENWEATHER_API_KEY"]
@@ -127,29 +127,8 @@ def display_forecast(data):
 
 # Streamlit user input for city name
 city = st.text_input("Enter a city:", "Sambalpur, Odisha, India")
-get_aqi = st.button("Get Air Quality")
+get_aqi = st.button("Get Weather and Air Quality")
 
-if st.button("5-Day Forecast") and city:
-    data = get_weather_forecast(city)
-    
-    # Check if the data is valid before displaying
-    if data:
-        if data.get("cod") == "200":
-            col1, col2 = st.columns(2)
-            
-            with col2:
-                # Show map with city location
-                coord = data['city']['coord']
-                st.map(data=pd.DataFrame([{
-                    'lat': coord['lat'],
-                    'lon': coord['lon']
-                }]))
-            with col1:
-                display_forecast(data)
-        else:
-            st.error("City not found. Please check the name.")
-
-##################################Air Quality Index (AQI) Section##################################
 
 if 'get_aqi' not in st.session_state:
     st.session_state['get_aqi'] = False
@@ -167,7 +146,7 @@ if st.session_state.get('get_aqi', False):
 
     data = get_weather_forecast(city)
     
-    # Check if the data is valid before displaying
+ ##################################Weather 5Days Forecast ##################################
     if data:
         if data.get("cod") == "200":
             col1, col2 = st.columns(2)
@@ -184,8 +163,8 @@ if st.session_state.get('get_aqi', False):
         else:
             st.error("City not found. Please check the name.")
 
-        #city = st.session_state.get(city)
-        #API_KEY = st.secrets["api"]["OPENWEATHER_API_KEY"]
+ ##################################Air Quality Index (AQI) Section##################################
+
         lat, lon = get_coordinates(city, API_KEY)
         if lat and lon:
             aqi_data = get_air_quality(lat, lon, API_KEY)
