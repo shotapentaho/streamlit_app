@@ -53,11 +53,11 @@ def get_air_quality(lat, lon, api_key):
 
 st.markdown(bubble_style, unsafe_allow_html=True)
 
-col1, col2 = st.columns([1, 2])
+col1, col3, col2 = st.columns([2, 1, 2])
 
 with col1:
     st.write("""
-    Enter a city name to get the current Air Quality Index (AQI) and major pollutant concentrations.
+    Enter a city name AQI and major pollutant concentrations.
     """)
     city = st.text_input("City Name", "London", key="city_input")
     get_aqi = st.button("Get Air Quality")
