@@ -78,13 +78,18 @@ if st.button("Get Air Quality"):
             }
             st.metric("AQI", f"{aqi} ({aqi_status.get(aqi, 'Unknown')})")
             st.write("### Pollutant Concentrations (μg/m³):")
-            cols = st.columns(len(pollutants))
-            for i, (chem, value) in enumerate(pollutants.items()):
-                with cols[i]:
-                    st.markdown(
-                        f'<div class="air-bubble"><span class="chem-title">{chemical_names.get(chem, chem)}</span><br>{value:.2f}</div>',
-                        unsafe_allow_html=True
-                    )
+
+            # Create bubbles as a flexbox container
+            bubbles_html = '<div style="display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 20px;">'
+            for chem, value in pollutants.items():
+                bubbles_html += (
+                    f'<div class="air-bubble">'
+                    f'<span class="chem-title">{chemical_names.get(chem, chem)}</span><br>'
+                    f'{value:.2f}'
+                    f'</div>'
+                )
+            bubbles_html += '</div>'
+            st.markdown(bubbles_html, unsafe_allow_html=True)
         else:
             st.error("Could not retrieve AQI data.")
     else:
