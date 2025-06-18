@@ -43,7 +43,7 @@ def extract_address_component(components, type_name):
             return comp.get("longText", "")
     return ""
 
-st.title("Autofill US Address")
+st.title("📫 Autofill US Address")
 
 if "address_input" not in st.session_state:
     st.session_state["address_input"] = ""
