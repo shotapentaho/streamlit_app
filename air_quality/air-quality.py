@@ -11,7 +11,8 @@ Enter a city name to get the current Air Quality Index (AQI) and major pollutant
 city = st.text_input("City Name", "London")
 
 # Your OpenWeatherMap API key here
-API_KEY = "YOUR_API_KEY"
+API_KEY = st.secrets["api"]["OPENWEATHER_API_KEY"]
+
 
 def get_coordinates(city, api_key):
     url = f"http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&appid={api_key}"
