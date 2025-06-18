@@ -160,6 +160,11 @@ if st.session_state.get('get_aqi', False):
 
  ##################################Air Quality Index (AQI) Section##################################
 
+        st.write(data=pd.DataFrame([{
+                    'lat': coord['lat'],
+                    'lon': coord['lon']
+                }]))
+
         lat, lon = get_coordinates(city, API_KEY)
         if lat and lon:
             aqi_data = get_air_quality(lat, lon, API_KEY)
