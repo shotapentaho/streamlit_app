@@ -125,7 +125,7 @@ def display_forecast(data):
 
 # Streamlit user input for city name
 city = st.text_input("Enter a city:", "Sambalpur, Odisha, India")
-get_aqi = st.button("Get Weather and Air Quality")
+get_aqi = st.button("Forecast & Air Quality")
 
 if 'get_aqi' not in st.session_state:
     st.session_state['get_aqi'] = False
