@@ -1,7 +1,13 @@
 import streamlit as st
 import requests
-
+st.set_page_config(
+    page_title="Air Quality Control Dashboard",
+    page_icon=":cloud_with_snow:",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 st.title("Air Quality Control Dashboard")
+
 
 bubble_style = """
 <style>
