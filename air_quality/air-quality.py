@@ -76,7 +76,7 @@ if st.button("Get Air Quality"):
                 4: "Poor",
                 5: "Very Poor"
             }
-            st.subheader("AQI", f"{aqi} ({aqi_status.get(aqi, 'Unknown')})")
+            st.metric("AQI", f"{aqi} ({aqi_status.get(aqi, 'Unknown')})")
             st.write("### Pollutant Concentrations (μg/m³):")
             cols = st.columns(len(pollutants))
             for i, (chem, value) in enumerate(pollutants.items()):
