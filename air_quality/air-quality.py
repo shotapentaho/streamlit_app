@@ -62,7 +62,7 @@ st.markdown(bubble_style, unsafe_allow_html=True)
 col1, col3, col2 = st.columns([2, 1, 4])
 
 with col1:
-    st.write(""" city: """)
+    #st.write(""" city: """)
     city = st.text_input("City Name", key="city_input")
     get_aqi = st.button("Get Air Quality")
 
