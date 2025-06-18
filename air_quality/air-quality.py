@@ -65,7 +65,7 @@ with col1:
     st.write("""
     Enter a city name AQI and major pollutant concentrations.
     """)
-    city = st.text_input("City Name", "London", key="city_input")
+    city = st.text_input("City Name", key="city_input")
     get_aqi = st.button("Get Air Quality")
 
 with col2:
