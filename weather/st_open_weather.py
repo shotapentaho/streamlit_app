@@ -44,8 +44,6 @@ chemical_names = {
     "nh3": "NH₃ (Ammonia)"
 }
 
-
-
 def get_coordinates(city, api_key):
     url = f"http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&appid={api_key}"
     response = requests.get(url)
@@ -129,7 +127,6 @@ def display_forecast(data):
 city = st.text_input("Enter a city:", "Sambalpur, Odisha, India")
 get_aqi = st.button("Get Weather and Air Quality")
 
-
 if 'get_aqi' not in st.session_state:
     st.session_state['get_aqi'] = False
 
@@ -142,14 +139,12 @@ if get_aqi and not city:
     st.stop()
 
 if st.session_state.get('get_aqi', False):
-        
 
     data = get_weather_forecast(city)
-    
- ##################################Weather 5Days Forecast ##################################
+    ##################################Weather 5Days Forecast ##################################
     if data:
         if data.get("cod") == "200":
-            col1, col2 = st.columns(2)
+            col1, col2 = st.columns([6,4])
             
             with col2:
                 # Show map with city location
