@@ -68,7 +68,7 @@ if st.button("Ask"):
         
 
         prompt = f"Context:\n{context}\n\nQuestion: {question}\nAnswer:"
-        client = openai.OpenAI(openai_api_key)
+        client = openai.OpenAI(api_key=openai_api_key)
 
         with st.spinner("Generating answer..."):
             response = client.chat.completions.create(
