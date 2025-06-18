@@ -142,7 +142,7 @@ if st.session_state.get('get_aqi', False):
 
     data = get_weather_forecast(city)
     coord = data['city']['coord']
-    st.write(coord)
+    st.write(coord['lat'], coord['lon'])
     ##################################Weather 5Days Forecast ##################################
     if data:
         if data.get("cod") == "200":
