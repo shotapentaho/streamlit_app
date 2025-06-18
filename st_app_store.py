@@ -27,22 +27,22 @@ st_generic_urls = {
 
 st_ml_dl_urls = {
     "📄🧠 NLP (English) on DuckDB: Analyze and Visualize CSV/JSON": "https://nlp-query-duckdb.streamlit.app/",
-    "LangGraph orchestration and LangSmith with OpenAI LLM": "https://agent-ai-lg-trace.streamlit.app/",
+    "LLM Agent: LangGraph orchestration and LangSmith with OpenAI LLM": "https://agent-ai-lg-trace.streamlit.app/",
     "NLP NER - Named Entity Recognition":"https://ner-from-text.streamlit.app/",
     "NLP Translator - Human Languages": "https://translate-language.streamlit.app/",
     "NLP Sentiment analysis - Hugging Face pipeline":"https://get-sentiment.streamlit.app/",
     "NLP Sentiment Analysis - by models": "https://analyze-sentiment.streamlit.app/",
-    "Summarize Text": "https://summarize-info.streamlit.app/",
+    "NLP Summarize Text": "https://summarize-info.streamlit.app/",
     "PyMuPDF - PDF Text Extractor":"https://pdf-to-txt.streamlit.app/",
-    "DeepLearning : Detect Bone Fracture": "https://detect-bone-fracture.streamlit.app/",
-    "Deep Learning: Detect Mood from Selfie":"https://detect-mood-selfie.streamlit.app/",
-    "📈 Classifier - Decision Tree Classifier": "https://hot-decision-tree.streamlit.app/",
-	"📈 Clustering K-Means": "https://hot-kmeans-clustering.streamlit.app/",
-	"📈 Linear Regression": "https://hot-linear-regression.streamlit.app/",
-	"📈 Classifier - Logistic Regression": "https://hot-logistic-regression.streamlit.app/",
-    "📈 Classifier - SVM ": "https://viz-svm-classifier.streamlit.app/",
-	"Bot powered by OpenAI": "https://openai-hot-bot.streamlit.app/",
-    "Dim Reduction: SOM Unsupervised":"https://self-org-map.streamlit.app/"
+    "DL Detect Bone Fracture": "https://detect-bone-fracture.streamlit.app/",
+    "DL Detect Mood from Selfie":"https://detect-mood-selfie.streamlit.app/",
+    "ML 📈 Classifier - Decision Tree Classifier": "https://hot-decision-tree.streamlit.app/",
+	"ML 📈 Clustering K-Means": "https://hot-kmeans-clustering.streamlit.app/",
+	"ML 📈 Linear Regression": "https://hot-linear-regression.streamlit.app/",
+	"ML 📈 Classifier - Logistic Regression": "https://hot-logistic-regression.streamlit.app/",
+    "ML 📈 Classifier - SVM ": "https://viz-svm-classifier.streamlit.app/",
+	"LLM Bot powered by OpenAI": "https://openai-hot-bot.streamlit.app/",
+    "ML Dim Reduction: SOM Unsupervised":"https://self-org-map.streamlit.app/"
    
 }
 # Create two columns
