@@ -18,13 +18,6 @@ def create_db(db_path="rag_docs.db"):
     conn.close()
 
 def drop_table(db_path, table_name):
-    """
-    Drops the specified table from the SQLite database.
-
-    Args:
-        db_path (str): Path to the SQLite database file.
-        table_name (str): Name of the table to drop.
-    """
     conn = sqlite3.connect(db_path)
     try:
         cursor = conn.cursor()
@@ -60,15 +53,10 @@ def is_question(text):
 
 # ---- App Logic ----
 
-#Run as needed!
-#drop_table("rag_docs.db", "documents")  # Drop the table if it exists
-
-
 create_db()
 
 st.title("Simple RAG App (OpenAI + SQLite) Streamlit")
 
-# Set your OpenAI API key
 openai_api_key = st.secrets["openai"]["api_key"]
 client = openai.OpenAI(api_key=openai_api_key)
 
@@ -82,12 +70,12 @@ if st.button("Upload Document"):
         st.warning("Questions are not allowed. Please enter a statement, not a question.")
         st.stop()
     else:
-        add_document(doc_text.strip())  # <-- your existing function to add the doc
+        add_document(doc_text.strip())
         st.success("Document added!")
-
 
 st.header("2. Ask a Question")
 question = st.text_input("Your question:")
+
 if st.button("Ask"):
     docs = get_all_documents()
     if not docs:
@@ -101,11 +89,11 @@ if st.button("Ask"):
             if any(word in content.lower() for word in tokens):
                 relevant.append(content)
         context = "\n\n".join(relevant[:2]) if relevant else ""
-        if not context:
-            st.info("No relevant information found in your documents.")
-        else:
+
+        if context:
+            # If we found relevant docs, answer using them
             prompt = f"Context:\n{context}\n\nQuestion: {question}\nAnswer:"
-            with st.spinner("Generating answer..."):
+            with st.spinner("Generating answer from your documents..."):
                 response = client.chat.completions.create(
                     model="gpt-3.5-turbo",
                     messages=[
@@ -118,6 +106,25 @@ if st.button("Ask"):
                 answer = response.choices[0].message.content.strip()
             st.markdown("**Answer:**")
             st.write(answer)
+        else:
+            # No context found, answer from OpenAI and add to DB
+            prompt = f"Question: {question}\nAnswer:"
+            with st.spinner("No relevant docs found. Asking OpenAI..."):
+                response = client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[
+                        {"role": "system", "content": "You are a helpful assistant."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    max_tokens=150,
+                    temperature=0.2,
+                )
+                answer = response.choices[0].message.content.strip()
+            # Save the answer as a new document for future questions
+            add_document(answer)
+            st.markdown("**Answer (from OpenAI):**")
+            st.write(answer)
+            st.info("This answer has been saved to your document database for future use.")
 
 st.header("3. Documents in DB")
 for doc_id, content in get_all_documents():
