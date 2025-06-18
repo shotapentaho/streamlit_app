@@ -6,7 +6,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-st.title("Air Quality:AQI, Pollutant concentrations - Realtime")
+st.title("Air Quality: AQI, Pollutant concentrations - Realtime")
 
 
 bubble_style = """
@@ -77,7 +77,7 @@ with col2:
         st.session_state['city'] = city
 
     if st.session_state.get('get_aqi', False):
-        city = st.session_state.get('city', 'London')
+        city = st.session_state.get('city')
         API_KEY = st.secrets["api"]["OPENWEATHER_API_KEY"]
         lat, lon = get_coordinates(city, API_KEY)
         if lat and lon:
