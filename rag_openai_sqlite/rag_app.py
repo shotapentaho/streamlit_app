@@ -34,7 +34,7 @@ def get_all_documents(db_path="rag_docs.db"):
 # ---- App Logic ----
 create_db()
 
-st.title("🦾 Simple RAG App (OpenAI + SQLite + Streamlit)")
+st.title("Simple RAG App (OpenAI + SQLite) Streamlit")
 
 # Set your OpenAI API key
 openai_api_key = st.secrets["openai"]["api_key"]
