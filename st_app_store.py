@@ -10,7 +10,7 @@ st.title("🔥 Hot apps @ hot-store 🚀")
 st_generic_urls = {
     "☀️☁️❄️weather":"https://climate-weather.streamlit.app/",
     "🌍🕰️ Analog clocks global":"https://samaya.streamlit.app/",
-    "📫 Autofill US Address" : "https://us-address-autofill.streamlit.app/"
+    "📫 Autofill US Address" : "https://us-address-autofill.streamlit.app/",
     "🔁 Converter MKS↔FPS, Force-Energy-Pressure-Temp ":"https://convert-units-now.streamlit.app/",
     "🎾 Game Reminder(SMS - Only US/CA)":"https://game-practice-reminder.streamlit.app/",
     "📈Explore CSV": "https://visual-csv.streamlit.app/", 
