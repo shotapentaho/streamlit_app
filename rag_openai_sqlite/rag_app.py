@@ -17,6 +17,23 @@ def create_db(db_path="rag_docs.db"):
     conn.commit()
     conn.close()
 
+def drop_table(db_path, table_name):
+    """
+    Drops the specified table from the SQLite database.
+
+    Args:
+        db_path (str): Path to the SQLite database file.
+        table_name (str): Name of the table to drop.
+    """
+    conn = sqlite3.connect(db_path)
+    try:
+        cursor = conn.cursor()
+        cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
+        conn.commit()
+        print(f"Table '{table_name}' dropped (if it existed).")
+    finally:
+        conn.close()
+
 def add_document(content, db_path="rag_docs.db"):
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
@@ -42,6 +59,11 @@ def is_question(text):
     return text.endswith("?") or bool(re.match(question_words, text))
 
 # ---- App Logic ----
+
+
+drop_table("rag_docs.db", "documents")  # Drop the table if it exists
+
+
 create_db()
 
 st.title("Simple RAG App (OpenAI + SQLite) Streamlit")
