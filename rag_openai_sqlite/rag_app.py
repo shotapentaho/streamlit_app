@@ -65,15 +65,21 @@ if st.button("Ask"):
         # Use up to 2 relevant docs, or fall back to all if none match
         context = "\n\n".join(relevant[:2]) if relevant else "\n\n".join([d[1] for d in docs][:2])
 
+        
+
         prompt = f"Context:\n{context}\n\nQuestion: {question}\nAnswer:"
         with st.spinner("Generating answer..."):
-            response = openai.Completion.create(
-                engine="text-davinci-003",
-                prompt=prompt,
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",  # or "gpt-4" if you have access
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": prompt}
+                ],
                 max_tokens=150,
                 temperature=0.2,
             )
-            answer = response.choices[0].text.strip()
+            answer = response.choices[0].message.content.strip()
+
         st.markdown("**Answer:**")
         st.write(answer)
 
