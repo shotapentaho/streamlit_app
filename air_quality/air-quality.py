@@ -53,7 +53,7 @@ def get_air_quality(lat, lon, api_key):
 
 st.markdown(bubble_style, unsafe_allow_html=True)
 
-col1, col3, col2 = st.columns([2, 1, 2])
+col1, col3, col2 = st.columns([2, 1, 4])
 
 with col1:
     st.write("""
