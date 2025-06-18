@@ -60,8 +60,8 @@ def is_question(text):
 
 # ---- App Logic ----
 
-
-drop_table("rag_docs.db", "documents")  # Drop the table if it exists
+#Run as needed!
+#drop_table("rag_docs.db", "documents")  # Drop the table if it exists
 
 
 create_db()
