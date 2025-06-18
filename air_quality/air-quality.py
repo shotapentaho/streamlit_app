@@ -95,7 +95,7 @@ with col2:
                     4: "Poor",
                     5: "Very Poor"
                 }
-                st.metric("AQI", f"AQI status:  {aqi} ({aqi_status.get(aqi, 'Unknown')})")
+                st.metric("Air Quality Index", f"AQI status:  {aqi} ({aqi_status.get(aqi, 'Unknown')})")
                 st.write("### Pollutant Concentrations (μg/m³):")
                 # Pollutant bubbles
                 bubbles_html = '<div style="display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 20px;">'
