@@ -70,7 +70,7 @@ if st.button("Ask"):
         prompt = f"Context:\n{context}\n\nQuestion: {question}\nAnswer:"
         with st.spinner("Generating answer..."):
             response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",  # or "gpt-4" if you have access
+                model="gpt-4",
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant."},
                     {"role": "user", "content": prompt}
