@@ -6,7 +6,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-st.title("Air Quality-AQI Dashboard")
+st.title("Air Quality-AQI Dashboard - Realtime")
 
 
 bubble_style = """
