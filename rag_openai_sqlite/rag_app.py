@@ -4,7 +4,6 @@ import sqlite3
 import os
 import re
 
-# ---- Database Functions ----
 def create_db(db_path="rag_docs.db"):
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
@@ -43,15 +42,9 @@ def get_all_documents(db_path="rag_docs.db"):
     return docs
 
 def is_question(text):
-    """
-    Returns True if the text ends with a question mark (?)
-    OR starts with a question word (even if no '?')
-    """
     question_words = r"^(who|what|when|where|why|how|is|are|do|does|did|can|could|would|should|will|shall|may|might|whose|whom|which)\b"
     text = text.strip().lower()
     return text.endswith("?") or bool(re.match(question_words, text))
-
-# ---- App Logic ----
 
 create_db()
 
@@ -91,7 +84,6 @@ if st.button("Ask"):
         context = "\n\n".join(relevant[:2]) if relevant else ""
 
         if context:
-            # If we found relevant docs, answer using them
             prompt = f"Context:\n{context}\n\nQuestion: {question}\nAnswer:"
             with st.spinner("Generating answer from your documents..."):
                 response = client.chat.completions.create(
@@ -107,7 +99,6 @@ if st.button("Ask"):
             st.markdown("**Answer:**")
             st.write(answer)
         else:
-            # No context found, answer from OpenAI and add to DB
             prompt = f"Question: {question}\nAnswer:"
             with st.spinner("No relevant docs found. Asking OpenAI..."):
                 response = client.chat.completions.create(
@@ -120,8 +111,8 @@ if st.button("Ask"):
                     temperature=0.2,
                 )
                 answer = response.choices[0].message.content.strip()
-            # Save the answer as a new document for future questions
-            add_document(answer)
+            qa_doc = f"Q: {question}\nA: {answer}"
+            add_document(qa_doc)
             st.markdown("**Answer (from OpenAI):**")
             st.write(answer)
             st.info("This answer has been saved to your document database for future use.")
