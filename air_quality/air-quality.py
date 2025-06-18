@@ -111,4 +111,4 @@ with col2:
         else:
             st.error("Could not find the city. Please check the name.")
 
-st.caption("Powered by OpenWeatherMap API")
+st.caption("Powered by: OpenWeatherMap API")
