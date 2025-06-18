@@ -22,7 +22,6 @@ st_generic_urls = {
     "Multi Log Curves": "https://viz-logarithm.streamlit.app/",
     "📐Trigonometry Visualizer":"https://trigonometry.streamlit.app/",
     "HL7-Health Level Seven to CSV Parser":"https://parse-hl7-emr.streamlit.app/"
-
 }
 
 st_ml_dl_urls = {
@@ -43,8 +42,7 @@ st_ml_dl_urls = {
     "ML 📈 Classifier - SVM ": "https://viz-svm-classifier.streamlit.app/",
 	"LLM Bot powered by OpenAI": "https://openai-hot-bot.streamlit.app/",
     "ML Dim Reduction: SOM Unsupervised":"https://self-org-map.streamlit.app/"
-   
-}
+   }
 # Create two columns
 col1, col2, col3 = st.columns([4,2,4])
 
