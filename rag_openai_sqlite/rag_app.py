@@ -33,10 +33,9 @@ def get_all_documents(db_path="rag_docs.db"):
     return docs
 
 def is_question(text):
-    question_words = r"^(who|what|when|where|why|how|is|are|do|does|did|can|could|would|should)\b"
+    import re
+    question_words = r"^(who|what|when|where|why|how|is|are|do|does|did|can|could|would|should|will|shall|may|might|whose|whom|which)\b"
     text = text.strip().lower()
-    if "\n" in text:
-        return False
     return bool(re.match(question_words, text)) and text.endswith("?")
 
 # ---- App Logic ----
@@ -51,15 +50,18 @@ client = openai.OpenAI(api_key=openai_api_key)
 st.header("1. Add Document")
 doc_text = st.text_area("Paste your document text here:")
 
+
+
 if st.button("Upload Document"):
     if not doc_text.strip():
         st.warning("Please enter some text.")
-    elif not is_question(doc_text):
-        st.warning("Only single-line questions are allowed. Please enter a question starting with a question word and ending with a '?'.")
+    elif is_question(doc_text):
+        st.warning("Questions are not allowed. Please enter a statement, not a question.")
     else:
         add_document(doc_text.strip())
         st.success("Document added!")
 
+        
 st.header("2. Ask a Question")
 question = st.text_input("Your question:")
 if st.button("Ask"):
