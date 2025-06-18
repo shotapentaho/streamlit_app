@@ -7,7 +7,7 @@ st.title("🔥 Hot apps @ hot-store 🚀")
 
 # Dictionary of Streamlit URLs (Replace with your actual links)
 st_generic_urls = {
-    "☀️☁️❄️weather, map, AQI":"https://climate-weather.streamlit.app/",
+    "☀️☁️❄️🧭 weather, map, AQI":"https://climate-weather.streamlit.app/",
     "🌨️Air Quality Only":"https://breathe-quality.streamlit.app/",
     "🌍🕰️ Analog clocks global":"https://samaya.streamlit.app/",
     "📫 Autofill US Address" : "https://us-address-autofill.streamlit.app/",
