@@ -81,3 +81,7 @@ if st.button("Ask"):
                 answer = response.choices[0].message.content.strip()
             st.markdown("**Answer:**")
             st.write(answer)
+
+st.header("3. Documents in DB")
+for doc_id, content in get_all_documents():
+    st.markdown(f"- *Doc {doc_id}:* {content[:100]}{'...' if len(content)>100 else ''}")
