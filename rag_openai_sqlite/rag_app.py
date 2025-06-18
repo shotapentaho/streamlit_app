@@ -9,6 +9,10 @@ def create_db(db_path="rag_docs.db"):
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
     c.execute('''
+    DROP TABLE IF  EXISTS documents;
+    )
+    ''')
+    c.execute('''
     CREATE TABLE IF NOT EXISTS documents (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         content TEXT NOT NULL
