@@ -79,7 +79,7 @@ with col2:
         st.stop()
 
     if st.session_state.get('get_aqi', False):
-        city = st.session_state.get('city')
+        city = st.session_state.get(city)
         API_KEY = st.secrets["api"]["OPENWEATHER_API_KEY"]
         lat, lon = get_coordinates(city, API_KEY)
         if lat and lon:
