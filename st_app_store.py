@@ -3,7 +3,7 @@ import streamlit as st
 st.set_page_config(page_title="Hot-Store", layout="wide")
 
 # Streamlit app title
-st.title("🔥 Hot apps @ Hot-Store 🚀")
+st.title("🔥 Hot apps @ hot-store 🚀")
 
 # Dictionary of Streamlit URLs (Replace with your actual links)
 st_generic_urls = {
