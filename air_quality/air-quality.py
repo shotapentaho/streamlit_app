@@ -76,6 +76,9 @@ with col2:
         st.session_state['get_aqi'] = True
         st.session_state['city'] = city
 
+    if get_aqi and not city:
+        st.error("Please enter a city name to get the AQI and pollutant concentrations.")
+
     if st.session_state.get('get_aqi', False):
         city = st.session_state.get('city')
         API_KEY = st.secrets["api"]["OPENWEATHER_API_KEY"]
