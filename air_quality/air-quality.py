@@ -78,6 +78,7 @@ with col2:
 
     if get_aqi and not city:
         st.error("Please enter a city name to get the AQI and pollutant concentrations.")
+        st.stop()
 
     if st.session_state.get('get_aqi', False):
         city = st.session_state.get('city')
