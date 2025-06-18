@@ -142,7 +142,7 @@ if st.session_state.get('get_aqi', False):
 
     data = get_weather_forecast(city)
     coord = data['city']['coord']
-    st.write(data=pd.DataFrame([{
+    st.map(data=pd.DataFrame([{
             'lat': coord['lat'],
             'lon': coord['lon']
         }]))
