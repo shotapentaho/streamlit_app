@@ -5,7 +5,6 @@ st.set_page_config(page_title="Hot-Store", layout="wide")
 # Streamlit app title
 st.title("🔥 Hot apps @ Hot-Store 🚀")
 
-
 # Dictionary of Streamlit URLs (Replace with your actual links)
 st_generic_urls = {
     "☀️☁️❄️weather":"https://climate-weather.streamlit.app/",
@@ -80,7 +79,7 @@ with col1:
     # Dropdown or radio button for selection
     #page_ml_dl = st.selectbox("Select your LLM, ML, DL app here:", list(st_ml_dl_urls.keys()))
     st.markdown(
-    "<h3 style='text-align: left; color: red;'>Select one: NLP data analysis, Translator, NER more..</h3>",
+    "<h3 style='text-align: left; color: red;'>Select Data Analysis, LLMs, NLP Apps, Deep Leanrning Apps, ML Algorithms with visuals more..</h3>",
     unsafe_allow_html=True
     )
     page_ml_dl = st.selectbox("", list(st_ml_dl_urls.keys()))
