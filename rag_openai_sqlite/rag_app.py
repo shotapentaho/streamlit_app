@@ -42,12 +42,19 @@ client = openai.OpenAI(api_key=openai_api_key)
 
 st.header("1. Add Document")
 doc_text = st.text_area("Paste your document text here:")
+
+def is_question(text):
+    # Simple check: does it end with a question mark?
+    return text.strip().endswith("?")
+
 if st.button("Upload Document"):
-    if doc_text.strip():
+    if not doc_text.strip():
+        st.warning("Please enter some text.")
+    elif not is_question(doc_text):
+        st.warning("Only questions are allowed. Please enter a question ending with a '?'.")
+    else:
         add_document(doc_text.strip())
         st.success("Document added!")
-    else:
-        st.warning("Please enter some text.")
 
 st.header("2. Ask a Question")
 question = st.text_input("Your question:")
