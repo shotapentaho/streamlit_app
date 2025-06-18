@@ -164,7 +164,7 @@ if get_aqi and not city:
 
 if st.session_state.get('get_aqi', False):
         #city = st.session_state.get(city)
-        API_KEY = st.secrets["api"]["OPENWEATHER_API_KEY"]
+        #API_KEY = st.secrets["api"]["OPENWEATHER_API_KEY"]
         lat, lon = get_coordinates(city, API_KEY)
         if lat and lon:
             aqi_data = get_air_quality(lat, lon, API_KEY)
