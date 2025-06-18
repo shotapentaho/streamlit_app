@@ -69,6 +69,22 @@ if st.button("Upload Document"):
 st.header("2. Ask a Question")
 question = st.text_input("Your question:")
 
+def find_answer_in_docs(question, docs):
+    """
+    Try to find an exact match for the question in Q&A docs in the DB.
+    Returns the answer if found, else None.
+    """
+    q_str = question.strip().lower()
+    for doc_id, content in docs:
+        # Look for Q: ...\nA: ... style
+        match = re.search(r"^q:\s*(.*)$\s*a:\s*(.+)", content, re.IGNORECASE | re.MULTILINE | re.DOTALL)
+        if match:
+            q_in_db = match.group(1).strip().lower()
+            a_in_db = match.group(2).strip()
+            if q_in_db == q_str:
+                return a_in_db
+    return None
+
 if st.button("Ask"):
     docs = get_all_documents()
     if not docs:
@@ -76,31 +92,15 @@ if st.button("Ask"):
     elif not question.strip():
         st.warning("Please enter a question.")
     else:
-        tokens = set(question.lower().split())
-        relevant = []
-        for doc_id, content in docs:
-            if any(word in content.lower() for word in tokens):
-                relevant.append(content)
-        context = "\n\n".join(relevant[:2]) if relevant else ""
-
-        if context:
-            prompt = f"Context:\n{context}\n\nQuestion: {question}\nAnswer:"
-            with st.spinner("Generating answer from your documents..."):
-                response = client.chat.completions.create(
-                    model="gpt-3.5-turbo",
-                    messages=[
-                        {"role": "system", "content": "You are a helpful assistant."},
-                        {"role": "user", "content": prompt}
-                    ],
-                    max_tokens=150,
-                    temperature=0.2,
-                )
-                answer = response.choices[0].message.content.strip()
-            st.markdown("**Answer:**")
+        # 1. Search for Q&A in DB
+        answer = find_answer_in_docs(question, docs)
+        if answer:
+            st.markdown("**Answer (from DocDB):**")
             st.write(answer)
         else:
+            # 2. Not found: ask OpenAI, save to DB as Q&A
             prompt = f"Question: {question}\nAnswer:"
-            with st.spinner("No relevant docs found. Asking OpenAI..."):
+            with st.spinner("No answer found in DocDB. Asking OpenAI..."):
                 response = client.chat.completions.create(
                     model="gpt-3.5-turbo",
                     messages=[
@@ -113,7 +113,7 @@ if st.button("Ask"):
                 answer = response.choices[0].message.content.strip()
             qa_doc = f"Q: {question}\nA: {answer}"
             add_document(qa_doc)
-            st.markdown("**Answer (from OpenAI):**")
+            st.markdown("**Answer (from OpenAI, now saved in DocDB):**")
             st.write(answer)
             st.info("This answer has been saved to your document database for future use.")
 
