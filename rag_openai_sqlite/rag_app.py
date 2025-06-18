@@ -2,6 +2,7 @@ import streamlit as st
 import openai
 import sqlite3
 import os
+import re
 
 # ---- Database Functions ----
 def create_db(db_path="rag_docs.db"):
