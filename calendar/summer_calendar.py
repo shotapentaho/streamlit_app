@@ -18,16 +18,20 @@ if not all(col in df.columns for col in needed):
     st.dataframe(df)
     st.stop()
 
-# Convert to events
 events = []
 for idx, row in df.iterrows():
-    events.append({
-        "id": str(idx),
-        "title": row["Title"],
-        "start": f"{row['Date']}T{row['Start']}",
-        "end": f"{row['Date']}T{row['End']}",
-        "allDay": False,
-    })
+    try:
+        start = f"{row['Date']}T{row['Start']}"
+        end = f"{row['Date']}T{row['End']}"
+        events.append({
+            "id": str(idx),
+            "title": row["Title"],
+            "start": start,
+            "end": end,
+            "allDay": False,
+        })
+    except Exception as e:
+        st.warning(f"Problem with row {idx}: {e}")
 
 calendar_events = str(events).replace("'", '"')
 calendar_html = f"""
