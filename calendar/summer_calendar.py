@@ -43,6 +43,24 @@ def delete_event(row_id):
             f"DELETE FROM {TABLE_NAME} WHERE ID = %s", (row_id,)
         )
 
+# Set your secret PIN here
+SECRET_PIN = "2025"
+
+if "pin_correct" not in st.session_state:
+    st.session_state["pin_correct"] = False
+
+if not st.session_state["pin_correct"]:
+    pin = st.text_input("Enter PIN to access the calendar:", type="password")
+    if st.button("Submit PIN"):
+        if pin == SECRET_PIN:
+            st.session_state["pin_correct"] = True
+            st.rerun()
+        else:
+            st.error("Incorrect PIN. Please try again.")
+    st.stop()  # Stop the app here if PIN is not verified
+
+
+
 st.title("🌞 Vedant's Summer Schedule 🌞")
 
 col1, col2 = st.columns([1,3])
