@@ -64,7 +64,7 @@ with col1:
                 end_time.strftime("%H:%M")
             )
             st.success("Activity added!")
-            st.experimental_rerun()
+            st.rerun()
 
     df = get_events()
     st.subheader("Delete Activity")
@@ -72,7 +72,7 @@ with col1:
     if st.button("Delete Activity"):
         delete_event(delete_id)
         st.success("Activity deleted!")
-        st.experimental_rerun()
+        st.rerun()
 
 with col2:
     st.header("Calendar View")
