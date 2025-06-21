@@ -1,73 +1,70 @@
 import streamlit as st
 import pandas as pd
-from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode
 from pathlib import Path
+from datetime import datetime
 
-st.set_page_config(page_title="Schedule Table (Persistent)", layout="wide")
+st.set_page_config(page_title="Schedule Calendar", layout="wide")
 
+# ---- Read CSV ----
 CSV_FILE = Path("./data/summer_cal.csv")
-
-# Load or create data
 if CSV_FILE.exists():
     df = pd.read_csv(CSV_FILE)
+    source_note = "Loaded from summer_cal.csv in current directory."
 else:
-    df = pd.DataFrame([
-        {"Title": "Tennis", "Date": "2025-06-24", "Start": "09:00", "End": "10:00"},
-        {"Title": "Chemistry", "Date": "2025-06-25", "Start": "10:15", "End": "11:15"},
-        {"Title": "Math", "Date": "2025-06-26", "Start": "13:00", "End": "14:30"},
-        {"Title": "Physics", "Date": "2025-06-27", "Start": "08:30", "End": "09:30"},
-        {"Title": "Biology", "Date": "2025-06-28", "Start": "11:00", "End": "12:00"},
-    ])
+    st.error("summer_cal.csv not found in current directory.")
+    st.stop()
 
-st.title("Editable Schedule Table (Persistent)")
+# ---- Prepare events ----
+# Assumption: columns are Title, Date, Start, End (case-insensitive)
+df.columns = [c.strip().capitalize() for c in df.columns]
+if not all(col in df.columns for col in ["Title", "Date", "Start", "End"]):
+    st.error("CSV must have columns: Title, Date, Start, End")
+    st.dataframe(df)
+    st.stop()
 
-# Editable grid
-gb = GridOptionsBuilder.from_dataframe(df)
-gb.configure_default_column(editable=True)
-gb.configure_grid_options(rowSelection='multiple')
-grid_options = gb.build()
+# Add weekday column for display
+df["Day"] = pd.to_datetime(df["Date"]).dt.strftime('%a')
 
-grid_response = AgGrid(
-    df,
-    gridOptions=grid_options,
-    update_mode=GridUpdateMode.VALUE_CHANGED,
-    fit_columns_on_grid_load=True,
-    enable_enterprise_modules=False,
-    height=350,
-    width='100%',
-    reload_data=False,
-)
+# Build events for calendar grid (using Plotly Timeline as workaround)
+# Each event: x0=start, x1=end, y=title, color=day
+events = []
+for idx, row in df.iterrows():
+    date_str = str(row["Date"])
+    start_time = str(row["Start"])
+    end_time = str(row["End"])
+    try:
+        start_dt = pd.to_datetime(f"{date_str} {start_time}")
+        end_dt = pd.to_datetime(f"{date_str} {end_time}")
+    except Exception:
+        continue
+    events.append(dict(
+        Task=f"{row['Title']} ({row['Day']})",
+        Start=start_dt,
+        Finish=end_dt,
+    ))
 
-# Save whenever changed
-new_df = grid_response['data']
-if not new_df.equals(df):
-    new_df.to_csv(CSV_FILE, index=False)
-    st.info("Changes saved to summer_cal.csv.")
+if not events:
+    st.warning("No valid events found.")
+else:
+    import plotly.express as px
+    evdf = pd.DataFrame(events)
+    st.markdown("### Calendar Grid (Gantt-style)")
+    fig = px.timeline(
+        evdf, 
+        x_start="Start", x_end="Finish", y="Task", 
+        color="Task", 
+        title="Schedule Calendar Grid"
+    )
+    fig.update_yaxes(autorange="reversed")
+    fig.update_layout(
+        height=max(500, 70 * len(evdf)),
+        xaxis_title=None,
+        yaxis_title=None,
+        showlegend=False,
+        margin=dict(l=20, r=20, t=40, b=20)
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
-# Add new row
-with st.form("add_row", clear_on_submit=True):
-    st.write("Add a new entry")
-    col1, col2, col3, col4 = st.columns(4)
-    with col1: title = st.text_input("Title")
-    with col2: date = st.date_input("Date")
-    with col3: start = st.text_input("Start (HH:MM)")
-    with col4: end = st.text_input("End (HH:MM)")
-    add = st.form_submit_button("Add")
-    if add and title and date and start and end:
-        new_row = pd.DataFrame([{
-            "Title": title,
-            "Date": str(date),
-            "Start": start,
-            "End": end
-        }])
-        df = pd.concat([new_df, new_row], ignore_index=True)
-        df.to_csv(CSV_FILE, index=False)
-        st.rerun()
-
-# Delete selected rows
-if grid_response['selected_rows']:
-    if st.button("Delete selected rows"):
-        selected = pd.DataFrame(grid_response['selected_rows'])
-        df = new_df[~new_df.isin(selected).all(axis=1)]
-        df.to_csv(CSV_FILE, index=False)
-        st.rerun()
+# Show table for reference
+with st.expander("Show Data Table"):
+    st.dataframe(df)
