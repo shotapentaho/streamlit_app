@@ -4,6 +4,9 @@ from streamlit_calendar import calendar
 from io import StringIO
 from pathlib import Path
 
+# Set Streamlit page to wide mode
+st.set_page_config(page_title="Show Timetable from summer_cal.csv in Calendar", layout="wide")
+
 st.title("Show Timetable from summer_cal.csv in Calendar")
 
 # --- Use summer_cal.csv from current directory ---
@@ -14,12 +17,12 @@ if csv_path.exists():
 else:
     # Fallback sample data if file missing
     sample_content = """title,date,start_time,end_time
-                    Tennis,2025-06-24,09:00,10:00
-                    Chemistry,2025-06-25,10:15,11:15
-                    Math,2025-06-26,13:00,14:30
-                    Physics,2025-06-27,08:30,09:30
-                    Biology,2025-06-28,11:00,12:00
-                    """
+Tennis,2025-06-24,09:00,10:00
+Chemistry,2025-06-25,10:15,11:15
+Math,2025-06-26,13:00,14:30
+Physics,2025-06-27,08:30,09:30
+Biology,2025-06-28,11:00,12:00
+"""
     df = pd.read_csv(StringIO(sample_content))
     source_note = "summer_cal.csv not found. Loaded with sample data."
 
@@ -34,6 +37,12 @@ events = []
 for idx, row in df.iterrows():
     # Compose title: Title (Day)
     title = f"{row['title']} ({row['day']})"
+    # Compose mouse-over text (tooltip)
+    tooltip = f"{row['title']} on {row['date']} ({row['day']})"
+    if pd.notnull(row.get("start_time", None)) and row["start_time"] != "":
+        tooltip += f" from {row['start_time']}"
+    if pd.notnull(row.get("end_time", None)) and row["end_time"] != "":
+        tooltip += f" to {row['end_time']}"
     # Use date with (optional) time
     if pd.notnull(row.get("start_time", None)) and row["start_time"] != "":
         start = f"{row['date']}T{row['start_time']}"
@@ -49,6 +58,8 @@ for idx, row in df.iterrows():
         "title": title,
         "start": start,
         "end": end,
+        "extendedProps": {"description": tooltip},
+        "description": tooltip,  # For some calendar versions
     })
 
 st.markdown("### Calendar View")
@@ -62,6 +73,18 @@ calendar(
             "center": "title",
             "right": "dayGridMonth,timeGridWeek"
         },
+        "eventDidMount": """
+            function(info) {
+                if (info.event.extendedProps && info.event.extendedProps.description) {
+                    tippy(info.el, {
+                        content: info.event.extendedProps.description,
+                        placement: 'top',
+                        arrow: true,
+                        theme: 'light-border'
+                    });
+                }
+            }
+        """,
         "height": 650
     },
     key="calendar_from_duckdb_day"
