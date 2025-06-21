@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import snowflake.connector
 from streamlit_calendar import calendar
+st.set_page_config(page_title="Summer Schedule Calendar", layout="wide")
 
 # --- Snowflake connection settings (as before) ---
 SNOWFLAKE_USER = st.secrets["snowflake"]["user"]
