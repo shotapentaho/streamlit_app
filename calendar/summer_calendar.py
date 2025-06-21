@@ -43,7 +43,7 @@ def delete_event(row_id):
             f"DELETE FROM {TABLE_NAME} WHERE ID = %s", (row_id,)
         )
 
-st.title("🌞 Summer Schedule Calendar")
+st.title("🌞 Summer Schedule Vedant!!")
 
 col1, col2 = st.columns([1,3])
 
