@@ -3,7 +3,7 @@ from streamlit_calendar import calendar
 from datetime import date
 import uuid
 
-st.set_page_config(page_title="Summer Calendar 2025", layout="wide")
+st.set_page_config(page_title="Vedant Summer Calendar 2025", layout="wide")
 
 # Activity categories and colors
 ACTIVITY_COLORS = {
