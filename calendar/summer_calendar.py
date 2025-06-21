@@ -45,7 +45,7 @@ def delete_event(row_id):
 
 st.title("🌞 Summer Schedule Calendar")
 
-col1, col2 = st.columns([1,2])
+col1, col2 = st.columns([1,3])
 
 with col1:
     st.header("Manage Activities")
