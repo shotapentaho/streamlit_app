@@ -50,8 +50,8 @@ if "pin_correct" not in st.session_state:
     st.session_state["pin_correct"] = False
 
 if not st.session_state["pin_correct"]:
-    pin = st.text_input("Enter PIN to access the calendar:", type="password")
-    if st.button("Submit PIN"):
+    pin = st.text_input("Enter PIN:", type="password")
+    if st.button("Submit"):
         if pin == SECRET_PIN:
             st.session_state["pin_correct"] = True
             st.rerun()
