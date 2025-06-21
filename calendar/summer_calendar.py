@@ -73,6 +73,6 @@ if st.session_state["events"]:
         with col2:
             if st.button("🗑️ Delete", key=f"del_{event['id']}"):
                 st.session_state["events"].pop(idx)
-                st.experimental_rerun()
+                st.rerun()
 else:
     st.info("No activities yet. Add one from the sidebar!")
