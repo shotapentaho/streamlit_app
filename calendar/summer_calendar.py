@@ -65,17 +65,22 @@ with col1:
         st.success("Activity deleted!")
         st.rerun()
 
+
 with col2:
     st.header("Calendar View")
     df = get_events()
-    # Convert to calendar events format
+    st.write("Loaded data:", df)  # Debug -- remove if not needed
     events = []
     for _, row in df.iterrows():
-        events.append({
-            "title": row["ACTIVITY"],
-            "start": f'{row["DATE"]}T{row["START_TIME"]}',
-            "end": f'{row["DATE"]}T{row["END_TIME"]}',
-        })
+        # Defensive: check that all fields exist
+        if all(k in row for k in ("ACTIVITY", "DATE", "START_TIME", "END_TIME")):
+            events.append({
+                "title": row["ACTIVITY"],
+                "start": f'{row["DATE"]}T{str(row["START_TIME"]).zfill(5)}',
+                "end": f'{row["DATE"]}T{str(row["END_TIME"]).zfill(5)}',
+            })
+    st.write("Calendar events:", events)  # Debug -- remove once working
+
     calendar_options = {
         "initialView": "timeGridWeek",
         "headerToolbar": {
