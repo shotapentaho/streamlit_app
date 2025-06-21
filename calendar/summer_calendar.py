@@ -75,4 +75,4 @@ if st.session_state["events"]:
                 st.session_state["events"].pop(idx)
                 st.rerun()
 else:
-    st.info("No activities yet. Add one from the sidebar!")
+    st.info("No activities yet. Add one from the sidebar !")
