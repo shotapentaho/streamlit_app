@@ -2,26 +2,25 @@ import streamlit as st
 from streamlit_calendar import calendar
 from datetime import datetime
 
-st.title("Click a day to add an event to the calendar")
+st.title("Editable Streamlit Calendar")
 
 # Store events in session state
 if "events" not in st.session_state:
     st.session_state["events"] = []
 
-# Render the calendar
+# Render the calendar with editing enabled
 calendar_output = calendar(
     events=st.session_state["events"],
     options={
-        "selectable": True,  # Allows day selection
-        "initialView": "dayGridMonth",
+        "selectable": True,      # Allows selecting days to add events
+        "editable": True,        # Allows editing events (drag, resize, etc.)
+        "eventClick": True,      # Allows detecting event clicks for editing
+        "initialView": "dayGridMonth"
     },
-    custom_css="""
-    .fc-event { font-size: 14px; }
-    """,
     key="calendar"
 )
 
-# If user selects a day, show a form to add an event
+# Handle adding a new event by clicking a day
 if calendar_output and "select" in calendar_output:
     selected_date = calendar_output["select"]["start"][:10]  # YYYY-MM-DD
     with st.form("Add Event"):
@@ -37,7 +36,23 @@ if calendar_output and "select" in calendar_output:
                     "color": "green"
                 }
             )
-            # Rerun to refresh the calendar with new event
+            st.experimental_rerun()
+
+# Handle event edits (move/resize/title change)
+if calendar_output and "eventChange" in calendar_output:
+    # eventChange returns the full list of events after edit
+    st.session_state["events"] = calendar_output["eventChange"]
+    st.experimental_rerun()
+
+# Handle event click for editing title
+if calendar_output and "eventClick" in calendar_output:
+    idx = calendar_output["eventClick"]["event"]["_st_event_idx"]
+    with st.form("Edit Event"):
+        st.markdown(f"**Edit event on `{st.session_state['events'][idx]['start']}`**")
+        title = st.text_input("Event Title", value=st.session_state["events"][idx]["title"])
+        submit = st.form_submit_button("Save")
+        if submit and title:
+            st.session_state["events"][idx]["title"] = title
             st.experimental_rerun()
 
 if st.session_state["events"]:
