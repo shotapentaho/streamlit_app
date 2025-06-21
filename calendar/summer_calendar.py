@@ -123,14 +123,14 @@ if st.session_state["events"]:
         with col2:
             if st.button("✏️ Edit", key=f"edit_{event['id']}"):
                 st.session_state["edit_id"] = event["id"]
-                st.experimental_rerun()
+                st.rerun()
         with col3:
             if st.button("🗑️ Delete", key=f"del_{event['id']}"):
                 st.session_state["events"].pop(idx)
                 # If deleting the one being edited, reset edit_id
                 if st.session_state.get("edit_id") == event["id"]:
                     st.session_state["edit_id"] = None
-                st.experimental_rerun()
+                st.rerun()
 else:
     st.info("No activities yet. Add one from the sidebar!")
 
@@ -138,4 +138,4 @@ else:
 if cal_result and "eventClick" in cal_result:
     event_id = cal_result["eventClick"]["event"]["id"]
     st.session_state["edit_id"] = event_id
-    st.experimental_rerun()
+    st.rerun()
