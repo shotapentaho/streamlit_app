@@ -14,12 +14,12 @@ if csv_path.exists():
 else:
     # Fallback sample data if file missing
     sample_content = """title,date,start_time,end_time
-Tennis,2025-06-24,09:00,10:00
-Chemistry,2025-06-25,10:15,11:15
-Math,2025-06-26,13:00,14:30
-Physics,2025-06-27,08:30,09:30
-Biology,2025-06-28,11:00,12:00
-"""
+                    Tennis,2025-06-24,09:00,10:00
+                    Chemistry,2025-06-25,10:15,11:15
+                    Math,2025-06-26,13:00,14:30
+                    Physics,2025-06-27,08:30,09:30
+                    Biology,2025-06-28,11:00,12:00
+                    """
     df = pd.read_csv(StringIO(sample_content))
     source_note = "summer_cal.csv not found. Loaded with sample data."
 
