@@ -29,7 +29,7 @@ with st.sidebar:
             event = {
                 "id": str(uuid.uuid4()),
                 "title": f"{title} ({activity})",
-                "start": str(event_date),  # <-- must be string!
+                "start": str(event_date),  # MUST be string 'YYYY-MM-DD'
                 "end": str(event_date),
                 "color": CATEGORIES[activity]
             }
