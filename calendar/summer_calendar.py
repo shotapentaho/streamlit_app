@@ -1,91 +1,73 @@
 import streamlit as st
 import pandas as pd
-from streamlit_calendar import calendar
-from io import StringIO
+from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode
 from pathlib import Path
 
-# Set Streamlit page to wide mode
-st.set_page_config(page_title="Show Timetable from summer_cal.csv in Calendar", layout="wide")
+st.set_page_config(page_title="Schedule Table (Persistent)", layout="wide")
 
-st.title("Show Timetable from summer_cal.csv in Calendar")
+CSV_FILE = Path("summer_cal.csv")
 
-# --- Use summer_cal.csv from current directory ---
-csv_path = Path("summer_cal.csv")
-if csv_path.exists():
-    df = pd.read_csv(csv_path)
-    source_note = "Loaded from summer_cal.csv in current directory."
+# Load or create data
+if CSV_FILE.exists():
+    df = pd.read_csv(CSV_FILE)
 else:
-    # Fallback sample data if file missing
-    sample_content = """title,date,start_time,end_time
-Tennis,2025-06-24,09:00,10:00
-Chemistry,2025-06-25,10:15,11:15
-Math,2025-06-26,13:00,14:30
-Physics,2025-06-27,08:30,09:30
-Biology,2025-06-28,11:00,12:00
-"""
-    df = pd.read_csv(StringIO(sample_content))
-    source_note = "summer_cal.csv not found. Loaded with sample data."
+    df = pd.DataFrame([
+        {"Title": "Tennis", "Date": "2025-06-24", "Start": "09:00", "End": "10:00"},
+        {"Title": "Chemistry", "Date": "2025-06-25", "Start": "10:15", "End": "11:15"},
+        {"Title": "Math", "Date": "2025-06-26", "Start": "13:00", "End": "14:30"},
+        {"Title": "Physics", "Date": "2025-06-27", "Start": "08:30", "End": "09:30"},
+        {"Title": "Biology", "Date": "2025-06-28", "Start": "11:00", "End": "12:00"},
+    ])
 
-# Add weekday column (e.g. Mon, Tue, ...)
-df["day"] = pd.to_datetime(df["date"]).dt.strftime('%a')
+st.title("Editable Schedule Table (Persistent)")
 
-st.info(source_note)
-st.write("Preview Table with Day of Week", df)
+# Editable grid
+gb = GridOptionsBuilder.from_dataframe(df)
+gb.configure_default_column(editable=True)
+gb.configure_grid_options(rowSelection='multiple')
+grid_options = gb.build()
 
-# Build events for calendar
-events = []
-for idx, row in df.iterrows():
-    # Compose title: Title (Day)
-    title = f"{row['title']} ({row['day']})"
-    # Compose mouse-over text (tooltip)
-    tooltip = f"{row['title']} on {row['date']} ({row['day']})"
-    if pd.notnull(row.get("start_time", None)) and row["start_time"] != "":
-        tooltip += f" from {row['start_time']}"
-    if pd.notnull(row.get("end_time", None)) and row["end_time"] != "":
-        tooltip += f" to {row['end_time']}"
-    # Use date with (optional) time
-    if pd.notnull(row.get("start_time", None)) and row["start_time"] != "":
-        start = f"{row['date']}T{row['start_time']}"
-        if pd.notnull(row.get("end_time", None)) and row["end_time"] != "":
-            end = f"{row['date']}T{row['end_time']}"
-        else:
-            end = start
-    else:
-        start = str(row["date"])
-        end = str(row["date"])
-    events.append({
-        "id": str(idx),
-        "title": title,
-        "start": start,
-        "end": end,
-        "extendedProps": {"description": tooltip},
-        "description": tooltip,  # For some calendar versions
-    })
-
-st.markdown("### Calendar View")
-calendar(
-    events=events,
-    options={
-        "initialView": "dayGridMonth",
-        "initialDate": str(df['date'].min()) if len(df) > 0 else "2025-06-21",
-        "headerToolbar": {
-            "left": "prev,next today",
-            "center": "title",
-            "right": "dayGridMonth,timeGridWeek"
-        },
-        "eventDidMount": """
-            function(info) {
-                if (info.event.extendedProps && info.event.extendedProps.description) {
-                    tippy(info.el, {
-                        content: info.event.extendedProps.description,
-                        placement: 'top',
-                        arrow: true,
-                        theme: 'light-border'
-                    });
-                }
-            }
-        """,
-        "height": 650
-    },
-    key="calendar_from_duckdb_day"
+grid_response = AgGrid(
+    df,
+    gridOptions=grid_options,
+    update_mode=GridUpdateMode.VALUE_CHANGED,
+    fit_columns_on_grid_load=True,
+    enable_enterprise_modules=False,
+    height=350,
+    width='100%',
+    reload_data=False,
 )
+
+# Save whenever changed
+new_df = grid_response['data']
+if not new_df.equals(df):
+    new_df.to_csv(CSV_FILE, index=False)
+    st.info("Changes saved to summer_cal.csv.")
+
+# Add new row
+with st.form("add_row", clear_on_submit=True):
+    st.write("Add a new entry")
+    col1, col2, col3, col4 = st.columns(4)
+    with col1: title = st.text_input("Title")
+    with col2: date = st.date_input("Date")
+    with col3: start = st.text_input("Start (HH:MM)")
+    with col4: end = st.text_input("End (HH:MM)")
+    add = st.form_submit_button("Add")
+    if add and title and date and start and end:
+        new_row = pd.DataFrame([{
+            "Title": title,
+            "Date": str(date),
+            "Start": start,
+            "End": end
+        }])
+        df = pd.concat([new_df, new_row], ignore_index=True)
+        df.to_csv(CSV_FILE, index=False)
+        st.experimental_rerun()
+
+# Delete selected rows
+if grid_response['selected_rows']:
+    if st.button("Delete selected rows"):
+        selected = pd.DataFrame(grid_response['selected_rows'])
+        df = new_df[~new_df.isin(selected).all(axis=1)]
+        df.to_csv(CSV_FILE, index=False)
+        st.experimental_rerun()
