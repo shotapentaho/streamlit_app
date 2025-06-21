@@ -1,8 +1,9 @@
 import streamlit as st
 import pandas as pd
 import snowflake.connector
+from streamlit_calendar import calendar
 
-# --- Snowflake connection settings ---
+# --- Snowflake connection settings (as before) ---
 SNOWFLAKE_USER = st.secrets["snowflake"]["user"]
 SNOWFLAKE_PASSWORD = st.secrets["snowflake"]["password"]
 SNOWFLAKE_ACCOUNT = st.secrets["snowflake"]["account"]
@@ -39,28 +40,50 @@ def delete_event(row_id):
             f"DELETE FROM {TABLE_NAME} WHERE ID = %s", (row_id,)
         )
 
-# --- Streamlit UI ---
-st.title("🌞 Summer Schedule (Snowflake-backed)")
+st.title("🌞 Summer Schedule Calendar")
 
-df = get_events()
-st.dataframe(df)
+col1, col2 = st.columns([1,2])
 
-with st.expander("Add New Activity"):
+with col1:
+    st.header("Manage Activities")
     with st.form("add_activity", clear_on_submit=True):
-        col1, col2, col3, col4 = st.columns(4)
-        with col1: activity = st.text_input("Activity")
-        with col2: date = st.date_input("Date")
-        with col3: start_time = st.text_input("Start Time (HH:MM)")
-        with col4: end_time = st.text_input("End Time (HH:MM)")
+        activity = st.text_input("Activity")
+        date = st.date_input("Date")
+        start_time = st.text_input("Start Time (HH:MM)")
+        end_time = st.text_input("End Time (HH:MM)")
         add = st.form_submit_button("Add")
         if add and activity and date and start_time and end_time:
             insert_event(activity, str(date), start_time, end_time)
             st.success("Activity added!")
             st.rerun()
 
-# Optional: Delete activities by selecting their IDs
-delete_id = st.text_input("Delete activity by ID (optional)")
-if st.button("Delete Activity") and delete_id:
-    delete_event(delete_id)
-    st.success("Activity deleted!")
-    st.rerun()
+    df = get_events()
+    st.subheader("Delete Activity")
+    delete_id = st.selectbox("Select activity to delete", options=df["ID"].astype(str))
+    if st.button("Delete Activity"):
+        delete_event(delete_id)
+        st.success("Activity deleted!")
+        st.rerun()
+
+with col2:
+    st.header("Calendar View")
+    df = get_events()
+    # Convert to calendar events format
+    events = []
+    for _, row in df.iterrows():
+        events.append({
+            "title": row["ACTIVITY"],
+            "start": f'{row["DATE"]}T{row["START_TIME"]}',
+            "end": f'{row["DATE"]}T{row["END_TIME"]}',
+        })
+    calendar_options = {
+        "initialView": "timeGridWeek",
+        "headerToolbar": {
+            "left": "prev,next today",
+            "center": "title",
+            "right": "dayGridMonth,timeGridWeek,timeGridDay"
+        },
+        "editable": False,
+        "selectable": False,
+    }
+    calendar(events=events, options=calendar_options)
