@@ -1,8 +1,7 @@
 import streamlit as st
 from streamlit_calendar import calendar
-from datetime import datetime
 
-st.title("Streamlit Calendar: Add & Edit Events via Click")
+st.title("Streamlit Calendar: Add & Edit Events")
 
 if "events" not in st.session_state:
     st.session_state["events"] = []
