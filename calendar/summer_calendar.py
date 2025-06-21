@@ -2,69 +2,86 @@ import streamlit as st
 import pandas as pd
 from pathlib import Path
 from datetime import datetime
+import streamlit.components.v1 as components
 
-st.set_page_config(page_title="Schedule Calendar", layout="wide")
+st.set_page_config(page_title="Actual Calendar Grid", layout="wide")
 
-# ---- Read CSV ----
 CSV_FILE = Path("./data/summer_cal.csv")
-if CSV_FILE.exists():
-    df = pd.read_csv(CSV_FILE)
-    source_note = "Loaded from summer_cal.csv in current directory."
-else:
+if not CSV_FILE.exists():
     st.error("summer_cal.csv not found in current directory.")
     st.stop()
 
-# ---- Prepare events ----
-# Assumption: columns are Title, Date, Start, End (case-insensitive)
+df = pd.read_csv(CSV_FILE)
+# Normalize column names
 df.columns = [c.strip().capitalize() for c in df.columns]
-if not all(col in df.columns for col in ["Title", "Date", "Start", "End"]):
-    st.error("CSV must have columns: Title, Date, Start, End")
+required_cols = ["Title", "Date", "Start", "End"]
+if not all(col in df.columns for col in required_cols):
+    st.error(f"CSV must have columns: {', '.join(required_cols)}")
     st.dataframe(df)
     st.stop()
 
-# Add weekday column for display
-df["Day"] = pd.to_datetime(df["Date"]).dt.strftime('%a')
-
-# Build events for calendar grid (using Plotly Timeline as workaround)
-# Each event: x0=start, x1=end, y=title, color=day
+# Build events for FullCalendar
 events = []
 for idx, row in df.iterrows():
-    date_str = str(row["Date"])
+    title = str(row["Title"])
+    date = str(row["Date"])
     start_time = str(row["Start"])
     end_time = str(row["End"])
-    try:
-        start_dt = pd.to_datetime(f"{date_str} {start_time}")
-        end_dt = pd.to_datetime(f"{date_str} {end_time}")
-    except Exception:
-        continue
-    events.append(dict(
-        Task=f"{row['Title']} ({row['Day']})",
-        Start=start_dt,
-        Finish=end_dt,
-    ))
+    start = f"{date}T{start_time}"
+    end = f"{date}T{end_time}"
+    events.append({
+        "id": str(idx),
+        "title": title,
+        "start": start,
+        "end": end,
+        "allDay": False,
+        "description": f"{title} {date} {start_time}-{end_time}"
+    })
 
-if not events:
-    st.warning("No valid events found.")
-else:
-    import plotly.express as px
-    evdf = pd.DataFrame(events)
-    st.markdown("### Calendar Grid (Gantt-style)")
-    fig = px.timeline(
-        evdf, 
-        x_start="Start", x_end="Finish", y="Task", 
-        color="Task", 
-        title="Schedule Calendar Grid"
-    )
-    fig.update_yaxes(autorange="reversed")
-    fig.update_layout(
-        height=max(500, 70 * len(evdf)),
-        xaxis_title=None,
-        yaxis_title=None,
-        showlegend=False,
-        margin=dict(l=20, r=20, t=40, b=20)
-    )
-    st.plotly_chart(fig, use_container_width=True)
+# FullCalendar HTML/JS
+calendar_events = str(events).replace("'", '"')
+calendar_html = f"""
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet"/>
+<div id="calendar"></div>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+<script src="https://unpkg.com/popper.js@1"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {{
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {{
+        initialView: 'dayGridMonth',
+        height: 750,
+        events: {calendar_events},
+        eventMouseEnter: function(info) {{
+            // Show tooltip on hover
+            if (info.event.extendedProps.description) {{
+                if (!info.el._tippy) {{
+                    tippy(info.el, {{
+                        content: info.event.extendedProps.description,
+                        arrow: true,
+                        placement: 'top',
+                        theme: 'light-border',
+                    }});
+                }}
+            }}
+        }},
+        eventDidMount: function(info) {{
+            // Optionally show tooltip always on mount
+        }},
+        headerToolbar: {{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek'
+        }}
+    }});
+    calendar.render();
+}});
+</script>
+"""
 
-# Show table for reference
+st.title("Actual Calendar Grid View")
+components.html(calendar_html, height=800)
+
 with st.expander("Show Data Table"):
     st.dataframe(df)
