@@ -68,11 +68,30 @@ with col1:
 
     df = get_events()
     st.subheader("Delete Activity")
-    delete_id = st.selectbox("Select activity to delete", options=df["ID"].astype(str))
-    if st.button("Delete Activity"):
-        delete_event(delete_id)
-        st.success("Activity deleted!")
-        st.rerun()
+
+    # Create nicely labeled options for delete dropdown
+    if not df.empty:
+        delete_options = [
+            (
+                f'{row["ACTIVITY"]} ({row["DATE"]} {row["START_TIME"]}-{row["END_TIME"]})',  # label
+                str(row["ID"])                                                               # value
+            )
+            for _, row in df.iterrows()
+        ]
+        selected = st.selectbox(
+            "Select activity to delete",
+            options=delete_options,
+            format_func=lambda x: x[0] if isinstance(x, tuple) else x,
+            key="delete_activity"
+        )
+        delete_id = selected[1] if selected else None
+
+        if st.button("Delete Activity") and delete_id:
+            delete_event(delete_id)
+            st.success("Activity deleted!")
+            st.rerun()
+    else:
+        st.info("No activities available to delete.")
 
 with col2:
     st.header("Calendar View")
