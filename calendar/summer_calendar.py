@@ -64,9 +64,10 @@ with st.expander("Add New Event"):
                 "Start": start,
                 "End": end
             }])
-            df2 = pd.concat([new_df, row], ignore_index=True)
-            df2.to_csv(CSV_FILE, index=False)
-            st.success("Event added. Please refresh the page to see it in the calendar.")
+            # Update the main DataFrame in memory
+            new_df = pd.concat([new_df, row], ignore_index=True)
+            new_df.to_csv(CSV_FILE, index=False)
+            st.success(f"Event added and saved to: {CSV_FILE.resolve()}")
 
 # --- Delete Selected Rows ---
 if grid_response['selected_rows'] is not None and len(grid_response['selected_rows']) > 0:
