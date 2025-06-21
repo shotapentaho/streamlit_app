@@ -2,3 +2,4 @@ streamlit
 streamlit-aggrid
 snowflake-connector-python
 pandas
+streamlit-calendar
