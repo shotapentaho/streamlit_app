@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_calendar import calendar
 
-st.title("Test Calendar: Click to Add Event")
+st.title("Test Calendar: Click a Day to Add Event")
 
 if "events" not in st.session_state:
     st.session_state["events"] = []
@@ -18,7 +18,7 @@ calendar_output = calendar(
 if calendar_output and "select" in calendar_output:
     selected_date = calendar_output["select"]["start"][:10]
     with st.form("Add Event"):
-        st.markdown(f"**Add event for `{selected_date}`**")
+        st.write(f"Add event for {selected_date}")
         title = st.text_input("Event Title")
         submit = st.form_submit_button("Add")
         if submit and title:
@@ -33,7 +33,7 @@ if calendar_output and "select" in calendar_output:
             st.experimental_rerun()
 
 if st.session_state["events"]:
-    st.write("All Events:")
+    st.subheader("All Events:")
     st.json(st.session_state["events"])
 else:
     st.info("Click a calendar day to add your first event.")
