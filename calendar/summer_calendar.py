@@ -62,7 +62,7 @@ with st.form("add_row", clear_on_submit=True):
         }])
         df = pd.concat([new_df, new_row], ignore_index=True)
         df.to_csv(CSV_FILE, index=False)
-        st.experimental_rerun()
+        st.rerun()
 
 # Delete selected rows
 if grid_response['selected_rows']:
@@ -70,4 +70,4 @@ if grid_response['selected_rows']:
         selected = pd.DataFrame(grid_response['selected_rows'])
         df = new_df[~new_df.isin(selected).all(axis=1)]
         df.to_csv(CSV_FILE, index=False)
-        st.experimental_rerun()
+        st.rerun()
