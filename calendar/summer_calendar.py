@@ -86,10 +86,10 @@ with st.sidebar:
                     "notes": notes
                 }
                 st.session_state["events"].append(new_event)
-            st.experimental_rerun()
+            st.rerun()
         if cancel:
             st.session_state["edit_id"] = None
-            st.experimental_rerun()
+            st.rerun()
 
 # ---- CALENDAR ----
 st.markdown("#### Your Summer Activities (Grid View)")
