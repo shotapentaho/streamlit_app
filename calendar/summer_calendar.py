@@ -2,27 +2,30 @@ import streamlit as st
 from streamlit_calendar import calendar
 from datetime import datetime
 
-st.title("Interactive Calendar: Click a Day to Add Item")
+st.title("Click a day to add an event to the calendar")
 
+# Store events in session state
 if "events" not in st.session_state:
     st.session_state["events"] = []
 
-# Show the calendar, enable day-click selection
+# Render the calendar
 calendar_output = calendar(
     events=st.session_state["events"],
     options={
-        "selectable": True,
-        "editable": True,
-        "initialView": "dayGridMonth"
+        "selectable": True,  # Allows day selection
+        "initialView": "dayGridMonth",
     },
-    key='calendar'
+    custom_css="""
+    .fc-event { font-size: 14px; }
+    """,
+    key="calendar"
 )
 
-# calendar_output will contain selection info if user clicks/drag-selects a day/time
+# If user selects a day, show a form to add an event
 if calendar_output and "select" in calendar_output:
-    selected_date = calendar_output["select"]["start"][:10]  # format: YYYY-MM-DD
+    selected_date = calendar_output["select"]["start"][:10]  # YYYY-MM-DD
     with st.form("Add Event"):
-        st.write(f"Add item for {selected_date}")
+        st.markdown(f"**Add event for `{selected_date}`**")
         title = st.text_input("Event Title")
         submit = st.form_submit_button("Add")
         if submit and title:
@@ -30,11 +33,15 @@ if calendar_output and "select" in calendar_output:
                 {
                     "title": title,
                     "start": selected_date,
-                    "end": selected_date
+                    "end": selected_date,
+                    "color": "green"
                 }
             )
-            # Rerun to update calendar immediately
+            # Rerun to refresh the calendar with new event
             st.experimental_rerun()
 
-st.subheader("Current Events")
-st.write(st.session_state["events"])
+if st.session_state["events"]:
+    st.subheader("All Events:")
+    st.json(st.session_state["events"])
+else:
+    st.info("Click a calendar day to add your first event.")
