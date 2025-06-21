@@ -1,20 +1,23 @@
 import streamlit as st
 from streamlit_calendar import calendar
 
-st.title("Test Calendar: Click a Day to Add Event")
+st.title("Editable Calendar Demo")
 
 if "events" not in st.session_state:
     st.session_state["events"] = []
 
+# Render the calendar
 calendar_output = calendar(
     events=st.session_state["events"],
     options={
         "selectable": True,
+        "editable": True,
         "initialView": "dayGridMonth"
     },
     key="calendar"
 )
 
+# Handle adding an event
 if calendar_output and "select" in calendar_output:
     selected_date = calendar_output["select"]["start"][:10]
     with st.form("Add Event"):
@@ -31,6 +34,11 @@ if calendar_output and "select" in calendar_output:
                 }
             )
             st.experimental_rerun()
+
+# Handle event changes (drag/resize)
+if calendar_output and "eventChange" in calendar_output:
+    st.session_state["events"] = calendar_output["eventChange"]
+    st.experimental_rerun()
 
 if st.session_state["events"]:
     st.subheader("All Events:")
