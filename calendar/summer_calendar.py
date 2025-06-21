@@ -69,7 +69,7 @@ with st.expander("Add New Event"):
             st.success("Event added. Please refresh the page to see it in the calendar.")
 
 # --- Delete Selected Rows ---
-if len(grid_response['selected_rows'])>0:
+if grid_response['selected_rows'] is not None and len(grid_response['selected_rows']) > 0:
     if st.button("Delete selected events"):
         selected = pd.DataFrame(grid_response['selected_rows'])
         df2 = new_df[~new_df.isin(selected).all(axis=1)]
