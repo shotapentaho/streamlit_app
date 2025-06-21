@@ -8,37 +8,34 @@ st.set_page_config(page_title="Summer Calendar 2025", layout="wide")
 if "events" not in st.session_state:
     st.session_state["events"] = []
 
-st.title("Summer Calendar 2025")
-
 with st.sidebar:
-    st.header("Add Activity (as Text)")
-    with st.form("add_activity", clear_on_submit=True):
-        text = st.text_input("Enter activity (e.g. Tennis or Chemistry)")
-        event_date = st.date_input("Date", value=date(2025, 6, 21))
+    st.header("Add Activity")
+    with st.form("add", clear_on_submit=True):
+        title = st.text_input("Activity")
+        event_date = st.date_input("Date", value=date(2025,6,21))
         submit = st.form_submit_button("Add")
-        if submit and text:
-            event = {
+        if submit and title:
+            st.session_state["events"].append({
                 "id": str(uuid.uuid4()),
-                "title": text,  # Just the raw text, no color/category
-                "start": str(event_date),
+                "title": title,
+                "start": str(event_date),  # MUST be string
                 "end": str(event_date)
-            }
-            st.session_state["events"].append(event)
+            })
             st.rerun()
+
+st.title("Summer Calendar 2025")
 
 calendar(
     events=st.session_state["events"],
     options={
         "initialView": "dayGridMonth",
+        "initialDate": "2025-06-21",
         "headerToolbar": {
             "left": "prev,next today",
             "center": "title",
             "right": "dayGridMonth,timeGridWeek"
         },
-        "editable": False,
-        "selectable": False,
-        "initialDate": "2025-06-21",
-        "height": 650
+        "height": 600,
     },
-    key="calendar_grid_text"
+    key="calendar_grid"
 )
