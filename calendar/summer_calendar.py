@@ -3,42 +3,38 @@ import pandas as pd
 from pathlib import Path
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="Actual Calendar Grid (FullCalendar)", layout="wide")
+st.set_page_config(page_title="Calendar Grid from CSV", layout="wide")
 
 CSV_FILE = Path("./data/summer_cal.csv")
 if not CSV_FILE.exists():
-    st.error("summer_cal.csv not found in current directory.")
+    st.error("summer_cal.csv not found.")
     st.stop()
 
 df = pd.read_csv(CSV_FILE)
-# Normalize column names
+# Normalize column names in case user wrote 'title', 'date', etc.
 df.columns = [c.strip().capitalize() for c in df.columns]
-required_cols = ["Title", "Date", "Start", "End"]
-if not all(col in df.columns for col in required_cols):
-    st.error(f"CSV must have columns: {', '.join(required_cols)}")
+needed = ["Title", "Date", "Start", "End"]
+if not all(col in df.columns for col in needed):
+    st.error("CSV must have columns: Title, Date, Start, End")
     st.dataframe(df)
     st.stop()
 
-# Build events for FullCalendar
+# Convert to FullCalendar event objects
 events = []
 for idx, row in df.iterrows():
-    title = str(row["Title"])
     date = str(row["Date"])
-    start_time = str(row["Start"])
-    end_time = str(row["End"])
-    start = f"{date}T{start_time}"
-    end = f"{date}T{end_time}"
+    start = f"{date}T{row['Start']}"
+    end = f"{date}T{row['End']}"
     events.append({
         "id": str(idx),
-        "title": title,
+        "title": row["Title"],
         "start": start,
         "end": end,
-        "allDay": False,
-        "description": f"{title} {date} {start_time}-{end_time}"
+        "description": f"{row['Title']}<br>{date} {row['Start']}-{row['End']}"
     })
 
+# FullCalendar HTML/JS code
 calendar_events = str(events).replace("'", '"')
-
 calendar_html = f"""
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet"/>
 <div id="calendar"></div>
@@ -50,7 +46,7 @@ calendar_html = f"""
     margin: 40px auto;
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(60,60,60,0.1);
+    box-shadow: 0 2px 8px rgba(60,60,60,0.10);
     padding: 12px;
 }}
 .fc .fc-daygrid-day-frame {{
@@ -74,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {{
                 if (!info.el._tippy) {{
                     tippy(info.el, {{
                         content: info.event.extendedProps.description,
+                        allowHTML: true,
                         arrow: true,
                         placement: 'top',
                         theme: 'light-border',
@@ -93,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {{
 </script>
 """
 
-st.title("Actual Calendar Grid View (with Calendar Tiles)")
+st.title("📅 Calendar Grid View from summer_cal.csv")
 components.html(calendar_html, height=850)
 
 with st.expander("Show Data Table"):
