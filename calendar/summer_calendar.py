@@ -5,7 +5,7 @@ from pathlib import Path
 
 st.set_page_config(page_title="Schedule Table (Persistent)", layout="wide")
 
-CSV_FILE = Path("summer_cal.csv")
+CSV_FILE = Path("./data/summer_cal.csv")
 
 # Load or create data
 if CSV_FILE.exists():
