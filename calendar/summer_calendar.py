@@ -42,7 +42,7 @@ with st.sidebar:
                 "notes": notes
             }
             st.session_state["events"].append(new_event)
-            st.experimental_rerun()
+            st.rerun()
 
 st.markdown("#### Your Summer Activities (Grid View)")
 calendar(
