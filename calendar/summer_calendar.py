@@ -1,10 +1,9 @@
 import streamlit as st
 import pandas as pd
 from pathlib import Path
-from datetime import datetime
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="Actual Calendar Grid", layout="wide")
+st.set_page_config(page_title="Actual Calendar Grid (FullCalendar)", layout="wide")
 
 CSV_FILE = Path("./data/summer_cal.csv")
 if not CSV_FILE.exists():
@@ -38,23 +37,39 @@ for idx, row in df.iterrows():
         "description": f"{title} {date} {start_time}-{end_time}"
     })
 
-# FullCalendar HTML/JS
 calendar_events = str(events).replace("'", '"')
+
 calendar_html = f"""
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet"/>
 <div id="calendar"></div>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-<script src="https://unpkg.com/popper.js@1"></script>
 <script src="https://unpkg.com/tippy.js@6"></script>
+<style>
+#calendar {{
+    max-width: 1100px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(60,60,60,0.1);
+    padding: 12px;
+}}
+.fc .fc-daygrid-day-frame {{
+    background: #f8fafc;
+    border-radius: 6px;
+    transition: background 0.2s;
+}}
+.fc .fc-daygrid-day-frame:hover {{
+    background: #e0e7ef;
+}}
+</style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {{
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {{
         initialView: 'dayGridMonth',
-        height: 750,
+        height: 780,
         events: {calendar_events},
         eventMouseEnter: function(info) {{
-            // Show tooltip on hover
             if (info.event.extendedProps.description) {{
                 if (!info.el._tippy) {{
                     tippy(info.el, {{
@@ -66,22 +81,20 @@ document.addEventListener('DOMContentLoaded', function() {{
                 }}
             }}
         }},
-        eventDidMount: function(info) {{
-            // Optionally show tooltip always on mount
-        }},
         headerToolbar: {{
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek'
-        }}
+        }},
+        nowIndicator: true
     }});
     calendar.render();
 }});
 </script>
 """
 
-st.title("Actual Calendar Grid View")
-components.html(calendar_html, height=800)
+st.title("Actual Calendar Grid View (with Calendar Tiles)")
+components.html(calendar_html, height=850)
 
 with st.expander("Show Data Table"):
     st.dataframe(df)
