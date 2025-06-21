@@ -1,10 +1,12 @@
 import streamlit as st
 import pandas as pd
 import snowflake.connector
+import datetime
 from streamlit_calendar import calendar
+
 st.set_page_config(page_title="Summer Schedule Calendar", layout="wide")
 
-# --- Snowflake connection settings (as before) ---
+# --- Snowflake connection settings ---
 SNOWFLAKE_USER = st.secrets["snowflake"]["user"]
 SNOWFLAKE_PASSWORD = st.secrets["snowflake"]["password"]
 SNOWFLAKE_ACCOUNT = st.secrets["snowflake"]["account"]
@@ -50,13 +52,19 @@ with col1:
     with st.form("add_activity", clear_on_submit=True):
         activity = st.text_input("Activity")
         date = st.date_input("Date")
-        start_time = st.text_input("Start Time (HH:MM)")
-        end_time = st.text_input("End Time (HH:MM)")
+        start_time = st.time_input("Start Time (HH:MM)", value=datetime.time(9, 0))
+        end_time = st.time_input("End Time (HH:MM)", value=datetime.time(10, 0))
         add = st.form_submit_button("Add")
         if add and activity and date and start_time and end_time:
-            insert_event(activity, str(date), start_time, end_time)
+            # Convert to 'HH:MM' format for DB
+            insert_event(
+                activity,
+                str(date),
+                start_time.strftime("%H:%M"),
+                end_time.strftime("%H:%M")
+            )
             st.success("Activity added!")
-            st.rerun()
+            st.experimental_rerun()
 
     df = get_events()
     st.subheader("Delete Activity")
@@ -64,24 +72,22 @@ with col1:
     if st.button("Delete Activity"):
         delete_event(delete_id)
         st.success("Activity deleted!")
-        st.rerun()
-
+        st.experimental_rerun()
 
 with col2:
     st.header("Calendar View")
     df = get_events()
-    st.write("Loaded data:", df)  # Debug -- remove if not needed
+    # Convert to calendar events format
     events = []
     for _, row in df.iterrows():
-        # Defensive: check that all fields exist
-        if all(k in row for k in ("ACTIVITY", "DATE", "START_TIME", "END_TIME")):
-            events.append({
-                "title": row["ACTIVITY"],
-                "start": f'{row["DATE"]}T{str(row["START_TIME"]).zfill(5)}',
-                "end": f'{row["DATE"]}T{str(row["END_TIME"]).zfill(5)}',
-            })
-    st.write("Calendar events:", events)  # Debug -- remove once working
-
+        # Defensive: ensure proper time format
+        start = f'{row["DATE"]}T{row["START_TIME"]}'
+        end = f'{row["DATE"]}T{row["END_TIME"]}'
+        events.append({
+            "title": row["ACTIVITY"],
+            "start": start,
+            "end": end,
+        })
     calendar_options = {
         "initialView": "timeGridWeek",
         "headerToolbar": {
