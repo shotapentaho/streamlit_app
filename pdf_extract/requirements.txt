@@ -1,5 +1,4 @@
 streamlit>=1.28
-streamlit-feedback
 matplotlib
 scikit-learn
 seaborn
@@ -7,7 +6,6 @@ sumy
 numpy>=1.19.5
 pandas
 frontend
-fitz
 tf-keras
 pillow
 pymupdf
