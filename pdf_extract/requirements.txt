@@ -5,7 +5,6 @@ seaborn
 sumy
 numpy>=1.19.5
 pandas
-frontend
 tf-keras
 pillow
 pymupdf
