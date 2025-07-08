@@ -32,7 +32,7 @@ def plot_result_dataframe(df):
 openai.api_key = st.secrets["openai"]["api_key"]
 
 st.set_page_config(layout="wide")
-st.title(" 🔍 📄 🧠 NLP (Natural Language) data analysis: on CSV|JSON files")
+st.title(" 🔍 📄 🧠 NLP (Natural Language) data analysis: on CSV|JSON|PARQUET files")
 
 # --- Setup session_state for dataframe ---
 if 'df' not in st.session_state:
@@ -41,7 +41,7 @@ if 'question' not in st.session_state:
     st.session_state.question = "row count?"  # Default empty question
 
 # File uploader
-uploaded_file = st.file_uploader("📁 Upload your CSV or JSON file", type=["csv", "json"])
+uploaded_file = st.file_uploader("📁 Upload your CSV or JSON file", type=["csv", "json", "parquet"])
 # To clear it
 st.session_state["question"] = ''  # Reset question in session_state
 
