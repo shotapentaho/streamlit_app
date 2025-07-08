@@ -65,6 +65,12 @@ if uploaded_file is not None:
             #st.success("✅ JSON file loaded!")
         except Exception as e:
             st.error(f"Error loading JSON: {e}")
+    elif file_name.endswith('.parquet'):
+        try:
+            st.session_state.df = pd.read_json(uploaded_file, lines=True)
+            #st.success("✅ PARQUET file loaded!")
+        except Exception as e:
+            st.error(f"Error loading JSON: {e}")
     else:
         st.error("❌ Unsupported file format. Please upload a CSV or JSON file.")
 
