@@ -12,7 +12,7 @@ available_models = {
     "Multilingual BERT (NLPTown)": "nlptown/bert-base-multilingual-uncased-sentiment"
 }
 
-st.title("Sentiment Analysis - Compare Models (Table)")
+st.title("Sentiment Analysis - Compare BERT Models")
 
 # Load all models and cache them
 @st.cache_resource
