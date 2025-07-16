@@ -1,7 +1,8 @@
 import os
 import streamlit as st
 import requests
-from langgraph.graph import Graph
+# FIX: Import StateGraph instead of Graph (latest langgraph)
+from langgraph.graph import StateGraph
 from langsmith import traceable
 import openai
 import pytz
@@ -13,10 +14,8 @@ st.set_page_config(layout="wide")
 os.environ["LANGCHAIN_API_KEY"] = st.secrets["langsmith"]["api_key"]
 os.environ["LANGCHAIN_PROJECT"] = st.secrets["langsmith"]["project_name"]
 
-#st.write("Project:", os.environ.get("LANGCHAIN_PROJECT"))
 client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 api_key = st.secrets["OPEN_WEATHER"]["OPENWEATHER_API_KEY"]  # Add your key to .streamlit/secrets.toml
-
 
 cities = [
     {"name": "New York", "timezone": "America/New_York"},
@@ -69,7 +68,8 @@ def ai_node(data):
     except Exception as e:
         return {"response": f"OPENAI ERROR: {str(e)}"}
 
-graph = Graph()
+# FIX: Use StateGraph instead of Graph
+graph = StateGraph()
 graph.add_node("ai", ai_node)
 graph.set_entry_point("ai")
 graph.set_finish_point("ai")
@@ -91,7 +91,6 @@ with col2:
     if user_input:
         with st.spinner("Thinking..."):
             result = compiled_graph.invoke({"message": user_input, "model": model_name})
-            #st.write("Raw result:", result)
             ai_response = (
                 result["response"]
                 if result and isinstance(result, dict) and "response" in result
@@ -133,4 +132,3 @@ Payload:
                 st.success("Trace successfully sent via API! Check your LangSmith dashboard.")
             else:
                 st.error(f"Error sending trace via API. Status: {response.status_code} Body: {response.text}")
-    #st.info("This demo uses LangGraph for orchestration and LangSmith for experiment tracking.")
