@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 import requests
-# FIX: Import StateGraph instead of Graph (latest langgraph)
+from typing import TypedDict
 from langgraph.graph import StateGraph
 from langsmith import traceable
 import openai
@@ -33,7 +33,7 @@ for idx, city in enumerate(cities):
         # Get current time in the city's timezone
         city_tz = pytz.timezone(city["timezone"])
         city_time = datetime.now(city_tz).strftime("%Y-%m-%d %H:%M")
-        
+
         # Get weather info
         url = (
             f"https://api.openweathermap.org/data/2.5/weather?q={city['name']}"
@@ -55,8 +55,12 @@ for idx, city in enumerate(cities):
         else:
             st.error("API error")
 
+class AgentState(TypedDict):
+    message: str
+    model: str
+
 @traceable(name="AI Agent Run")
-def ai_node(data):
+def ai_node(data: AgentState):
     try:
         user_message = data["message"]
         model = data.get("model", "gpt-3.5-turbo")
@@ -68,8 +72,7 @@ def ai_node(data):
     except Exception as e:
         return {"response": f"OPENAI ERROR: {str(e)}"}
 
-# FIX: Use StateGraph instead of Graph
-graph = StateGraph()
+graph = StateGraph(AgentState)
 graph.add_node("ai", ai_node)
 graph.set_entry_point("ai")
 graph.set_finish_point("ai")
@@ -77,7 +80,7 @@ compiled_graph = graph.compile()
 
 st.title("🧠 LangGraph + LangSmith AI Agent")
 
-col1, col2 = st.columns([1,2])
+col1, col2 = st.columns([1, 2])
 
 with col1:
     model_name = st.selectbox(
