@@ -40,7 +40,7 @@ def rating_to_stars(rating):
 sentiment_analyzer = load_model(model_name)
 
 # Text input area
-user_input = st.text_area("Enter text for sentiment analysis:", "")
+user_input = st.text_area("Enter some text:", "")
 
 # Analyze button
 if st.button("Analyze"):
