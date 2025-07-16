@@ -1,6 +1,7 @@
 import streamlit as st
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 import re
+import pandas as pd
 
 # Available models
 available_models = {
@@ -9,7 +10,7 @@ available_models = {
     "Multilingual BERT (NLPTown)": "nlptown/bert-base-multilingual-uncased-sentiment"
 }
 
-st.title("Sentiment Analysis - Compare Models")
+st.title("Sentiment Analysis - Compare Models (Table)")
 
 # Load all models and cache them
 @st.cache_resource
@@ -35,31 +36,55 @@ if st.button("Analyze"):
     if not user_input.strip():
         st.warning("⚠ Please enter some text for analysis.")
     else:
-        cols = st.columns(len(analyzers))
-        for i, (model_label, analyzer) in enumerate(analyzers.items()):
-            with cols[i]:
-                st.markdown(f"### {model_label}")
-                try:
-                    result = analyzer(user_input)[0]
-                except Exception as e:
-                    st.error(f"Error: {e}")
-                    continue
-                label = result['label']
-                score = result['score']
-                if "star" in label:
-                    match = re.search(r"(\d)", label)
-                    if match:
-                        num_stars = int(match.group(1))
-                    else:
-                        num_stars = 3
-                    star_display = rating_to_stars(num_stars)
-                    st.subheader(f"Sentiment: {star_display}") 
+        results = []
+        for model_label, analyzer in analyzers.items():
+            try:
+                result = analyzer(user_input)[0]
+            except Exception as e:
+                results.append({
+                    "Model": model_label,
+                    "Sentiment": "ERROR",
+                    "Confidence": "-",
+                    "Stars": "-",
+                    "Color": "gray"
+                })
+                continue
+
+            label = result['label']
+            score = result['score']
+            stars = "-"
+            sentiment_display = label
+
+            if "star" in label:
+                match = re.search(r"(\d)", label)
+                if match:
+                    num_stars = int(match.group(1))
                 else:
-                    st.subheader(f"Sentiment: {label}")
-                st.write(f"Confidence Score: {score:.2f}")
-                if label.lower().startswith("pos"):
-                    st.markdown('<h3 style="color:green;">Positive</h3>', unsafe_allow_html=True)
-                elif label.lower().startswith("neg"):
-                    st.markdown('<h3 style="color:red;">Negative</h3>', unsafe_allow_html=True)
-                else:
-                    st.markdown('<h3 style="color:gray;">Neutral</h3>', unsafe_allow_html=True)
+                    num_stars = 3
+                stars = rating_to_stars(num_stars)
+                sentiment_display = stars
+
+            if label.lower().startswith("pos"):
+                color = "green"
+                sentiment_label = "Positive"
+            elif label.lower().startswith("neg"):
+                color = "red"
+                sentiment_label = "Negative"
+            else:
+                color = "gray"
+                sentiment_label = "Neutral" if "star" not in label else f"{label}"
+
+            results.append({
+                "Model": model_label,
+                "Sentiment": sentiment_label,
+                "Confidence": f"{score:.2f}",
+                "Stars": stars if stars != "-" else "",
+                "Color": color
+            })
+
+        df = pd.DataFrame(results)
+        # Show sentiment with colored markdown
+        def color_row(row):
+            return [f'background-color: {row.Color}; color: white' if c == 'Sentiment' else '' for c in df.columns]
+
+        st.dataframe(df[["Model", "Sentiment", "Confidence", "Stars"]], use_container_width=True)
