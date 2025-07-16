@@ -55,7 +55,12 @@ if st.button("Analyze"):
 
         # Optional: handle neutral logic only for binary classifiers
         if "star" in label:
-            star_display = rating_to_stars(3)   
+            match = re.search(r"(\d)", label)
+            if match:
+                num_stars = int(match.group(1))
+            else:
+                num_stars = 3  # fallback to 3 if something goes wrong
+            star_display = rating_to_stars(num_stars)   
             st.subheader(f"Sentiment: {star_display}") 
         else:
             st.subheader(f"Sentiment: {label}")
