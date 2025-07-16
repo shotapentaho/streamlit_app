@@ -78,7 +78,7 @@ graph.set_entry_point("ai")
 graph.set_finish_point("ai")
 compiled_graph = graph.compile()
 
-st.title("🧠 LangGraph + LangSmith AI Agent")
+st.title("🧠 LangGraph + LangSmith AI Agent with Open AI LLM Modes")
 
 col1, col2 = st.columns([1, 2])
 
