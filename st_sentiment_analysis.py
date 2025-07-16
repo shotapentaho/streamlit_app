@@ -3,6 +3,8 @@ from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassifica
 import re
 import pandas as pd
 
+st.set_page_config(layout="wide") 
+
 # Available models
 available_models = {
     "DistilBERT (SST-2, English)": "distilbert-base-uncased-finetuned-sst-2-english",
