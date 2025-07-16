@@ -51,9 +51,7 @@ if st.button("Analyze"):
         
         label = result['label']
         score = result['score']
-        st.subheader(f"Label: {label}") 
-        st.subheader(f"Score: {score}") 
-
+        
         # Optional: handle neutral logic only for binary classifiers
         if "star" in label:
             match = re.search(r"(\d)", label)
