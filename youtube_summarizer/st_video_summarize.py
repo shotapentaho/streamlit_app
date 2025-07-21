@@ -9,9 +9,9 @@ st.set_page_config(layout="wide")
 st.title("🎙️ YouTube Podcast Summarizer")
 
 # Load secrets from .streamlit/secrets.toml
-secrets_path = os.path.join(os.path.dirname(__file__), ".streamlit", "secrets.toml")
-secrets = toml.load(secrets_path)
-openai_api_key = secrets["openai"]["api_key"]
+#secrets_path = os.path.join(os.path.dirname(__file__), ".streamlit", "secrets.toml")
+#secrets = toml.load(secrets_path)
+openai_api_key = st.secrets["openai"]["api_key"]
 
 # Create OpenAI client (new SDK syntax)
 openai_client = openai.OpenAI(api_key=openai_api_key)
