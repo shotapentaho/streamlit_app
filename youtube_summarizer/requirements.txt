@@ -2,4 +2,4 @@ streamlit
 openai
 faster-whisper
 toml
-pytube
+pytube>=15.0.0
