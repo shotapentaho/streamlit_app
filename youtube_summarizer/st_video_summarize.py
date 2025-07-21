@@ -1,6 +1,6 @@
 import streamlit as st
 import openai
-import subprocess
+from pytube import YouTube
 from faster_whisper import WhisperModel
 import os
 import toml
@@ -11,15 +11,13 @@ st.title("🎙️ YouTube Podcast Summarizer")
 # Load secrets from .streamlit/secrets.toml
 #secrets_path = os.path.join(os.path.dirname(__file__), ".streamlit", "secrets.toml")
 #secrets = toml.load(secrets_path)
-openai_api_key = st.secrets["openai"]["api_key"]
-
-# Create OpenAI client (new SDK syntax)
-openai_client = openai.OpenAI(api_key=openai_api_key)
+ openai_api_key = st.secrets["openai"]["api_key"]
+ openai_client = openai.OpenAI(api_key=openai_api_key)
 
 def download_audio(url):
-    subprocess.run([
-        "youtube-dl", "--extract-audio", "--audio-format", "mp3", url, "-o", "audio.%(ext)s"
-    ], check=True)
+    yt = YouTube(url)
+    audio_stream = yt.streams.filter(only_audio=True).first()
+    audio_stream.download(filename="audio.mp3")
 
 def transcribe_audio(file_path):
     model = WhisperModel("base")
