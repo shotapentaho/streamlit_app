@@ -19,12 +19,8 @@ def download_audio(url):
     ydl_opts = {
         'format': 'bestaudio/best',
         'outtmpl': 'audio.%(ext)s',
-        'postprocessors': [{
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
-            'preferredquality': '192',
-        }],
-        'quiet': True
+        # REMOVE postprocessors!
+        'quiet': True,
     }
     with YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
