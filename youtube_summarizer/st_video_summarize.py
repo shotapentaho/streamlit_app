@@ -1,6 +1,7 @@
 import streamlit as st
 import openai
-from pytube import YouTube
+#from pytube import YouTube
+from yt_dlp import YoutubeDL
 from faster_whisper import WhisperModel
 import os
 import toml
@@ -15,17 +16,18 @@ openai_api_key = st.secrets["openai"]["api_key"]
 openai_client = openai.OpenAI(api_key=openai_api_key)
 
 def download_audio(url):
-    try:
-        yt = YouTube(url)
-        audio_stream = yt.streams.filter(only_audio=True).first()
-        if audio_stream is None:
-            raise Exception("No audio streams found for this video.")
-        audio_stream.download(filename="audio.mp3")
-    except Exception as e:
-        import traceback
-        st.error(f"Audio download failed: {e!r}")
-        st.text(traceback.format_exc())
-        st.stop()
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'outtmpl': 'audio.%(ext)s',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+        'quiet': True
+    }
+    with YoutubeDL(ydl_opts) as ydl:
+        ydl.download([url])
 
 def transcribe_audio(file_path):
     model = WhisperModel("base")
