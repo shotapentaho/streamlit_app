@@ -3,16 +3,18 @@ import openai
 import subprocess
 from faster_whisper import WhisperModel
 import os
+import toml
 
 st.set_page_config(layout="wide")
 st.title("🎙️ YouTube Podcast Summarizer")
 
-# Get OpenAI API key from Streamlit secrets or config.toml
-if "OPENAI_API_KEY" in st.secrets:
-    openai.api_key = st.secrets["OPENAI_API_KEY"]
-else:
-    st.error("Please add your OpenAI API key to .streamlit/secrets.toml as OPENAI_API_KEY.")
-    st.stop()
+# Load secrets from .streamlit/secrets.toml
+secrets_path = os.path.join(os.path.dirname(__file__), ".streamlit", "secrets.toml")
+secrets = toml.load(secrets_path)
+openai_api_key = secrets["openai"]["api_key"]
+
+# Create OpenAI client (new SDK syntax)
+openai_client = openai.OpenAI(api_key=openai_api_key)
 
 def download_audio(url):
     subprocess.run([
@@ -26,7 +28,7 @@ def transcribe_audio(file_path):
 
 def summarize_text(text):
     prompt = f"Summarize the following podcast:\n\n{text}"
-    response = openai.ChatCompletion.create(
+    response = openai_client.chat.completions.create(
         model="gpt-4",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.3
