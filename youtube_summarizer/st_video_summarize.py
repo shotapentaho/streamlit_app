@@ -15,9 +15,17 @@ openai_api_key = st.secrets["openai"]["api_key"]
 openai_client = openai.OpenAI(api_key=openai_api_key)
 
 def download_audio(url):
-    yt = YouTube(url)
-    audio_stream = yt.streams.filter(only_audio=True).first()
-    audio_stream.download(filename="audio.mp3")
+    try:
+        yt = YouTube(url)
+        audio_stream = yt.streams.filter(only_audio=True).first()
+        if audio_stream is None:
+            raise Exception("No audio streams found for this video.")
+        audio_stream.download(filename="audio.mp3")
+    except Exception as e:
+        import traceback
+        st.error(f"Audio download failed: {e!r}")
+        st.text(traceback.format_exc())
+        st.stop()
 
 def transcribe_audio(file_path):
     model = WhisperModel("base")
