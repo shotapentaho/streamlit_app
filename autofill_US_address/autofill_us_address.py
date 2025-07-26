@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import pandas as pd
 
 GOOGLE_API_KEY = st.secrets["google"]["PLACES_API_KEY"]
 
@@ -28,7 +29,7 @@ def get_place_details(place_id):
     url = f"https://places.googleapis.com/v1/{place_id}"
     headers = {"X-Goog-Api-Key": GOOGLE_API_KEY}
     params = {
-        "fields": "id,formattedAddress,addressComponents"
+        "fields": "id,formattedAddress,addressComponents,location"
     }
     r = requests.get(url, headers=headers, params=params)
     if r.status_code == 200:
@@ -43,7 +44,7 @@ def extract_address_component(components, type_name):
             return comp.get("longText", "")
     return ""
 
-st.title("📫 Autofill US Address")
+st.title("📫 Autofill US Address & Map")
 
 if "address_input" not in st.session_state:
     st.session_state["address_input"] = ""
@@ -72,6 +73,23 @@ if "selected_place_id" in st.session_state:
     state = extract_address_component(components, "administrative_area_level_1")
     zip_code = extract_address_component(components, "postal_code")
     st.success(f"Selected: {st.session_state['address_input']}")
-    st.text_input("City", value=city)
-    st.text_input("State", value=state)
-    st.text_input("ZIP", value=zip_code)
+    st.text_input("City", value=city, disabled=True)
+    st.text_input("State", value=state, disabled=True)
+    st.text_input("ZIP", value=zip_code, disabled=True)
+
+    # Extract and display map if location is present
+    location = details.get("location", {})
+    lat = location.get("latitude")
+    lon = location.get("longitude")
+
+    if lat is not None and lon is not None:
+        df_map = pd.DataFrame([{"lat": lat, "lon": lon}])
+        st.map(df_map, zoom=15)
+        # Optional: Embed Google Maps iframe
+        maps_url = f"https://www.google.com/maps?q={lat},{lon}&z=15&output=embed"
+        st.markdown(
+            f'<iframe width="100%" height="400" src="{maps_url}"></iframe>',
+            unsafe_allow_html=True,
+        )
+    else:
+        st.info("No location found for this address.")
