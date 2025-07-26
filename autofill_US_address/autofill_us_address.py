@@ -72,24 +72,28 @@ if "selected_place_id" in st.session_state:
     city = extract_address_component(components, "locality")
     state = extract_address_component(components, "administrative_area_level_1")
     zip_code = extract_address_component(components, "postal_code")
-    st.success(f"Selected: {st.session_state['address_input']}")
-    st.text_input("City", value=city, disabled=True)
-    st.text_input("State", value=state, disabled=True)
-    st.text_input("ZIP", value=zip_code, disabled=True)
-
-    # Extract and display map if location is present
     location = details.get("location", {})
     lat = location.get("latitude")
     lon = location.get("longitude")
 
-    if lat is not None and lon is not None:
-        df_map = pd.DataFrame([{"lat": lat, "lon": lon}])
-        st.map(df_map, zoom=15)
-        # Optional: Embed Google Maps iframe
-        maps_url = f"https://www.google.com/maps?q={lat},{lon}&z=15&output=embed"
-        st.markdown(
-            f'<iframe width="100%" height="400" src="{maps_url}"></iframe>',
-            unsafe_allow_html=True,
-        )
-    else:
-        st.info("No location found for this address.")
+    st.success(f"Selected: {st.session_state['address_input']}")
+
+    # Use columns to display address fields on the left, map on the right
+    col1, col2 = st.columns([1, 1.2])
+    with col1:
+        st.text_input("City", value=city, disabled=True)
+        st.text_input("State", value=state, disabled=True)
+        st.text_input("ZIP", value=zip_code, disabled=True)
+
+    with col2:
+        if lat is not None and lon is not None:
+            df_map = pd.DataFrame([{"lat": lat, "lon": lon}])
+            st.map(df_map, zoom=15)
+            # Optional: Embed Google Maps iframe
+            maps_url = f"https://www.google.com/maps?q={lat},{lon}&z=15&output=embed"
+            st.markdown(
+                f'<iframe width="100%" height="400" src="{maps_url}"></iframe>',
+                unsafe_allow_html=True,
+            )
+        else:
+            st.info("No location found for this address.")
