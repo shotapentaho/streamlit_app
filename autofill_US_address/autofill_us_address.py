@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import pandas as pd
+st.set_page_config(layout="wide")
 
 GOOGLE_API_KEY = st.secrets["google"]["PLACES_API_KEY"]
 
