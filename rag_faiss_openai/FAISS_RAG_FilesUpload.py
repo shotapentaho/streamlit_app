@@ -86,5 +86,5 @@ if query and st.session_state.index is not None:
         )
         st.subheader("RAG Answer")
         st.write(chat_response.choices[0].message.content.strip())
-~                                                                                                                                                                                                                                                                                                                                                                                                                     
-~                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                             
