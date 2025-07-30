@@ -27,6 +27,7 @@ st_generic_urls = {
 st_ml_dl_urls = {
     "🚗 Auto Manual PDF (Text Embedding) via LLMs [Openai and Gemini]": "https://auto-manual-search.cxloop.co/",
     "📄🧠 NLP (English) on DuckDB: Analyze and Visualize CSV/JSON": "https://nlp-query-duckdb.streamlit.app/",
+    "FAISS RAG - Upload and search your PDF! 🚀": "http://52.20.229.144:8506/",
     "LLM Agent: LangGraph orchestration and LangSmith with OpenAI LLM": "https://agent-ai-lg-trace.streamlit.app/",
     "NLP NER - Named Entity Recognition":"https://ner-from-text.streamlit.app/",
     "NLP Translator - Human Languages": "https://translate-language.streamlit.app/",
