@@ -82,7 +82,7 @@ with col1:
     # Dropdown or radio button for selection
     #page_ml_dl = st.selectbox("Select your LLM, ML, DL app here:", list(st_ml_dl_urls.keys()))
     st.markdown(
-    "<h3 style='text-align: left; color: red;'>Select LLMs, NLP, ML/DL, Data Analysis apps and  more..</h3>",
+    "<h3 style='text-align: left; color: red;'>Select LLMs, NLP tasks, ML/DL, Data Analysis apps and  more..</h3>",
     unsafe_allow_html=True
     )
     page_ml_dl = st.selectbox("", list(st_ml_dl_urls.keys()))
