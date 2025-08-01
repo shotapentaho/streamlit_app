@@ -29,6 +29,7 @@ st_ml_dl_urls = {
     "📄🧠 NLP (English) on DuckDB: Analyze and Visualize CSV/JSON": "https://nlp-query-duckdb.streamlit.app/",
     "📄🧠 Upload and search your PDF! 🚀 OpenAI + FAISS RAG": "https://faiss-rag.cxloop.co/",
     "🧠 LLM Agent: LangGraph orchestration and LangSmith with OpenAI LLM": "https://agent-ai-lg-trace.streamlit.app/",
+    "🧠 Open AI Whisper (wav, mp3) Converter:":"https://whisper-wav-txt.streamlit.app/",
     "📄 NLP NER - Named Entity Recognition":"https://ner-from-text.streamlit.app/",
     "📄 NLP Translator - Human Languages": "https://translate-language.streamlit.app/",
     "NLP Sentiment analysis - Hugging Face pipeline":"https://get-sentiment.streamlit.app/",
