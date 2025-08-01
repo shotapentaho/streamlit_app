@@ -2,6 +2,7 @@ import streamlit as st
 import whisper
 import tempfile
 import os
+import subprocess
 
 st.title("WAV to Text Transcription (OpenAI Whisper)")
 
