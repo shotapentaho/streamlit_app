@@ -7,6 +7,13 @@ st.title("WAV to Text Transcription (OpenAI Whisper)")
 
 uploaded_file = st.file_uploader("Upload a WAV file", type=["wav"])
 
+
+try:
+    ffmpeg_version = subprocess.check_output(["ffmpeg", "-version"]).decode().split("\n")[0]
+    st.success(f"FFmpeg found: {ffmpeg_version}")
+except Exception as e:
+    st.error(f"FFmpeg not found: {e}")
+
 if uploaded_file is not None:
     # Save the uploaded file to a temporary location
     with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmpfile:
