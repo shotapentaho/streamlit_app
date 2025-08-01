@@ -24,4 +24,4 @@ if uploaded_file is not None:
     st.write(result["text"])
 
     # Clean up temp file
-    os.remove(tmp_path)
+    #os.remove(tmp_path)
