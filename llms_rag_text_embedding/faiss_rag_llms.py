@@ -64,13 +64,37 @@ with top_right:
 if mode:
     st.markdown("""
     <style>
-    body, .stApp { background-color: #fff; color: #000; }
+    body, .stApp {
+        background-color: #fff !important;
+        color: #000 !important;
+    }
+    div[data-testid="stMarkdownContainer"],
+    div[data-testid="stText"],
+    div[data-testid="stHeader"],
+    div[data-testid="stSubheader"],
+    div[data-testid="stCaption"],
+    div[data-testid="stCodeBlock"],
+    p, span, label, h1, h2, h3, h4, h5, h6 {
+        color: #000 !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 else:
     st.markdown("""
     <style>
-    body, .stApp { background-color: #000; color: #fff; }
+    body, .stApp {
+        background-color: #000 !important;
+        color: #fff !important;
+    }
+    div[data-testid="stMarkdownContainer"],
+    div[data-testid="stText"],
+    div[data-testid="stHeader"],
+    div[data-testid="stSubheader"],
+    div[data-testid="stCaption"],
+    div[data-testid="stCodeBlock"],
+    p, span, label, h1, h2, h3, h4, h5, h6 {
+        color: #fff !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 
