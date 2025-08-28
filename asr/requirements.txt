@@ -1,0 +1,31 @@
+# OPTION B: No NeMo fallback (simpler; Parakeet model still won’t load in Transformers)
+# Use a different ASR model (e.g., openai/whisper-small) unless you add NeMo or an API.
+
+# Core UI
+streamlit==1.48.1
+
+# PyTorch stack (keep your newer versions)
+torch==2.8.0
+torchaudio==2.8.0
+
+# Hugging Face ecosystem
+transformers==4.55.4
+huggingface_hub==0.34.4
+safetensors==0.6.2
+sentencepiece==0.2.0
+
+# Audio / DSP
+numpy==1.26.4          # keep <2 for pyctcdecode; if you remove pyctcdecode, you can raise this
+soundfile==0.13.1
+librosa==0.10.2.post1
+soxr==0.5.0.post1
+
+# Beam decoding (remove if you don’t need it; then you can move numpy to 2.x)
+pyctcdecode==0.5.0
+
+# Live microphone streaming
+streamlit-webrtc==0.47.6
+av==14.0.1
+
+# Utilities
+einops==0.8.0
