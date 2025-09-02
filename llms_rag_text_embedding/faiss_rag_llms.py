@@ -57,52 +57,168 @@ if "pdf_loaded" not in st.session_state:
 if "last_file_name" not in st.session_state:
     st.session_state.last_file_name = None
 
+# --- Header with mode toggle ---
 top_left, top_center, top_right = st.columns([3, 1, 1])
 with top_right:
-    mode = st.toggle("🌞 / 🌓", value=True)
+    if "light_mode" not in st.session_state:
+        st.session_state.light_mode = True
+    mode = st.toggle("🌞 / 🌙", value=st.session_state.light_mode, help="Switch light/dark theme")
+    st.session_state.light_mode = mode
 
-if mode:
-    st.markdown("""
-    <style>
-    body, .stApp {
-        background-color: #fff !important;
-        color: #000 !important;
-    }
-    div[data-testid="stMarkdownContainer"],
-    div[data-testid="stText"],
-    div[data-testid="stHeader"],
-    div[data-testid="stSubheader"],
-    div[data-testid="stCaption"],
-    div[data-testid="stCodeBlock"],
-    p, span, label, h1, h2, h3, h4, h5, h6 {
-        color: #000 !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-else:
-    st.markdown("""
-    <style>
-    body, .stApp {
-        background-color: #000 !important;
-        color: #fff !important;
-    }
-    div[data-testid="stMarkdownContainer"],
-    div[data-testid="stText"],
-    div[data-testid="stHeader"],
-    div[data-testid="stSubheader"],
-    div[data-testid="stCaption"],
-    div[data-testid="stCodeBlock"],
-    p, span, label, h1, h2, h3, h4, h5, h6 {
-        color: #fff !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+style_holder = st.empty()
+
+light_css = """
+<style id="dynamic-theme">
+/* Base background & text */
+.stApp, body, [data-testid="stAppViewContainer"] {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* General text containers */
+div[data-testid="stMarkdownContainer"],
+div[data-testid="stText"],
+div[data-testid="stHeader"],
+div[data-testid="stSubheader"],
+div[data-testid="stCaption"],
+p, span, label, h1, h2, h3, h4, h5, h6 {
+  color: #000 !important;
+}
+
+/* Buttons */
+.stButton > button, .stDownloadButton > button {
+  background: #f2f2f5 !important;
+  color: #000 !important;
+  border: 1px solid #c9ccd1 !important;
+  box-shadow: none !important;
+}
+.stButton > button:hover, .stDownloadButton > button:hover {
+  background: #e4e6eb !important;
+  border-color: #b0b4b8 !important;
+}
+
+/* Toggle (checkbox-like internal div) */
+[data-testid="stToggle"] [role="checkbox"] {
+  background: #e5e7ea !important;
+  border: 1px solid #9da3aa !important;
+  box-shadow: none !important;
+}
+[data-testid="stToggle"] [role="checkbox"][aria-checked="true"] {
+  background: #3478f6 !important;
+  border-color: #1f5fcc !important;
+}
+[data-testid="stToggle"] [role="checkbox"] > div {
+  /* The knob */
+  background: #ffffff !important;
+}
+
+/* Code blocks */
+div[data-testid="stCodeBlock"] pre, code {
+  background: #f5f5f5 !important;
+  color: #111 !important;
+}
+
+/* Inputs (text, select, etc.) */
+.stTextInput input, .stSelectbox div[data-baseweb="select"] > div {
+  background: #ffffff !important;
+  color: #000 !important;
+  border: 1px solid #c9ccd1 !important;
+}
+
+/* Scrollbar (optional subtle) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+::-webkit-scrollbar-thumb {
+  background: #c0c3c7;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a5a9ad;
+}
+</style>
+"""
+
+dark_css = """
+<style id="dynamic-theme">
+.stApp, body, [data-testid="stAppViewContainer"] {
+  background: #0f1115 !important;
+  color: #f5f7fa !important;
+}
+
+div[data-testid="stMarkdownContainer"],
+div[data-testid="stText"],
+div[data-testid="stHeader"],
+div[data-testid="stSubheader"],
+div[data-testid="stCaption"],
+p, span, label, h1, h2, h3, h4, h5, h6 {
+  color: #f5f7fa !important;
+}
+
+.stButton > button, .stDownloadButton > button {
+  background: #1f2329 !important;
+  color: #f5f7fa !important;
+  border: 1px solid #343a40 !important;
+  box-shadow: none !important;
+}
+.stButton > button:hover, .stDownloadButton > button:hover {
+  background: #2a3037 !important;
+  border-color: #4a525a !important;
+}
+
+[data-testid="stToggle"] [role="checkbox"] {
+  background: #2b3036 !important;
+  border: 1px solid #4b535c !important;
+}
+[data-testid="stToggle"] [role="checkbox"][aria-checked="true"] {
+  background: #4d8dff !important;
+  border-color: #72a6ff !important;
+}
+[data-testid="stToggle"] [role="checkbox"] > div {
+  background: #ffffff !important;
+}
+
+/* Code blocks */
+div[data-testid="stCodeBlock"] pre, code {
+  background: #1e2227 !important;
+  color: #e3e8ef !important;
+}
+
+/* Inputs */
+.stTextInput input, .stSelectbox div[data-baseweb="select"] > div {
+  background: #1c2025 !important;
+  color: #f5f7fa !important;
+  border: 1px solid #3a4047 !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0f1115;
+}
+::-webkit-scrollbar-thumb {
+  background: #3a4047;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #4c545d;
+}
+</style>
+"""
+
+style_holder.markdown(light_css if st.session_state.light_mode else dark_css, unsafe_allow_html=True)
 
 st.title("Ask PDF, query for semantic results 🚀 ")
 st.subheader("Powered by: LLMs (OpenAI, Gemini, HuggingFace embedding/chat) + RAG (FAISS)")
 
 # --- UI: File Upload and LLM/Embedding Model Picker in 2 columns ---
-col1, col2, col3, col4 = st.columns(4)
+#col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3 = st.columns(3)
 with col1:
     uploaded_file = st.file_uploader("Browse: Upload a PDF or TXT", type=["pdf", "txt"])
 with col2:
@@ -113,21 +229,21 @@ with col3:
         list(EMBED_MODELS[provider].keys()),
         key=f"model_select_{provider}"
     )
-with col4:
-    st.write("Embedding Debug:")
-    if st.button("Debug HuggingFace API"):
-        test_text = st.text_input("Enter text for debug:", "Hello world, this is a test for embeddings.")
-        if test_text:
-            st.write("Model:", model)
-            api_url = f"https://api-inference.huggingface.co/models/{model}"
-            headers = {
-                "Authorization": f"Bearer {huggingface_api_token}",
-                "Content-Type": "application/json"
-            }
-            data = {"inputs": test_text}
-            resp = requests.post(api_url, headers=headers, json=data)
-            st.write("Status code:", resp.status_code)
-            st.json(resp.json())
+#with col4:
+    #st.write("Embedding Debug:")
+    #if st.button("Debug HuggingFace API"):
+    #    test_text = st.text_input("Enter text for debug:", "Hello world, this is a test for embeddings.")
+    #    if test_text:
+    #        st.write("Model:", model)
+    #        api_url = f"https://api-inference.huggingface.co/models/{model}"
+    #        headers = {
+    #            "Authorization": f"Bearer {huggingface_api_token}",
+    #            "Content-Type": "application/json"
+    #        }
+    #        data = {"inputs": test_text}
+    #        resp = requests.post(api_url, headers=headers, json=data)
+    #        st.write("Status code:", resp.status_code)
+    #        st.json(resp.json())
 
 if provider == "OpenAI":
     openai_chat_model = st.selectbox(
@@ -381,3 +497,4 @@ if (
                     st.subheader(f"RAG Context ({model})")
                     st.write(context)
                     st.info("You can copy-paste above context to an LLM for further Q&A, or add direct integration with Hugging Face Inference endpoints or OpenAI/Gemini.")
+
