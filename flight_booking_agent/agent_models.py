@@ -1,3 +1,4 @@
+# v15 — Added IntentParseResult & WeatherReport for intent + weather integration
 from __future__ import annotations
 from typing import List, Optional, Dict, Any
 from datetime import date, datetime
@@ -13,6 +14,7 @@ class SearchCriteria(BaseModel):
     cabin: str = "ECONOMY"
     adults: int = 1
     max_results: int = 20
+    price_cap: Optional[float] = None
 
     @field_validator("origin", "destination")
     @classmethod
@@ -50,7 +52,7 @@ class Itinerary(BaseModel):
     segments: List[FlightSegment]
     fare: FareComponent
     pricing_timestamp: datetime
-    score: Optional[float] = None  # ranking score
+    score: Optional[float] = None
     meta: Dict[str, Any] = Field(default_factory=dict)
 
 
@@ -59,6 +61,35 @@ class Passenger(BaseModel):
     last_name: str
     gender: Optional[str] = None
     birth_date: Optional[date] = None
+
+
+# ---------- Intent & Weather ----------
+
+class IntentParseResult(BaseModel):
+    success: bool
+    criteria: Optional[SearchCriteria] = None
+    reasoning: Optional[str] = None
+    warnings: List[str] = Field(default_factory=list)
+    raw: Optional[str] = None
+
+
+class WeatherPoint(BaseModel):
+    code: str  # IATA
+    name: Optional[str] = None
+    latitude: float
+    longitude: float
+    temperature_c: Optional[float] = None
+    wind_speed_kph: Optional[float] = None
+    wind_direction_deg: Optional[int] = None
+    weather_code: Optional[int] = None
+    time: Optional[datetime] = None
+
+
+class WeatherReport(BaseModel):
+    origin: Optional[WeatherPoint] = None
+    destination: Optional[WeatherPoint] = None
+    fetched_at: datetime
+    provider: str = "open-meteo"
 
 
 # ---------- Booking / Payment / Ticketing ----------
@@ -74,7 +105,7 @@ class BookingRecord(BaseModel):
     itinerary: Itinerary
     passengers: List[Passenger]
     created_at: datetime
-    status: str  # e.g., HELD, CONFIRMED
+    status: str
     hold_expires_at: Optional[datetime] = None
 
 
@@ -82,7 +113,7 @@ class PaymentRequest(BaseModel):
     booking_id: str
     amount: float
     currency: str = "USD"
-    card_token: str  # tokenized card; stub in MVP
+    card_token: str
     capture: bool = True
     idempotency_key: str
 
@@ -92,7 +123,7 @@ class PaymentResult(BaseModel):
     booking_id: str
     authorized_amount: float
     currency: str
-    status: str  # AUTHORIZED, CAPTURED, FAILED
+    status: str
     processor_ref: Optional[str] = None
     created_at: datetime
 
@@ -101,7 +132,7 @@ class TicketRecord(BaseModel):
     ticket_numbers: List[str]
     booking_id: str
     issued_at: datetime
-    status: str  # ISSUED
+    status: str
     delivery_channel: str = "EMAIL"
 
 
@@ -131,17 +162,13 @@ class StepResult(BaseModel):
     ended_at: datetime
 
 
-# ---------- Final Answer (User-Facing Summary) ----------
+# ---------- Final Answer ----------
 
 def _stringify(value: Any) -> str:
     if isinstance(value, str):
         return value
     if isinstance(value, dict):
-        # concise dict flatten
-        parts = []
-        for k, v in value.items():
-            parts.append(f"{k}: {v}")
-        return "\n".join(parts)
+        return "\n".join(f"{k}: {v}" for k, v in value.items())
     if isinstance(value, list):
         if all(isinstance(x, (int, float, str)) for x in value):
             return ", ".join(map(str, value))

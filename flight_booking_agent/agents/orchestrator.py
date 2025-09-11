@@ -5,19 +5,20 @@ import uuid
 
 from agent_models import (
     OrchestratorPlan, PlanStep, StepResult, SearchCriteria, Passenger,
-    BookingRequest, PaymentRequest, FinalAnswer
+    BookingRequest, PaymentRequest, FinalAnswer, WeatherReport
 )
+from agent_models import Itinerary  # for typing
 from agents.flight_search_agent import FlightSearchAgent
 from agents.pricing_agent import PricingAgent
 from agents.booking_agent import BookingAgent
 from agents.payment_agent import PaymentAgent
 from agents.ticketing_agent import TicketingAgent
-from agent_models import Itinerary  # for type hints
-
+from agents.weather_agent import WeatherAgent
 
 class OrchestratorAgent:
     """
     Coordinates multi-step flight booking workflow.
+    Adds optional weather step.
     """
 
     def __init__(self):
@@ -26,13 +27,14 @@ class OrchestratorAgent:
         self.booking = BookingAgent()
         self.payment = PaymentAgent()
         self.ticketing = TicketingAgent()
+        self.weather = WeatherAgent()
 
-    def build_plan(self, intent: str, include_return: bool, mode: str = "full") -> OrchestratorPlan:
+    def build_plan(self, intent: str, include_return: bool, mode: str = "full", include_weather: bool = False) -> OrchestratorPlan:
         """
         mode:
-          - 'search': only search + pricing
-          - 'book': booking onward (assumes itineraries already loaded)
-          - 'full': full pipeline
+          - 'search': only search + pricing [+ weather if requested]
+          - 'book': booking onward
+          - 'full': entire pipeline
         """
         steps: List[PlanStep] = []
         if mode in ("search", "full"):
@@ -40,6 +42,9 @@ class OrchestratorAgent:
                                   action="search", description="Search inventory", args={}))
             steps.append(PlanStep(step_id=len(steps)+1, name="price_itineraries", agent="pricing_agent",
                                   action="reprice", description="Reprice / normalize fares", args={}))
+            if include_weather:
+                steps.append(PlanStep(step_id=len(steps)+1, name="get_weather", agent="weather_agent",
+                                      action="get_report", description="Fetch origin/destination weather", args={}))
 
         if mode in ("book", "full"):
             steps.append(PlanStep(step_id=len(steps)+1, name="create_booking", agent="booking_agent",
@@ -60,18 +65,14 @@ class OrchestratorAgent:
         payment_card_token: Optional[str],
         preloaded_itineraries: Optional[List[Itinerary]] = None
     ) -> Dict[str, Any]:
-        """
-        preloaded_itineraries:
-            If provided, search_flights step will be skipped (no regeneration),
-            ensuring itinerary IDs remain stable for booking.
-        """
         results: List[StepResult] = []
         context: Dict[str, Any] = {
             "itineraries": preloaded_itineraries[:] if preloaded_itineraries else [],
             "selected": None,
             "booking": None,
             "payment": None,
-            "tickets": None
+            "tickets": None,
+            "weather": None
         }
 
         for step in plan.steps:
@@ -79,29 +80,44 @@ class OrchestratorAgent:
             success = True
             output = None
             error = None
+
             try:
                 if step.name == "search_flights":
                     if context["itineraries"]:
                         output = f"Skipped search; using {len(context['itineraries'])} preloaded itineraries."
                     else:
                         itins = self.flight_search.search(criteria)
+                        # Optional price cap filtering later in pricing step; here we just store
                         context["itineraries"] = itins
                         output = f"{len(itins)} itineraries found."
                 elif step.name == "price_itineraries":
                     if not context["itineraries"]:
                         raise ValueError("No itineraries to price.")
                     context["itineraries"] = self.pricing.reprice(context["itineraries"])
-                    output = "Pricing refreshed."
+                    # Apply price cap filter if present
+                    if criteria.price_cap:
+                        before = len(context["itineraries"])
+                        context["itineraries"] = [
+                            i for i in context["itineraries"] if i.fare.total <= criteria.price_cap
+                        ]
+                        output = f"Pricing refreshed. Filtered {before}->{len(context['itineraries'])} by price_cap."
+                    else:
+                        output = "Pricing refreshed."
+                elif step.name == "get_weather":
+                    report: WeatherReport = self.weather.get_report(criteria.origin, criteria.destination)
+                    context["weather"] = report
+                    if report.origin and report.destination:
+                        output = (f"Weather O:{report.origin.temperature_c}C D:{report.destination.temperature_c}C")
+                    else:
+                        output = "Weather partial or unavailable."
                 elif step.name == "create_booking":
                     if not selected_itinerary_id:
-                        raise ValueError("No itinerary selected (selected_itinerary_id missing).")
+                        raise ValueError("No itinerary selected.")
                     if not context["itineraries"]:
                         raise ValueError("Itinerary list empty; cannot match selection.")
                     itin = next((i for i in context["itineraries"] if i.id == selected_itinerary_id), None)
                     if not itin:
-                        available_ids = ", ".join(i.id for i in context["itineraries"])
-                        raise ValueError(f"Selected itinerary '{selected_itinerary_id}' not in current list. "
-                                         f"Available IDs: {available_ids}")
+                        raise ValueError("Selected itinerary not found in current list.")
                     context["selected"] = itin
                     booking_req = BookingRequest(
                         itinerary_id=itin.id,
@@ -162,19 +178,27 @@ class OrchestratorAgent:
         if failures:
             answer_text = f"Workflow stopped at step {failures[0].name}: {failures[0].error}"
             key_points = [f"Successful steps: {len([r for r in results if r.success])}"]
-            followups = ["Re-select an itinerary or re-run search.", "Verify payment token."]
+            followups = ["Adjust selection or input and retry.", "Check payment token."]
         else:
-            answer_text = "Booking completed successfully; tickets issued."
+            answer_text = "Workflow completed."
             key_points = [
-                f"Itineraries (cached): {len(context['itineraries'])}",
-                f"Booking ID: {context['booking'].booking_id if context['booking'] else 'N/A'}",
+                f"Itineraries: {len(context['itineraries'])}",
+                f"Selected: {context['selected'].id if context['selected'] else 'N/A'}",
+                f"Booking: {context['booking'].booking_id if context['booking'] else 'N/A'}",
                 f"Tickets: {', '.join(context['tickets'].ticket_numbers) if context['tickets'] else 'N/A'}"
             ]
+            if context.get("weather"):
+                w = context["weather"]
+                if w.origin and w.destination and w.origin.temperature_c is not None:
+                    key_points.append(f"Origin temp {w.origin.code}: {w.origin.temperature_c}C")
+                if w.destination and w.destination.temperature_c is not None:
+                    key_points.append(f"Dest temp {w.destination.code}: {w.destination.temperature_c}C")
             followups = [
-                "Would you like to add insurance?",
-                "Need a receipt emailed?",
-                "Add seat selection next?"
+                "Add seat selection?",
+                "Need fare rules details?",
+                "Send itinerary via email?"
             ]
+
         final = FinalAnswer(answer=answer_text, key_points=key_points, follow_up_questions=followups)
         return {
             "plan": plan,
