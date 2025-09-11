@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from datetime import datetime
 import uuid
 
@@ -12,8 +12,14 @@ from agents.pricing_agent import PricingAgent
 from agents.booking_agent import BookingAgent
 from agents.payment_agent import PaymentAgent
 from agents.ticketing_agent import TicketingAgent
+from agent_models import Itinerary  # for type hints
+
 
 class OrchestratorAgent:
+    """
+    Coordinates multi-step flight booking workflow.
+    """
+
     def __init__(self):
         self.flight_search = FlightSearchAgent()
         self.pricing = PricingAgent()
@@ -21,19 +27,28 @@ class OrchestratorAgent:
         self.payment = PaymentAgent()
         self.ticketing = TicketingAgent()
 
-    def build_plan(self, intent: str, include_return: bool) -> OrchestratorPlan:
-        steps = [
-            PlanStep(step_id=1, name="search_flights", agent="flight_search_agent", action="search",
-                     description="Search inventory", args={}),
-            PlanStep(step_id=2, name="price_itineraries", agent="pricing_agent", action="reprice",
-                     description="Reprice / normalize fares", args={}),
-            PlanStep(step_id=3, name="create_booking", agent="booking_agent", action="create_booking",
-                     description="Hold booking seats", args={}),
-            PlanStep(step_id=4, name="authorize_payment", agent="payment_agent", action="authorize",
-                     description="Authorize & capture payment", args={}),
-            PlanStep(step_id=5, name="issue_ticket", agent="ticketing_agent", action="issue",
-                     description="Issue e-tickets", args={}),
-        ]
+    def build_plan(self, intent: str, include_return: bool, mode: str = "full") -> OrchestratorPlan:
+        """
+        mode:
+          - 'search': only search + pricing
+          - 'book': booking onward (assumes itineraries already loaded)
+          - 'full': full pipeline
+        """
+        steps: List[PlanStep] = []
+        if mode in ("search", "full"):
+            steps.append(PlanStep(step_id=len(steps)+1, name="search_flights", agent="flight_search_agent",
+                                  action="search", description="Search inventory", args={}))
+            steps.append(PlanStep(step_id=len(steps)+1, name="price_itineraries", agent="pricing_agent",
+                                  action="reprice", description="Reprice / normalize fares", args={}))
+
+        if mode in ("book", "full"):
+            steps.append(PlanStep(step_id=len(steps)+1, name="create_booking", agent="booking_agent",
+                                  action="create_booking", description="Hold booking seats", args={}))
+            steps.append(PlanStep(step_id=len(steps)+1, name="authorize_payment", agent="payment_agent",
+                                  action="authorize", description="Authorize & capture payment", args={}))
+            steps.append(PlanStep(step_id=len(steps)+1, name="issue_ticket", agent="ticketing_agent",
+                                  action="issue", description="Issue e-tickets", args={}))
+
         return OrchestratorPlan(intent=intent, steps=steps)
 
     def execute(
@@ -41,17 +56,24 @@ class OrchestratorAgent:
         plan: OrchestratorPlan,
         criteria: SearchCriteria,
         passengers: List[Passenger],
-        selected_itinerary_id: str | None,
-        payment_card_token: str | None
+        selected_itinerary_id: Optional[str],
+        payment_card_token: Optional[str],
+        preloaded_itineraries: Optional[List[Itinerary]] = None
     ) -> Dict[str, Any]:
+        """
+        preloaded_itineraries:
+            If provided, search_flights step will be skipped (no regeneration),
+            ensuring itinerary IDs remain stable for booking.
+        """
         results: List[StepResult] = []
         context: Dict[str, Any] = {
-            "itineraries": [],
+            "itineraries": preloaded_itineraries[:] if preloaded_itineraries else [],
             "selected": None,
             "booking": None,
             "payment": None,
             "tickets": None
         }
+
         for step in plan.steps:
             start = datetime.utcnow()
             success = True
@@ -59,18 +81,27 @@ class OrchestratorAgent:
             error = None
             try:
                 if step.name == "search_flights":
-                    itins = self.flight_search.search(criteria)
-                    context["itineraries"] = itins
-                    output = f"{len(itins)} itineraries found."
+                    if context["itineraries"]:
+                        output = f"Skipped search; using {len(context['itineraries'])} preloaded itineraries."
+                    else:
+                        itins = self.flight_search.search(criteria)
+                        context["itineraries"] = itins
+                        output = f"{len(itins)} itineraries found."
                 elif step.name == "price_itineraries":
+                    if not context["itineraries"]:
+                        raise ValueError("No itineraries to price.")
                     context["itineraries"] = self.pricing.reprice(context["itineraries"])
                     output = "Pricing refreshed."
                 elif step.name == "create_booking":
                     if not selected_itinerary_id:
-                        raise ValueError("No itinerary selected.")
+                        raise ValueError("No itinerary selected (selected_itinerary_id missing).")
+                    if not context["itineraries"]:
+                        raise ValueError("Itinerary list empty; cannot match selection.")
                     itin = next((i for i in context["itineraries"] if i.id == selected_itinerary_id), None)
                     if not itin:
-                        raise ValueError("Selected itinerary not found.")
+                        available_ids = ", ".join(i.id for i in context["itineraries"])
+                        raise ValueError(f"Selected itinerary '{selected_itinerary_id}' not in current list. "
+                                         f"Available IDs: {available_ids}")
                     context["selected"] = itin
                     booking_req = BookingRequest(
                         itinerary_id=itin.id,
@@ -84,7 +115,7 @@ class OrchestratorAgent:
                     if not context["booking"]:
                         raise ValueError("No booking to pay.")
                     if not payment_card_token:
-                        raise ValueError("Missing card token.")
+                        raise ValueError("Missing payment card token.")
                     amount = context["booking"].itinerary.fare.total
                     pay_req = PaymentRequest(
                         booking_id=context["booking"].booking_id,
@@ -111,6 +142,7 @@ class OrchestratorAgent:
             except Exception as e:
                 success = False
                 error = str(e)
+
             end = datetime.utcnow()
             results.append(
                 StepResult(
@@ -126,23 +158,22 @@ class OrchestratorAgent:
             if not success:
                 break
 
-        # Construct summary FinalAnswer
         failures = [r for r in results if not r.success]
         if failures:
             answer_text = f"Workflow stopped at step {failures[0].name}: {failures[0].error}"
-            key_points = [f"Completed {len([r for r in results if r.success])} steps successfully."]
-            followups = ["Adjust selection or payment details and retry."]
+            key_points = [f"Successful steps: {len([r for r in results if r.success])}"]
+            followups = ["Re-select an itinerary or re-run search.", "Verify payment token."]
         else:
             answer_text = "Booking completed successfully; tickets issued."
             key_points = [
-                f"Itineraries searched: {len(context['itineraries'])}",
+                f"Itineraries (cached): {len(context['itineraries'])}",
                 f"Booking ID: {context['booking'].booking_id if context['booking'] else 'N/A'}",
                 f"Tickets: {', '.join(context['tickets'].ticket_numbers) if context['tickets'] else 'N/A'}"
             ]
             followups = [
-                "Would you like to add travel insurance?",
-                "Need to select seats or add baggage?",
-                "Should I email or download the itinerary PDF?"
+                "Would you like to add insurance?",
+                "Need a receipt emailed?",
+                "Add seat selection next?"
             ]
         final = FinalAnswer(answer=answer_text, key_points=key_points, follow_up_questions=followups)
         return {
