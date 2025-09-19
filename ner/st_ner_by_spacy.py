@@ -3,48 +3,119 @@ import spacy
 from spacy import displacy
 from spacy.cli import download
 
-# Streamlit UI
-st.set_page_config(page_title="named entity recognizer", layout="wide")
-# Streamlit UI
+# PDF support
+try:
+    from pypdf import PdfReader  # lightweight, pure-Python
+    HAS_PYPDF = True
+except Exception:
+    HAS_PYPDF = False
+
+st.set_page_config(page_title="Named Entity Recognition (NER)", layout="wide")
 st.title("📝 Named Entity Recognition (NER)")
 
-# Check if model is available, if not, install it
+# Ensure spaCy model is available
 try:
     nlp = spacy.load("en_core_web_sm")
 except OSError:
-    #st.error("Error: en_core_web_sm model not found. Please install it using `python -m spacy download en_core_web_sm`.")
-    #st.stop()
-    print("Downloading en_core_web_sm...")
-    download("en_core_web_sm")
-    #nlp = spacy.load("en_core_web_sm")
+    with st.spinner("Downloading spaCy model en_core_web_sm..."):
+        download("en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
 
-# Load spaCy Model
-nlp = spacy.load("en_core_web_sm")
-print("Model loaded successfully!")
+st.caption("Upload a .txt or .pdf file, or type/paste text below, then view detected entities and a visualization.")
 
-# Input text or file upload
-uploaded_file = st.file_uploader("Upload a text file", type=["txt"])
+def extract_text_from_pdf(uploaded_file) -> str:
+    """
+    Extract text from a PDF using pypdf. Returns a best-effort text string.
+    If pypdf is not installed or extraction fails, returns an empty string.
+    """
+    if not HAS_PYPDF:
+        st.error("PDF support requires the 'pypdf' package. Install with: pip install pypdf")
+        return ""
 
-if uploaded_file:
-    text = uploaded_file.read().decode("utf-8")
+    try:
+        reader = PdfReader(uploaded_file)
+        texts = []
+        for page in reader.pages:
+            try:
+                txt = page.extract_text() or ""
+            except Exception:
+                txt = ""
+            if txt:
+                texts.append(txt)
+        return "\n\n".join(texts).strip()
+    except Exception as e:
+        st.error(f"Failed to read PDF: {e}")
+        return ""
+
+# Input: file or text
+uploaded_file = st.file_uploader("Upload a text or PDF file", type=["txt", "pdf"])
+default_text = (
+    "Apple Inc. was founded by Steve Jobs, Steve Wozniak, and Ronald Wayne "
+    "in Cupertino, California, in 1976."
+)
+
+text = ""
+file_info = ""
+
+if uploaded_file is not None:
+    filename = uploaded_file.name
+    if filename.lower().endswith(".pdf"):
+        with st.spinner("Extracting text from PDF..."):
+            text = extract_text_from_pdf(uploaded_file)
+        file_info = f"Loaded from PDF: {filename}"
+        if not text:
+            st.warning("No extractable text found in the PDF (it may be scanned images). Try a text-based PDF or paste text below.")
+    else:
+        # Assume plain text
+        try:
+            text = uploaded_file.read().decode("utf-8", errors="replace")
+        except Exception:
+            text = uploaded_file.read().decode("latin-1", errors="replace")
+        file_info = f"Loaded from text file: {filename}"
 else:
-    text = st.text_area("Enter text here:", "Apple Inc. was founded by Steve Jobs, Steve Wozniak, and Ronald Wayne in Cupertino, California, in 1976.")
+    text = st.text_area("Enter text here:", default_text, height=150)
+
+if file_info:
+    st.caption(file_info)
 
 # Process text with spaCy
-if text:
-    doc = nlp(text)
-    
-    # Display Named Entities
+if text and text.strip():
+    with st.spinner("Running NER..."):
+        doc = nlp(text)
+
     st.subheader("🔍 Detected Entities")
     entities = [(ent.text, ent.label_) for ent in doc.ents]
-    
+
     if entities:
-        for entity, label in entities:
-            st.write(f"**{entity}** - `{label}`")
+        # Group by label for easier scanning
+        from collections import defaultdict
+        by_label = defaultdict(list)
+        for ent_text, ent_label in entities:
+            by_label[ent_label].append(ent_text)
+
+        # Show totals and details
+        st.write(f"Found {len(entities)} entities across {len(by_label)} labels.")
+        cols = st.columns(min(4, max(1, len(by_label))))
+        for (label, items), col in zip(sorted(by_label.items(), key=lambda x: x[0]), cols * (len(by_label) // max(1, len(cols)) + 1)):
+            with col:
+                st.markdown(f"**{label}** ({len(items)})")
+                for it in items[:25]:
+                    st.markdown(f"- {it}")
+                if len(items) > 25:
+                    st.caption(f"... and {len(items) - 25} more")
+
     else:
         st.write("No named entities detected.")
 
-    # Render with spaCy's visualization
     st.subheader("🖼 Entity Visualization")
-    html = displacy.render(doc, style="ent", jupyter=False)
+    # Displacy can get heavy on very long texts; allow truncation for rendering
+    max_chars_for_viz = st.slider("Max characters for visualization", 500, 10000, 4000, step=500)
+    viz_text = text[:max_chars_for_viz]
+    viz_doc = nlp(viz_text)
+    html = displacy.render(viz_doc, style="ent", jupyter=False)
     st.markdown(html, unsafe_allow_html=True)
+
+    if len(text) > max_chars_for_viz:
+        st.caption("Visualization truncated to the selected character limit to keep the app responsive.")
+else:
+    st.info("Provide text (or upload a .txt/.pdf) to analyze.")
