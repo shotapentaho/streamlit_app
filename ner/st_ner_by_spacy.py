@@ -129,6 +129,16 @@ if text and text.strip():
                     st.markdown(f"- {it}")
                 if len(items) > 25:
                     st.caption(f"... and {len(items) - 25} more")
+
+        # Distinct ORG dropdown
+        st.subheader("🏢 ORG Entities")
+        org_entities = sorted({ent.text for ent in doc.ents if ent.label_ == "ORG"})
+        if org_entities:
+            selected_org = st.selectbox("Select an ORG entity", options=org_entities, index=0)
+            occurrences = sum(1 for ent in doc.ents if ent.label_ == "ORG" and ent.text == selected_org)
+            st.caption(f"Occurrences in text: {occurrences}")
+        else:
+            st.caption("No ORG entities detected.")
     else:
         st.write("No named entities detected.")
 
