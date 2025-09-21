@@ -95,7 +95,8 @@ default_tools_list = [
     "Apache Spark", "Apache Kafka", "Airflow",
     "BigQuery", "Redshift", "Snowflake", "Databricks",
     "MySQL", "PostgreSQL", "MongoDB",
-    "Excel", "Word", "PowerPoint", "Pentaho", "Informatica", "Pentaho Businees Analytics",
+    "Excel", "Word", "PowerPoint",
+    "Pentaho", "Informatica", "Pentaho Business Analytics", "Pentaho Businees Analytics",
     "Pentaho Data Integration"
 ]
 tools_input = st.sidebar.text_area(
@@ -197,19 +198,36 @@ if text and text.strip():
                 if len(items) > 25:
                     st.caption(f"... and {len(items) - 25} more")
 
-        # Distinct ORG dropdown (filter out known tools/products)
-        st.subheader("🏢 ORG Entities")
+        # Dropdowns for ALL entity labels (with ORG-specific filtering of known tools)
+        st.subheader("📂 Entity Dropdowns by Label")
+        label_list = sorted(by_label.keys())
+        dd_cols = st.columns(min(4, max(1, len(label_list))))
+        dd_cycle = dd_cols * ((len(label_list) // max(1, len(dd_cols))) + 1)
+
         tool_norm = {t.casefold().strip() for t in tools_list}
-        org_entities = sorted({
-            ent.text for ent in doc.ents
-            if ent.label_ == "ORG" and ent.text.casefold().strip() not in tool_norm
-        })
-        if org_entities:
-            selected_org = st.selectbox("Select an ORG entity", options=org_entities, index=0)
-            occurrences = sum(1 for ent in doc.ents if ent.label_ == "ORG" and ent.text == selected_org)
-            st.caption(f"Occurrences in text: {occurrences}")
-        else:
-            st.caption("No ORG entities detected (after filtering known tools/products).")
+
+        for label, col in zip(label_list, dd_cycle):
+            with col:
+                if label == "ORG":
+                    options = sorted({
+                        ent.text for ent in doc.ents
+                        if ent.label_ == label and ent.text.casefold().strip() not in tool_norm
+                    }, key=str.casefold)
+                else:
+                    options = sorted({ent.text for ent in doc.ents if ent.label_ == label}, key=str.casefold)
+
+                st.markdown(f"**{label}**")
+                if options:
+                    selected = st.selectbox(
+                        f"Select {label}",
+                        options=options,
+                        key=f"select_{label}"
+                    )
+                    occurrences = sum(1 for ent in doc.ents if ent.label_ == label and ent.text == selected)
+                    st.caption(f"Occurrences in text: {occurrences}")
+                else:
+                    st.caption("No entities for this label.")
+
     else:
         st.write("No named entities detected.")
 
