@@ -123,7 +123,7 @@ with st.sidebar.expander("Tools / Products → PRODUCT", expanded=True):
         "Pentaho Data Integration", "AEL", "Data Integration", "Data Analytics",
         "Tableau", "Power BI", "Looker", "Qlik",
         "AWS", "Azure", "Google Cloud", "GCP", "Heroku", "DigitalOcean",
-        "Linux", "Ubuntu", "CentOS", "Debian", "Fedora",
+        "Linux", "Ubuntu", "CentOS", "Debian", "Fedora", "Adaptive Execution Layer",
         "Windows", "macOS", "iOS", "Android"   
     ]
     tools_text = st.text_area(
