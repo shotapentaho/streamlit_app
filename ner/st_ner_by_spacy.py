@@ -120,7 +120,11 @@ with st.sidebar.expander("Tools / Products → PRODUCT", expanded=True):
         "BigQuery", "Redshift", "Snowflake", "Databricks",
         "MySQL", "PostgreSQL", "MongoDB",
         "Excel", "Word", "PowerPoint", "Pentaho", "Informatica", "Pentaho Businees Analytics",
-        "Pentaho Data Integration"
+        "Pentaho Data Integration", "AEL", "Data Integration", "Data Analytics",
+        "Tableau", "Power BI", "Looker", "Qlik",
+        "AWS", "Azure", "Google Cloud", "GCP", "Heroku", "DigitalOcean",
+        "Linux", "Ubuntu", "CentOS", "Debian", "Fedora",
+        "Windows", "macOS", "iOS", "Android"   
     ]
     tools_text = st.text_area(
         "Known tools/products (comma-separated)",
