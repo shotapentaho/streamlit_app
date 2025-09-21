@@ -82,7 +82,9 @@ def apply_tool_overrides(nlp_obj, tools):
 
 # Sidebar controls for tool overrides
 st.sidebar.header("NER Settings")
-use_tool_overrides = st.sidebar.checkbox("Override known tools/products to PRODUCT (reduce ORG mislabels)", value=True)
+use_tool_overrides = st.sidebar.checkbox(
+    "Override known tools/products to PRODUCT (reduce ORG mislabels)", value=True
+)
 
 default_tools_list = [
     "Git", "GitHub", "GitLab", "Bitbucket",
@@ -96,7 +98,8 @@ default_tools_list = [
     "BigQuery", "Redshift", "Snowflake", "Databricks",
     "MySQL", "PostgreSQL", "MongoDB",
     "Excel", "Word", "PowerPoint",
-    "Pentaho", "Informatica", "Pentaho Business Analytics", "Pentaho Businees Analytics",
+    "Pentaho", "Informatica",
+    "Pentaho Business Analytics", "Pentaho Businees Analytics",
     "Pentaho Data Integration"
 ]
 tools_input = st.sidebar.text_area(
@@ -104,7 +107,9 @@ tools_input = st.sidebar.text_area(
     value=", ".join(default_tools_list),
     height=100,
 )
-tools_upload = st.sidebar.file_uploader("Or upload a .txt (one tool/product per line)", type=["txt"], key="tools_upload")
+tools_upload = st.sidebar.file_uploader(
+    "Or upload a .txt (one tool/product per line)", type=["txt"], key="tools_upload"
+)
 
 # Build final tool list
 tools_list = []
@@ -117,7 +122,7 @@ if tools_upload is not None:
 if not tools_list:
     tools_list = [t.strip() for t in tools_input.split(",") if t.strip()]
 
-# Remove 'type' filter to avoid browser-level filtering issues; detect ourselves
+# File upload
 uploaded_file = st.file_uploader("Upload a file (.txt or .pdf)", accept_multiple_files=False)
 
 default_text = (
@@ -137,17 +142,14 @@ if uploaded_file is not None:
         if not text:
             st.warning("No extractable text found in the PDF (it may be scanned images). Try a text-based PDF or paste text below.")
     else:
-        # Treat as text if MIME indicates text/* or extension looks like .txt
         try:
             if uploaded_file.type and uploaded_file.type.startswith("text/"):
                 raw = uploaded_file.read()
-                # Try utf-8 then fallback to latin-1
                 try:
                     text = raw.decode("utf-8", errors="replace")
                 except Exception:
                     text = raw.decode("latin-1", errors="replace")
             else:
-                # Fallback by extension
                 if filename.lower().endswith((".txt", ".md", ".rtf")):
                     raw = uploaded_file.read()
                     try:
@@ -176,37 +178,16 @@ if text and text.strip():
     with st.spinner("Running NER..."):
         doc = nlp(text)
 
-    st.subheader("🔍 Detected Entities")
-    entities = [(ent.text, ent.label_) for ent in doc.ents]
-
-    if entities:
-        # Group by label for easier scanning
-        from collections import defaultdict
-        by_label = defaultdict(list)
-        for ent_text, ent_label in entities:
-            by_label[ent_label].append(ent_text)
-
-        st.write(f"Found {len(entities)} entities across {len(by_label)} labels.")
-        cols = st.columns(min(4, max(1, len(by_label))))
-        # Cycle columns if there are more labels than columns
-        col_cycle = cols * ((len(by_label) // max(1, len(cols))) + 1)
-        for (label, items), col in zip(sorted(by_label.items(), key=lambda x: x[0]), col_cycle):
-            with col:
-                st.markdown(f"**{label}** ({len(items)})")
-                for it in items[:25]:
-                    st.markdown(f"- {it}")
-                if len(items) > 25:
-                    st.caption(f"... and {len(items) - 25} more")
-
-        # Dropdowns for ALL entity labels (with ORG-specific filtering of known tools)
-        st.subheader("📂 Entity Dropdowns by Label")
-        label_list = sorted(by_label.keys())
-        dd_cols = st.columns(min(4, max(1, len(label_list))))
-        dd_cycle = dd_cols * ((len(label_list) // max(1, len(dd_cols))) + 1)
+    # Dropdowns for ALL entity labels (ORG filters out known tools/products)
+    st.subheader("📂 Entity Dropdowns by Label")
+    labels = sorted({ent.label_ for ent in doc.ents})
+    if labels:
+        dd_cols = st.columns(min(4, max(1, len(labels))))
+        dd_cycle = dd_cols * ((len(labels) // max(1, len(dd_cols))) + 1)
 
         tool_norm = {t.casefold().strip() for t in tools_list}
 
-        for label, col in zip(label_list, dd_cycle):
+        for label, col in zip(labels, dd_cycle):
             with col:
                 if label == "ORG":
                     options = sorted({
@@ -227,12 +208,11 @@ if text and text.strip():
                     st.caption(f"Occurrences in text: {occurrences}")
                 else:
                     st.caption("No entities for this label.")
-
     else:
         st.write("No named entities detected.")
 
+    # Keep colored displaCy visualization
     st.subheader("🖼 Entity Visualization")
-    # Displacy can get heavy on very long texts; allow truncation for rendering
     max_chars_for_viz = st.slider("Max characters for visualization", 500, 10000, 4000, step=500)
     viz_text = text[:max_chars_for_viz]
     viz_doc = nlp(viz_text)
