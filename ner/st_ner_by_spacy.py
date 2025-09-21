@@ -53,12 +53,75 @@ def is_pdf_file(file) -> bool:
     name = (file.name or "").lower()
     return ("application/pdf" in mime) or name.endswith(".pdf")
 
+def build_tool_patterns(tools):
+    """
+    Build case-insensitive token patterns for EntityRuler from a list of tool names.
+    """
+    patterns = []
+    for tool in tools:
+        t = tool.strip()
+        if not t:
+            continue
+        tokens = t.split()
+        token_pattern = [{"LOWER": w.lower()} for w in tokens]
+        patterns.append({"label": "PRODUCT", "pattern": token_pattern})
+    return patterns
+
+def apply_tool_overrides(nlp_obj, tools):
+    """
+    Add an EntityRuler before the NER component that maps known tools/products to PRODUCT.
+    Overwrites conflicting labels (e.g., ORG) for those terms.
+    """
+    # Remove existing ruler to avoid duplicate additions on reruns
+    if "entity_ruler" in nlp_obj.pipe_names:
+        nlp_obj.remove_pipe("entity_ruler")
+    ruler = nlp_obj.add_pipe("entity_ruler", before="ner", config={"overwrite_ents": True})
+    patterns = build_tool_patterns(tools)
+    if patterns:
+        ruler.add_patterns(patterns)
+
+# Sidebar controls for tool overrides
+st.sidebar.header("NER Settings")
+use_tool_overrides = st.sidebar.checkbox("Override known tools/products to PRODUCT (reduce ORG mislabels)", value=True)
+
+default_tools_list = [
+    "Git", "GitHub", "GitLab", "Bitbucket",
+    "Docker", "Kubernetes", "Helm", "Terraform", "Ansible",
+    "Jenkins", "CircleCI", "GitHub Actions", "Azure DevOps",
+    "Jira", "Confluence", "Slack", "Microsoft Teams",
+    "Figma", "Miro", "Notion",
+    "Postman", "Insomnia", "cURL",
+    "Visual Studio", "VS Code", "PyCharm", "IntelliJ",
+    "Apache Spark", "Apache Kafka", "Airflow",
+    "BigQuery", "Redshift", "Snowflake", "Databricks",
+    "MySQL", "PostgreSQL", "MongoDB",
+    "Excel", "Word", "PowerPoint", "Pentaho", "Informatica", "Pentaho Businees Analytics",
+    "Pentaho Data Integration"
+]
+tools_input = st.sidebar.text_area(
+    "Known tools/products (comma-separated)",
+    value=", ".join(default_tools_list),
+    height=100,
+)
+tools_upload = st.sidebar.file_uploader("Or upload a .txt (one tool/product per line)", type=["txt"], key="tools_upload")
+
+# Build final tool list
+tools_list = []
+if tools_upload is not None:
+    try:
+        content = tools_upload.read().decode("utf-8", errors="replace")
+        tools_list = [line.strip() for line in content.splitlines() if line.strip()]
+    except Exception:
+        st.sidebar.warning("Failed to read uploaded file. Falling back to text area input.")
+if not tools_list:
+    tools_list = [t.strip() for t in tools_input.split(",") if t.strip()]
+
 # Remove 'type' filter to avoid browser-level filtering issues; detect ourselves
 uploaded_file = st.file_uploader("Upload a file (.txt or .pdf)", accept_multiple_files=False)
 
 default_text = (
     "Apple Inc. was founded by Steve Jobs, Steve Wozniak, and Ronald Wayne "
-    "in Cupertino, California, in 1976."
+    "in Cupertino, California, in 1976. Apple uses tools like Git, Docker, and Jira."
 )
 
 text = ""
@@ -103,6 +166,10 @@ else:
 if file_info:
     st.caption(file_info)
 
+# Apply rule-based overrides before running NER
+if use_tool_overrides and tools_list:
+    apply_tool_overrides(nlp, tools_list)
+
 # Process text with spaCy
 if text and text.strip():
     with st.spinner("Running NER..."):
@@ -130,15 +197,19 @@ if text and text.strip():
                 if len(items) > 25:
                     st.caption(f"... and {len(items) - 25} more")
 
-        # Distinct ORG dropdown
+        # Distinct ORG dropdown (filter out known tools/products)
         st.subheader("🏢 ORG Entities")
-        org_entities = sorted({ent.text for ent in doc.ents if ent.label_ == "ORG"})
+        tool_norm = {t.casefold().strip() for t in tools_list}
+        org_entities = sorted({
+            ent.text for ent in doc.ents
+            if ent.label_ == "ORG" and ent.text.casefold().strip() not in tool_norm
+        })
         if org_entities:
             selected_org = st.selectbox("Select an ORG entity", options=org_entities, index=0)
             occurrences = sum(1 for ent in doc.ents if ent.label_ == "ORG" and ent.text == selected_org)
             st.caption(f"Occurrences in text: {occurrences}")
         else:
-            st.caption("No ORG entities detected.")
+            st.caption("No ORG entities detected (after filtering known tools/products).")
     else:
         st.write("No named entities detected.")
 
