@@ -53,90 +53,135 @@ def is_pdf_file(file) -> bool:
     name = (file.name or "").lower()
     return ("application/pdf" in mime) or name.endswith(".pdf")
 
-def build_tool_patterns(tools):
+def build_patterns_for_label(phrases, label):
     """
-    Build case-insensitive token patterns for EntityRuler from a list of tool names.
+    Build case-insensitive token patterns for EntityRuler from a list of phrases for a given label.
     """
     patterns = []
-    for tool in tools:
-        t = tool.strip()
-        if not t:
+    for phrase in phrases:
+        p = phrase.strip()
+        if not p:
             continue
-        tokens = t.split()
+        tokens = p.split()
         token_pattern = [{"LOWER": w.lower()} for w in tokens]
-        patterns.append({"label": "PRODUCT", "pattern": token_pattern})
+        patterns.append({"label": label, "pattern": token_pattern})
     return patterns
 
-def apply_tool_overrides(nlp_obj, tools):
+def apply_overrides(nlp_obj, overrides_map):
     """
-    Add an EntityRuler before the NER component that maps known tools/products to PRODUCT.
-    Overwrites conflicting labels (e.g., ORG) for those terms.
+    Combine all override patterns into a single EntityRuler applied before 'ner'.
+    overrides_map: dict of {label: [phrases]}
     """
     # Remove existing ruler to avoid duplicate additions on reruns
     if "entity_ruler" in nlp_obj.pipe_names:
         nlp_obj.remove_pipe("entity_ruler")
     ruler = nlp_obj.add_pipe("entity_ruler", before="ner", config={"overwrite_ents": True})
-    patterns = build_tool_patterns(tools)
-    if patterns:
-        ruler.add_patterns(patterns)
 
-# Sidebar controls for tool overrides
-st.sidebar.header("NER Settings")
-use_tool_overrides = st.sidebar.checkbox(
-    "Override known tools/products to PRODUCT (reduce ORG mislabels)", value=True
-)
+    all_patterns = []
+    for label, phrases in overrides_map.items():
+        all_patterns.extend(build_patterns_for_label(phrases, label))
 
-default_tools_list = [
-    "Git", "GitHub", "GitLab", "Bitbucket",
-    "Docker", "Kubernetes", "Helm", "Terraform", "Ansible",
-    "Jenkins", "CircleCI", "GitHub Actions", "Azure DevOps",
-    "Jira", "Confluence", "Slack", "Microsoft Teams",
-    "Figma", "Miro", "Notion",
-    "Postman", "Insomnia", "cURL",
-    "Visual Studio", "VS Code", "PyCharm", "IntelliJ",
-    "Apache Spark", "Apache Kafka", "Airflow",
-    "BigQuery", "Redshift", "Snowflake", "Databricks",
-    "MySQL", "PostgreSQL", "MongoDB",
-    "Excel", "Word", "PowerPoint",
-    "Pentaho", "Informatica",
-    "Pentaho Business Analytics", "Pentaho Businees Analytics",
-    "Pentaho Data Integration", "AEL", "Adaptive Execution Layer",
-    "Power BI", "Tableau", "Looker",
-    "Google Analytics", "Google Ads", "Google Tag Manager",
-    "AWS", "Azure", "Google Cloud", "GCP",
-    "Terraform Cloud", "Terraform Enterprise",
-    "Datadog", "New Relic", "Splunk",
-    "PagerDuty", "Opsgenie", "VictorOps",
-    "Salesforce", "HubSpot", "Marketo",
-    "Zendesk", "ServiceNow", "Freshdesk",
-    "Trello", "Asana", "Business Objects", "SAP BO", "SAP BusinessObjects",
-    "SAP HANA", "SAP BW", "SAP Business Warehouse",
-    "Tableau Server", "Tableau Online", "Tableau Public",
-    "Looker Studio", "Google Data Studio",
-    "Power Automate", "Microsoft Power Automate",
-    "Microsoft Power Apps", "Power Apps"
-]
-tools_input = st.sidebar.text_area(
-    "Known tools/products (comma-separated)",
-    value=", ".join(default_tools_list),
-    height=100,
-)
-tools_upload = st.sidebar.file_uploader(
-    "Or upload a .txt (one tool/product per line)", type=["txt"], key="tools_upload"
-)
+    if all_patterns:
+        ruler.add_patterns(all_patterns)
 
-# Build final tool list
-tools_list = []
-if tools_upload is not None:
+def parse_text_area_csv(value: str):
+    """
+    Parse a comma-separated text area into a list of trimmed, non-empty strings.
+    """
+    return [t.strip() for t in (value or "").split(",") if t.strip()]
+
+def parse_uploaded_lines(upload) -> list:
+    """
+    Parse an uploaded .txt file (one item per line) into a list.
+    """
+    if upload is None:
+        return []
     try:
-        content = tools_upload.read().decode("utf-8", errors="replace")
-        tools_list = [line.strip() for line in content.splitlines() if line.strip()]
+        content = upload.read().decode("utf-8", errors="replace")
+        return [line.strip() for line in content.splitlines() if line.strip()]
     except Exception:
-        st.sidebar.warning("Failed to read uploaded file. Falling back to text area input.")
-if not tools_list:
-    tools_list = [t.strip() for t in tools_input.split(",") if t.strip()]
+        return []
 
-# File upload
+# Sidebar: Overrides
+st.sidebar.header("Overrides")
+
+# Tools / Products -> PRODUCT
+with st.sidebar.expander("Tools / Products → PRODUCT", expanded=True):
+    use_tools_override = st.checkbox("Enable tools/products override", value=True, key="tools_enable")
+    default_tools_list = [
+        "Git", "GitHub", "GitLab", "Bitbucket",
+        "Docker", "Kubernetes", "Helm", "Terraform", "Ansible",
+        "Jenkins", "CircleCI", "GitHub Actions", "Azure DevOps",
+        "Jira", "Confluence", "Slack", "Microsoft Teams",
+        "Figma", "Miro", "Notion",
+        "Postman", "Insomnia", "cURL",
+        "Visual Studio", "VS Code", "PyCharm", "IntelliJ",
+        "Apache Spark", "Apache Kafka", "Airflow",
+        "BigQuery", "Redshift", "Snowflake", "Databricks",
+        "MySQL", "PostgreSQL", "MongoDB",
+        "Excel", "Word", "PowerPoint", "Pentaho", "Informatica", "Pentaho Businees Analytics",
+        "Pentaho Data Integration"
+    ]
+    tools_text = st.text_area(
+        "Known tools/products (comma-separated)",
+        value=", ".join(default_tools_list),
+        height=100,
+        key="tools_text"
+    )
+    tools_upload = st.file_uploader("...or upload .txt (one per line)", type=["txt"], key="tools_upload")
+    tools_list = parse_uploaded_lines(tools_upload) or parse_text_area_csv(tools_text)
+
+# Organizations -> ORG
+with st.sidebar.expander("Organizations → ORG", expanded=False):
+    use_org_override = st.checkbox("Enable organizations override", value=False, key="org_enable")
+    org_text = st.text_area("Organizations (comma-separated)", value="", height=80, key="org_text")
+    org_upload = st.file_uploader("...or upload .txt (one per line)", type=["txt"], key="org_upload")
+    org_list = parse_uploaded_lines(org_upload) or parse_text_area_csv(org_text)
+
+# People -> PERSON
+with st.sidebar.expander("People → PERSON", expanded=False):
+    use_person_override = st.checkbox("Enable people override", value=False, key="person_enable")
+    person_text = st.text_area("People (comma-separated)", value="", height=80, key="person_text")
+    person_upload = st.file_uploader("...or upload .txt (one per line)", type=["txt"], key="person_upload")
+    person_list = parse_uploaded_lines(person_upload) or parse_text_area_csv(person_text)
+
+# Locations -> GPE (countries, cities)
+with st.sidebar.expander("Locations → GPE", expanded=False):
+    use_gpe_override = st.checkbox("Enable locations override", value=False, key="gpe_enable")
+    gpe_text = st.text_area("Locations (comma-separated)", value="", height=80, key="gpe_text")
+    gpe_upload = st.file_uploader("...or upload .txt (one per line)", type=["txt"], key="gpe_upload")
+    gpe_list = parse_uploaded_lines(gpe_upload) or parse_text_area_csv(gpe_text)
+
+# Dates -> DATE
+with st.sidebar.expander("Dates → DATE", expanded=False):
+    use_date_override = st.checkbox("Enable dates override", value=False, key="date_enable")
+    date_text = st.text_area("Dates/Date-like phrases (comma-separated)", value="", height=80, key="date_text")
+    date_upload = st.file_uploader("...or upload .txt (one per line)", type=["txt"], key="date_upload")
+    date_list = parse_uploaded_lines(date_upload) or parse_text_area_csv(date_text)
+
+# Groups (nationalities, religious, political) -> NORP
+with st.sidebar.expander("Groups → NORP", expanded=False):
+    use_norp_override = st.checkbox("Enable groups override", value=False, key="norp_enable")
+    norp_text = st.text_area("Groups (comma-separated)", value="", height=80, key="norp_text")
+    norp_upload = st.file_uploader("...or upload .txt (one per line)", type=["txt"], key="norp_upload")
+    norp_list = parse_uploaded_lines(norp_upload) or parse_text_area_csv(norp_text)
+
+# Build the active overrides map
+overrides = {}
+if use_tools_override and tools_list:
+    overrides["PRODUCT"] = tools_list
+if use_org_override and org_list:
+    overrides["ORG"] = org_list
+if use_person_override and person_list:
+    overrides["PERSON"] = person_list
+if use_gpe_override and gpe_list:
+    overrides["GPE"] = gpe_list
+if use_date_override and date_list:
+    overrides["DATE"] = date_list
+if use_norp_override and norp_list:
+    overrides["NORP"] = norp_list
+
+# File upload (content)
 uploaded_file = st.file_uploader("Upload a file (.txt or .pdf)", accept_multiple_files=False)
 
 default_text = (
@@ -183,9 +228,13 @@ else:
 if file_info:
     st.caption(file_info)
 
-# Apply rule-based overrides before running NER
-if use_tool_overrides and tools_list:
-    apply_tool_overrides(nlp, tools_list)
+# Apply all rule-based overrides before running NER
+if overrides:
+    apply_overrides(nlp, overrides)
+else:
+    # If no overrides enabled, ensure we don't keep a stale ruler from a prior run
+    if "entity_ruler" in nlp.pipe_names:
+        nlp.remove_pipe("entity_ruler")
 
 # Process text with spaCy
 if text and text.strip():
@@ -199,7 +248,7 @@ if text and text.strip():
         dd_cols = st.columns(min(4, max(1, len(labels))))
         dd_cycle = dd_cols * ((len(labels) // max(1, len(dd_cols))) + 1)
 
-        tool_norm = {t.casefold().strip() for t in tools_list}
+        tool_norm = {t.casefold().strip() for t in (tools_list or [])}
 
         for label, col in zip(labels, dd_cycle):
             with col:
