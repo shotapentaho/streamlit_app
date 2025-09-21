@@ -100,7 +100,21 @@ default_tools_list = [
     "Excel", "Word", "PowerPoint",
     "Pentaho", "Informatica",
     "Pentaho Business Analytics", "Pentaho Businees Analytics",
-    "Pentaho Data Integration"
+    "Pentaho Data Integration", "AEL", "Adaptive Execution Layer",
+    "Power BI", "Tableau", "Looker",
+    "Google Analytics", "Google Ads", "Google Tag Manager",
+    "AWS", "Azure", "Google Cloud", "GCP",
+    "Terraform Cloud", "Terraform Enterprise",
+    "Datadog", "New Relic", "Splunk",
+    "PagerDuty", "Opsgenie", "VictorOps",
+    "Salesforce", "HubSpot", "Marketo",
+    "Zendesk", "ServiceNow", "Freshdesk",
+    "Trello", "Asana", "Business Objects", "SAP BO", "SAP BusinessObjects",
+    "SAP HANA", "SAP BW", "SAP Business Warehouse",
+    "Tableau Server", "Tableau Online", "Tableau Public",
+    "Looker Studio", "Google Data Studio",
+    "Power Automate", "Microsoft Power Automate",
+    "Microsoft Power Apps", "Power Apps"
 ]
 tools_input = st.sidebar.text_area(
     "Known tools/products (comma-separated)",
