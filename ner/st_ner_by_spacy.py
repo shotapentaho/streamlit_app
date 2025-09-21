@@ -14,14 +14,6 @@ st.set_page_config(page_title="Named Entity Recognition (NER)", layout="wide")
 st.title("📝 Named Entity Recognition (NER)")
 st.caption("Upload a .txt or .pdf file, or type/paste text below, then view detected entities and a visualization.")
 
-# Ensure spaCy model is available
-try:
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    with st.spinner("Downloading spaCy model en_core_web_sm..."):
-        download("en_core_web_sm")
-    nlp = spacy.load("en_core_web_sm")
-
 def extract_text_from_pdf(uploaded_file) -> str:
     """
     Extract text from a PDF using pypdf. Returns best-effort text string.
@@ -101,6 +93,36 @@ def parse_uploaded_lines(upload) -> list:
         return [line.strip() for line in content.splitlines() if line.strip()]
     except Exception:
         return []
+
+# Sidebar: Model selection with caching
+st.sidebar.header("Model")
+MODEL_OPTIONS = {
+    "Small (sm) – fast, CPU": "en_core_web_sm",
+    "Medium (md) – vectors": "en_core_web_md",
+    "Transformer (trf) – highest accuracy (slow)": "en_core_web_trf",
+}
+model_label = st.sidebar.selectbox("spaCy model", list(MODEL_OPTIONS.keys()), index=0)
+model_name = MODEL_OPTIONS[model_label]
+
+@st.cache_resource(show_spinner=False)
+def load_spacy_model_cached(name: str):
+    # Try to load; download if missing; raise for other errors
+    try:
+        return spacy.load(name)
+    except OSError:
+        # Not installed -> download model package
+        download(name)
+        return spacy.load(name)
+
+# Load selected model with graceful fallback
+try:
+    base_nlp = load_spacy_model_cached(model_name)
+except Exception as e:
+    st.sidebar.error(f"Failed to load '{model_name}': {e}")
+    if model_name == "en_core_web_trf":
+        st.sidebar.info('To use the transformer model, install: pip install "spacy[transformers]" then restart the app.')
+    st.sidebar.warning("Falling back to 'en_core_web_sm'.")
+    base_nlp = load_spacy_model_cached("en_core_web_sm")
 
 # Sidebar: Overrides
 st.sidebar.header("Overrides")
@@ -233,17 +255,18 @@ else:
 if file_info:
     st.caption(file_info)
 
-# Apply all rule-based overrides before running NER
+# Prepare working NLP: copy cached base model and apply overrides
+nlp = base_nlp.copy()
 if overrides:
     apply_overrides(nlp, overrides)
 else:
-    # If no overrides enabled, ensure we don't keep a stale ruler from a prior run
+    # Ensure no stale ruler remains in the working copy
     if "entity_ruler" in nlp.pipe_names:
         nlp.remove_pipe("entity_ruler")
 
 # Process text with spaCy
 if text and text.strip():
-    with st.spinner("Running NER..."):
+    with st.spinner(f"Running NER with {model_name}..."):
         doc = nlp(text)
 
     # Dropdowns for ALL entity labels (ORG filters out known tools/products)
