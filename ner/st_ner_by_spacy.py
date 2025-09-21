@@ -124,7 +124,7 @@ with st.sidebar.expander("Tools / Products → PRODUCT", expanded=True):
         "Tableau", "Power BI", "Looker", "Qlik",
         "AWS", "Azure", "Google Cloud", "GCP", "Heroku", "DigitalOcean",
         "Linux", "Ubuntu", "CentOS", "Debian", "Fedora", "Adaptive Execution Layer",
-        "Windows", "macOS", "iOS", "Android", "CSV", "JSON", "XML", "Parquet"
+        "Windows", "macOS", "iOS", "Android", "CSV", "JSON", "XML", "Parquet", "PAZ", "PDD", "PBA", "PDI"
     ]
     tools_text = st.text_area(
         "Known tools/products (comma-separated)",
