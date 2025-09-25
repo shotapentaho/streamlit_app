@@ -1,0 +1,20 @@
+# Streamlit UI
+streamlit>=1.30.0,<2.0.0
+
+# LangChain (pinned to pre-0.1 to keep imports like `from langchain.chat_models import ChatOpenAI`)
+langchain>=0.0.330,<0.1.0
+
+# OpenAI SDK (compatible with older LangChain OpenAI wrappers)
+openai>=0.27.8,<1.0.0
+
+# Vector store backend
+faiss-cpu>=1.7.4
+
+# PDF loader dependency used by LangChain's PyPDFLoader
+pypdf>=3.9.0
+
+# Tokenization utilities used by LangChain/OpenAI embeddings
+tiktoken>=0.5.1
+
+# Numerical computing
+numpy>=1.23.0
