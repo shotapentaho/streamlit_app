@@ -25,7 +25,7 @@ def apply_theme() -> bool:
 
     light_css = """
     <style id="dynamic-theme">
-    /* ---------- GLOBAL LIGHT RESET ---------- */
+    /* ---------- GLOBAL LIGHT RESET (v6) ---------- */
     :root {
       --app-bg: #ffffff;
       --app-fg: #000000;
@@ -43,6 +43,14 @@ def apply_theme() -> bool:
       --radius-md: 6px;
       --radius-lg: 10px;
       --shadow-none: none;
+
+      /* Browse control accent (light only) — Beige palette (Coffee Cream) */
+      --browse-accent: #8B6E54;
+      --browse-accent-hover: #6E563F;
+
+      /* v6: Darker uploader border (light only) */
+      --uploader-border: #9aa0a6;
+      --uploader-border-hover: #6e7278;
     }
 
     /* App root & main page area */
@@ -154,6 +162,7 @@ def apply_theme() -> bool:
       background: #ffffff !important;
       box-shadow: none !important;
     }
+
     /* ---------- INPUTS (Text, Select, TextArea) ---------- */
     .stTextInput input,
     textarea,
@@ -207,6 +216,7 @@ def apply_theme() -> bool:
       color: #111 !important;
       border-radius: var(--radius-sm) !important;
     }
+
     /* ---------- EXPANDERS ---------- */
     details {
       background: var(--panel-bg) !important;
@@ -217,8 +227,6 @@ def apply_theme() -> bool:
     summary {
       color: var(--app-fg) !important;
     }
-
-    /* Streamlit expanders sometimes use specific classes */
     div.streamlit-expanderHeader {
       background: var(--panel-bg) !important;
       color: var(--app-fg) !important;
@@ -236,6 +244,7 @@ def apply_theme() -> bool:
       color: var(--accent) !important;
       border-bottom: 2px solid var(--accent) !important;
     }
+
     /* ---------- SCROLLBAR ---------- */
     ::-webkit-scrollbar {
       width: 10px;
@@ -268,30 +277,70 @@ def apply_theme() -> bool:
       border: 1px solid var(--panel-border) !important;
     }
 
-    /* ---------- MISC ---------- */
-    hr {
-      border-color: var(--panel-border) !important;
+    /* ---------- FILE UPLOADER (LIGHT) ---------- */
+    [data-testid="stFileUploader"] { color: var(--app-fg) !important; }
+    [data-testid="stFileUploaderDropzone"] {
+      background: var(--panel-bg) !important;
+      color: var(--app-fg) !important;
+      border: 2px dashed var(--uploader-border) !important;   /* v6 darker + thicker */
+      border-radius: var(--radius-md) !important;
+      transition: border-color 0.15s ease-in-out;
+    }
+    [data-testid="stFileUploaderDropzone"]:hover,
+    [data-testid="stFileUploaderDropzone"]:focus-within {
+      border-color: var(--uploader-border-hover) !important;  /* v6 hover/focus darker */
     }
 
-    /* Remove subtle shadow some themes add */
-    [class*="st-emotion-cache"][class*="elevation"] {
+    /* Ensure all inner text is visible */
+    [data-testid="stFileUploaderDropzone"] * { color: var(--app-fg) !important; }
+
+    /* Make "Browse files" clearly visible as link/label/button with beige color */
+    [data-testid="stFileUploaderDropzone"] label,
+    [data-testid="stFileUploaderDropzone"] a,
+    [data-testid="stFileUploaderDropzone"] [role="button"] {
+      color: var(--browse-accent) !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+    }
+    [data-testid="stFileUploaderDropzone"] label:hover,
+    [data-testid="stFileUploaderDropzone"] a:hover,
+    [data-testid="stFileUploaderDropzone"] [role="button"]:hover {
+      color: var(--browse-accent-hover) !important;
+      text-decoration: underline !important;
+    }
+
+    /* Force the Browse control color across possible render variants */
+    [data-testid="stFileUploaderDropzone"] button,
+    [data-testid="stFileUploaderDropzone"] [data-baseweb="button"],
+    [data-testid="stFileUploaderDropzone"] [role="button"],
+    [data-testid="stFileUploaderDropzone"] label span,
+    [data-testid="stFileUploader"] input[type="file"]::file-selector-button {
+      color: var(--browse-accent) !important;
+      background: transparent !important;
+      border: none !important;
       box-shadow: none !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
     }
-    /* ---------- OPTIONAL DARK MODE (COMMENTED OUT)
-       If you later want a toggle, dynamically replace :root variables. Example:
-    :root.dark-mode {
-      --app-bg: #121212;
-      --app-fg: #fafafa;
-      --panel-bg: #1e1f23;
-      --panel-border: #2d2f33;
-      --panel-hover: #292c31;
-      --accent: #4f8dfd;
-      --accent-hover: #2f6ed6;
-      --code-bg: #1e1f24;
-      --muted-fg: #c0c3c8;
+    [data-testid="stFileUploaderDropzone"] button:hover,
+    [data-testid="stFileUploaderDropzone"] [data-baseweb="button"]:hover,
+    [data-testid="stFileUploaderDropzone"] [role="button"]:hover,
+    [data-testid="stFileUploaderDropzone"] label:hover span,
+    [data-testid="stFileUploader"] input[type="file"]::file-selector-button:hover {
+      color: var(--browse-accent-hover) !important;
+      text-decoration: underline !important;
     }
-    Add or remove 'dark-mode' class on <html> with JS if needed.
-    ---------------------------------------------- */
+
+    /* Uploaded file info */
+    [data-testid="stFileUploader"] [data-testid="stFileUploaderFileInfo"],
+    [data-testid="stFileUploader"] li,
+    [data-testid="stFileUploader"] .uploadedFileData {
+      color: var(--app-fg) !important;
+    }
+
+    /* ---------- MISC ---------- */
+    hr { border-color: var(--panel-border) !important; }
+    [class*="st-emotion-cache"][class*="elevation"] { box-shadow: none !important; }
     </style>
     """
 
@@ -346,20 +395,34 @@ def apply_theme() -> bool:
       border: 1px solid #3a4047 !important;
     }
 
+    /* File Uploader (DARK) */
+    [data-testid="stFileUploader"] { color: #e3e8ef !important; }
+    [data-testid="stFileUploaderDropzone"] {
+      background: #1c2025 !important;
+      color: #e3e8ef !important;
+      border: 1px dashed #3a4047 !important;
+      border-radius: 6px !important;
+    }
+    [data-testid="stFileUploaderDropzone"] * { color: #e3e8ef !important; }
+    [data-testid="stFileUploaderDropzone"] label,
+    [data-testid="stFileUploaderDropzone"] a,
+    [data-testid="stFileUploaderDropzone"] [role="button"] {
+      color: #72a6ff !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+    }
+    [data-testid="stFileUploaderDropzone"] label:hover,
+    [data-testid="stFileUploaderDropzone"] a:hover,
+    [data-testid="stFileUploaderDropzone"] [role="button"]:hover {
+      color: #a9c6ff !important;
+      text-decoration: underline !important;
+    }
+
     /* Scrollbar */
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #0f1115;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #3a4047;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #4c545d;
-    }
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #0f1115; }
+    ::-webkit-scrollbar-thumb { background: #3a4047; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #4c545d; }
     </style>
     """
 
