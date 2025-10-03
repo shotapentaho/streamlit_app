@@ -2,11 +2,15 @@ import streamlit as st
 import openai
 import faiss
 import numpy as np
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 import requests
+from ui_theme import apply_theme
+import tiktoken
+
 
 # --- Streamlit page setup ---
 st.set_page_config(page_title="Ask PDF! 🚀 RAG with FAISS", layout="wide")
+apply_theme()
 
 hide_menu_style = """
     <style>
@@ -24,7 +28,6 @@ huggingface_api_token = st.secrets["huggingface"]["api_token"]
 HF_MODELS = {
     "BAAI/bge-large-en-v1.5": "BAAI/bge-large-en-v1.5",
     "BAAI/bge-small-en-v1.5": "BAAI/bge-small-en-v1.5",
-    # Add more models if desired
 }
 
 EMBED_MODELS = {
@@ -34,7 +37,8 @@ EMBED_MODELS = {
         "text-embedding-3-small": "text-embedding-3-small"
     },
     "Gemini": {
-        "embedding-001": "embedding-001"
+        "gemini-embedding-001":"gemini-embedding-001"
+        #"embedding-001": "embedding-001"
     },
     "HuggingFace": HF_MODELS
 }
@@ -43,7 +47,9 @@ OPENAI_CHAT_MODELS = [
     "gpt-4-turbo",
     "gpt-3.5-turbo"
 ]
-GEMINI_CHAT_MODEL = "gemini-1.5-pro-latest"
+#GEMINI_CHAT_MODEL = "gemini-1.5-pro-latest"  #Oct3
+GEMINI_CHAT_MODEL = "gemini-2.5-pro"
+
 
 # --- Session state initialization ---
 if "chunks" not in st.session_state:
@@ -62,7 +68,6 @@ st.title("Ask PDF, query for semantic results 🚀 ")
 st.subheader("Powered by: LLMs (OpenAI, Gemini, HuggingFace embedding/chat) + RAG (FAISS)")
 
 # --- UI: File Upload and LLM/Embedding Model Picker in 2 columns ---
-#col1, col2, col3, col4 = st.columns(4)
 col1, col2, col3 = st.columns(3)
 with col1:
     uploaded_file = st.file_uploader("Browse: Upload a PDF or TXT", type=["pdf", "txt"])
@@ -74,21 +79,6 @@ with col3:
         list(EMBED_MODELS[provider].keys()),
         key=f"model_select_{provider}"
     )
-#with col4:
-    #st.write("Embedding Debug:")
-    #if st.button("Debug HuggingFace API"):
-    #    test_text = st.text_input("Enter text for debug:", "Hello world, this is a test for embeddings.")
-    #    if test_text:
-    #        st.write("Model:", model)
-    #        api_url = f"https://api-inference.huggingface.co/models/{model}"
-    #        headers = {
-    #            "Authorization": f"Bearer {huggingface_api_token}",
-    #            "Content-Type": "application/json"
-    #        }
-    #        data = {"inputs": test_text}
-    #        resp = requests.post(api_url, headers=headers, json=data)
-    #        st.write("Status code:", resp.status_code)
-    #        st.json(resp.json())
 
 if provider == "OpenAI":
     openai_chat_model = st.selectbox(
@@ -123,25 +113,43 @@ if uploaded_file is not None:
         st.session_state.pdf_loaded = False
         st.session_state.last_file_name = file_id
 
-def chunk_text(text, chunk_size=500, overlap=100):
+def chunk_text(text, chunk_size=500, overlap=100, encoding_name="cl100k_base"):
+    encoding = tiktoken.get_encoding(encoding_name)
+    tokens = encoding.encode(text)
     chunks = []
     start = 0
-    while start < len(text):
-        end = min(start + chunk_size, len(text))
-        chunks.append(text[start:end])
-        start += chunk_size - overlap
+    n = len(tokens)
+
+    while start < n:
+        end = min(start + chunk_size, n)
+        piece = tokens[start:end]
+        if piece:
+            chunks.append(encoding.decode(piece))
+        start += max(1, chunk_size - overlap)
+
     return chunks
 
+
 def openai_embed_texts(texts, embedding_model):
-    client = openai.OpenAI(api_key=openai_api_key)
-    response = client.embeddings.create(
-        input=texts,
-        model=embedding_model
-    )
-    arr = np.array([d.embedding for d in response.data])
-    if len(arr.shape) == 1:
-        arr = np.expand_dims(arr, axis=0)
-    return arr
+    try:
+        client = openai.OpenAI(api_key=openai_api_key)
+        response = client.embeddings.create(
+            input=texts,
+            model=embedding_model
+        )
+        arr = np.array([d.embedding for d in response.data], dtype="float32")
+        if len(arr.shape) == 1:
+            arr = np.expand_dims(arr, axis=0)
+        return arr
+
+    except openai.RateLimitError:
+        st.error("⚠️ You have exceeded your OpenAI quota. Please check your plan and billing details.")
+        st.info("See [OpenAI Billing Dashboard](https://platform.openai.com/account/billing/overview) for more info.")
+        return None
+
+    except openai.OpenAIError as e:
+        st.error(f"An OpenAI API error occurred: {str(e)}")
+        return None
 
 def gemini_embed_texts(texts, embedding_model):
     api_url = f"https://generativelanguage.googleapis.com/v1beta/models/{embedding_model}:embedContent?key={gemini_api_key}"
@@ -149,9 +157,7 @@ def gemini_embed_texts(texts, embedding_model):
     headers = {"Content-Type": "application/json"}
     progress = st.progress(0, text="Gemini: embedding chunks...")
     for i, text in enumerate(texts):
-        data = {
-            "content": {"parts": [{"text": text}]}
-        }
+        data = { "content": { "parts": [{ "text": text }] } }
         resp = requests.post(api_url, headers=headers, json=data)
         if resp.status_code != 200:
             st.error(f"Gemini API error: {resp.status_code}: {resp.text}")
@@ -164,7 +170,7 @@ def gemini_embed_texts(texts, embedding_model):
             embeddings.append(emb if emb else [0.0])
         progress.progress((i+1)/len(texts))
     progress.empty()
-    arr = np.array(embeddings)
+    arr = np.array(embeddings, dtype="float32")
     if len(arr.shape) == 1:
         arr = np.expand_dims(arr, axis=0)
     if len(arr.shape) == 3:
@@ -182,20 +188,20 @@ def hf_embed_texts(texts, embedding_model_name, fallback_dim=None):
         data = {"inputs": text}
         resp = requests.post(api_url, headers=headers, json=data)
         if resp.status_code != 200:
-            pooled = np.zeros(fallback_dim if fallback_dim else 23)  # fallback
+            pooled = np.zeros(fallback_dim if fallback_dim else 23, dtype="float32")
             embeddings.append(pooled)
         else:
             out = resp.json()
             # If output is [tokens, dim] shape
             if isinstance(out, list) and isinstance(out[0], list):
-                arr = np.array(out)
+                arr = np.array(out, dtype="float32")
                 pooled = arr.mean(axis=0)
                 embeddings.append(pooled)
             elif isinstance(out, list):
-                embeddings.append(np.array(out))
+                embeddings.append(np.array(out, dtype="float32"))
             else:
-                embeddings.append(np.zeros(fallback_dim if fallback_dim else 23))
-    arr = np.array(embeddings)
+                embeddings.append(np.zeros(fallback_dim if fallback_dim else 23, dtype="float32"))
+    arr = np.array(embeddings, dtype="float32")
     # Always ensure arr is shape (N, dim) for FAISS
     if len(arr.shape) == 1:
         arr = np.expand_dims(arr, axis=0)
@@ -216,7 +222,7 @@ if uploaded_file and not st.session_state.pdf_loaded:
             reader = PdfReader(uploaded_file)
             text = "\n".join(page.extract_text() for page in reader.pages if page.extract_text())
         else:
-            text = uploaded_file.read().decode("utf-8")
+            text = uploaded_file.read().decode("utf-8", errors="replace")
         chunks = chunk_text(text)
         st.session_state.chunks = chunks
         st.write(f"Document split into {len(chunks)} chunks.")
@@ -235,11 +241,13 @@ if st.session_state.pdf_loaded and st.session_state.chunks:
             embed_func = EMBED_FUNCS[provider]
             embeddings = embed_func(st.session_state.chunks, EMBED_MODELS[provider][model])
             st.write("Embeddings shape:", embeddings.shape)
-            # Ensure correct shape for FAISS
+            # Ensure correct shape and dtype for FAISS
             if len(embeddings.shape) == 1:
                 embeddings = np.expand_dims(embeddings, axis=0)
             if len(embeddings.shape) == 3:
                 embeddings = embeddings.mean(axis=1)
+            embeddings = embeddings.astype("float32", copy=False)
+
             index = faiss.IndexFlatL2(embeddings.shape[1])
             index.add(embeddings)
             st.session_state.model_embeddings[current_key] = embeddings
@@ -256,11 +264,33 @@ if (
     query = st.text_input("Ask a question about your document:")
 
     if query:
+        # Retrieval controls (dynamic, based on corpus size)
+        corpus_size = len(st.session_state.chunks)
+        with st.sidebar:
+            st.header("Retrieval Parameters")
+            top_k = st.slider(
+                "Top‑K retrieved chunks",
+                min_value=1,
+                max_value=max(1, min(100, corpus_size)),
+                value=min(10, corpus_size),
+                step=1,
+                help="Number of chunks to retrieve from FAISS"
+            )
+            preview_chars = st.slider(
+                "Preview characters per chunk",
+                min_value=200,
+                max_value=4000,
+                value=1000,
+                step=100,
+                help="How much of each chunk to display in the results"
+            )
+
         if provider == "HuggingFace":
             embedding_dim = st.session_state.model_embeddings[current_key].shape[1]
             embed_func = lambda texts, model_name: hf_embed_texts(texts, model_name, fallback_dim=embedding_dim)
         else:
             embed_func = EMBED_FUNCS[provider]
+
         q_emb = embed_func([query], EMBED_MODELS[provider][model])
         st.write("Query embedding shape:", q_emb.shape)
         # Ensure correct shape for FAISS search
@@ -268,6 +298,7 @@ if (
             q_emb = np.expand_dims(q_emb, axis=0)
         if len(q_emb.shape) == 3:
             q_emb = q_emb.mean(axis=1)
+        q_emb = q_emb.astype("float32", copy=False)
 
         doc_embeddings = st.session_state.model_embeddings[current_key]
         index_dim = doc_embeddings.shape[1]
@@ -276,39 +307,55 @@ if (
             st.error(f"Query embedding dim {query_dim} does not match index dim {index_dim}.")
         else:
             index = st.session_state.model_indexes[current_key]
-            D, I = index.search(q_emb, k=min(3, len(st.session_state.chunks)))
-            retrieved_chunks = [st.session_state.chunks[i] for i in I[0]]
+            D, I = index.search(q_emb, k=min(top_k, corpus_size))
+
+            # Remove invalid/duplicate indices while preserving order
+            seen = set()
+            retrieved_idxs = []
+            for i in I[0]:
+                if i == -1 or i in seen:
+                    continue
+                seen.add(i)
+                retrieved_idxs.append(i)
+
+            retrieved_chunks = [st.session_state.chunks[i] for i in retrieved_idxs]
 
             col1, col2 = st.columns(2)
 
             with col1:
                 st.subheader("Top Matching Chunks")
-                for idx, c in enumerate(retrieved_chunks):
-                    st.markdown(f"**Chunk {idx+1}:**")
-                    st.write(c[:500])
+                for idx, c in enumerate(retrieved_chunks, start=1):
+                    st.markdown(f"**Chunk {idx}:**")
+                    st.write(c[:preview_chars])
                     st.write("---")
 
             with col2:
                 context = "\n\n".join(retrieved_chunks)
                 if provider == "OpenAI" and openai_chat_model:
-                    client = openai.OpenAI(api_key=openai_api_key)
-                    messages = [
-                        {"role": "system", "content": "You are a helpful assistant. Answer the user's question using the provided context."},
-                        {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {query}"}
-                    ]
-                    chat_response = client.chat.completions.create(
-                        model=openai_chat_model,
-                        messages=messages,
-                        max_tokens=max_tokens,
-                        temperature=temperature,
-                        top_p=top_p,
-                        frequency_penalty=frequency_penalty,
-                        presence_penalty=presence_penalty
-                    )
-                    st.subheader("RAG Answer (OpenAI)")
-                    st.write(chat_response.choices[0].message.content.strip())
+                    try:
+                        client = openai.OpenAI(api_key=openai_api_key)
+                        messages = [
+                            {"role": "system", "content": "You are a helpful assistant. Answer the user's question using the provided context."},
+                            {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {query}"}
+                        ]
+                        chat_response = client.chat.completions.create(
+                            model=openai_chat_model,
+                            messages=messages,
+                            max_tokens=max_tokens,
+                            temperature=temperature,
+                            top_p=top_p,
+                            frequency_penalty=frequency_penalty,
+                            presence_penalty=presence_penalty
+                        )
+                        st.subheader("RAG Answer (OpenAI)")
+                        st.write(chat_response.choices[0].message.content.strip())
+                    except openai.RateLimitError as e:
+                        st.error("⚠️ You have exceeded your OpenAI quota. Please check your plan and billing details.")
+                        st.info("See [OpenAI Billing Dashboard](https://platform.openai.com/account/billing/overview) for more info.")
+                        #return None
                 elif provider == "Gemini" and gemini_chat_model:
                     api_url = f"https://generativelanguage.googleapis.com/v1beta/models/{gemini_chat_model}:generateContent?key={gemini_api_key}"
+                    #api_url = f"https://generativelanguage.googleapis.com/v1beta/models/{gemini_chat_model}:embedContent?key={gemini_api_key}"
                     headers = {"Content-Type": "application/json"}
                     data = {
                         "contents": [
@@ -342,4 +389,19 @@ if (
                     st.subheader(f"RAG Context ({model})")
                     st.write(context)
                     st.info("You can copy-paste above context to an LLM for further Q&A, or add direct integration with Hugging Face Inference endpoints or OpenAI/Gemini.")
+
+
+st.markdown("---")
+
+# --- TESTIMONIAL / FOOTER ---
+st.markdown("""
+<div style='text-align: center; font-size: 0.9rem; margin-top: 2rem;'>
+    <br><br>
+    © 2025 CX Data & Analytics LLC
+</div>
+""", unsafe_allow_html=True)
+
+
+st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
+
 
