@@ -16,7 +16,7 @@ from langchain.chains import create_retrieval_chain
 
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import AIMessage, HumanMessage
-
+from ui_theme import apply_theme
 
 # --- Helper functions for secrets ---
 def get_openai_api_key():
@@ -33,8 +33,10 @@ def get_gemini_api_key():
     return st.secrets["gemini"]["api_key"]
 
 
-st.set_page_config(page_title="Ask your PDF (OpenAI/Gemini + RAG)", layout="wide")
-st.title("📄 Ask your PDF (OpenAI/Gemini + RAG)")
+st.set_page_config(page_title="📄 Query PDF using chain i.e Langchain, LLMs", layout="wide")
+st.title("📄 Query PDF (LangChain, LLMs + RAG)")
+st.info("LangChain + FAISS:RAG, OpenAIEmbeddings, GoogleGenerativeAIEmbeddings, ConversationalRetrievalChain, RecusiveCharacterTextSplitter")
+apply_theme()
 
 # =========================
 # Sidebar: Settings
@@ -57,12 +59,13 @@ if provider == "OpenAI":
 else:
     chat_model = st.sidebar.selectbox(
         "Gemini chat model",
-        ["gemini-1.5-pro", "gemini-1.5-flash"],
+        ["models/gemini-2.5-pro", "models/gemini-2.5-flash"],
         index=0,
     )
     embed_model = st.sidebar.selectbox(
         "Gemini embedding model",
-        ["models/text-embedding-004"],
+        ["models/embedding-001"],
+        #["models/text-embedding-004"],# "models/text-embedding-004"],
         index=0,
     )
 
@@ -212,7 +215,7 @@ left, right = st.columns([1, 2], vertical_alignment="top")
 
 with left:
     st.subheader("📥 Upload")
-    uploaded_file = st.file_uploader("Upload a PDF", type=["pdf"])
+    uploaded_file = st.file_uploader("Upload a PDF", type=["pdf"], label_visibility="visible")
 
     # Build (or rebuild) index when the file or critical settings change
     if uploaded_file:
@@ -332,3 +335,17 @@ with right:
                     st.caption(f"Provider: {prov_used} • Model: {model_used}")
         else:
             st.caption("Tip: Ask a question above after uploading a PDF.")
+
+
+st.markdown("---")
+
+# --- TESTIMONIAL / FOOTER ---
+st.markdown("""
+<div style='text-align: center; font-size: 0.9rem; margin-top: 2rem;'>
+    <br><br>
+    © 2025 CX Data & Analytics LLC
+</div>
+""", unsafe_allow_html=True)
+
+
+st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
