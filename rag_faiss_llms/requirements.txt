@@ -1,0 +1,10 @@
+#UI
+streamlit>=1.36.0,<2.0.0 
+# OpenAI SDK (v1+) 
+openai>=1.40.0,<2.0.0 
+pypdf>=4.2.0
+faiss-cpu
+# Numerical 
+numpy>=1.26.0
+cryptography>=42.0.0
+tiktoken
