@@ -18,7 +18,7 @@ def apply_theme() -> bool:
     with top_right:
         if "light_mode" not in st.session_state:
             st.session_state.light_mode = True
-        mode = st.toggle("🌞 / 🌙", value=st.session_state.light_mode, help="Switch light/dark theme")
+        mode = st.toggle("🌙 / 🌞", value=st.session_state.light_mode, help="Switch light/dark theme")
         st.session_state.light_mode = mode
 
     style_holder = st.empty()
