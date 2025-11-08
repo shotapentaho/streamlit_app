@@ -1,0 +1,1 @@
+sudo kill -9 $(sudo lsof -t -i :8501) 2>/dev/null || true
