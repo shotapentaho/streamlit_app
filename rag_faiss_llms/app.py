@@ -23,7 +23,7 @@ import math
 from typing import List, Dict, Any, Tuple, Optional
 
 # ---------------- UI & Theme ----------------
-st.set_page_config(page_title="Ask PDF! 🚀 RAG with FAISS (v13)", layout="wide")
+st.set_page_config(page_title="Ask PDF! 🚀 RAG with FAISS using TextEmbeddings from LLMs", layout="wide")
 apply_theme()
 
 st.markdown(
@@ -53,7 +53,7 @@ EMBED_MODELS = {
         "text-embedding-3-small": "text-embedding-3-small"
     },
     "Gemini": {
-        "gemini-embedding-001": "gemini-embedding-001"
+        "text-embedding-004":"text-embedding-004",
     },
     "HuggingFace": HF_MODELS
 }
@@ -65,10 +65,14 @@ OPENAI_CHAT_MODELS = [
 ]
 
 GEMINI_CHAT_CANDIDATES = [
+    "gemini-3-pro-preview",
     "gemini-2.5-pro",
     "gemini-2.0-flash",
-    "gemini-1.5-flash-8b"
+    "gemini-1.5-flash-8b",
+    "gemini-2.5-flash",
+    "gemini-2.5-lite"
 ]
+
 
 GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta"
 
@@ -81,11 +85,11 @@ ss.setdefault("pdf_loaded", False)
 ss.setdefault("last_file_name", None)
 
 # ---------------- Title ----------------
-st.title("Ask PDF: Semantic Q&A with RAG 🚀 (v13)")
-st.caption("OpenAI / Gemini / HuggingFace embeddings + FAISS retrieval + Gemini continuation & fallback logic")
+st.title("Ask PDF! 🚀 RAG with FAISS")
+st.caption("OpenAI / Gemini / HuggingFace embeddings + FAISS retrieval")
 
 # ---------------- Top Controls ----------------
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 with col1:
     uploaded_file = st.file_uploader("Upload PDF or TXT", type=["pdf", "txt"])
 with col2:
@@ -96,16 +100,17 @@ with col3:
         list(EMBED_MODELS[provider].keys()),
         key=f"embed_model_{provider}"
     )
+with col4:
+    if provider == "OpenAI":
+        openai_chat_model = st.selectbox("OpenAI chat model", OPENAI_CHAT_MODELS, key="openai_chat_model")
+        gemini_chat_model = None
+    elif provider == "Gemini":
+        openai_chat_model = None
+        gemini_chat_model = st.selectbox("Gemini answer model", GEMINI_CHAT_CANDIDATES, index=0, key="gemini_chat_model")
+    else:
+        openai_chat_model = None
+        gemini_chat_model = None
 
-if provider == "OpenAI":
-    openai_chat_model = st.selectbox("OpenAI chat model", OPENAI_CHAT_MODELS, key="openai_chat_model")
-    gemini_chat_model = None
-elif provider == "Gemini":
-    openai_chat_model = None
-    gemini_chat_model = st.selectbox("Gemini answer model", GEMINI_CHAT_CANDIDATES, index=0, key="gemini_chat_model")
-else:
-    openai_chat_model = None
-    gemini_chat_model = None
 
 # ---------------- Sidebar Controls ----------------
 with st.sidebar:
@@ -265,7 +270,7 @@ if uploaded_file and not ss.pdf_loaded:
         else:
             raw_text = uploaded_file.read().decode("utf-8", errors="replace")
         ss.chunks = chunk_text(raw_text, size=chunk_size, overlap=chunk_overlap)
-        st.success(f"Chunked into {len(ss.chunks)} chunks (size={chunk_size}, overlap={chunk_overlap}).")
+        #st.success(f"Chunked into {len(ss.chunks)} chunks (size={chunk_size}, overlap={chunk_overlap}).")
     ss.pdf_loaded = True
 
 current_key = (provider, model)
@@ -291,7 +296,7 @@ if ss.pdf_loaded and ss.chunks:
             index.add(emb)
             ss.model_embeddings[current_key] = emb
             ss.model_indexes[current_key] = index
-        st.success("Embedding index ready.")
+        #st.success("Embedding index ready.")
         if show_debug_embeddings:
             st.write("Embeddings shape:", ss.model_embeddings[current_key].shape)
 
@@ -589,10 +594,10 @@ if ss.pdf_loaded and ss.chunks and current_key in ss.model_indexes:
                         "Try: 1) Increase max tokens. 2) Reduce chunk preview or Top K. "
                         "3) Relax safety. 4) Use a Flash model. 5) Lower temperature."
                     )
-                with st.expander("Gemini debug meta"):
-                    st.json(meta)
-                with st.expander("Context sent to Gemini (trimmed)"):
-                    st.write(context_trimmed[:8000] + ("..." if len(context_trimmed) > 8000 else ""))
+                #with st.expander("Gemini debug meta"):
+                #    st.json(meta)
+                #with st.expander("Context sent to Gemini (trimmed)"):
+                #    st.write(context_trimmed[:8000] + ("..." if len(context_trimmed) > 8000 else ""))
 
             elif provider == "HuggingFace":
                 st.subheader(f"Retrieved Context ({model})")
@@ -604,3 +609,19 @@ else:
         st.info("Upload a PDF or TXT to begin.")
     elif not ss.chunks:
         st.warning("No chunks were produced (maybe empty file?).")
+
+
+
+st.markdown("---")
+
+# --- TESTIMONIAL / FOOTER ---
+st.markdown("""
+<div style='text-align: center; font-size: 0.9rem; margin-top: 2rem;'>
+    <br><br>
+    © 2025 CX Data & Analytics LLC
+</div>
+""", unsafe_allow_html=True)
+
+
+st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
+
