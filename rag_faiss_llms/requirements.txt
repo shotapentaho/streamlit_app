@@ -1,10 +1,31 @@
-#UI
-streamlit>=1.36.0,<2.0.0 
-# OpenAI SDK (v1+) 
-openai>=1.40.0,<2.0.0 
+# UI
+streamlit>=1.36.0,<2.0.0
+
+# OpenAI SDK (v1+)
+openai>=1.40.0,<2.0.0
+
+# PDF parsing
 pypdf>=4.2.0
-faiss-cpu
-# Numerical 
+
+# FAISS (CPU). On some platforms you may need to install via conda (see notes below).
+faiss-cpu>=1.7.4
+
+# Numerical / tokenization
 numpy>=1.26.0
+tiktoken>=0.4.0
+
+# HTTP / auth / GCP
+requests>=2.31.0
+google-auth>=2.20.0
+google-auth-httplib2>=0.1.0
+google-auth-oauthlib>=1.0.0
+
+# Hugging Face (optional; required if using HF embeddings / generation)
+huggingface-hub>=0.16.0
+transformers>=4.35.0
+
+# Security / helpers
 cryptography>=42.0.0
-tiktoken
+
+# Typing backports used by some libs on older Python
+typing-extensions>=4.5.0

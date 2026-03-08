@@ -19,7 +19,12 @@ def apply_theme() -> bool:
     with top_right:
         if "light_mode" not in st.session_state:
             st.session_state.light_mode = True
-        mode = st.toggle("🌙 / 🌞", value=st.session_state.light_mode, help="Switch light/dark theme")
+        # Use a checkbox-like control across Streamlit versions; fall back to st.toggle if present
+        try:
+            mode = st.toggle("🌙 / 🌞", value=st.session_state.light_mode, help="Switch light/dark theme")
+        except Exception:
+            # some Streamlit versions don't have st.toggle — use checkbox instead
+            mode = st.checkbox("🌙 / 🌞", value=st.session_state.light_mode)
         st.session_state.light_mode = mode
 
     style_holder = st.empty()
@@ -281,7 +286,7 @@ def apply_theme() -> bool:
       border: 1px solid var(--panel-border) !important;
     }
 
-    /* ---------- FILE UPLOADER (LIGHT) - VISIBLE FILENAME FIX ---------- */
+    /* ---------- FILE UPLOADER (LIGHT) - VISIBLE FILENAME & BROWSE LINK FIX ---------- */
     [data-testid="stFileUploader"] { color: var(--app-fg) !important; z-index: 1; }
     [data-testid="stFileUploaderDropzone"] {
       background: var(--panel-bg) !important;
@@ -291,6 +296,7 @@ def apply_theme() -> bool:
       transition: border-color 0.15s ease-in-out;
       position: relative;
       z-index: 0;
+      padding: 16px !important;
     }
     [data-testid="stFileUploaderDropzone"]:hover,
     [data-testid="stFileUploaderDropzone"]:focus-within {
@@ -300,44 +306,58 @@ def apply_theme() -> bool:
     /* Ensure all inner text is visible */
     [data-testid="stFileUploaderDropzone"] * { color: var(--app-fg) !important; }
 
-    /* Make "Browse files" clearly visible as link/label/button with beige color */
-    [data-testid="stFileUploaderDropzone"] label,
+    /*
+     Make "Browse files" appear as a subtle beige inline link aligned to the right.
+     We cover multiple possible render variants including anchor/label/button and
+     native file input pseudo-elements. We purposely use transparent background so
+     it looks like a link (matches your requested v4 look).
+    */
     [data-testid="stFileUploaderDropzone"] a,
-    [data-testid="stFileUploaderDropzone"] [role="button"] {
+    [data-testid="stFileUploaderDropzone"] label,
+    [data-testid="stFileUploaderDropzone"] [role="button"],
+    [data-testid="stFileUploaderDropzone"] button,
+    [data-testid="stFileUploader"] input[type="file"],
+    [data-testid="stFileUploader"] input[type="file"]::file-selector-button,
+    [data-testid="stFileUploader"] input[type="file"]::-webkit-file-upload-button,
+    [data-testid="stFileUploader"] input[type="file"]::-moz-file-upload-button,
+    [data-testid="stFileUploader"] input[type="file"]::-ms-browse {
+      background: transparent !important;
       color: var(--browse-accent) !important;
       font-weight: 600 !important;
-      cursor: pointer !important;
-    }
-    [data-testid="stFileUploaderDropzone"] label:hover,
-    [data-testid="stFileUploaderDropzone"] a:hover,
-    [data-testid="stFileUploaderDropzone"] [role="button"]:hover {
-      color: var(--browse-accent-hover) !important;
-      text-decoration: underline !important;
-    }
-
-    /* Force the Browse control color across possible render variants */
-    [data-testid="stFileUploaderDropzone"] button,
-    [data-testid="stFileUploaderDropzone"] [data-baseweb="button"],
-    [data-testid="stFileUploaderDropzone"] [role="button"],
-    [data-testid="stFileUploaderDropzone"] label span,
-    [data-testid="stFileUploader"] input[type="file"]::file-selector-button {
-      color: var(--browse-accent) !important;
-      background: transparent !important;
       border: none !important;
-      box-shadow: none !important;
+      padding: 4px 8px !important;
+      margin: 0 !important;
       text-decoration: none !important;
+      float: right !important;
+      display: inline-block !important;
       cursor: pointer !important;
+      appearance: none !important;
+      -webkit-appearance: none !important;
+      -moz-appearance: none !important;
+      box-shadow: none !important;
     }
-    [data-testid="stFileUploaderDropzone"] button:hover,
-    [data-testid="stFileUploaderDropzone"] [data-baseweb="button"]:hover,
+
+    /* In some builds the visible element is a span/div — make sure those are also styled */
+    [data-testid="stFileUploaderDropzone"] span[role="button"],
+    [data-testid="stFileUploaderDropzone"] div[role="button"],
+    [data-testid="stFileUploaderDropzone"] span,
+    [data-testid="stFileUploaderDropzone"] div {
+      color: var(--app-fg) !important;
+    }
+
+    /* Hover state */
+    [data-testid="stFileUploaderDropzone"] a:hover,
+    [data-testid="stFileUploaderDropzone"] label:hover,
     [data-testid="stFileUploaderDropzone"] [role="button"]:hover,
-    [data-testid="stFileUploaderDropzone"] label:hover span,
-    [data-testid="stFileUploader"] input[type="file"]::file-selector-button:hover {
+    [data-testid="stFileUploader"] input[type="file"]::file-selector-button:hover,
+    [data-testid="stFileUploader"] input[type="file"]::-webkit-file-upload-button:hover,
+    [data-testid="stFileUploader"] input[type="file"]::-moz-file-upload-button:hover,
+    [data-testid="stFileUploader"] input[type="file"]::-ms-browse:hover {
       color: var(--browse-accent-hover) !important;
       text-decoration: underline !important;
     }
 
-    /* Uploaded file info: ensure contrast and visibility in light mode */
+    /* Ensure uploaded-file rows remain readable */
     [data-testid="stFileUploader"] li,
     [data-testid="stFileUploader"] .uploadedFileData,
     [data-testid="stFileUploader"] [data-testid="stFileUploaderFileInfo"] {
@@ -350,41 +370,16 @@ def apply_theme() -> bool:
       -webkit-text-fill-color: var(--app-fg) !important;
     }
 
-    /* When Streamlit marks an uploaded file as success (green), keep text dark for readability */
-    [data-testid="stFileUploader"] li .uploadedFileData[role="status"],
-    [data-testid="stFileUploader"] li .uploadedFileData[aria-label*="Uploaded"] {
-      color: var(--app-fg) !important;
-    }
-
-    /* Some Streamlit builds render the uploaded file as a small button-like element; make sure it's visible */
-    [data-testid="stFileUploader"] .uploadedFileData button,
-    [data-testid="stFileUploader"] .uploadedFileData a {
-      color: var(--app-fg) !important;
-    }
-
-    /* Provide subtle background for uploaded file rows so text never disappears on white */
-    [data-testid="stFileUploader"] li {
-      background: rgba(0,0,0,0.02) !important;
-      border: 1px solid rgba(0,0,0,0.03) !important;
-      padding: 6px 10px !important;
-      border-radius: var(--radius-sm) !important;
-      overflow: visible !important;
-      white-space: nowrap !important;
-      text-overflow: ellipsis !important;
-    }
-
-    /* If a file row is highlighted/selected, ensure selection contrast is good */
-    [data-testid="stFileUploader"] li::selection,
-    [data-testid="stFileUploader"] .uploadedFileData::selection {
-      background: #cde3ff !important;
-      color: #000 !important;
-    }
-
-    /* Fallback: ensure inner icons and labels also visible */
-    [data-testid="stFileUploader"] .uploadedFileData svg,
-    [data-testid="stFileUploader"] .uploadedFileData img {
-      filter: none !important;
-      opacity: 1 !important;
+    /* Responsive: on narrow screens move link under text */
+    @media (max-width: 680px) {
+      [data-testid="stFileUploaderDropzone"] a,
+      [data-testid="stFileUploaderDropzone"] label,
+      [data-testid="stFileUploaderDropzone"] [role="button"],
+      [data-testid="stFileUploader"] input[type="file"] {
+        float: none !important;
+        display: block !important;
+        margin-top: 8px !important;
+      }
     }
 
     /* ---------- MISC ---------- */
