@@ -1,87 +1,229 @@
-import streamlit as st
 from datetime import date
+from html import escape
 from typing import List
 
-from agent_models import SearchCriteria, Passenger, IntentParseResult
-from agents.orchestrator import OrchestratorAgent
+import streamlit as st
+
+from agent_models import Passenger, SearchCriteria
 from agents.intent_agent import IntentAgent
-from secrets_loader import resolve_openai_api_key  # NEW
+from agents.orchestrator import OrchestratorAgent
+from secrets_loader import resolve_openai_api_key
 
-st.set_page_config(page_title="Flight Booking Agent", page_icon="✈️", layout="wide")
-st.title("✈️ Flight Ticket Booking (Agentic Prototype + Intent + Weather)")
 
-# --- Resolve OpenAI API key via secrets (.streamlit/secrets.toml) ---
-api_key = resolve_openai_api_key(set_env=True)
-if api_key:
-    st.sidebar.success("OpenAI key loaded.")
-else:
-    st.sidebar.warning("No OpenAI key found (secrets.toml or env). Intent parsing will use heuristics.")
-
-# Session state init
-if "orchestrator" not in st.session_state:
-    st.session_state.orchestrator = OrchestratorAgent()
-if "itineraries" not in st.session_state:
-    st.session_state.itineraries = []
-if "weather_report" not in st.session_state:
-    st.session_state.weather_report = None
-if "parsed_intent" not in st.session_state:
-    st.session_state.parsed_intent: IntentParseResult | None = None
-if "intent_agent" not in st.session_state:
-    st.session_state.intent_agent = IntentAgent(api_key=api_key)  # inject key once
-
-# --- Natural Language Intent Section ---
-st.subheader("0. Natural Language Request")
-nl_query = st.text_input(
-    "Describe your trip (e.g. 'Need a round trip SFO to JFK next week in business under $600')",
-    value=""
+st.set_page_config(
+    page_title="Flight Booking Agent",
+    page_icon="✈️",
+    layout="wide",
+    initial_sidebar_state="collapsed",
 )
-col_intent_a, col_intent_b = st.columns([1, 1])
-with col_intent_a:
-    if st.button("Parse Intent"):
-        result = st.session_state.intent_agent.parse(nl_query or "Round trip SFO to JFK next week")
-        st.session_state.parsed_intent = result
-        if result.success and result.criteria:
-            st.success("Intent parsed.")
-        else:
-            st.error("Failed to parse intent.")
-with col_intent_b:
-    if st.button("Apply Parsed Criteria") and st.session_state.parsed_intent and st.session_state.parsed_intent.criteria:
-        crit = st.session_state.parsed_intent.criteria
-        st.session_state._origin = crit.origin
-        st.session_state._destination = crit.destination
-        st.session_state._depart = crit.depart_date
-        st.session_state._return_enabled = bool(crit.return_date)
-        st.session_state._return_date = crit.return_date or date.today()
-        st.session_state._cabin = crit.cabin
-        st.session_state._adults = crit.adults
-        st.session_state._max_results = crit.max_results
-        st.session_state._price_cap = crit.price_cap
-        st.success("Criteria applied to UI controls (adjust below if needed).")
 
-if st.session_state.parsed_intent:
-    with st.expander("Parsed Intent JSON", expanded=False):
-        st.json(st.session_state.parsed_intent.model_dump())
+st.markdown(
+    """
+    <style>
+    .stApp { background: #f6f8fb; }
+    .block-container { max-width: 1280px; padding: 2rem 3rem 4rem; }
+    .hero {
+        background: linear-gradient(135deg, #102a43 0%, #1f5f8b 100%);
+        border-radius: 20px; padding: 2.2rem 2.5rem; color: white;
+        margin-bottom: 1.5rem; box-shadow: 0 12px 30px rgba(16, 42, 67, .16);
+    }
+    .hero h1 { margin: 0; color: white; font-size: 2.25rem; }
+    .hero p { margin: .55rem 0 0; color: #d9eaf7; font-size: 1.05rem; }
+    .section-title { color: #102a43; font-size: 1.35rem; font-weight: 700; margin: 1.4rem 0 .7rem; }
+    .weather-card, .itinerary-card {
+        background: white; border: 1px solid #e5eaf0; border-radius: 16px;
+        padding: 1.1rem 1.25rem; height: 100%;
+        box-shadow: 0 5px 16px rgba(16, 42, 67, .06);
+    }
+    .weather-card h4 { margin: 0; color: #102a43; }
+    .weather-temp { color: #1f5f8b; font-size: 1.8rem; font-weight: 700; margin: .35rem 0; }
+    .weather-meta, .flight-meta { color: #627d98; font-size: .88rem; }
+    .route { color: #102a43; font-size: 1.1rem; font-weight: 700; margin: .5rem 0; }
+    .flight-number { color: #627d98; font-size: .9rem; }
+    .price { color: #102a43; font-size: 1.45rem; font-weight: 800; text-align: right; }
+    .price-label { color: #829ab1; font-size: .76rem; text-align: right; text-transform: uppercase; letter-spacing: .06em; }
+    .stButton > button[kind="primary"] { background: #1f5f8b; border-color: #1f5f8b; }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
-# --- Structured Criteria Inputs ---
-st.subheader("1. Search Criteria (Structured)")
 
-def ss_get(key, default):
-    return st.session_state.get(key, default)
+def _initialise_state() -> None:
+    if "orchestrator" not in st.session_state:
+        st.session_state.orchestrator = OrchestratorAgent()
+    if "intent_agent" not in st.session_state:
+        st.session_state.intent_agent = IntentAgent(
+            api_key=resolve_openai_api_key(set_env=True)
+        )
+    st.session_state.setdefault("itineraries", [])
+    st.session_state.setdefault("weather_report", None)
+    st.session_state.setdefault("query_signature", None)
+    st.session_state.setdefault(
+        "filters",
+        {
+            "origin": "SFO",
+            "destination": "JFK",
+            "depart": date.today(),
+            "return_enabled": False,
+            "return_date": date.today(),
+            "cabin": "ECONOMY",
+            "adults": 1,
+            "max_results": 6,
+            "price_cap": 0.0,
+        },
+    )
 
-origin = st.text_input("Origin (IATA)", ss_get("_origin", "SFO"))
-destination = st.text_input("Destination (IATA)", ss_get("_destination", "JFK"))
-depart = st.date_input("Departure Date", value=ss_get("_depart", date.today()))
-return_enabled = st.checkbox("Return Trip?", value=ss_get("_return_enabled", False))
-return_date = st.date_input("Return Date", value=ss_get("_return_date", date.today())) if return_enabled else None
-cabin = st.selectbox("Cabin", ["ECONOMY", "PREMIUM", "BUSINESS"], index=["ECONOMY", "PREMIUM", "BUSINESS"].index(ss_get("_cabin", "ECONOMY")))
-adults = st.number_input("Adults", min_value=1, max_value=9, value=ss_get("_adults", 1))
-max_results = st.slider("Max Results", 1, 20, ss_get("_max_results", 6))
-price_cap_val = float(ss_get("_price_cap", 0.0) or 0.0)
-price_cap = st.number_input("Optional Price Cap (USD)", min_value=0.0, value=price_cap_val, step=50.0)
-if price_cap == 0:
-    price_cap = None
 
-include_weather = st.checkbox("Include Weather in Search Flow", value=True)
+def _apply_natural_language_query(query: str) -> None:
+    cleaned = query.strip()
+    if not cleaned or cleaned == st.session_state.query_signature:
+        return
+
+    st.session_state.query_signature = cleaned
+    result = st.session_state.intent_agent.parse(cleaned)
+    if not result.success or not result.criteria:
+        return
+
+    criteria = result.criteria
+    st.session_state.filters = {
+        "origin": criteria.origin,
+        "destination": criteria.destination,
+        "depart": criteria.depart_date,
+        "return_enabled": bool(criteria.return_date),
+        "return_date": criteria.return_date or date.today(),
+        "cabin": criteria.cabin,
+        "adults": criteria.adults,
+        "max_results": criteria.max_results,
+        "price_cap": criteria.price_cap or 0.0,
+    }
+    st.session_state.origin_filter = criteria.origin
+    st.session_state.destination_filter = criteria.destination
+    st.session_state.depart_filter = criteria.depart_date
+    st.session_state.return_filter = bool(criteria.return_date)
+    st.session_state.return_date_filter = criteria.return_date or date.today()
+    st.session_state.cabin_filter = criteria.cabin
+    st.session_state.adults_filter = criteria.adults
+    st.session_state.price_filter = criteria.price_cap or 0.0
+
+
+def _weather_card(point) -> str:
+    if not point:
+        return (
+            '<div class="weather-card"><h4>Weather unavailable</h4>'
+            '<div class="weather-meta">No airport forecast was returned.</div></div>'
+        )
+    temperature = (
+        f"{point.temperature_c:.0f}°C" if point.temperature_c is not None else "—"
+    )
+    wind = (
+        f"{point.wind_speed_kph:.0f} km/h wind"
+        if point.wind_speed_kph is not None
+        else "Wind unavailable"
+    )
+    return f"""
+        <div class="weather-card">
+            <h4>{escape(point.code)} · {escape(point.name or "Airport")}</h4>
+            <div class="weather-temp">{temperature}</div>
+            <div class="weather-meta">{wind}</div>
+        </div>
+    """
+
+
+def _render_itinerary(itinerary) -> None:
+    segment = itinerary.segments[0]
+    duration_hours, duration_minutes = divmod(segment.duration_minutes, 60)
+    duration = f"{duration_hours}h {duration_minutes}m"
+    st.markdown(
+        f"""
+        <div class="itinerary-card">
+            <div style="display:flex;justify-content:space-between;gap:1rem">
+                <div>
+                    <div class="flight-number">{escape(segment.marketing_carrier)} ·
+                        {escape(segment.flight_number)} · {escape(segment.cabin)}</div>
+                    <div class="route">{escape(segment.origin)} → {escape(segment.destination)}</div>
+                    <div class="flight-meta">{segment.depart_time:%a, %b %d} ·
+                        {segment.depart_time:%H:%M} – {segment.arrive_time:%H:%M} ·
+                        {duration}</div>
+                </div>
+                <div>
+                    <div class="price-label">Total fare</div>
+                    <div class="price">{itinerary.fare.currency} {itinerary.fare.total:,.2f}</div>
+                </div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+_initialise_state()
+
+st.markdown(
+    """
+    <div class="hero">
+        <h1>✈️ Find your next flight</h1>
+        <p>Describe your trip in plain language and we’ll tailor the search for you.</p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+query = st.text_input(
+    "Trip request",
+    placeholder="Try: Round trip from SFO to JFK next Friday in business under $600",
+    label_visibility="collapsed",
+)
+_apply_natural_language_query(query)
+
+filters = st.session_state.filters
+st.markdown('<div class="section-title">Search preferences</div>', unsafe_allow_html=True)
+with st.container(border=True):
+    row_one = st.columns(4)
+    with row_one[0]:
+        origin = st.text_input("From", value=filters["origin"], key="origin_filter")
+    with row_one[1]:
+        destination = st.text_input(
+            "To", value=filters["destination"], key="destination_filter"
+        )
+    with row_one[2]:
+        depart = st.date_input("Departure", value=filters["depart"], key="depart_filter")
+    with row_one[3]:
+        cabin_options = ["ECONOMY", "PREMIUM", "BUSINESS"]
+        cabin = st.selectbox(
+            "Cabin",
+            cabin_options,
+            index=cabin_options.index(filters["cabin"])
+            if filters["cabin"] in cabin_options
+            else 0,
+            key="cabin_filter",
+        )
+
+    row_two = st.columns(4)
+    with row_two[0]:
+        return_enabled = st.checkbox(
+            "Round trip", value=filters["return_enabled"], key="return_filter"
+        )
+    with row_two[1]:
+        return_date = (
+            st.date_input(
+                "Return",
+                value=filters["return_date"],
+                disabled=not return_enabled,
+                key="return_date_filter",
+            )
+            if return_enabled
+            else None
+        )
+    with row_two[2]:
+        adults = st.number_input(
+            "Travellers", min_value=1, max_value=9, value=filters["adults"], key="adults_filter"
+        )
+    with row_two[3]:
+        price_cap_input = st.number_input(
+            "Max fare (USD)", min_value=0.0, value=float(filters["price_cap"] or 0.0),
+            step=50.0, key="price_filter",
+        )
 
 criteria = SearchCriteria(
     origin=origin,
@@ -90,99 +232,91 @@ criteria = SearchCriteria(
     return_date=return_date,
     cabin=cabin,
     adults=adults,
-    max_results=max_results,
-    price_cap=price_cap
+    max_results=filters["max_results"],
+    price_cap=price_cap_input or None,
 )
 
-st.subheader("2. Search & Select Itinerary")
+st.markdown('<div class="section-title">Available flights</div>', unsafe_allow_html=True)
+search_col, weather_col = st.columns([1, 5])
+with search_col:
+    search_flights = st.button("Search flights", type="primary", use_container_width=True)
+with weather_col:
+    include_weather = st.checkbox("Include destination weather", value=True)
 
-if st.button("Search / Refresh"):
+if search_flights:
     plan = st.session_state.orchestrator.build_plan(
-        "Search flights",
-        include_return=bool(return_date),
-        mode="search",
-        include_weather=include_weather
+        "Search flights", include_return=bool(return_date), mode="search",
+        include_weather=include_weather,
     )
     result = st.session_state.orchestrator.execute(
-        plan=plan,
-        criteria=criteria,
-        passengers=[],
-        selected_itinerary_id=None,
-        payment_card_token=None,
-        preloaded_itineraries=None
+        plan=plan, criteria=criteria, passengers=[], selected_itinerary_id=None,
+        payment_card_token=None, preloaded_itineraries=None,
     )
     st.session_state.itineraries = result["context"]["itineraries"]
     st.session_state.weather_report = result["context"]["weather"]
-    st.success(f"Loaded {len(st.session_state.itineraries)} itineraries.")
+    st.session_state.selected_itinerary_id = (
+        st.session_state.itineraries[0].id if st.session_state.itineraries else None
+    )
 
 if st.session_state.weather_report:
-    wr = st.session_state.weather_report
-    with st.expander("Weather", expanded=True):
-        if wr.origin:
-            st.markdown(f"Origin {wr.origin.code}: {wr.origin.temperature_c}°C wind {wr.origin.wind_speed_kph} km/h")
-        if wr.destination:
-            st.markdown(f"Destination {wr.destination.code}: {wr.destination.temperature_c}°C wind {wr.destination.wind_speed_kph} km/h")
-        st.caption(f"Fetched at: {wr.fetched_at}")
+    report = st.session_state.weather_report
+    st.markdown('<div class="section-title">Current conditions</div>', unsafe_allow_html=True)
+    weather_columns = st.columns(2)
+    with weather_columns[0]:
+        st.markdown(_weather_card(report.origin), unsafe_allow_html=True)
+    with weather_columns[1]:
+        st.markdown(_weather_card(report.destination), unsafe_allow_html=True)
+    st.caption(f"Updated {report.fetched_at:%b %d, %Y at %H:%M} · {report.provider}")
 
-selected_id = st.selectbox(
-    "Select Itinerary",
-    [i.id for i in st.session_state.itineraries] or ["(none)"]
-)
+itineraries = st.session_state.itineraries
+if itineraries:
+    st.session_state.setdefault("selected_itinerary_id", itineraries[0].id)
+    for start in range(0, len(itineraries), 2):
+        itinerary_columns = st.columns(2)
+        for column, itinerary in zip(itinerary_columns, itineraries[start : start + 2]):
+            with column:
+                _render_itinerary(itinerary)
+                if st.button(
+                    "Selected" if st.session_state.selected_itinerary_id == itinerary.id else "Select flight",
+                    key=f"select_{itinerary.id}",
+                    use_container_width=True,
+                ):
+                    st.session_state.selected_itinerary_id = itinerary.id
+                    st.rerun()
+    selected_id = st.session_state.selected_itinerary_id
+else:
+    selected_id = None
+    st.info("Enter a trip request and search to see available flights.")
 
-if st.session_state.itineraries and selected_id != "(none)":
-    chosen = next((i for i in st.session_state.itineraries if i.id == selected_id), None)
-    if chosen:
-        seg = chosen.segments[0]
-        st.write(f"Price: {chosen.fare.total:.2f} {chosen.fare.currency}")
-        st.write(f"{seg.marketing_carrier}{seg.flight_number} {seg.origin}->{seg.destination}")
-        st.write(f"Depart: {seg.depart_time} | Arrive: {seg.arrive_time} | {seg.duration_minutes} mins")
+st.markdown('<div class="section-title">Passenger details</div>', unsafe_allow_html=True)
+passenger_columns = st.columns(2)
+with passenger_columns[0]:
+    pax_first = st.text_input("First name", "John")
+with passenger_columns[1]:
+    pax_last = st.text_input("Last name", "Doe")
+card_token = st.text_input("Payment token", "tok_visa_4242", type="password")
 
-st.subheader("3. Passenger & Payment")
-pax_first = st.text_input("Passenger First Name", "John")
-pax_last = st.text_input("Passenger Last Name", "Doe")
-card_token = st.text_input("Card Token (fake)", "tok_visa_4242")
-
-st.subheader("4. Orchestrate Booking")
-if st.button("Complete Booking"):
-    if not st.session_state.itineraries:
-        st.error("No itineraries loaded. Run a search first.")
-    elif selected_id == "(none)":
-        st.error("Select an itinerary first.")
+if st.button("Complete booking", use_container_width=True):
+    if not itineraries:
+        st.error("Search for a flight before completing your booking.")
+    elif not selected_id:
+        st.error("Choose an itinerary first.")
     else:
-        passengers: List[Passenger] = [Passenger(first_name=pax_first, last_name=pax_last)]
+        passengers: List[Passenger] = [
+            Passenger(first_name=pax_first, last_name=pax_last)
+        ]
         plan = st.session_state.orchestrator.build_plan(
-            "Book selected itinerary",
-            include_return=bool(return_date),
-            mode="book",
-            include_weather=False
+            "Book selected itinerary", include_return=bool(return_date),
+            mode="book", include_weather=False,
         )
         result = st.session_state.orchestrator.execute(
-            plan=plan,
-            criteria=criteria,
-            passengers=passengers,
-            selected_itinerary_id=selected_id,
-            payment_card_token=card_token,
-            preloaded_itineraries=st.session_state.itineraries
+            plan=plan, criteria=criteria, passengers=passengers,
+            selected_itinerary_id=selected_id, payment_card_token=card_token,
+            preloaded_itineraries=itineraries,
         )
         final = result["final"]
         (st.success if "completed" in final.answer.lower() else st.error)(final.answer)
-
-        st.markdown("**Key Points**")
-        for kp in final.key_points:
-            st.markdown(f"- {kp}")
-
-        st.markdown("**Follow-ups**")
-        for fq in final.follow_up_questions:
-            st.markdown(f"- {fq}")
-
-        st.markdown("**Step Log**")
-        for step in result["steps"]:
-            with st.expander(f"Step {step.step_id}: {step.name}", expanded=True):
-                st.write(f"Success: {step.success}")
-                if step.output:
-                    st.write(f"Output: {step.output}")
-                if step.error:
-                    st.error(step.error)
-
-st.markdown("---")
-st.caption("Agentic Flight Booking • Secrets loaded via .streamlit/secrets.toml (precedence over env).")
+        if final.key_points:
+            st.markdown("**Booking details**")
+            for key_point in final.key_points:
+                st.markdown(f"- {key_point}")
